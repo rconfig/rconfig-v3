@@ -1,0 +1,4 @@
+Important: Please run the following two commands from an SSH session in rConfig.
+
+sudo chmod +x /home/rconfig/config/updatePHP.sh
+sudo /home/rconfig/config/updatePHP.sh

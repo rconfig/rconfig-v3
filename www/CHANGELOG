@@ -1,0 +1,155 @@
+------------------------------------------------------------------------------------
+Version 3.1.0
+28-Aug-2015
+Author: Matt Vitale
+
+	Added - Config template generation feature
+	Added - Option to require user credentials before manually downloading configs or pushing config snippets (instead of the default stored credentials)
+		-Must be an admin to toggle this setting on the Settings page
+		-Mainly used for security/auditors needing to know who exactly logged into a device, instead of the logs always showing rConfig's stored credentials
+	Added - rConfig now disables HTTP and only uses HTTPS by default.  This can be reverted in the /etc/httpd/conf/httpd.conf file by uncommenting the "#Listen 80" line
+	Fixed - Compliance reports not working correctly
+	Changed - Various user interface tweaks and improvements
+	Updated - Help files with newer features
+
+------------------------------------------------------------------------------------
+Version 3.0.3
+17-Mar-2015
+Author: Matt Vitale
+
+	Added - New changes from version 3.0.2 (currently unreleased) listed below
+	Added - Auto update feature for the default credentials
+		-Original behavior:	Each device would have to be individually updated with the new credentials when changed on the settings page
+		-New behavior:		When the default credentials are updated on the settings page, it will automatically update any devices configured with the Default Credentials check box checked
+	Added - Default username/password link on add device page to a check box
+	Added - Enabled automatic welcome email sent to new users when a new account is created
+	Fixed - Modified the default welcome email for use with rConfig
+	Fixed - Various grammatical and typographical fixes, including in comments
+	Fixed - Default Configuration Comparison report when run from a scheduled task.  It now should look for the correct filenames and compare them correctly.
+	Fixed - Error logging in below fix for 3.0.2 (it previously wouldn't log errors correctly)
+	Changed - Ordering of devices in device list to be alphabetical
+
+------------------------------------------------------------------------------------
+Version 3.0.2
+16-Nov-2014
+Author: Kyle Little
+
+	Fixed - Allow variable telnet port number for connections
+
+------------------------------------------------------------------------------------
+Version 3.0.1
+20-June-2014
+
+	Fixed - storing downloaded config files in wrong timezone
+	Fixed - issue where search was not working
+
+------------------------------------------------------------------------------------
+Version 3.0.0
+08-March-2014
+	
+	Added - Manual 'Download Now' Button to devicemgmt page
+	Added - Feature to upload configuration snippets to devices on both SSH and TELNET 
+	Added - Feature to upload configuration snippets to multiple devices as a scheduled task
+	Added - Timestamp to downloaded configuration files so that configs can be downloaded multiple times in a single day
+	Added - Config snippets reports section to reports under configuration tools
+	Fixed - added a check for a lowercase username prompt as Cisco ACS5.x chnage the login prompt for somme Cisco gear to all lowercase
+
+------------------------------------------------------------------------------------
+Version 2.0.3
+17-Jan-2014
+	
+	Fixed - Typo problem where 'emtpy' was replaced with correct spelling of empty (Credit: Matt Vitale)
+
+------------------------------------------------------------------------------------
+Version 2.0.1
+30-Nov-2013
+	
+	Fixed - If '#' character was found in config where SSH was the connection type. Config download would fail at '#' (Credit: Matt Vitale)
+
+------------------------------------------------------------------------------------
+Version 2.0.0
+07-Sept-2013
+	
+	Added - Compliance Manager Feature
+	Fixed - Minor Code fixes
+
+------------------------------------------------------------------------------------
+Version 1.2.9
+06-Sept-2013
+	
+	Fixed - Fixed scheduler where all nodes where being add to a task
+	Fixed - Updated code to allow for HTTP or HTTPs rConfig UI
+	Fixed - Backup archives not deleting
+	Added - Update Copyright Year
+	Added - Extended field for telnet/SSH port numbers to allow up to 5 numbers i.e. port 22222
+
+------------------------------------------------------------------------------------
+Version 1.2.8
+21-Jun-2012
+	
+	Fixed - Whitespace not allowed in hostname for devices for - will cause file system level folder name problems
+	Added - No html form autocomplete allowed for username and password - you should use the 'default username/password function'
+
+------------------------------------------------------------------------------------
+Version 1.2.7
+05-Jun-2012
+	
+	Added - Purge configs older than X days feature on configoverview.php page
+
+------------------------------------------------------------------------------------
+Version 1.2.6
+01-Jun-2012
+	
+	Update - Allowed passconf, enableMode Checkbox and Enable password to be returned to devices form on submission error
+
+------------------------------------------------------------------------------------
+Version 1.2.5
+31-Jan-2012
+	
+	Fixed - Enable mode checkbox not working on device add form
+	
+------------------------------------------------------------------------------------
+Version 1.2.4
+6-Jan-2012
+	
+	Added - Feature to retain devices form fill-in information when submitted and errors returned
+	Fixed - Easy update to remove install dir after update is completed
+	Fixed - 'Undefined variable: i in /home/rconfig/lib/showCmdScript.php' notice when running from CLI
+	Fixed - HTTP_HOST not set error when running showCmdScript.php from CLI
+	
+------------------------------------------------------------------------------------
+Version 1.2.0
+6-Jan-2012
+	
+	Added - Easy rConfig Update installation feature
+	Fixed - Broken Footer Links
+	Fixed - Installation final page and checklist
+	
+------------------------------------------------------------------------------------
+Version 1.1.2
+31-Dec-2012
+	
+	Added - Version information to footer
+	Added - Hyperlink to remove install directory from 'install dir' banner warning
+
+------------------------------------------------------------------------------------
+Version 1.0.11
+21-Dec-2012
+
+	Fixed - Update lib/showCmdScript.php to use SmtpFromAddr from Db, not not hardcoded 'from' address for sending mail
+	Fixed - could not delete categories due to misconfigured crud path
+	Fixed - Updated installer to display 'WANOptimizers' under categories as no spaces allowed in categories
+	Added - Request to reduce username length to 4
+	Fixed - Issue where if 'data' dir was empty, PHP Notice:  Undefined variable: files in /home/rconfig/config/functions.inc.php on line 221 (scan_dir()) function
+	Fixed - Issue where could not delete compareReports because wrong path was referenced in reports.php
+	Fixed - issue if showCmdScript.php was run on shell by another user, it would reset perms for data directory. 
+				Added some checking to showCmdScript.php see how script was run and change back owner to apache if script was run from shell
+	Fixed - duplicate '<?php' from devices.crud.php
+	Fixed - PHP Notice:  Undefined variable: categories in ...scheduler.crud.php when adding task for devices only
+	Fixed - Full backup not backing up MySQL DB
+
+------------------------------------------------------------------------------------
+Version 1.0.0
+14-Dec-2012
+
+	rConfig Released

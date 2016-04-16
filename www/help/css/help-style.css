@@ -1,0 +1,116 @@
+#topNav {
+    width: 			100%;
+	background:	#888;
+	color: 			#48718D;
+	height:			auto;
+	border-bottom: 1px solid;
+	float: 			left;
+}
+#topNav #imgs{	
+	float:			left;
+}
+#topNav img{
+	padding: 		0 0 0 10px;
+	width: 			32px;
+ 	height: 		32px;
+}
+#topNav table{
+	width:			100%;
+	margin: 		3px 2px 0 0;
+	width:200px;
+}
+
+#topNav td {
+	padding: 		3px 5px 5px 5px;
+	width: 			80px;
+	background: 	#ececec;
+	font-weight:	normal;
+}
+td .active {
+	font-weight:	bold;
+}
+#topNav td a {
+	background: 	#ececec;
+	padding: 		2px 8px 2px 8px;
+	font-size: 		13px;
+	text-decoration: none;
+}
+#topNav td a:hover {
+	background: 	#ececec;
+	color:			#4FA6D6;
+}
+
+
+#mainBanner {
+	float:				left;
+	width:			100%;
+	border-bottom: 1px solid #999;
+
+}
+#mainBanner h1{
+	line-height:		50px;
+	padding-left:	15px;
+	
+}
+#mainBanner #title{
+	float:				left;
+	padding-left:	15px;
+}
+
+#mainContent {
+	margin-top: 	30px;
+	padding-left:	30px;
+	padding-top:	30px;
+	text-align:		left;
+	width:			90%;
+    position: 		absolute;
+    top: 				40px;
+	clear: 			both;
+}
+#mainContent p {
+	margin-left:	15px;
+}
+.helpH4 {
+	font-size: 		1.3em;
+}
+.break {
+	height:10px;
+}
+.checklist ul {
+	list-style-type:none;
+	padding:			0px;
+	margin:			0px;
+}
+.checklist li {
+	list-style-type: 		none;
+	background-image: 	url(../images/checkbox.png);
+	background-repeat: 	no-repeat;
+	background-position:0px 2px; 
+	padding-left:			25px;
+	line-height:				20px;
+}
+.imgfig {
+	margin-left:	20px;
+	border: 			1px solid #aaa;
+}
+#tableDivHelp {
+	width:				100%;
+	float: 				left;
+}
+.helpTbl {
+	margin-left:		15px;
+}
+.helpTbl th{
+	font-weight:		bold;
+	border-bottom:	1px solid #aaa;
+}
+.helpTbl td{
+	line-height:			18px;
+}
+.helpTbl #leftcell{
+	width:				30%;
+}
+.rconfigNameStyle {
+	font-weight:		bold;
+	font-style:			italic;
+}
