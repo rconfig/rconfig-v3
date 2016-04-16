@@ -59,7 +59,7 @@
 					<input type="hidden" name="sublogin" value="1">
 					<button type="submit" value="Login"tabindex="3">Login</button>
 				</form>
-			</div>
+			</div>soe text
 			<div class="spacer"></div>
 		</div><!-- End Login Content -->
 		<div id="loginMainLogo">
