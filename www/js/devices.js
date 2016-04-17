@@ -192,9 +192,3 @@ function updatePort(value){
 		connPortInput.value = "23";
 	}
  }
- 
- 
- function bulkImport(){
- 
- }
- 

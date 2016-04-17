@@ -8,4 +8,3 @@ $passedPassword = $_GET['password'];
 include($config_app_basedir.'lib/downloadNowScript.php');
 $result = ob_get_clean(); // retrieve output from myfile.php, stop buffering
 echo $result;
-?>

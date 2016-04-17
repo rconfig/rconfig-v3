@@ -1,21 +1,16 @@
 <?php
-
+//archive logs files
 $mainPath        = $_GET['path'];
 $archiveMainPath = $mainPath . "archive/";
 $ext             = "*." . $_GET['ext'];
 $fullpath        = $mainPath . $ext;
-
 // create and archive dir if not already created
 if (!is_dir($archiveMainPath)) {
     mkdir("$archiveMainPath");
 }
-
 $today = date("Ymd");
-
 $commandString = "sudo -u apache zip -r -j " . $archiveMainPath . "filename" . $today . ".zip " . $mainPath . $ext;
-
 exec($commandString);
-
 foreach (glob($fullpath) as $v) {
     unlink($v);
 }
@@ -33,5 +28,3 @@ if ($fileCount > 0) {
 }
 
 echo $response;
-
-?>

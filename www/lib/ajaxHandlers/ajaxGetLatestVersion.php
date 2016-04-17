@@ -1,5 +1,5 @@
 <?php
-// include config.inc.php
+// Check rconfig.com/downloads/version.txt for latest publish release
 require('/home/rconfig/config/config.inc.php');
 require('/home/rconfig/classes/ADLog.class.php');
 
@@ -40,4 +40,3 @@ if (!$sock = @fsockopen('www.rconfig.com', 80, $num, $error, 5)) {
 	}
 }
 echo $response;
-?> 

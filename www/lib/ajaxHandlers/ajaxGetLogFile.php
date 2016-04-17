@@ -51,5 +51,3 @@ if (file_exists($fullpath)) { // open the logfile
    $response = json_encode("Failed");
 }
 echo $response;
-
-?> 

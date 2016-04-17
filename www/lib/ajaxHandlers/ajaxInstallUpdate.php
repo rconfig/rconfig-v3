@@ -123,5 +123,3 @@ if($update->checkForUpdateFile($updateFile)){
 	$log->Fatal("Could not find update File (File: " . $_SERVER['PHP_SELF'] . ")");
 	echo json_encode($response);
 }
-
-?>

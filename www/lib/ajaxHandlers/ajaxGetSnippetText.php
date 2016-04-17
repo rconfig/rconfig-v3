@@ -1,19 +1,11 @@
 <?php
-/* this will retrieve previously saved queries on a per user basis - based on the userid */
-
+// Get Snippet from DB based on Snippet ID
 session_start();
-require_once("../../../classes/db.class.php");
+require_once("../../../classes/db2.class.php");
 require_once("../../../config/config.inc.php");
 
-$db  = new db();
-$q   = $db->q("SELECT snippet FROM snippets 
+$db2  = new db2();
+$q   = $db2->q("SELECT snippet FROM snippets 
                 WHERE id = " . $_GET['id'] );
 
-$return_arr = array();
-while ($row = mysql_fetch_assoc($q)) {
-    $row_array['snippet']      = nl2br($row['snippet']);
-    array_push($return_arr, $row_array);
-}
-
-echo json_encode($return_arr);
-?> 
+echo json_encode($q);
