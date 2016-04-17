@@ -1,9 +1,9 @@
 <?php
 /**
- * Database.php
+ * UserDatabase.php
  * 
  * The Database class is meant to simplify the task of accessing
- * information from the website's database.
+ * User information from the website's database.
  *
  * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
  * Last Updated: August 17, 2004

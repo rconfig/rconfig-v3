@@ -91,26 +91,26 @@
 					</div>
 				</div>
 			</fieldset>
-			
+			<!-- below loaded from dashboard.js -->
 			<fieldset id="dashboadFieldSet" style="width:50%; min-height:147px; float:left;">
 				<legend>Last 5 devices added/modified</legend>
 				<div id="last5NodesAdded">
 					<table class="tableSimple">
 					<thead>
-						<tr>
-							<th>
-								Device Name
-							</th>
-							<th>
-								Date Added
-							</th>
-							<th>
-								Added By
-							</th>
-						</tr>
+                                            <tr>
+                                                <th>
+                                                    Device Name
+                                                </th>
+                                                <th>
+                                                    Date Added
+                                                </th>
+                                                <th>
+                                                    Added By
+                                                </th>
+                                            </tr>
 					</thead>
-							<tbody>
-							</tbody>
+                                        <tbody>
+                                        </tbody>
 					</table>
 					</div>
 				</fieldset>
