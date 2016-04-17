@@ -1,7 +1,5 @@
 <?php
-/* this will retrieve previously saved queries on a per user basis - based on the userid */
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+/* Gets last 5 added devices from devices tbl for dashboard.php */
 session_start();
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
@@ -15,4 +13,3 @@ $q   = $db2->q("SELECT id, deviceName, deviceDateAdded, nodeAddedBy
         ORDER BY deviceDateAdded DESC LIMIT 5");
 
 echo json_encode($q);
-?> 

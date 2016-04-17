@@ -17,75 +17,66 @@
 		<?php include("includes/announcement.inc.php"); ?>
 		<div id="content">
 			<!-- Main Content Start-->
-			
 			<fieldset id="dashboardFieldset" style="width:35%; min-height:147px; float:left;">
 				<legend>Server Information</legend>
 				<div class="tableSummary">
 					<div class="row">
-						<div class="cell">
-							 Servername
-						</div>
-						<div class="cell last">
-							<?php echo $host; // var set in topnav include ?>
-						</div>
+                                            <div class="cell">Servername</div>
+                                            <div class="cell last">
+                                                <?php echo $host; // var set in topnav include ?>
+                                            </div>
 					</div>
 					<div class="row even">
-						<div class="cell">
-							 IP Address
-						</div>
-						<div class="cell last">
-							<?php echo $ip; // var set in topnav include ?>
-						</div>
+                                            <div class="cell">IP Address</div>
+                                            <div class="cell last">
+                                                <?php echo $ip; // var set in topnav include ?>
+                                            </div>
 					</div>
 					<div class="row">
-						<div class="cell">
-							 DNS Addresses
-						</div>
-						<div class="cell last">
-							<div id="dnsip">
-								<?php 
-									// get resolv.conf output
-									$dnsArr = include "lib/ajaxHandlers/ajaxGetDnsAddress.php";
-									// explode the array as returned
-									$ipList = explode(", ", $dnsArr);
-									$ipArr = array();
-									// foreach and implode IPs only
-									foreach($ipList as $k=>$v){ 
-									if (filter_var($v, FILTER_VALIDATE_IP)){ 
-										array_push($ipArr, $v); 
-										} 
-									} 
-									echo implode(", ", $ipArr); 
-								?>
-							</div>
-						</div>
+                                            <div class="cell">DNS Addresses</div>
+                                            <div class="cell last">
+                                                <div id="dnsip">
+                                                    <?php 
+                                                        // get resolv.conf output
+                                                        $dnsArr = include "lib/ajaxHandlers/ajaxGetDnsAddress.php";
+                                                        // explode the array as returned
+                                                        $ipList = explode(", ", $dnsArr);
+                                                        $ipArr = array();
+                                                        // foreach and implode IPs only
+                                                        foreach($ipList as $k=>$v){ 
+                                                        if (filter_var($v, FILTER_VALIDATE_IP)){ 
+                                                                array_push($ipArr, $v); 
+                                                                } 
+                                                        } 
+                                                        echo implode(", ", $ipArr); 
+                                                    ?>
+                                                </div>
+                                            </div>
 					</div>
 					<div class="row even">
-						<div class="cell">
-							 Internet IP <a id="refreshPubIp" href="#">
-							<img src="images/refresh.png" alt="Click to update Stored Public IP address" title="Click to update stored Public IP address"/>
-							</a>
-						</div>
-						<div class="cell last">
-							<div id="pubIp">
-								<?php 
-									if ($ip = file_get_contents("lib/ajaxHandlers/publicIp.txt")){
-										echo $ip;
-									} else {
-										echo "<font color=\"red\">No Public IP Address</font>"; 
-									} 
-								?>
-							</div>
-						</div>
+                                            <div class="cell">
+                                                     Internet IP <a id="refreshPubIp" href="#">
+                                                    <img src="images/refresh.png" alt="Click to update Stored Public IP address" title="Click to update stored Public IP address"/>
+                                                    </a>
+                                            </div>
+                                            <div class="cell last">
+                                                <div id="pubIp">
+                                                    <?php 
+                                                        if ($ip = file_get_contents("lib/ajaxHandlers/publicIp.txt")){
+                                                                echo $ip;
+                                                        } else {
+                                                                echo "<font color=\"red\">No Public IP Address</font>"; 
+                                                        } 
+                                                    ?>
+                                                </div>
+                                            </div>
 					</div>
 					<div class="row">
-						<div class="cell">
-							 Disk Free Space
-						</div>
+						<div class="cell">Disk Free Space</div>
 						<div class="cell last">
 							<?php 
-								$fs = disk_free_space("/");
-								echo _format_bytes($fs); 
+                                                            $fs = disk_free_space("/");
+                                                            echo _format_bytes($fs); 
 							?>
 						</div>
 					</div>
@@ -98,15 +89,9 @@
 					<table class="tableSimple">
 					<thead>
                                             <tr>
-                                                <th>
-                                                    Device Name
-                                                </th>
-                                                <th>
-                                                    Date Added
-                                                </th>
-                                                <th>
-                                                    Added By
-                                                </th>
+                                                <th>Device Name</th>
+                                                <th>Date Added</th>
+                                                <th>Added By</th>
                                             </tr>
 					</thead>
                                         <tbody>
@@ -114,11 +99,9 @@
 					</table>
 					</div>
 				</fieldset>
-			
 			</div><!-- End Content -->
 		<div style="clear:both;"></div>
 	</div><!-- End Main -->
-	
 	<!-- JS script Include -->
 	<script type="text/JavaScript" src="js/dashboard.js"></script>
 	<!-- Footer Include -->
