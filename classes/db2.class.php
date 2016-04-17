@@ -69,9 +69,10 @@ class db2{
         try {
             $stmt = $this->connection->prepare($qry); 
             $stmt->execute();
+            return true;
         } catch (PDOException $e) {
             error_log($e->getMessage());
-            die();
+            return false;
         }
     }
     

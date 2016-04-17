@@ -1,7 +1,7 @@
 <?php
-// used by settings.js updateDefaultPass() func 
+// used by settings.js to update all nodes in DB with defaultCreds set to 1, to new username in Password entered in Settings.php
 session_start();
-require_once("../../../classes/db.class.php");
+require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 $defaultNodeUsername = $_REQUEST['defaultNodeUsername'];
@@ -12,10 +12,10 @@ $q = "UPDATE nodes SET
         devicePassword = '" . $defaultNodePassword . "',
         deviceEnablePassword = '" . $defaultNodeEnable . "'
         WHERE defaultCreds = 1";
-$db = new db();
-if($db->q($q)){
-        $response = 'Success - Username & Password details saved';
+$db2 = new db2();
+if($db2->update($q)){
+    $response = 'Success - Username & Password details saved';
 } else {
-        $response = 'Failed:'.mysql_error();
+    $response = 'Failed: on all nodes update from some reason, check ths logs - ajaxUpdateDefaultUserPassNode.php';
 }
 echo json_encode($response);

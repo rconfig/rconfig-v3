@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 // Get actual Public/ Natted IP for rConfig instance
 //Setting the timeout properly without messing with ini values: 
 $ctx        = stream_context_create(array(

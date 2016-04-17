@@ -257,7 +257,6 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
 	var defaultNodeUsername = defaultNodeUsername
 	var defaultNodePassword = defaultNodePassword
 	var defaultNodeEnable = defaultNodeEnable
-
         $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPass.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
             if (data) {
                 var response = data
