@@ -1,5 +1,7 @@
 <?php
-error_reporting(0); // php errors supressed on this pagre beacuse they should not interupt the JSON repsonse. i.e. if errors were made due to SQL errors etc.. JSOn would not be processed by JS on the SettingsDB.php page
+//php errors supressed on this pagre beacuse they should not interupt the JSON repsonse. 
+// i.e. if errors were made due to SQL errors etc.. JSOn would not be processed by JS on the SettingsDB.php page
+error_reporting(0); 
 session_start();
 require_once("../../../classes/db.class.php");
 require_once("../../../classes/ADLog.class.php");

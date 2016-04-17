@@ -1,27 +1,23 @@
 $(function () {
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
-
     // call getLog function on page load  from rconfigFunctions.js		
     getLog(10)
-
     // this function Gets the log field output and displays in the div - more to be done here
     $("#refreshLog").click(function (evt) {
         $("#logDiv").html(ajax_load).load(getLog(10));
     })
-
 });
 
 // Open File by ajax
 function openFile(filePath) {
-
     if (filePath) {
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
-			if(data == "Failed"){
-				alert('Could not open log file')
-			} else {
-				data.reverse() // sort lines by most recent
-				writeConsole(data.join('<br/>'), filePath); //writeConsole located in rconfigFunctions.js
-			}
+            if(data == "Failed"){
+                alert('Could not open log file')
+            } else {
+                data.reverse() // sort lines by most recent
+                writeConsole(data.join('<br/>'), filePath); //writeConsole located in rconfigFunctions.js
+            }
         })
     } else {
         alert('File not Selected!')
@@ -32,10 +28,9 @@ function getLog(value) {
     $.getJSON("lib/ajaxHandlers/ajaxGetLogFile.php?logType=Conn&value=" + value, function (data) {
 
         if (data == "Failed") {
-			$('#logDivError').show();
+            $('#logDivError').show();
         } else {
-				
-				var html = [];
+             var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var file = obj.line
                 var rowHTML = ['<tr class="">'];
@@ -44,7 +39,7 @@ function getLog(value) {
                 html.push(rowHTML.join(''))
             })
             $('#logDiv').html(html.join(''));
-		}
+            }
     })
 }
 
@@ -61,18 +56,18 @@ function purge(value) {
 		$('#purgeBtn').hide();
 		$('#pleaseWait').slideDown('fast');
 		$.getJSON("lib/ajaxHandlers/ajaxPurgeConfigs.php?purgeDays=" + purgeDays, function (data) {
-			if (data == null) {
-				alert('Nothing was deleted')
-			} else {
-				var response = data.response
-				alert(response)
-			}
+                    if (data == null) {
+                        alert('Nothing was deleted')
+                    } else {
+                        var response = data.response
+                        alert(response)
+                    }
 		$('#purgeBtn').show();
 		$('#pleaseWait').hide();
-	})
-	} else {
-		window.location.reload();
-	}
+                })
+            } else {
+                window.location.reload();
+            }
 	}
 }
 

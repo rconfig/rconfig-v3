@@ -1,7 +1,5 @@
 <?php
 // Processor and method for general settings options
-
-
 class Process
 {
     /* Class constructor */
@@ -28,9 +26,7 @@ class Process
             $this->getDefaultCredsManualSet();
         }
     } // end process function
-    
-    
-    
+
     /**
      * procDebugOnOff - Change the debug value in the settings table to 1 or 0 to turn
      device output debugging to on or off respectively
@@ -329,12 +325,6 @@ class Process
             echo json_encode($response);
         }
     }
-	
-	
 }; //end Class
-
 /* Initialize process */
 $process = new Process;
-
-
-?>

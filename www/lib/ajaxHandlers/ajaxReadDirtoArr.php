@@ -1,5 +1,4 @@
 <?php
-
 require_once('../../../config/functions.inc.php');
 
 $path     = $_GET['path'];
@@ -20,5 +19,3 @@ foreach ($array as $file) {
 }
 
 echo json_encode($return_arr);
-
-?>

@@ -6,7 +6,7 @@
  *  in the DIR are todays only
  */
 
-require_once("../../../config/config.inc.php");
+require_once("/home/rconfig/config/config.inc.php");
 
 $dirPath = $config_log_basedir; // from included config file
 $logType = $_GET['logType'];
@@ -14,7 +14,6 @@ $logType = $_GET['logType'];
 if (isset($_GET['value'])) {
     $logValue = $_GET['value'];
 }
-
 
 if (empty($logValue)) {
     $logValue = 10;
@@ -41,7 +40,6 @@ if (file_exists($fullpath)) { // open the logfile
             array_push($array, $output);
         }
     }
-		
 	fclose($file);
 	$reversed_arr = array_reverse($array); // reverse the array so that latest entries are first
 	$return_arr   = array_slice($reversed_arr, 0, $logValue); // slice after reverse so only the last 10 rows are returned

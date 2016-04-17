@@ -41,85 +41,86 @@ shell_exec('chown -R apache '.$config_app_basedir);
 // check if update file exists
 if($update->checkForUpdateFile($updateFile)){
 
-	if($update->extractUpdate($updateFile, $extractDir)){
-		$response['zip'] = 'ZIP file successfully extracted';
-		$log->Info("ZIP successfully extracted - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
-	} else {
-		$response['zip'] = 'Could not extract ZIP - '. $updateFile;
-		$log->Warn("Could not extract ZIP - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
-	}	
+    if($update->extractUpdate($updateFile, $extractDir)){
+        $response['zip'] = 'ZIP file successfully extracted';
+        $log->Info("ZIP successfully extracted - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
+    } else {
+        $response['zip'] = 'Could not extract ZIP - '. $updateFile;
+        $log->Warn("Could not extract ZIP - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
+    }	
 
-	// backup /home/rconfig/config/config.inc.php to update Dir
-	$sourceConfigFile = '/home/rconfig/config/config.inc.php';
-	$destinationConfigFile = '/home/rconfig/tmp/update-'.$latestVer.'/rconfig/config/config.inc.php';
+    // backup /home/rconfig/config/config.inc.php to update Dir
+    $sourceConfigFile = '/home/rconfig/config/config.inc.php';
+    $destinationConfigFile = '/home/rconfig/tmp/update-'.$latestVer.'/rconfig/config/config.inc.php';
 
-	if($update->backupConfigFile($sourceConfigFile, $destinationConfigFile)){
-		$response['configFileBackup'] = 'rConfig Configuration file backed up successfully';
-		$log->Info("Copied file ".$sourceConfigFile."... (File: " . $_SERVER['PHP_SELF'] . ")");
-	} else {
-		$response['configFileBackup'] = 'failed to copy '.$sourceConfigFile;
-		$log->Warn("failed to copy ".$sourceConfigFile."...  (File: " . $_SERVER['PHP_SELF'] . ")");
-	}
+    if($update->backupConfigFile($sourceConfigFile, $destinationConfigFile)){
+        $response['configFileBackup'] = 'rConfig Configuration file backed up successfully';
+        $log->Info("Copied file ".$sourceConfigFile."... (File: " . $_SERVER['PHP_SELF'] . ")");
+    } else {
+        $response['configFileBackup'] = 'failed to copy '.$sourceConfigFile;
+        $log->Warn("failed to copy ".$sourceConfigFile."...  (File: " . $_SERVER['PHP_SELF'] . ")");
+    }
 
-	//update copied config file with new version info
-	$update->updateConfigVersionInfo($latestVer, $destinationConfigFile);
+    //update copied config file with new version info
+    $update->updateConfigVersionInfo($latestVer, $destinationConfigFile);
 
-	// Copy App folders only	
-	$folderstoCopy = array('classes', 'config', 'lib', 'www');
-	$update->copyAppDirsToProd($latestVer, $folderstoCopy);
+    // Copy App folders only	
+    $folderstoCopy = array('classes', 'config', 'lib', 'www');
+    $update->copyAppDirsToProd($latestVer, $folderstoCopy);
 
-	// check version updated correctly
-	if($config_version == $latestVer){
-		$response['configFileVersionUpdate'] = 'rConfig application files updated';
-		$log->Info("rConfig files updated - (File: " . $_SERVER['PHP_SELF'] . ")");
-	}
-	
-	// check for and install sql file
-	$sqlUpdateFile = $extractDir.'/rconfig/updates/sqlupdate.sql';
-	if($update->checkForUpdateFile($sqlUpdateFile) && filesize($sqlUpdateFile) !== 0){
-		if($update->loadSqlFile($sqlUpdateFile, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)){
-			$response['sqlUpdateComplete'] = 'rConfig Database was updated';
-			$log->Info("Database was updated - (File: " . $_SERVER['PHP_SELF'] . ")");
-		}
-	}
-	
-	// create any new dirs as required
-	$dirsToCreateArr = array('/home/rconfig/reports/complianceReports/');
-	$update->createDirs($dirsToCreateArr);
-	
-	// Delete all /home/rconfig/tmp/ data
-	exec('rm -fr /home/rconfig/tmp/*.*');
-	if ($update->dirIsEmpty('/home/rconfig/tmp/')) {
-		$response['tmpFolderEmpty'] = 'rConfig update files removed';
-		$log->Info("rConfig update files removed - (File: " . $_SERVER['PHP_SELF'] . ")");
-		}else{
-		$response['tmpFolderEmpty'] = 'Could not remove rConfig update files';
-		$log->Info("Could not remove rConfig update files - (File: " . $_SERVER['PHP_SELF'] . ")");;
-	}
+    // check version updated correctly
+    if($config_version == $latestVer){
+        $response['configFileVersionUpdate'] = 'rConfig application files updated';
+        $log->Info("rConfig files updated - (File: " . $_SERVER['PHP_SELF'] . ")");
+    }
 
-	// remove rconfig/www/install directory as should already be removed for upgrade
-	$installDir = '/home/rconfig/www/install/';
-	if(is_dir($installDir)){
-		rrmdir($installDir);
-		sleep(1); // pause while deleting
-		
-		if(!file_exists($installDir)){ // check if install  does not dir exist after delete and return success
-			$log->Info($installDir." dir removed - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
-			
-		} else if (file_exists($installDir)) { // else return failure as dir still exists
-			$response['zip'] = 'Could remove installation directory - '. $updateFile;
-			$log->Warn("Could remove installation directory - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
-			
-		}
-	} else if (!is_dir($installDir)) { // first if - return success as dir does not exist
-		$log->Info($installDir." dir removed - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
-	}
-	
-	echo json_encode($response);
+    // check for and install sql file
+    $sqlUpdateFile = $extractDir.'/rconfig/updates/sqlupdate.sql';
+    if($update->checkForUpdateFile($sqlUpdateFile) && filesize($sqlUpdateFile) !== 0){
+        // loadSqlFile from classes/updater.class.php
+        if($update->loadSqlFile($sqlUpdateFile, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)){
+                $response['sqlUpdateComplete'] = 'rConfig Database was updated';
+                $log->Info("Database was updated - (File: " . $_SERVER['PHP_SELF'] . ")");
+        }
+    }
+
+    // create any new dirs as required
+    $dirsToCreateArr = array('/home/rconfig/reports/complianceReports/');
+    $update->createDirs($dirsToCreateArr);
+
+    // Delete all /home/rconfig/tmp/ data
+    exec('rm -fr /home/rconfig/tmp/*.*');
+    if ($update->dirIsEmpty('/home/rconfig/tmp/')) {
+        $response['tmpFolderEmpty'] = 'rConfig update files removed';
+        $log->Info("rConfig update files removed - (File: " . $_SERVER['PHP_SELF'] . ")");
+        }else{
+        $response['tmpFolderEmpty'] = 'Could not remove rConfig update files';
+        $log->Info("Could not remove rConfig update files - (File: " . $_SERVER['PHP_SELF'] . ")");;
+    }
+
+    // remove rconfig/www/install directory as should already be removed for upgrade
+    $installDir = '/home/rconfig/www/install/';
+    if(is_dir($installDir)){
+        rrmdir($installDir);
+        sleep(1); // pause while deleting
+
+        if(!file_exists($installDir)){ // check if install  does not dir exist after delete and return success
+                $log->Info($installDir." dir removed - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
+
+        } else if (file_exists($installDir)) { // else return failure as dir still exists
+                $response['zip'] = 'Could remove installation directory - '. $updateFile;
+                $log->Warn("Could remove installation directory - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
+
+        }
+    } else if (!is_dir($installDir)) { // first if - return success as dir does not exist
+            $log->Info($installDir." dir removed - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
+    }
+
+    echo json_encode($response);
 
 } else {
-	// could not find update file in tmp dir
-	$response['noUpdateFile'] = 'Could not find update File';
-	$log->Fatal("Could not find update File (File: " . $_SERVER['PHP_SELF'] . ")");
-	echo json_encode($response);
+    // could not find update file in tmp dir
+    $response['noUpdateFile'] = 'Could not find update File';
+    $log->Fatal("Could not find update File (File: " . $_SERVER['PHP_SELF'] . ")");
+    echo json_encode($response);
 }

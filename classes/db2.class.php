@@ -18,63 +18,78 @@ class db2{
     public	$cacheDir		=	'./dbcache/';
     public	$utf8Cache		=	false; //use only when you have 
 
-public function __construct(){
+    public function __construct(){
 
-/* Make connection to database */
-    $dsn = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME.';charset=utf8';
-    $opt = array(
-            PDO::ATTR_ERRMODE            	=> PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_PERSISTENT 			=> true,
-            PDO::ATTR_DEFAULT_FETCH_MODE 	=> PDO::FETCH_ASSOC
-    );
-    // test MYSQL access or throw an error and end the script
-    try {
-            $this->connection = new PDO($dsn, DB_USER, DB_PASSWORD, $opt);
-    } catch (PDOException $e) {
-            // var_dump($e->getMessage());
-            error_log($e->getMessage());
-            die();
-    }
-}
-        
-/**
-   * @function 			q  (shortening for query) 
-   * @description 		runs mysql query and returns php array.
-   * @param string 		$qry 	Mysql Code.
-   * @return 			mysql result in assoc array;
-   */
-public function q($qry) {
+    /* Make connection to database */
+        $dsn = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME.';charset=utf8';
+        $opt = array(
+                PDO::ATTR_ERRMODE            	=> PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_PERSISTENT 			=> true,
+                PDO::ATTR_DEFAULT_FETCH_MODE 	=> PDO::FETCH_ASSOC
+        );
+        // test MYSQL access or throw an error and end the script
         try {
-                $stmt = $this->connection->prepare($qry); 
-                $stmt->execute();
+                $this->connection = new PDO($dsn, DB_USER, DB_PASSWORD, $opt);
         } catch (PDOException $e) {
                 error_log($e->getMessage());
                 die();
         }
+    }
+
+    /**
+       * @function 		q  (shortening for query) 
+       * @description 		runs mysql query and returns php array.
+       * @param string 		$qry 	Mysql Code.
+       * @return 		mysql result in assoc array;
+       */
+    public function q($qry) {
+        try {
+            $stmt = $this->connection->prepare($qry); 
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            die();
+        }
         // push rows to $items array
         if ($stmt->rowCount() > 0) { 
-                $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else if ($stmt->fetchAll(PDO::FETCH_ASSOC) == false){
-                $items = array(); //send back blank array if query returns false/ blank
+            $items = array(); //send back blank array if query returns false/ blank
         }
         return $items;
-}
+    }
 
-/**
- * mysql_get_server_info - with a PDO Twist
- * http://www.php.net/manual/en/function.mysql-get-server-info.php
- */
-public function mysql_get_server_info_PDO() {
-    return $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
-}                
-     
-/**
- * mysql_get_host_info - with a PDO Twist
- * http://www.php.net/manual/en/function.mysql-get-server-info.php
- */
-public function mysql_get_host_info_PDO() {
-    return $this->connection->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-}
+    /**
+       * @function 		UPDATE  (shortening for update) 
+       * @description 		runs mysql update query
+       * @param string 		$qry 	Mysql Code.
+       * @return 		nothing
+       */
+    public function update($qry) {
+        try {
+            $stmt = $this->connection->prepare($qry); 
+            $stmt->execute();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            die();
+        }
+    }
+    
+    /**
+     * mysql_get_server_info - with a PDO Twist
+     * http://www.php.net/manual/en/function.mysql-get-server-info.php
+     */
+    public function mysql_get_server_info_PDO() {
+        return $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+    }                
+
+    /**
+     * mysql_get_host_info - with a PDO Twist
+     * http://www.php.net/manual/en/function.mysql-get-server-info.php
+     */
+    public function mysql_get_host_info_PDO() {
+        return $this->connection->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+    }
 
 ////////////////////////////////////////////////////////// ANYTHING BELOW HERE MAY NOT BE USED ///////////////////////////      
           /**
@@ -159,23 +174,23 @@ public function mysql_get_host_info_PDO() {
 	}
 	
 	//update row or rows, $db->update($tableName,$updateValues,$whereValues);
-	public function update($a,$b,$c){
-		$q = "UPDATE `$a` SET ";
-		foreach($b as $v=>$k){
-			$q .= "`$v`='$k',";
-		}
-		$q = substr($q,0,-1);
-		$q .= " WHERE 1";
-		foreach($c as $v=>$k){
-			$q .= " AND `$v`='$k'";
-		}
-		return $this->s($q);
-	}
+//            public function update($a,$b,$c){
+//                    $q = "UPDATE `$a` SET ";
+//                    foreach($b as $v=>$k){
+//                            $q .= "`$v`='$k',";
+//                    }
+//                    $q = substr($q,0,-1);
+//                    $q .= " WHERE 1";
+//                    foreach($c as $v=>$k){
+//                            $q .= " AND `$v`='$k'";
+//                    }
+//                    return $this->s($q);
+//            }
 	//get last inserted ID	
 	public function lastID()
-    {
-      return mysql_insert_id();
-    }
+            {
+              return mysql_insert_id();
+            }
 	/**
 	   * @function 			__destruct   
 	   * @description 		closes mysql connection.

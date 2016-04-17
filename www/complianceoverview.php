@@ -11,24 +11,24 @@
 		<!-- Announcement Include -->
 		<?php include("includes/announcement.inc.php"); ?>
 		<div id="content">
-			<!-- Main Content Start-->
-				<fieldset id="tableFieldset" style="width:40%;">
-					<legend>Historical Reports</legend>
+                <!-- Main Content Start-->
+                    <fieldset id="tableFieldset" style="width:40%;">
+                    <legend>Historical Reports</legend>
 
-					<br/>
-					<div id="complianceReports">
-						<table class="tableSimple">
-							<thead>
-								<th>Compliance Reports</th>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-						<br/>
-						<button class="smlButton" id="deleteFilesbtn" onclick="deleteFiles('/home/rconfig/reports/complianceReports/', 'html', '2')">Delete Reports</button>
-						<span id="pleaseWait2" style="display:none">Please wait... <img src='images/ajax_loader.gif'  width="12" height="12" alt='Please wait... '/></span>
-					</div>				
-					</fieldset>
+                    <br/>
+                        <div id="complianceReports">
+                            <table class="tableSimple">
+                                <thead>
+                                        <th>Compliance Reports</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <button class="smlButton" id="deleteFilesbtn" onclick="deleteFiles('/home/rconfig/reports/complianceReports/', 'html', '2')">Delete Reports</button>
+                            <span id="pleaseWait2" style="display:none">Please wait... <img src='images/ajax_loader.gif'  width="12" height="12" alt='Please wait... '/></span>
+                        </div>				
+                    </fieldset>
 		</div>
 		<!-- End Content -->
 		<div style="clear:both;">

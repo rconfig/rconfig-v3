@@ -153,7 +153,6 @@ function timeZoneChange() {
 function debugOnOff() {
     var debugOnOff = $('#debugOnOff').val();
     // alert(debugOnOff)	
-
     if (debugOnOff != '') {
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?debugOnOff=" + debugOnOff, function (data) {
 
@@ -173,7 +172,6 @@ function phpLoggingOnOff() {
 
     if (phpLoggingOnOff != '') {
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?phpLoggingOnOff=" + phpLoggingOnOff, function (data) {
-
             $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getPhpLoggingStatus", function (data2) {
                 var getPhpLoggingStatus = data2
                 $('#getPhpLoggingStatusDiv').html(data + "<div class=\"break\"></div>" + getPhpLoggingStatus);
@@ -247,6 +245,7 @@ function smtpTest() {
     $.getJSON("lib/ajaxHandlers/ajaxSmtpTest.php", function (data) {
         if (data.success == true) {
             alert("Email sent successfully")
+            $('#pleaseWait').slideUp('fast');
         } else {
             alert("Email failed to send - check logs for errors")
         }
@@ -262,31 +261,18 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
         $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPass.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
             if (data) {
                 var response = data
-				document.getElementById('updatedDefault').innerHTML = response;
-				$('#updatedDefault').slideDown('fast');
+                    document.getElementById('updatedDefault').innerHTML = response;
+                    $('#updatedDefault').slideDown('fast');
             }
         });
-
         $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPassNode.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
             if (data) {
                 var response = data
-                                document.getElementById('updatedDefault').innerHTML = response;
-                                $('#updatedDefault').slideDown('fast');
+                    document.getElementById('updatedDefault').innerHTML = response;
+                    $('#updatedDefault').slideDown('fast');
             }
         });
 
-}
-
-function ldapServerGo(ldapServer){
-	var ldapServer = ldapServer
-	
-		$.getJSON('lib/ajaxHandlers/ajaxUpdateLdapServer.php?ldapServer=' + ldapServer, function (data) {
-			if (data) {
-				var response = data
-				document.getElementById('updatedLdap').innerHTML = response;
-				$('#updatedLdap').slideDown('fast');
-			}
-		});
 }
 
 function defaultCredsManualSet() {
@@ -296,8 +282,8 @@ function defaultCredsManualSet() {
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?defaultCredsManualSet=" + defaultCredsManualSet, function (data) {
             if (data) {
                 var response = data
-				document.getElementById('updatedDefaultCredsManualSet').innerHTML = response;
-				$('#updatedDefaultCredsManualSet').slideDown('fast');
+                  document.getElementById('updatedDefaultCredsManualSet').innerHTML = response;
+                  $('#updatedDefaultCredsManualSet').slideDown('fast');
             }
         });
     } else {
