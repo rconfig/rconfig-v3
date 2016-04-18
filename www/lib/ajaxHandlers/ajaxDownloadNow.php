@@ -1,6 +1,5 @@
 <?php 
 include("../../../config/config.inc.php");
-
 ob_start(); // begin collecting output
 $passedRid = $_GET['rid'];
 $passedUsername = $_GET['username'];

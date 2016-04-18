@@ -1,5 +1,5 @@
 <?php
-// will backup syslog files
+// will backup syslog files - called from settingsBackup.js 
 include("../../../config/config.inc.php");
 include("../../../config/functions.inc.php");
 include("../../../classes/db2.class.php");

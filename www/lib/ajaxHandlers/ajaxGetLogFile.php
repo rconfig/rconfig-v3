@@ -1,11 +1,9 @@
 <?php
-
 /* will return all error entires for the Conn Log file in /home/rconfig/logging 
  *  Will include HTML to color Code gets actual log file based on passed GET i.e. logType
  *  does not take log file rotation into account, so the idea is that CRON taks care of archiveing. The logs files with .log
  *  in the DIR are todays only
  */
-
 require_once("/home/rconfig/config/config.inc.php");
 
 $dirPath = $config_log_basedir; // from included config file

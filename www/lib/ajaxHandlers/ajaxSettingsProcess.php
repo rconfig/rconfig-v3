@@ -3,7 +3,7 @@
 class Process
 {
     /* Class constructor */
-    function Process()
+    public function __construct()
     {
         /* User adjust debugging Option*/
         if (isset($_GET['debugOnOff'])) {
@@ -34,35 +34,32 @@ class Process
     function procDebugOnOff()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
-        
-        $db  = new db();
+        $db2 = new db2();
         $log = ADLog::getInstance();
         
         if ($_GET['debugOnOff'] == '1') {
             $status = "On";
+            $debugOnOff = $_GET['debugOnOff'];
         } else {
             $status = "Off";
-            
+            $debugOnOff = 0;
         }
         
-        /* Update settings tbl with new option */
-        // echo $option;
-        $q = $db->q("UPDATE `settings` SET `commandDebug` = " . $_GET['debugOnOff']);
-        
+        $db2->query("UPDATE `settings` SET `commandDebug` = :debugOnOff");
+        $db2->bind(':debugOnOff', $debugOnOff);
+        $queryResult = $db2->execute();
         /* Update successful */
-        if ($q) {
+        if ($queryResult) {
             $response = "<font color='red'>Debugging status changed successfully to " . $status . "</font>";
         }
         /* Update failed */
         else {
             $response = "failed";
-            $log->Warn("Failure: Could not update debugSetting in DB with MYSQL Error: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $log->Warn("Failure: Could not update debugSetting in DB for ajaxSettingsProcess.php:".$queryResult);
         }
-        
         echo json_encode($response);
-        
     }    
 	
 	
@@ -73,30 +70,31 @@ class Process
     function phpLoggingOnOff()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if ($_GET['phpLoggingOnOff'] == '1') {
             $status = "On";
+            $phpLoggingOnOff = $_GET['phpLoggingOnOff'];
         } else {
             $status = "Off";
+            $phpLoggingOnOff = 0;
         }
-        
-        /* Update settings tbl with new option */
-        // echo $option;
-        $q = $db->q("UPDATE `settings` SET `phpErrorLogging` = " . $_GET['phpLoggingOnOff']);
-        
+
+        $db2->query("UPDATE `settings` SET `phpErrorLogging` = :phpLoggingOnOff");
+        $db2->bind(':phpLoggingOnOff', $phpLoggingOnOff);
+        $queryResult = $db2->execute();
         /* Update successful */
-        if ($q) {
+        if ($queryResult) {
             $response = "<font color='red'>PHP Error Logging status changed successfully to " . $status . "</font>";
         }
         /* Update failed */
         else {
             $response = "failed";
-            $log->Warn("Failure: Could not update phpErrorLogging in DB with MYSQL Error: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $log->Warn("Failure: Could not update phpErrorLogging in DB for ajaxSettingsProcess.php:".$queryResult);
         }
         echo json_encode($response);
     }
@@ -108,32 +106,27 @@ class Process
     function procDeviceTimeout()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
-        
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['deviceToutVal'])) {
             $timeout = $_GET['deviceToutVal'];
         }
-        
-        /* Update settings tbl with new option */
-        // echo $option;
-        $q = $db->q("UPDATE `settings` SET `deviceConnectionTimout` = " . $_GET['deviceToutVal']);
-        
+        $db2->query("UPDATE `settings` SET `deviceConnectionTimout` = :deviceToutVal");
+        $db2->bind(':deviceToutVal', $timeout);
+        $queryResult = $db2->execute();
         /* Update successful */
-        if ($q) {
+        if ($queryResult) {
             $response = "<br/><font color='green'>Device Connection Timeout changed successfully to " . $timeout . " Seconds</font>";
         }
         /* Update failed */
         else {
             $response = "failed";
-            $log->Warn("Failure: Could not update deviceConnectionTimout in DB with MYSQL Error: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $log->Warn("Failure: Could not update deviceConnectionTimout in DB for ajaxSettingsProcess.php:".$queryResult);
         }
-        
         echo json_encode($response);
-        
     }    
 	
 /**
@@ -142,28 +135,27 @@ class Process
     function procTimeZoneChange()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['timeZoneChange'])) {
             $timeZone = $_GET['timeZoneChange'];
         }
-        
-        /* Update settings tbl with new option */
-        // echo $timeZone;
-        $q = $db->q("UPDATE `settings` SET `timeZone` = '" . $timeZone ."'");
-        
+
+        $db2->query("UPDATE `settings` SET `timeZone` = :timeZone");
+        $db2->bind(':timeZone', $timeZone);
+        $queryResult = $db2->execute();        
         /* Update successful */
-        if ($q) {
+        if ($queryResult) {
             $response = "<br/><font color='green'>Timezone changed successfully to " . $timeZone . "</font>";
         }
         /* Update failed */
         else {
             $response = "failed";
-            $log->Warn("Failure: Could not update Timezone in DB with MYSQL Error: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $log->Warn("Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:".$queryResult);
         }
         
         echo json_encode($response);
@@ -176,17 +168,15 @@ class Process
     function getDebugStatus()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['getDebugStatus'])) {
-            /* Update settings tbl with new option */
-            // echo $option;
-            $q      = $db->q("SELECT commandDebug FROM settings");
-            $result = mysql_fetch_assoc($q);
+            $db2->query("SELECT commandDebug FROM settings");
+            $result = $db2->single();
             $status = $result['commandDebug'];
             /* Update successful */
             if ($status == '1') {
@@ -207,17 +197,15 @@ class Process
     function getTimeZone()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['getTimeZone'])) {
-            /* Update settings tbl with new option */
-            // echo $option;
-            $q      = $db->q("SELECT timeZone FROM settings");
-            $result = mysql_fetch_assoc($q);
+            $db2->query("SELECT timeZone FROM settings");
+            $result = $db2->single();
             $timeZone = $result['timeZone'];
             /* Update successful */
             if (!empty($timeZone)) {
@@ -227,7 +215,6 @@ class Process
             else if (empty($timeZone)) {
                 $response = "";
             }
-            
             echo json_encode($response);
         }
     }
@@ -238,17 +225,14 @@ class Process
     function getPhpLoggingStatus()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
-        
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['getPhpLoggingStatus'])) {
-            /* Update settings tbl with new option */
-            // echo $option;
-            $q      = $db->q("SELECT phpErrorLogging FROM settings WHERE ID = '1'");
-            $result = mysql_fetch_assoc($q);
+            $db2->query("SELECT phpErrorLogging FROM settings");
+            $result = $db2->single();    
             $status = $result['phpErrorLogging'];
             /* Update successful */
             if ($status == '1') {
@@ -269,59 +253,54 @@ class Process
     function procDefaultCredsManualSet()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
-        
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if ($_GET['defaultCredsManualSet'] == '1') {
             $status = "enabled";
+            $defaultCredsManualSet = $_GET['defaultCredsManualSet'];
         } else {
             $status = "disabled";
+            $defaultCredsManualSet = 0;
         }
-        
-        /* Update settings tbl with new option */
-        // echo $option;
-        $q = $db->q("UPDATE `settings` SET `useDefaultCredsManualSet` = " . $_GET['defaultCredsManualSet']);
-        
+        $db2->query("UPDATE `settings` SET `useDefaultCredsManualSet` = :defaultCredsManualSet");
+        $db2->bind(':defaultCredsManualSet', $defaultCredsManualSet);
+        $queryResult = $db2->execute();
         /* Update successful */
-        if ($q) {
-			if ($_GET['defaultCredsManualSet'] == '1') {
-				$response = "<font color='red'>Default credentials are disabled and individual users will have to input their credentials for manual config uploads & downloads</font>";
-			} else {
-				$response = "<font color='red'>Default credentials are enabled and will be used for manual config uploads & downloads</font>";
-			}
+        if ($queryResult) {
+            if ($_GET['defaultCredsManualSet'] == '1') {
+                    $response = "<font color='red'>Default credentials are disabled and individual users will have to input their credentials for manual config uploads & downloads</font>";
+            } else {
+                    $response = "<font color='red'>Default credentials are enabled and will be used for manual config uploads & downloads</font>";
+            }
         }
         /* Update failed */
         else {
             $response = "failed";
-            $log->Warn("Failure: Could not update useDefaultCredsManualSet in DB with MYSQL Error: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $log->Warn("Failure: Could not update useDefaultCredsManualSet in DB for ajaxSettingsProcess.php:".$queryResult);
         }
         echo json_encode($response);
     }
 	
-	/**
+    /**
      * getDefaultCredsManualSet - Get value set for using default credentials with manual uploads & downloads
      */
     function getDefaultCredsManualSet()
     {
         session_start();
-        require_once("../../../classes/db.class.php");
+        require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
-        
-        $db  = new db();
+        $db2  = new db2();
         $log = ADLog::getInstance();
         
         if (isset($_GET['getDefaultCredsManualSet'])) {
-            /* Update settings table with new option */
-            // echo $option;
-            $q      = $db->q("SELECT useDefaultCredsManualSet FROM settings WHERE ID = '1'");
-            $result = mysql_fetch_assoc($q);
+             $db2->query("SELECT useDefaultCredsManualSet FROM settings");
+            $result = $db2->single();    
             $useDefaultCredsManualSet = $result['useDefaultCredsManualSet'];
             /* Update successful */
-			$response = $useDefaultCredsManualSet;
-            
+            $response = $useDefaultCredsManualSet;
             echo json_encode($response);
         }
     }

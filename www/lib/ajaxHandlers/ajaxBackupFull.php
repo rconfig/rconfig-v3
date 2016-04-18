@@ -1,7 +1,7 @@
 <?php
 include("../../../config/config.inc.php");
 include("../../../config/functions.inc.php");
-include("../../../classes/db.class.php");
+include("../../../classes/db2.class.php");
 
 $db2  = new db2();
 // check and set timeZone to avoid PHP errors
@@ -69,7 +69,6 @@ foreach ($file_names as $file) {
 	unlink($file);
 }
 
-
 if (file_exists($fullBackupFile)) {
     $response = json_encode(array('success' => true));
 } else {
@@ -77,5 +76,3 @@ if (file_exists($fullBackupFile)) {
 }
 
 echo $response;
-
-?>

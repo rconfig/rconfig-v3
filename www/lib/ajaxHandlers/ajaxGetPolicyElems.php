@@ -4,7 +4,6 @@ session_start();
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
-
 $db2  = new db2();
 $id = $_GET['id'];
 $db2->query("SELECT e.elemId, cpe.elementName
@@ -23,5 +22,4 @@ for ( $i=0; $i < count($rows); $i++)
     { 
         $options .= '<option value='.$rows[$i]['elemId'] .'>'.$rows[$i]['elementName'] .'</option>';
     } 
-	
 echo json_encode($options);

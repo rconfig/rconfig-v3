@@ -1,3 +1,7 @@
 2016-04-17 11:53:29 WARN Failure: Please enter a valid email address (File: /lib/crud/settingsEmail.crud.php)
 2016-04-17 11:53:46 WARN Failure: Please enter a valid email address (File: /lib/crud/settingsEmail.crud.php)
 2016-04-17 12:40:24 WARN Failure: Problem Displaying snippetsOptions() - no options returned (File: /scheduler.php)
+2016-04-18 20:12:36 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
+2016-04-18 20:12:39 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
+2016-04-18 20:12:41 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
+2016-04-18 20:12:49 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
