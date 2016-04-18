@@ -2,7 +2,7 @@
 /**
    * PDO DB Class
    * @version 0.1
-   * @author GEoffrey Hale
+   * @author Geoffrey Hale
    * @URL https://gist.github.com/geoffreyhale/57ca48bc97a7a954e9d5
    */
 include_once("/home/rconfig/config/config.inc.php");
