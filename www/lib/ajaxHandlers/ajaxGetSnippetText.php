@@ -3,9 +3,9 @@
 session_start();
 require_once("../../../classes/db2.class.php");
 require_once("../../../config/config.inc.php");
-
 $db2  = new db2();
-$q   = $db2->q("SELECT snippet FROM snippets 
-                WHERE id = " . $_GET['id'] );
-
-echo json_encode($q);
+$id = $_GET['id'];
+$db2->query("SELECT snippet FROM snippets WHERE id = :id");
+$db2->bind(':id', $id); //bind here and create wildcard search term here also
+$rows = $db2->resultset();
+echo json_encode($rows);

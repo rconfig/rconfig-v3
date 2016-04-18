@@ -3,11 +3,11 @@ include("../../../config/config.inc.php");
 include("../../../config/functions.inc.php");
 include("../../../classes/db.class.php");
 
-$db  = new db();
+$db2  = new db2();
 // check and set timeZone to avoid PHP errors
-$q      = $db->q("SELECT timeZone FROM settings");
-$result = mysql_fetch_assoc($q);
-$timeZone = $result['timeZone'];
+$q = $db2->query("SELECT timeZone FROM settings");
+$row = $db2->single();
+$timeZone = $row['timeZone'];
 date_default_timezone_set($timeZone);
 
 $today = date("Ymd");

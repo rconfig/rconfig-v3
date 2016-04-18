@@ -1,11 +1,11 @@
 <?php
 if (php_sapi_name() != 'cli') {
-	// only set this when not run from CLI 
-	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
-		$config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
-	} else {
-		$config_basedir = "http://".$_SERVER['HTTP_HOST']."/";
-	}
+    // only set this when not run from CLI 
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
+            $config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
+    } else {
+            $config_basedir = "http://".$_SERVER['HTTP_HOST']."/";
+    }
 }
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";

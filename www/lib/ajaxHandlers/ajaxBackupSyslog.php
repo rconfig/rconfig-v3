@@ -6,9 +6,9 @@ include("../../../classes/db2.class.php");
 
 $db2  = new db2();
 // check and set timeZone to avoid PHP errors
-$q = $db2->q("SELECT timeZone FROM settings");
-$result = $q[0];
-$timeZone = $result['timeZone'];
+$q = $db2->query("SELECT timeZone FROM settings");
+$row = $db2->single();
+$timeZone = $row['timeZone'];
 date_default_timezone_set($timeZone);
 
 $today = date("Ymd");

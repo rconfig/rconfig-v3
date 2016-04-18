@@ -1,11 +1,10 @@
 <?php
 // Get Devices models from the devicemodelview based on $_GET['term'] for Ajax output on devices.php
 require_once("../../../classes/db2.class.php");
-require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 $db2  = new db2();
-$log = ADLog::getInstance();
-$q   = $db2->q("SELECT model AS value
-        FROM devicemodelview 
-        WHERE model LIKE '%" . $_GET['term'] . "%'");
-echo json_encode($q);
+$term = $_GET['term'];
+$db2->query("SELECT model AS value FROM devicemodelview WHERE model LIKE :term");
+$db2->bind(':term', '%'.$term.'%'); //bind here and create wildcard search term here also
+$rows = $db2->resultset();
+echo json_encode($rows);
