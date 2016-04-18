@@ -13,10 +13,8 @@ class db2{
     private $user   = DB_USER;
     private $pass   = DB_PASSWORD;
     private $dbname = DB_NAME;
-    
     private $dbh;
     private $error;
-    
     private $stmt;
 
     public function __construct()
@@ -25,9 +23,9 @@ class db2{
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname . ';port=' . $this->port;
         // Set options
         $options =  array(
-                PDO::ATTR_ERRMODE            	=> PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_PERSISTENT 		=> true,
-                PDO::ATTR_DEFAULT_FETCH_MODE 	=> PDO::FETCH_ASSOC
+            PDO::ATTR_ERRMODE            	=> PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_PERSISTENT 		=> true,
+            PDO::ATTR_DEFAULT_FETCH_MODE 	=> PDO::FETCH_ASSOC
         );
         //Create a new PDO instance
         try {
@@ -76,6 +74,13 @@ class db2{
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public function resultsetCols()
+    // return 1-D array http://stackoverflow.com/questions/7921154/in-php-is-it-possible-to-get-a-1-dimmensional-array-using-pdo
+    {
+        $this->execute();
+        return $this->stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    }
+
     public function single()
     {
         $this->execute();
@@ -131,7 +136,6 @@ class db2{
         return $this->dbh->getAttribute(PDO::ATTR_CONNECTION_STATUS);
     }
 
-
     /**
        * @function 			__destruct   
        * @description 		closes mysql connection.
@@ -139,51 +143,4 @@ class db2{
     public function __destruct(){
             $this->dbh = null;
     }
-    
-    
-    
-     /**
-       * @function 		q  (shortening for query) 
-       * @description 		runs mysql query and returns php array.
-       * @param string 		$qry 	Mysql Code.
-       * @return 		mysql result in assoc array;
-       */
-    public function q($qry) {
-        try {
-            $stmt = $this->dbh->prepare($qry); 
-            $stmt->execute();
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            die();
-        }
-        // push rows to $items array
-        if ($stmt->rowCount() > 0) { 
-            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else if ($stmt->fetchAll(PDO::FETCH_ASSOC) == false){
-            $items = array(); //send back blank array if query returns false/ blank
-        }
-        return $items;
-    }
 }
- 
-    
-
-
-    /**
-       * @function 		UPDATE  (shortening for update) 
-       * @description 		runs mysql update query
-       * @param string 		$qry 	Mysql Code.
-       * @return 		nothing
-       */
-//    public function update($qry) {
-//        try {
-//            $stmt = $this->dbh->prepare($qry); 
-//            $stmt->execute();
-//            return true;
-//        } catch (PDOException $e) {
-//            error_log($e->getMessage());
-//            return false;
-//        }
-//    }
-    
-
