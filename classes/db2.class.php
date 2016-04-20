@@ -16,7 +16,7 @@ class db2{
     private $dbh;
     private $error;
     private $stmt;
-
+    
     public function __construct()
     {
         // Set DSN

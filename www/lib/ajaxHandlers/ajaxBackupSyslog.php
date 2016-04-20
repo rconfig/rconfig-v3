@@ -10,7 +10,6 @@ $q = $db2->query("SELECT timeZone FROM settings");
 $row = $db2->single();
 $timeZone = $row['timeZone'];
 date_default_timezone_set($timeZone);
-
 $today = date("Ymd");
 
 /**

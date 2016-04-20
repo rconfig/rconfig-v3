@@ -40,7 +40,6 @@ shell_exec('chown -R apache '.$config_app_basedir);
 
 // check if update file exists
 if($update->checkForUpdateFile($updateFile)){
-
     if($update->extractUpdate($updateFile, $extractDir)){
         $response['zip'] = 'ZIP file successfully extracted';
         $log->Info("ZIP successfully extracted - ". $updateFile." (File: " . $_SERVER['PHP_SELF'] . ")");
@@ -79,8 +78,8 @@ if($update->checkForUpdateFile($updateFile)){
     if($update->checkForUpdateFile($sqlUpdateFile) && filesize($sqlUpdateFile) !== 0){
         // loadSqlFile from classes/updater.class.php
         if($update->loadSqlFile($sqlUpdateFile, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)){
-                $response['sqlUpdateComplete'] = 'rConfig Database was updated';
-                $log->Info("Database was updated - (File: " . $_SERVER['PHP_SELF'] . ")");
+            $response['sqlUpdateComplete'] = 'rConfig Database was updated';
+            $log->Info("Database was updated - (File: " . $_SERVER['PHP_SELF'] . ")");
         }
     }
 
