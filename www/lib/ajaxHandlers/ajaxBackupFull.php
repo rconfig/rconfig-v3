@@ -12,21 +12,20 @@ date_default_timezone_set($timeZone);
 
 $today = date("Ymd");
 
-// get each dir in /home/rconfig except, backups, tmp, . and ..
-$dirsToBackup = array_diff(scandir($config_app_basedir), array('..', '.', 'backups', 'tmp'));
-
+// get each dir in /home/rconfig except, backups, tmp
+$dirsToBackup = array();
+foreach(glob($config_app_basedir.'/*', GLOB_ONLYDIR) as $dir) {
+    if(basename($dir) != 'backups' &&  basename($dir) != 'tmp') {
+        $dirsToBackup[] .= basename($dir);
+    }
+}
 // then zip each folder to a zip file in the tmp dir
 foreach ($dirsToBackup as $k=>$v) {
-	/**
-	 * Then create dir backup and ZIP it
-	 */
-	$backupFile = $config_temp_dir . 'backup-'.$v.'-' . $today . '.zip';
-	folderBackup('/home/rconfig/'.$v, $backupFile);
+    //Then create dir backup and ZIP it
+    $backupFile = $config_temp_dir . 'backup-'.$v.'-' . $today . '.zip';
+    folderBackup('/home/rconfig/'.$v, $backupFile);
 }
 
-/**
- *  create SQL backup 
- */
 //  backup MySQL DB - vars from ../../../config/config.inc.php
 $sqlBackupFile = sqlBackup(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, $config_temp_dir);
 

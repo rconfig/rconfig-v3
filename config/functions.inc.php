@@ -236,78 +236,51 @@ function scan_dir($path){
 
 
 /** backup the db OR just a table 
- * from here http://davidwalsh.name/backup-mysql-database-php
  */
 function sqlBackup($host,$user,$pass,$name, $backupPath, $tables = '*')
 {
+    try {
+        $db = new PDO( 'mysql:host=' . $host . ';dbname=' . $name, $user, $pass );
+    //    $f = fopen( DUMPFILE, 'wt' );
+        $today = date("Ymd");
+        $filenamePath = $backupPath.'rconfig-db-backup-'.$today.'.sql';
+        $f = fopen($filenamePath, 'w+');
 
-  $link = mysql_connect($host,$user,$pass);
-	if (!$link = mysql_connect($host, $user, $pass)) {
-		echo 'Could not connect to mysql';
-		exit;
-	}
-  mysql_select_db($name,$link);
-  
-  // check and set timeZone to avoid PHP errors
-	$q      = mysql_query("SELECT timeZone FROM settings", $link);
-	$result = mysql_fetch_assoc($q);
-	$timeZone = $result['timeZone'];
-	date_default_timezone_set($timeZone);
+        $tables = $db->query("SHOW FULL TABLES WHERE Table_Type = 'BASE TABLE'");
+        foreach ( $tables as $table ) {
+    //        echo $table[0] . ' ... '; 
+            flush();
+            $sql = '-- TABLE: ' . $table[0] . PHP_EOL;
+            $create = $db->query( 'SHOW CREATE TABLE `' . $table[0] . '`' )->fetch();
+            $sql .= $create['Create Table'] . ';' . PHP_EOL;
+            fwrite( $f, $sql );
 
-  //get all of the tables
-  if($tables == '*')
-  {
-    $tables = array();
-    $result = mysql_query('SHOW TABLES');
-    while($row = mysql_fetch_row($result))
-    {
-      $tables[] = $row[0];
-    }
-  }
-  else
-  {
-    $tables = is_array($tables) ? $tables : explode(',',$tables);
-  }
+            $rows = $db->query( 'SELECT * FROM `' . $table[0] . '`' );
+            $rows->setFetchMode( PDO::FETCH_ASSOC );
+            foreach ( $rows as $row ) {
+                $row = array_map( array( $db, 'quote' ), $row );
+                $sql = 'INSERT INTO `' . $table[0] . '` (`' . implode( '`, `', array_keys( $row ) ) . '`) VALUES (' . implode( ', ', $row ) . ');' . PHP_EOL;
+                fwrite( $f, $sql );
+            }
 
-  $return = '';
-  
-  //cycle through
-  foreach($tables as $table)
-  {
-    $result = mysql_query('SELECT * FROM '.$table);
-    $num_fields = mysql_num_fields($result);
-    
-    $return.= 'DROP TABLE '.$table.';';
-    $row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$table));
-    $return.= "\n\n".$row2[1].";\n\n";
-    
-    for ($i = 0; $i < $num_fields; $i++) 
-    {
-      while($row = mysql_fetch_row($result))
-      {
-        $return.= 'INSERT INTO '.$table.' VALUES(';
-        for($j=0; $j<$num_fields; $j++) 
-	   {
-          $row[$j] = addslashes($row[$j]);
-          $row[$j] = preg_replace("/\n/","\\n",$row[$j]);
-          if (isset($row[$j])) { $return.= '"'.$row[$j].'"' ; } else { $return.= '""'; }
-          if ($j<($num_fields-1)) { $return.= ','; }
+            $sql = PHP_EOL;
+            $result = fwrite( $f, $sql );
+    // below for debugging
+    //        if ( $result !== FALSE ) {
+    //            echo '<pre>';
+    //            echo 'OK' . PHP_EOL;
+    //        } else {
+    //            echo '<pre>';
+    //            echo 'ERROR!!' . PHP_EOL;
+    //        }
+            flush();
         }
-        $return.= ");\n";
-      }
+        fclose( $f );
+        return $filenamePath;
+    } catch (Exception $e) {
+        echo 'Damn it! ' . $e->getMessage() . PHP_EOL;
     }
-    $return.="\n\n\n";
-  }
-  //save file
-  $today = date("Ymd");
-  $filenamePath = $backupPath.'rconfig-db-backup-'.$today.'.sql';
-  $handle = fopen($filenamePath, 'w+');
-  fwrite($handle,$return);
-  fclose($handle);
-  
-  return $filenamePath;
 }
-
 
 function fileBackup($file, $backupFile)
 {
@@ -327,23 +300,11 @@ function folderBackup($dir,$backupFile)
 {
     $zip = new ZipArchive();
     $zip->open($backupFile, ZipArchive::CREATE);
-
     $dirName = $dir;
-
-    if (!is_dir($dirName)) {
-    throw new Exception('Directory ' . $dirName . ' does not exist');
-    }
-
     $dirName = realpath($dirName);
     if (substr($dirName, -1) != '/') {
     $dirName.= '/';
     }
-
-    /*
-    * NOTE BY danbrown AT php DOT net: A good method of making
-    * portable code in this case would be usage of the PHP constant
-    * DIRECTORY_SEPARATOR in place of the '/' (forward slash) above.
-    */
 
     $dirStack = array($dirName);
     //Find the index where the last dir starts
