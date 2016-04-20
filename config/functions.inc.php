@@ -10,40 +10,35 @@
  *
  */
 function phpErrorReporting(){
-
-require_once("../classes/db.class.php");
-
-$db = new db();
-// check and set timeZone to avoid PHP errors
-$q      = $db->q("SELECT timeZone FROM settings");
-$result = mysql_fetch_assoc($q);
-$timeZone = $result['timeZone'];
-date_default_timezone_set($timeZone);
-
-$result = $db->q("SELECT phpErrorLogging, phpErrorLoggingLocation FROM settings WHERE id = '1'");
-$phpErrorSettings = mysql_fetch_assoc($result);
-$phpErrorLevel = $phpErrorSettings['phpErrorLogging'];
-$phpErrorLocation = $phpErrorSettings['phpErrorLoggingLocation'];
-$phpErrorDate = date('Ymd');
-$phpErrorFile =  $phpErrorLocation . 'error_log'.$phpErrorDate.'.txt';
-
-if($phpErrorLevel === '1'){
-
-	if(!file_exists($phpErrorFile)){
-	exec("touch " . $phpErrorFile);
-	chmod($phpErrorFile,0644);	
-	$handle = fopen($phpErrorFile, 'w');
-			if(!$handle){
-				$log->Fatal("Cannot open file  Func: createFile():  ".$this->fullReportPath."(File: ".$_SERVER['PHP_SELF'].")"); 	
-			}
-	}
-	ini_set('display_errors', 1);
-	ini_set('log_errors', 1);
-	ini_set('error_log',$phpErrorFile);
-	error_reporting(E_ALL);
-} else {
-		ini_set('display_errors', 0);
-	}
+    require_once("../classes/db2.class.php");
+    $db2 = new db2();
+    // check and set timeZone to avoid PHP errors
+    $db2->query("SELECT timeZone FROM settings");
+    $result = $db2->resultsetCols();
+    $timeZone = $result[0];
+    date_default_timezone_set($timeZone);
+    $db2->query("SELECT phpErrorLogging, phpErrorLoggingLocation FROM settings WHERE id = '1'");
+    $result = $db2->resultset();
+    $phpErrorLevel = $result[0]['phpErrorLogging'];
+    $phpErrorLocation = $result[0]['phpErrorLoggingLocation'];
+    $phpErrorDate = date('Ymd');
+    $phpErrorFile =  $phpErrorLocation . 'error_log'.$phpErrorDate.'.txt';
+    if($phpErrorLevel === '1'){
+        if(!file_exists($phpErrorFile)){
+        exec("touch " . $phpErrorFile);
+        chmod($phpErrorFile,0644);	
+        $handle = fopen($phpErrorFile, 'w');
+            if(!$handle){
+                    $log->Fatal("Cannot open file  Func: createFile():  ".$this->fullReportPath."(File: ".$_SERVER['PHP_SELF'].")"); 	
+            }
+        }
+        ini_set('display_errors', 1);
+        ini_set('log_errors', 1);
+        ini_set('error_log',$phpErrorFile);
+        error_reporting(E_ALL);
+    } else {
+                ini_set('display_errors', 0);
+    }
 }
 
 
@@ -67,11 +62,11 @@ include("includes/config.inc.php");
  * i.e. from a config file, to ensure a match. used in complianceScript.php
  */
 function regexpMatch($string, $line){
-	if (preg_match($string, $line)) {
-		return true;
-	} else {
-		return false;
-	}
+    if (preg_match($string, $line)) {
+            return true;
+    } else {
+            return false;
+    }
 } //urlsearch function
 
 /**
@@ -135,17 +130,17 @@ function _format_bytes($a_bytes) {
  * @return array of lines from config file
  */
 function fileRead($filename) {
-	$lines = file($filename);
-		if (!empty($lines)){
-		foreach ($lines as $line_num => $line) 
-			{ 
-			echo "<font color=red>{$line_num}: </font>" . $line . "<br />\n"; 
-			//If you are reading HTML code use this line instead
-			//print "<font color=red>Line #{$line_num}</font> : " . htmlspecialchars($line) . "<br />\n";
-			}
-	 } else {
-			echo "<font color=red>0 : </font><strong>This file is empty</strong><br />\n";
-	 }
+    $lines = file($filename);
+        if (!empty($lines)){
+        foreach ($lines as $line_num => $line) 
+            { 
+            echo "<font color=red>{$line_num}: </font>" . $line . "<br />\n"; 
+            //If you are reading HTML code use this line instead
+            //print "<font color=red>Line #{$line_num}</font> : " . htmlspecialchars($line) . "<br />\n";
+            }
+     } else {
+        echo "<font color=red>0 : </font><strong>This file is empty</strong><br />\n";
+     }
 }
 
 /*
@@ -186,37 +181,35 @@ function get_cpu_type() {
  */
 function getHostStatus($host, $port)
 {
-
-	$status = array("Unavailable", "Online");
-	$fp = @fsockopen($host, $port, $errno, $errstr, 2);
-	if ($fp) {
-		return "<font color=\"green\">".$status[1]."</font>";
-	} else { 
-		return "<font color=\"red\">".$status[0]."</font>";
-	  }
+    $status = array("Unavailable", "Online");
+    $fp = @fsockopen($host, $port, $errno, $errstr, 2);
+    if ($fp) {
+            return "<font color=\"green\">".$status[1]."</font>";
+    } else { 
+            return "<font color=\"red\">".$status[0]."</font>";
+      }
 }
 
 
 // array_search with partial matches and optional search by key
 function array_find($needle, $haystack, $search_keys = false) {
-	if(!is_array($haystack)) return false;
-	foreach($haystack as $key=>$value) {
-		$what = ($search_keys) ? $key : $value;
-		if(strpos($what, $needle)!==false) return $key;
-	}
-	return false;
+    if(!is_array($haystack)) return false;
+    foreach($haystack as $key=>$value) {
+        $what = ($search_keys) ? $key : $value;
+        if(strpos($what, $needle)!==false) return $key;
+    }
+    return false;
 }
 
 function getTime()
     {
     $a = explode (' ',microtime());
     return(double) $a[0] + $a[1];
-    }
+}
 	
 // from here http://stackoverflow.com/questions/10895343/php-count-total-files-in-directory-and-subdirectory-function
 function scan_dir($path){
     $ite=new RecursiveDirectoryIterator($path);
-
     $bytestotal=0;
     $nbfiles=0;
     foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
@@ -225,12 +218,11 @@ function scan_dir($path){
         $nbfiles++;
         $files[] = $filename;
     }
-		// check if dir is empty after dir iteration and if so, create empty var to prevent php notice
-		if(empty($files)){
-			$files ="";
-		}
+        // check if dir is empty after dir iteration and if so, create empty var to prevent php notice
+        if(empty($files)){
+                $files ="";
+        }
     $bytestotal=number_format($bytestotal);
-
     return array('total_files'=>$nbfiles,'total_size'=>$bytestotal,'files'=>$files);
 }
 

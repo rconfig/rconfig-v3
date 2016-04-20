@@ -8,12 +8,12 @@ include("../classes/usersession.class.php");
 include("../classes/ADLog.class.php");
 $log = ADLog::getInstance();
 
-	/**
-	 * User has NOT logged in, so redirect to main login page
-	 */
-	if(!$session->logged_in){
-		header("Location: " . $config_basedir . "login.php");
-	}
+    /**
+     * User has NOT logged in, so redirect to main login page
+     */
+    if(!$session->logged_in){
+            header("Location: " . $config_basedir . "login.php");
+    }
 ?>
 <!DOCTYPE html>
 <html>
