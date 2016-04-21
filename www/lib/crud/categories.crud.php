@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
@@ -116,7 +113,6 @@ elseif (isset($_POST['del'])) {
     }
     
     /* the query*/
-    $q = "UPDATE categories SET status = 2 WHERE id = " . $id . ";";
     $db2->query("UPDATE categories SET status = 2 WHERE id = :id");
     $db2->bind(':id', $id);
     $result = $db2->execute();

@@ -1,12 +1,12 @@
 $(document).ready(function () {
-    if (location.href.match(/\error/)) { 
-        $('mainformDiv').show(); 
+    if (location.href.match(/\error/)) {
+        $('mainformDiv').show();
         $(".show_hide").show();
     } else {
         $(".mainformDiv").hide();
-        $(".show_hide").show(); 
+        $(".show_hide").show();
     }
-    $('.show_hide').click(function () { 
+    $('.show_hide').click(function () {
         $(".mainformDiv").toggle();
     });
 });
@@ -31,7 +31,7 @@ function delCustProp() {
 
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Custom Property?")
+        var answer = confirm("Are you sure you want to remove this Custom Property, and all data for this property?")
         if (answer) {
             $.post('lib/crud/customProperties.crud.php', {
                 id: rowid,
