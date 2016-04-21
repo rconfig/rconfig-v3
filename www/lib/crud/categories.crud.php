@@ -1,10 +1,12 @@
 <?php
-/* Add ../../classes and instantiate */
-require_once("../../../classes/db.class.php");
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 
-$db  = new db();
+$db2  = new db2();
 $log = ADLog::getInstance();
 
 /* Add Categories Here */
@@ -12,31 +14,29 @@ $log = ADLog::getInstance();
 if (isset($_POST['add'])) {
     session_start();
     $errors = array();
-    
     if (!empty($_POST['categoryName'])) {
         /* Begin DB query. This will either be an Insert if $_POST editid is not set - or an edit/Update if editid is set in POST */
-        
         /* Validate Input from Form */
         if (!ctype_alnum($_POST['categoryName'])) {
             $errors['categoryName'] = "Input was not a valid string!";
             $log->Warn("Failure: categoryName Input was not a valid string! (File: " . $_SERVER['PHP_SELF'] . ")");
         }
-        
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             session_write_close();
             header("Location: " . $config_basedir . "categories.php?error");
             exit();
         } else {
-            $categoryName = mysql_real_escape_string($_POST['categoryName']);
+            $categoryName = $_POST['categoryName'];
         }
         /* end validate */
         
         if (empty($_POST['editid'])) { // becuase editid as set in form is empty, this is an Add and NOT an Edit
             
-            $q = "INSERT INTO categories (categoryName, status) VALUES ('" . $categoryName . "', '1')";
-            
-            if ($result = $db->q($q)) {
+            $db2->query("INSERT INTO categories (categoryName, status) VALUES (:categoryName, '1')");
+            $db2->bind(':categoryName', $categoryName); 
+            $queryResult = $db2->execute();
+            if($queryResult){
                 $errors['Success'] = "Added category to DB";
                 $log->Info("Success: Added category to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
@@ -66,9 +66,11 @@ if (isset($_POST['add'])) {
                 exit();
             }
             
-            $q = "UPDATE categories SET categoryName = '" . $categoryName . "'	WHERE id = $id";
-            
-            if ($result = $db->q($q)) { // if Q was good, send back a sucess to the file
+        $db2->query("UPDATE categories SET categoryName = :categoryName WHERE id = :id");
+        $db2->bind(':categoryName', $categoryName); 
+        $db2->bind(':id', $id); 
+        $queryResult = $db2->execute();
+           if($queryResult){ // if Q was good, send back a sucess to the file
                 $errors['Success'] = "Edited category to DB";
                 $log->Info("Success: Edited category to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
@@ -87,7 +89,7 @@ if (isset($_POST['add'])) {
         }
         /* end 'id' post check*/
         
-    } else { // categoryName was not filed in, and so end back error and kill script
+    } else { // categoryName was not filed in, and so send back error and kill script
         $errors['categoryName'] = "Category Field cannot be empty";
         $log->Warn("Failure: Category Name Field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
         $_SESSION['errors'] = $errors;
@@ -115,8 +117,11 @@ elseif (isset($_POST['del'])) {
     
     /* the query*/
     $q = "UPDATE categories SET status = 2 WHERE id = " . $id . ";";
-    
-    if ($result = $db->q($q)) {
+    $db2->query("UPDATE categories SET status = 2 WHERE id = :id");
+    $db2->bind(':id', $id);
+    $result = $db2->execute();
+
+    if ($result) {
         $log->Info("Success: Deleted category in DB (File: " . $_SERVER['PHP_SELF'] . ")");
         $response = json_encode(array(
             'success' => true
@@ -127,7 +132,6 @@ elseif (isset($_POST['del'])) {
             'failure' => true
         ));
     }
-    
     echo $response;
 } /* end 'delete' if*/ 
 
@@ -142,23 +146,15 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
         header("Location: " . $config_basedir . "categories.php?error");
         exit();
     }
-    $q = $db->q("SELECT 
-			id,
-			categoryName
-		FROM categories
-		WHERE status = 1
-		AND id = $id");
-    
+    $db2->query("SELECT id, categoryName FROM categories WHERE status = 1 AND id = :id");
+    $db2->bind(':id', $id);
+    $result = $db2->resultset();
+   
     $items = array();
-    while ($row = mysql_fetch_assoc($q)) {
+    foreach ($result as $row) {
         array_push($items, $row);
     }
-    
     $result["rows"] = $items;
     echo json_encode($result);
-    
 }
 /* end GetId */
-
-
-?>
