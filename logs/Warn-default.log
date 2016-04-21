@@ -5,3 +5,11 @@
 2016-04-18 20:12:39 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
 2016-04-18 20:12:41 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
 2016-04-18 20:12:49 WARN Failure: Could not update Timezone in DB for ajaxSettingsProcess.php:1
+2016-04-21 14:22:02 WARN Failure: Username field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 14:22:02 WARN Failure: Password field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 14:22:02 WARN Failure: Confirm Password field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 14:22:02 WARN Failure: Enable mode checked but password was not entered (File: /lib/crud/devices.crud.php)
+2016-04-21 15:09:01 WARN Failure: Username field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 15:09:01 WARN Failure: Password field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 15:09:01 WARN Failure: Confirm Password field cannot be empty (File: /lib/crud/devices.crud.php)
+2016-04-21 15:09:01 WARN Failure: Enable mode checked but password was not entered (File: /lib/crud/devices.crud.php)

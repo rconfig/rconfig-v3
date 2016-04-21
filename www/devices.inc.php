@@ -1,16 +1,15 @@
 <?php
 /* Includes */
-require_once("../classes/db.class.php");
+require_once("../classes/db2.class.php");
 include_once('../classes/paginator.class.php');
 
 /* Instantiate DB Class */
-$db = new db();
+$db2 = new db2();
 
 /* Get Row count from nodes where NOT deleted*/
-$rs              = $db->q('SELECT COUNT(*) AS total FROM nodes WHERE status = 1');
-$row             = mysql_fetch_row($rs);
+$db2->query('SELECT COUNT(*) AS total FROM nodes WHERE status = 1');
+$row  = $db2->resultsetCols();
 $result["total"] = $row[0];
-
 /* Instantiate Paginator Class */
 $pages              = new Paginator;
 $pages->items_total = $result['total'];
@@ -19,49 +18,49 @@ $pages->paginate();
 ?>
 <!-- begin Search form -->
 <div id="deviceActionDiv">
-	<div id="searchForm"> 
-	<legend>Search</legend>
-		<form name ="searchForm" method="GET" action="devices.php" onsubmit="return searchValidateForm()">
-			<select name="searchColumn" id="searchColumn" class="paginate">
-				<option value="deviceName">Device Name</option>
-				<option value="deviceIpAddr">IP Address</option>
-			</select>
-			<select name="searchOption" id="searchOption" class="paginate">
-				<option value="contains" selected>Contains</option>
-				<option value="notContains">Not Contains</option>
-				<option value="equals">Equals</option>
-			</select>
-			<input type="text" id="searchField" name="searchField" placeholder="search text" class="paginate">
-			<input type="hidden" id="search" value="search" name="search">
-			<?php 
-			if(isset($errors['searchField'])){echo "<span class=\"error\">".$errors['searchField']."</span>";}
-			?>
-			<button type="submit">Go!</button> <?php //search logic below in this script?>
-			<button onClick="clearSearch()" type="button">Clear Search</button>
-			<br />
-			<font size="0.3em">use '*' as a wildcard</font>
-		</form>
-	</div> <!-- end searchForm -->	
+    <div id="searchForm"> 
+    <legend>Search</legend>
+        <form name ="searchForm" method="GET" action="devices.php" onsubmit="return searchValidateForm()">
+            <select name="searchColumn" id="searchColumn" class="paginate">
+                <option value="deviceName">Device Name</option>
+                <option value="deviceIpAddr">IP Address</option>
+            </select>
+            <select name="searchOption" id="searchOption" class="paginate">
+                <option value="contains" selected>Contains</option>
+                <option value="notContains">Not Contains</option>
+                <option value="equals">Equals</option>
+            </select>
+            <input type="text" id="searchField" name="searchField" placeholder="search text" class="paginate">
+            <input type="hidden" id="search" value="search" name="search">
+            <?php 
+            if(isset($errors['searchField'])){echo "<span class=\"error\">".$errors['searchField']."</span>";}
+            ?>
+            <button type="submit">Go!</button> <?php //search logic below in this script?>
+            <button onClick="clearSearch()" type="button">Clear Search</button>
+            <br />
+            <font size="0.3em">use '*' as a wildcard</font>
+        </form>
+    </div> <!-- end searchForm -->	
 							
-	<div id="sortForm">
-	<legend>Sort</legend>
-		<form method="POST" action="devices.php">
-		<span class="paginate">Sort by:</span>
-			<select name="sortBy" class="paginate">
-				<option selected></option>
-				<option name="vendorId" value="vendorId">Vendor</option>
-				<option name="deviceName" value="deviceName">Device Name</option>
-				<option name="deviceIpAddr" value="deviceIpAddr">IP Address</option>
-			</select>
-		<span class="paginate">Asc/Desc:</span>
-			<select name="ascDesc" class="paginate">
-				<option selected></option>
-				<option name="asc" value="ASC">Ascending</option>
-				<option name="desc" value="DESC">Descending</option>
-			</select>
-			<button type="submit">Go!</button>
-		</form> 
-	</div>
+    <div id="sortForm">
+    <legend>Sort</legend>
+        <form method="POST" action="devices.php">
+        <span class="paginate">Sort by:</span>
+            <select name="sortBy" class="paginate">
+                <option selected></option>
+                <option name="vendorId" value="vendorId">Vendor</option>
+                <option name="deviceName" value="deviceName">Device Name</option>
+                <option name="deviceIpAddr" value="deviceIpAddr">IP Address</option>
+            </select>
+        <span class="paginate">Asc/Desc:</span>
+            <select name="ascDesc" class="paginate">
+                <option selected></option>
+                <option name="asc" value="ASC">Ascending</option>
+                <option name="desc" value="DESC">Descending</option>
+            </select>
+            <button type="submit">Go!</button>
+        </form> 
+    </div>
 </div>
 <?php
 echo $pages->display_pages();
@@ -69,24 +68,21 @@ echo "<span class=\"\">".$pages->display_jump_menu().$pages->display_items_per_p
 echo "<div class=\"spacer\" style=\"padding-bottom:3px;\"></div>";
 
 /* get Custom Column Names from Custom DB View TBL to complete full SELECT Query below */
-		$custPropQ = "SELECT * FROM customProperties";
-		$custPropResult = $db->q($custPropQ);
-		$custProp_num_rows = mysql_num_rows($custPropResult );
+$db2->query('SELECT * FROM customProperties');
+$custColumns  = $db2->resultsetCols();
+$custProp_num_rows = $db2->rowCount();
 
-		while (list($temp) = mysql_fetch_row($custPropResult)) {
-			$custColumns[] = $temp;
-		}
-		// check if $custColumns is NOT empty and set to vars
-		if(!empty($custColumns)){ 
-			$customArray = array();
-				foreach ($custColumns as $key => $value) {
-					array_push($customArray, $value);
-				}
-			$dynQueryStr = implode(", ",$customArray).', '; 
-		} else {
-			$customArray = '';
-			$dynQueryStr = '';
-		}
+// check if $custColumns is NOT empty and set to vars
+if(!empty($custColumns)){ 
+        $customArray = array();
+                foreach ($custColumns as $key => $value) {
+                        array_push($customArray, $value);
+                }
+        $dynQueryStr = implode(", ",$customArray).', '; 
+} else {
+        $customArray = '';
+        $dynQueryStr = '';
+}
 		
 /* Search functionality
 1. set default query
@@ -193,16 +189,11 @@ if (isset($_GET['search'])){
 	
 } // end search
 /* GET all nodes records from DB */
-$q = $db->q($query);  
-
-//$result = $database->query($q);
-$items = array();  
-while($row = mysql_fetch_assoc($q)){  
-	array_push($items, $row);  
-}  
+$db2->query($query);  
+$qRes  = $db2->resultset();
 
 /* Create Multidimensional array for use later */
-$result["rows"] = $items;   
+$result["rows"] = $qRes;   
 $result["custom"] = $customArray;
 $result["cust_num_rows"] = $custProp_num_rows;
 
@@ -263,7 +254,7 @@ $i = 0; # row counter  to enable alternate row coloring
 	</tbody>
 </table>
 <?php 
-echo $pages->display_pages(); 
-echo "<div class=\"spacer\"></div>";
-echo "<p class=\"paginate\">Page: $pages->current_page of $pages->num_pages</p>\n";
+    echo $pages->display_pages(); 
+    echo "<div class=\"spacer\"></div>";
+    echo "<p class=\"paginate\">Page: $pages->current_page of $pages->num_pages</p>\n";
 ?>

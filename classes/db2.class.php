@@ -80,7 +80,7 @@ class db2{
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
-
+    
     public function single()
     {
         $this->execute();
