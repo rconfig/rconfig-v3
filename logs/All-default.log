@@ -148,3 +148,7 @@
 2016-04-21 15:09:01 WARN Failure: Enable mode checked but password was not entered (File: /lib/crud/devices.crud.php)
 2016-04-21 15:19:08 INFO Success: Added new device, Test1 to DB (File: /lib/crud/devices.crud.php)
 2016-04-21 15:21:01 INFO Success: Added new device, asdasdsad to DB (File: /lib/crud/devices.crud.php)
+2016-04-21 15:49:36 INFO Success: Edit device asdasdsad in DB successful (File: /lib/crud/devices.crud.php)
+2016-04-21 15:50:04 INFO Success: Edit device test5 in DB successful (File: /lib/crud/devices.crud.php)
+2016-04-21 15:51:43 INFO Success: Deleted Node ID = 1 in DB (File: /lib/crud/devices.crud.php)
+2016-04-21 15:51:47 INFO Success: Deleted Node ID = 8 in DB (File: /lib/crud/devices.crud.php)

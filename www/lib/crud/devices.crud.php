@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
@@ -316,24 +319,40 @@ if (isset($_POST['add'])) {
 			
         } else { // if ID is set in post when running a save from the form do an UPDATE
             $id = $_POST['editid'];
-            $q  = "UPDATE nodes SET 
-                    deviceName = '" . $deviceName . "',
-                    deviceIpAddr = '" . $deviceIpAddr . "',
-                    devicePrompt = '" . $devicePrompt . "',
-                    deviceUsername = '" . $deviceUsername . "', 
-                    devicePassword = '" . $devicePassword . "', 
-                    deviceEnableMode = '" . $deviceEnableMode . "', 
-                    deviceEnablePassword = '" . $deviceEnablePassword . "', 
-                    deviceAccessMethodId = '" . $deviceAccessMethodId . "',
-                    connPort = '" . $connPort . "', 
-                    model = '" . $deviceModel . "', 
-                    vendorId = '" . $vendorId . "', 
-                    nodeCatId = '" . $catId . "', 
-                    defaultCreds = '" . $defaultCreds . "',
-                    $customPropEditQueryStr 
-                    deviceDateAdded = CURDATE()
-                    WHERE id = $id";
-            if ($result = $db->q($q)) {
+            $db2->query("UPDATE nodes SET 
+                            deviceName = :deviceName,
+                            deviceIpAddr = :deviceIpAddr,
+                            devicePrompt = :devicePrompt,
+                            deviceUsername = :deviceUsername, 
+                            devicePassword = :devicePassword, 
+                            deviceEnableMode = :deviceEnableMode, 
+                            deviceEnablePassword = :deviceEnablePassword, 
+                            deviceAccessMethodId = :deviceAccessMethodId,
+                            connPort = :connPort, 
+                            model = :deviceModel, 
+                            vendorId = :vendorId, 
+                            nodeCatId = :catId, 
+                            defaultCreds = :defaultCreds,
+                            $customPropEditQueryStr 
+                            deviceDateAdded = CURDATE()
+                            WHERE id = :id");
+            $db2->bind(':deviceName', $deviceName); 
+            $db2->bind(':deviceIpAddr', $deviceIpAddr); 
+            $db2->bind(':devicePrompt', $devicePrompt); 
+            $db2->bind(':deviceUsername', $deviceUsername); 
+            $db2->bind(':devicePassword', $devicePassword); 
+            $db2->bind(':deviceEnableMode', $deviceEnableMode); 
+            $db2->bind(':deviceEnablePassword', $deviceEnablePassword); 
+            $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId); 
+            $db2->bind(':connPort', $connPort); 
+            $db2->bind(':deviceModel', $deviceModel); 
+            $db2->bind(':vendorId', $vendorId); 
+            $db2->bind(':catId', $catId); 
+            $db2->bind(':defaultCreds', $defaultCreds); 
+            $db2->bind(':id', $id); 
+            $db2->debugDumpParams();
+            $queryResult = $db2->execute();
+            if ($queryResult) {
                 $errors['Success'] = "Edit device " . $deviceName . " successful";
                 $log->Info("Success: Edit device " . $deviceName . " in DB successful (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
@@ -360,7 +379,10 @@ elseif (isset($_POST['del'])) {
 
     /* the query*/
     $q = "UPDATE nodes SET status = 2 WHERE id = " . $_POST['id'] . ";";
-    if ($result = $db->q($q)) {
+    $db2->query("UPDATE nodes SET status = 2 WHERE id = :id");
+    $db2->bind(':id', $_POST['id']); 
+    $result = $db2->execute();
+    if ($result) {
         $log->Info("Success: Deleted Node ID = " . $_POST['id'] . " in DB (File: " . $_SERVER['PHP_SELF'] . ")");
         $response = json_encode(array(
             'success' => true
@@ -389,42 +411,44 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
 
     /* first get custom fieldnames  and impode to create part of final SQL query*/
-    $q     = $db->q("SELECT customProperty
-		FROM customProperties");
+    $db2->query("SELECT customProperty FROM customProperties");
+    $qCustProp = $db2->resultset();
     $items = array();
-    while ($row = mysql_fetch_assoc($q)) {
+    foreach ($qCustProp as $row) {
         $customProperty = $row['customProperty'];
         array_push($items, $customProperty);
         $customProp_string = implode(", ", $items).', ';
     }
     
-    $q  = $db->q("SELECT 
-			n.id,
-			n.deviceName,
-			n.deviceIpAddr,
-			n.devicePrompt,
-			v.id vendorId,
-			n.model,
-			n.defaultCreds,
-			n.deviceUsername,
-			n.devicePassword,
-			n.deviceEnableMode,
-			n.deviceEnablePassword,
-			n.termLength,
-			a.id accessMeth,
-			n. connPort,
-			" . $customProp_string . "
-			cat.id catId
+    $db2->query("SELECT 
+                    n.id,
+                    n.deviceName,
+                    n.deviceIpAddr,
+                    n.devicePrompt,
+                    v.id vendorId,
+                    n.model,
+                    n.defaultCreds,
+                    n.deviceUsername,
+                    n.devicePassword,
+                    n.deviceEnableMode,
+                    n.deviceEnablePassword,
+                    n.termLength,
+                    a.id accessMeth,
+                    n. connPort,
+                    " . $customProp_string . "
+                    cat.id catId
 		FROM nodes n
 		LEFT OUTER JOIN vendors v ON n.vendorId = v.id
 		LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
 		LEFT OUTER JOIN devicesaccessmethod a ON n.deviceAccessMethodId = a.id
 		LEFT OUTER JOIN categories cat ON n.nodeCatId = cat.id
 		WHERE n.status = 1
-		AND n.id = '$id'");
-    
+		AND n.id = :id");
+    $db2->bind(':id', $id); 
+    $qSelectnodeData = $db2->resultset();
+
     $items = array();
-    while ($row = mysql_fetch_assoc($q)) {
+    foreach ($qSelectnodeData as $row) {
         array_push($items, $row);
     }
     $result["rows"] = $items;
