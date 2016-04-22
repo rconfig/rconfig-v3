@@ -1,60 +1,53 @@
 <?php
-require_once("../../../classes/db.class.php");
+require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../classes/imageResize.class.php");
 require_once("../../../config/config.inc.php");
 
-$db  = new db();
+$db2 = new db2();
 $log = ADLog::getInstance();
 
 /* Add Vendors Here */
 if (isset($_POST['add'])) {
     session_start();
     $errors = array();
-    
-    
+
+
     if (!empty($_POST['vendorName'])) {
         /* Validate Input from Form */
         if (!ctype_alnum($_POST['vendorName'])) {
-            $errors['vendorName'] = "Input was not a valid string - alphaNumeric Characters only!";
+            $errors['vendorName'] = "Input was not a valid string - alphaNumeric Characters only, and no spaces!";
             $log->Warn("Failure: categoryName Input was not a valid string! (File: " . $_SERVER['PHP_SELF'] . ")");
         }
-        
+
         if (!empty($errors)) {
             $_SESSION['errors'] = $errors;
             session_write_close();
             header("Location: " . $config_basedir . "vendors.php?error");
             exit();
         } else {
-            $vendorName = mysql_real_escape_string($_POST['vendorName']);
+            $vendorName = $_POST['vendorName'];
         }
-        
+
         if (!empty($_FILES["vendorLogo"]["name"])) {
             if ((($_FILES["vendorLogo"]["type"] == "image/gif") || ($_FILES["vendorLogo"]["type"] == "image/jpeg") || ($_FILES["vendorLogo"]["type"] == "image/pjpeg")) && ($_FILES["vendorLogo"]["size"] < 20000)) {
                 if ($_FILES["vendorLogo"]["error"] > 0) {
                     $errors['fileError'] = "File Error Return Code: " . $_FILES["vendorLogo"]["error"];
                     $log->Warn("File Error Return Code: " . $_FILES["vendorLogo"]["error"] . " (File: " . $_SERVER['PHP_SELF'] . ")");
                 } else {
-                    // echo "Upload: " . $_FILES["vendorLogo"]["name"] . "<br />";
-                    // echo "Type: " . $_FILES["vendorLogo"]["type"] . "<br />";
-                    // echo "Size: " . ($_FILES["vendorLogo"]["size"] / 1024) . " Kb<br />";
-                    // echo "Temp file: " . $_FILES["vendorLogo"]["tmp_name"] . "<br />";
-					$filename = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
-					$location = $config_web_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
+                    $filename = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
+                    $location = $config_web_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
 
                     if (file_exists($location)) {
                         $log->Warn("Failure: " . $_FILES["vendorLogo"]["name"] . " already exists (File: " . $_SERVER['PHP_SELF'] . ")");
                     } else {
-
-						move_uploaded_file($_FILES['vendorLogo']['tmp_name'], $location);
-
-							// *** 1) Initialize / load image  
-							$resizeObj = new resize($location);  
-							// *** 2) Resize image (options: exact, portrait, landscape, auto, crop)  
-							$resizeObj -> resizeImage(16, 16, 'auto');  
-							// *** 3) Save image  
-							$resizeObj -> saveImage($location, 100);  
-						
+                        move_uploaded_file($_FILES['vendorLogo']['tmp_name'], $location);
+                        // *** 1) Initialize / load image  
+                        $resizeObj = new resize($location);
+                        // *** 2) Resize image (options: exact, portrait, landscape, auto, crop)  
+                        $resizeObj->resizeImage(16, 16, 'auto');
+                        // *** 3) Save image  
+                        $resizeObj->saveImage($location, 100);
                     }
                 }
             } else {
@@ -66,24 +59,19 @@ if (isset($_POST['add'])) {
                 exit();
             }
         } else {
-            /* set location variable as defaultImg for later use in SQL statement, reason is user is not obliged to upload a file*/
+            /* set location variable as defaultImg for later use in SQL statement, reason is user is not obliged to upload a file */
             $filename = "images/logos/rconfig16.png";
         }
         /* end validate */
-        
+
         /* Begin DB query. This will either be an Insert if $_POST editid is not set - or an edit/Update if editid is set in POST */
         if (empty($_POST['editid'])) { // do the add/ INSERT
             if (ctype_alnum($vendorName)) {
-                $q = "INSERT INTO vendors
-							(vendorName, 
-							vendorLogo,
-							status) 
-							VALUES 
-								('" . $vendorName . "', 
-								' $filename ',				
-								'1'
-								)";
-                if ($result = $db->q($q)) {
+                $db2->query("INSERT INTO vendors (vendorName, vendorLogo, status) VALUES (:vendorName, :filename, '1')");
+                $db2->bind(':vendorName', $vendorName); 
+                $db2->bind(':filename', $filename); 
+                $queryResult = $db2->execute();
+           if($queryResult){ // if Q was good, send back a sucess to the file
                     $errors['Success'] = "Added new vendor " . $vendorName . " to Database";
                     $log->Info("Success: Added new vendor, " . $vendorName . " to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                     $_SESSION['errors'] = $errors;
@@ -108,12 +96,12 @@ if (isset($_POST['add'])) {
         } else { // do the UPDATE/EDIT
             if (ctype_alnum($vendorName)) {
                 $id = $_POST['editid'];
-                $q  = "UPDATE vendors SET 
-						vendorName = '" . $vendorName . "',
-						vendorLogo = '" . $location . "'
-						WHERE id = $id";
-                echo $q;
-                if ($result = $db->q($q)) {
+                $db2->query("UPDATE vendors SET vendorName = :vendorName, vendorLogo = :location WHERE id = :id");
+                $db2->bind(':vendorName', $vendorName); 
+                $db2->bind(':location', $location); 
+                $db2->bind(':id', $id); 
+                $queryResult = $db2->execute();
+            if($queryResult){
                     $errors['Sucess'] = "Edited vendor " . $vendorName . " in Database";
                     $log->Info("Success: Edited vendor, " . $vendorName . " in DB (File: " . $_SERVER['PHP_SELF'] . ")");
                     $_SESSION['errors'] = $errors;
@@ -136,8 +124,7 @@ if (isset($_POST['add'])) {
                 exit();
             }
         }
-        /* end 'id' post check*/
-        
+        /* end 'id' post check */
     } else {
         $errors['vendorName'] = "Vendor Name Field cannot be empty";
         $log->Warn("Failure: vendorName was empty(File: " . $_SERVER['PHP_SELF'] . ")");
@@ -147,10 +134,9 @@ if (isset($_POST['add'])) {
         exit();
     }
 }
-/* end 'add' if*/
+/* end 'add' if */
 
-/* begin delete check */
-elseif (isset($_POST['del'])) {
+/* begin delete check */ elseif (isset($_POST['del'])) {
     if (ctype_digit($_POST['id'])) {
         $id = $_POST['id'];
     } else {
@@ -161,9 +147,11 @@ elseif (isset($_POST['del'])) {
         header("Location: " . $config_basedir . "vendors.php?error");
         exit();
     }
-    /* the query*/
-    $q = "UPDATE vendors SET status = 2 WHERE id = " . $id . ";";
-    if ($result = $db->q($q)) {
+    /* the query */
+    $db2->query("UPDATE vendors SET status = 2 WHERE id = :id");
+    $db2->bind(':id', $id); 
+    $queryResult = $db2->execute();
+    if($queryResult){
         $log->Info("Success: Deleted vendor in DB (File: " . $_SERVER['PHP_SELF'] . ")");
         $response = json_encode(array(
             'success' => true
@@ -175,12 +163,8 @@ elseif (isset($_POST['del'])) {
         ));
     }
     echo $response;
-    
-} /* end 'delete' if*/ /* Below is used for an ajax call from vendors update 
-jquery function to get row information to present back to vendor edit form*/ 
-
-
-elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+} /* end 'delete' if */ /* Below is used for an ajax call from vendors update 
+  jquery function to get row information to present back to vendor edit form */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
     if (ctype_digit($_GET['id'])) {
         $id = $_GET['id'];
     } else {
@@ -191,19 +175,14 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
         header("Location: " . $config_basedir . "categories.php?error");
         exit();
     }
-    $q     = $db->q("SELECT 
-			id,
-			vendorName,
-			vendorLogo
-		FROM vendors
-		WHERE status = 1
-		AND id = $id");
+    $db2->query("SELECT id, vendorName, vendorLogo FROM vendors WHERE status = 1 AND id = :id");
+    $db2->bind(':id', $id); 
+    $queryResult = $db2->resultset();    
     $items = array();
-    while ($row = mysql_fetch_assoc($q)) {
+    foreach ($queryResult as $row) {
         array_push($items, $row);
     }
     $result["rows"] = $items;
     echo json_encode($result);
 }
 /* end GetId */
-?>

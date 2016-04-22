@@ -20,3 +20,7 @@
 2016-04-21 20:40:38 WARN Failure: invalid id sent to delete in (File: /lib/crud/customProperties.crud.php)
 2016-04-21 20:47:38 WARN Failure: invalid id sent to delete in (File: /lib/crud/customProperties.crud.php)
 2016-04-21 20:48:09 WARN Failure: invalid id sent to delete in (File: /lib/crud/customProperties.crud.php)
+2016-04-22 11:58:04 WARN Failure: vendorName was not a string (File: /lib/crud/vendors.crud.php)
+2016-04-22 12:06:19 WARN Failure: categoryName Input was not a valid string! (File: /lib/crud/vendors.crud.php)
+2016-04-22 12:08:47 WARN Failure: categoryName Input was not a valid string! (File: /lib/crud/vendors.crud.php)
+2016-04-22 12:09:10 WARN Failure: juniper.jpg already exists (File: /lib/crud/vendors.crud.php)
