@@ -1,23 +1,23 @@
 $(document).ready(function () {
-    if (location.href.match(/\error/)) { 
-        $('mainformDiv').show(); 
-        $(".show_hide").show(); 
-		
+    if (location.href.match(/\error/)) {
+        $('mainformDiv').show();
+        $(".show_hide").show();
 
-	// else run a default page load		
+
+        // else run a default page load		
     } else {
         $(".mainformDiv").hide();
-        $(".show_hide").show(); 
+        $(".show_hide").show();
 
     }
     $('.show_hide').click(function () {
         $(".mainformDiv").toggle();
     });
-	
-	// delete whitespace from Textarea
-	var snippetTxtArea = document.getElementById('snippet');
-	snippetTxtArea.value = snippetTxtArea.value.replace(/^\s*|\s*$/g,'');
-}); 
+
+    // delete whitespace from Textarea
+    var snippetTxtArea = document.getElementById('snippet');
+    snippetTxtArea.value = snippetTxtArea.value.replace(/^\s*|\s*$/g, '');
+});
 
 // next script is for row highlighting and selection of table rows	
 $("#snippetTbl tbody tr").click(function (e) {
@@ -90,9 +90,7 @@ function editSnippet() {
     }
 }
 
-
-
 // default back to no GETs or POSTS when click i.e. default devices page
 function clearSearch() {
-    window.location = "compliancepolicysnippets.php"
+    window.location = "snippets.php"
 }

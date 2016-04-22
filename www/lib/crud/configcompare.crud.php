@@ -7,11 +7,11 @@ require('../../../config/functions.inc.php');
 $Start = getTime();
 
 session_start();
-require_once("../../../classes/db.class.php");
+require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 
-$db  = new db();
+$db2 = new db2();
 $log = ADLog::getInstance();
 
 // Validate and set full path vars
@@ -27,8 +27,8 @@ if (!$verified) {
     exit();
 } else {
     // initialise Vars
-    $path_a      = $_GET['path_a'];
-    $path_b      = $_GET['path_b'];
+    $path_a = $_GET['path_a'];
+    $path_b = $_GET['path_b'];
     $linepadding = $_GET['linepadding'];
 }
 
@@ -41,11 +41,7 @@ if ($linepadding >= 1 && $linepadding <= 99) { //if linepadding var is number an
 
 echo count($diff->changes) . ' changes';
 echo $text; // echo output
-
-
 // Print time taken script
 $End = getTime();
 echo "<div class=\"spacer\"></div>";
 echo "<Strong>Time taken = " . number_format(($End - $Start), 2) . " secs </strong>";
-
-?>

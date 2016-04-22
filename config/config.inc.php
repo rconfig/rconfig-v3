@@ -9,7 +9,7 @@ if (php_sapi_name() != 'cli') {
 }
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";
-$config_author = "Stephen Stack & Matt Vitale";
+$config_author = "Stephen Stack";
 $config_version = "3.1.0";
 $config_app_basedir = "/home/rconfig/";
 $config_log_basedir = "/home/rconfig/logs/";

@@ -37,7 +37,7 @@ $pages->paginate();
             }
             ?>
             <br/>
-            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script ?>
+            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script  ?>
             <button onClick="clearSearch()" type="button" class="paginate">Clear Search</button>
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
@@ -85,16 +85,15 @@ if (isset($_GET['search'])) {
     }
     $db2->query("SELECT id, command FROM configcommands WHERE status = 1
 		AND " . $searchColumn . " " . $searchOption . " '" . $searchField . "'
-		$pages->limit");  
+		$pages->limit");
     $db2->bind(':searchColumn', $searchColumn);
     $db2->bind(':searchOption', $searchOption);
     $db2->bind(':searchField', $searchField);
-    $qRes  = $db2->resultset();
-    
+    $qRes = $db2->resultset();
 } else {
     /* GET all nodes records from DB */
-    $db2->query("SELECT id, command FROM configcommands WHERE status = 1 $pages->limit");  
-    $qRes  = $db2->resultset();    
+    $db2->query("SELECT id, command FROM configcommands WHERE status = 1 $pages->limit");
+    $qRes = $db2->resultset();
 }
 
 // push rows to $items array
@@ -124,9 +123,9 @@ $i = 0; # row counter  to enable alternate row coloring
         $db2->query('SELECT cct.nodeCatId, cat.categoryName
                         FROM cmdCatTbl AS cct 
                         LEFT JOIN categories AS cat ON cct.nodeCatId = cat.id
-                        WHERE configCmdId = :cmdId');  
+                        WHERE configCmdId = :cmdId');
         $db2->bind(':cmdId', $cmdId);
-        $catQ  = $db2->resultset();
+        $catQ = $db2->resultset();
 
         // get Query results and push to catName array then impode to string
         foreach ($catQ as $row) {

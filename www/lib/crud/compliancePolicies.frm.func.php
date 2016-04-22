@@ -1,17 +1,18 @@
 <?php
-require_once("../classes/db.class.php");
+require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
 
 function availableElems() {
-    $db  = new db();
+    $db2 = new db2();
     $log = ADLog::getInstance();
-    
+
     /*
      * Extract all Policy Elements for select list below
      */
-    $q        = "SELECT id, elementName FROM compliancePolElem WHERE status = 1 ORDER BY elementName ASC";
-    $result   = $db->q($q);
-    $num_rows = mysql_numrows($result);
+    $q = "SELECT id, elementName FROM compliancePolElem WHERE status = 1 ORDER BY elementName ASC";
+    $db2->query("SELECT id, elementName FROM compliancePolElem WHERE status = 1 ORDER BY elementName ASC");
+    $result = $db2->resultset();
+    $num_rows = $db2->rowCount();
     if (!$result || ($num_rows < 0)) {
         $log->Warn("Failure: Problem Displaying compliancePolElem options (File: " . $_SERVER['PHP_SELF'] . ")");
         echo "Error displaying info for availableElems() function";
@@ -24,9 +25,8 @@ function availableElems() {
     }
 
     for ($i = 0; $i < $num_rows; $i++) {
-        $id   = mysql_result($result, $i, "id");
+        $id = mysql_result($result, $i, "id");
         $elementName = mysql_result($result, $i, "elementName");
-		echo "<option value=" . $id . ">" . $elementName . "</option>";
+        echo "<option value=" . $id . ">" . $elementName . "</option>";
     }
 }
-?>

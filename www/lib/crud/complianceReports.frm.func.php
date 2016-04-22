@@ -1,18 +1,18 @@
 <?php
-require_once("../classes/db.class.php");
+require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
 
 function availablePolicies() {
-    $db  = new db();
+    $db2 = new db2();
     $log = ADLog::getInstance();
-    
+
     /*
      * Extract all Policy Elements for select list below
      */
-    $q        = "SELECT id, policyName FROM compliancePolicies WHERE status = 1 ORDER BY policyName ASC";
-    $result   = $db->q($q);
-    $num_rows = mysql_numrows($result);
-    if (!$result || ($num_rows < 0)) {
+    $db2->query("SELECT id, policyName FROM compliancePolicies WHERE status = 1 ORDER BY policyName ASC");
+    $resultSelect = $db2->resultset();
+    $num_rows = $db2->rowCount();
+    if (!$resultSelect || ($num_rows < 0)) {
         $log->Warn("Failure: Problem Displaying compliancePolicies options (File: " . $_SERVER['PHP_SELF'] . ")");
         echo "Error displaying info for availablePolicies() function";
         return;
@@ -24,9 +24,8 @@ function availablePolicies() {
     }
 
     for ($i = 0; $i < $num_rows; $i++) {
-        $id   = mysql_result($result, $i, "id");
-        $policyName = mysql_result($result, $i, "policyName");
-		echo "<option value=" . $id . ">" . $policyName . "</option>";
+        $id = $resultSelect[0]['id'];
+        $policyName = $resultSelect[0]['policyName'];
+        echo "<option value=" . $id . ">" . $policyName . "</option>";
     }
 }
-?>
