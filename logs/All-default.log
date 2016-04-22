@@ -4,3 +4,6 @@
 2016-04-22 16:27:21 INFO Success: Added Policy Element to DB (File: /lib/crud/compliancepolicyelements.crud.php)
 2016-04-22 16:27:26 INFO Success: Edited Policy Element ascasc to DB (File: /lib/crud/compliancepolicyelements.crud.php)
 2016-04-22 16:27:29 INFO Success: Deleted Policy Element in DB (File: /lib/crud/compliancepolicyelements.crud.php)
+2016-04-22 19:34:42 INFO Success: Added Policy to DB (File: /lib/crud/compliancepolicies.crud.php)
+2016-04-22 19:34:49 INFO Success: Edited Policy adsasdasdasd to DB (File: /lib/crud/compliancepolicies.crud.php)
+2016-04-22 19:34:59 INFO Success: Deleted Policy in DB (File: /lib/crud/compliancepolicies.crud.php)

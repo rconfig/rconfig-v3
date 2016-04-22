@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
@@ -52,7 +54,7 @@ if (isset($_POST['add'])) {
 
         if (empty($_POST['editid'])) { // actual add because there is NOT an edit id value set
             // add policy to compliancePolicies table
-            $db2->query("INSERT INTO compliancePolicies (policyName, policyDesc) VALUES  (:policyName,  '" . $policyDesc . "' )");
+            $db2->query("INSERT INTO compliancePolicies (policyName, policyDesc) VALUES  (:policyName, :policyDesc)");
             $db2->bind(':policyName', $policyName);
             $db2->bind(':policyDesc', $policyDesc);
             $resultInsert = $db2->execute();

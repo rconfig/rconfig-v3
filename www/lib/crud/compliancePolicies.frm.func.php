@@ -25,8 +25,8 @@ function availableElems() {
     }
 
     for ($i = 0; $i < $num_rows; $i++) {
-        $id = mysql_result($result, $i, "id");
-        $elementName = mysql_result($result, $i, "elementName");
+        $id = $result[$i]['id'];
+        $elementName = $result[$i]['elementName'];
         echo "<option value=" . $id . ">" . $elementName . "</option>";
     }
 }
