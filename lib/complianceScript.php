@@ -188,66 +188,13 @@ if (!empty($getNodesSql)) {
         $report->endComplianceData();
     } // END - // loop over retrieved devices
     // script endTime
-    $endTime = date('h:i:s A');
-    $time_end = microtime(true);
-    $time = round($time_end - $time_start) . " Seconds";
-
+    extract($backendScripts->endTime($time_start));
     $report->findReplace('<taskEndTime>', $endTime);
     $report->findReplace('<taskRunTime>', $time);
-
     $report->footer();
-
-    // if mail option is set - mail the report
-    if ($taskRow['mailConnectionReport'] == '1') {
-        require("/home/rconfig/classes/phpmailer/class.phpmailer.php");
-        $db2->query("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
-        $resultSelSmtp = $db2->resultset();
-        $smtpServerAddr = $resultSelSmtp[0]['smtpServerAddr'];
-        $smtpFromAddr = $resultSelSmtp[0]['smtpFromAddr'];
-        $smtpRecipientAddr = $resultSelSmtp[0]['smtpRecipientAddr'];
-        if ($result['smtpAuth'] == 1) {
-            $smtpAuth = $resultSelSmtp[0]['smtpAuth'];
-            $smtpAuthUser = $resultSelSmtp[0]['smtpAuthUser'];
-            $smtpAuthPass = $resultSelSmtp[0]['smtpAuthPass'];
-        }
-        $mail = new PHPMailer();
-        $report = $config_reports_basedir . $reportDirectory . "/" . $reportFilename;
-
-        $body = file_get_contents($report);
-
-        $mail->IsSMTP(); // telling the class to use SMTP
-        if ($resultSelSmtp[0]['smtpAuth'] == 1) {
-            $mail->SMTPAuth = true; // enable SMTP authentication
-            $mail->Username = $smtpAuthUser; // SMTP account username	
-            $mail->Password = $smtpAuthPass; // SMTP account password
-        }
-
-        $mail->SMTPKeepAlive = true; // SMTP connection will not close after each email sent
-        $mail->Host = $smtpServerAddr; // sets the SMTP server
-        $mail->Port = 25; // set the SMTP port for the GMAIL server
-
-        $mail->SetFrom($smtpFromAddr, $smtpFromAddr);
-        // $mail->AddReplyTo('list@mydomain.com', 'List manager');
-
-        $mail->Subject = "rConfig Report - " . $taskname;
-        $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-        $mail->MsgHTML($body);
-
-        $smtpRecipientAddresses = explode("; ", $smtpRecipientAddr);
-
-        foreach ($smtpRecipientAddresses as $emailAddr) {
-            $mail->AddAddress($emailAddr);
-        }
-        // $mail->AddStringAttachment($row["photo"], "YourPhoto.jpg");
-
-        if (!$mail->Send()) {
-            $log->Fatal('Fatal: ' . $title . ' Mailer Error (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ') ' . $mail->ErrorInfo);
-        } else {
-            $log->Info('Info: ' . $title . ' Email Report sent to :' . $smtpRecipientAddr . ' (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ')');
-        }
-        // Clear all addresses and attachments for next loop
-        $mail->ClearAddresses();
-        $mail->ClearAttachments();
+    // Check if mailConnectionReport value is set to 1 and send email
+    if ($taskRow[0]['mailConnectionReport'] == '1') {
+        $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
 } else {
     echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'];

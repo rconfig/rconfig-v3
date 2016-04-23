@@ -1,7 +1,6 @@
 <?php
 /**
  * This class serves to reduce repeating code in the rconfig/lib/* scripts folder
- *
  * @author stephen stack
  */
 
@@ -29,6 +28,14 @@ class backendScripts {
         return array('startTime' => $startTime, 'date' => $date, 'time_start' => $time_start);
     }
     
+    public function endTime($time_start){
+        // script startTime
+        $endTime = date('h:i:s A');
+        $time_end = microtime(true);
+        $time = round($time_end - $time_start) . " Seconds";
+        return array('endTime' => $endTime, 'time_end' => $time_end, 'time' => $time);
+    }
+
     public function errorId($log, $errorType){
         $errorText = $errorType." not Set - unable to run script";
         $error = $errorText . "\n";
@@ -49,4 +56,45 @@ class backendScripts {
         return array('debugOnOff'=>$debugRes[0]['commandDebug'], 'debugPath'=>$debugRes[0]['commandDebugLocation'], 'cliDebugOutput' => false, 'cliDebugOutput' => $debugOutputArray);
     }
     
+    public function reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname){
+        require("/home/rconfig/classes/phpmailer/class.phpmailer.php");
+        $db2->query("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
+        $resultSelSmtp = $db2->resultset();
+        $smtpServerAddr = $resultSelSmtp[0]['smtpServerAddr'];
+        $smtpFromAddr = $resultSelSmtp[0]['smtpFromAddr'];
+        $smtpRecipientAddr = $resultSelSmtp[0]['smtpRecipientAddr'];
+        if ($resultSelSmtp[0]['smtpAuth'] == 1) {
+            $smtpAuth = $resultSelSmtp[0]['smtpAuth'];
+            $smtpAuthUser = $resultSelSmtp[0]['smtpAuthUser'];
+            $smtpAuthPass = $resultSelSmtp[0]['smtpAuthPass'];
+        }
+        $mail = new PHPMailer();
+        $report = $config_reports_basedir . $reportDirectory . "/" . $reportFilename;
+        $body = file_get_contents($report);
+        $mail->IsSMTP(); // telling the class to use SMTP
+        if ($resultSelSmtp[0]['smtpAuth'] == 1) {
+            $mail->SMTPAuth = true; // enable SMTP authentication
+            $mail->Username = $smtpAuthUser; // SMTP account username	
+            $mail->Password = $smtpAuthPass; // SMTP account password
+        }
+        $mail->SMTPKeepAlive = true; // SMTP connection will not close after each email sent
+        $mail->Host = $smtpServerAddr; // sets the SMTP server
+        $mail->Port = 25; // set the SMTP port for the GMAIL server
+        $mail->SetFrom($smtpFromAddr, $smtpFromAddr);
+        $mail->Subject = "rConfig Report - " . $taskname;
+        $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+        $mail->MsgHTML($body);
+        $smtpRecipientAddresses = explode("; ", $smtpRecipientAddr);
+        foreach ($smtpRecipientAddresses as $emailAddr) {
+            $mail->AddAddress($emailAddr);
+        }
+        if (!$mail->Send()) {
+            $log->Fatal('Fatal: ' . $title . ' Mailer Error (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ') ' . $mail->ErrorInfo);
+        } else {
+            $log->Info('Info: ' . $title . ' Email Report sent to :' . $smtpRecipientAddr . ' (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ')');
+        }
+        // Clear all addresses and attachments for next loop
+        $mail->ClearAddresses();
+        $mail->ClearAttachments();
+    }     
 }

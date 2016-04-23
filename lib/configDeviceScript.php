@@ -22,17 +22,15 @@ require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
 
 // declare DB Class
-$db = new db();
-
-// check and set timeZone
-$q      = $db->q("SELECT timeZone FROM settings");
-$result = mysql_fetch_assoc($q);
-$timeZone = $result['timeZone'];
-date_default_timezone_set($timeZone);
+$db2 = new db2();
+//setup backend scripts Class
+$backendScripts = new backendScripts($db2);
+// get & set time for the script
+$backendScripts->getTime();
 
 // declare Logging Class
 $log = ADLog::getInstance();
-$log->logDir = $config_app_basedir."logs/";
+$log->logDir = $config_app_basedir . "logs/";
 
 // create array for json output to return to snippet window
 $jsonArray = array();
@@ -156,17 +154,10 @@ if($result = $db->q($getNodesSql)) {
 $cliOutputArray = implode(", ", $cliOutputArray); // make flat string out of result array
 $cliOutputArray = str_replace(',', '', $cliOutputArray); // remove commas from string
 $jsonArray['result'] = $cliOutputArray; // add to jason array
-
 // final msg
 $jsonArray['finalMsg'] = "<br/><b>Manual device configuration completed</b> <br/><br/> <a href='javascript:window.close();'>close</a>";	
-
-// echo json response for msgs back to page
-// echo '<pre>';
-// print_r($cliOutputArray);
 echo json_encode($jsonArray);
-
 // mail user results of snippet execution
-
 $currentUser = $session->username;
 $q = $db->q("SELECT email FROM users WHERE username = $currentUser");
 $result = mysql_fetch_assoc($q);
@@ -183,41 +174,25 @@ if ($result['smtpAuth'] == 1) {
 	$smtpAuthUser = $result['smtpAuthUser'];
 	$smtpAuthPass = $result['smtpAuthPass'];
 }
-
 $mail   = new PHPMailer();
-// $report = $config_reports_basedir . $reportDirectory . "/" . $reportFilename;
-
-// $body = file_get_contents($report);
 $body = $cliOutputArray;
-
 $mail->IsSMTP(); // telling the class to use SMTP
 if ($result['smtpAuth'] == 1) {
 	$mail->SMTPAuth = true; // enable SMTP authentication
 	$mail->Username = $smtpAuthUser; // SMTP account username
 	$mail->Password = $smtpAuthPass; // SMTP account password
 }
-
 $mail->SMTPKeepAlive = true; // SMTP connection will not close after each email sent
 $mail->Host  = $smtpServerAddr; // sets the SMTP server
 $mail->Port  = 25; // set the SMTP port for the GMAIL server
-
 $mail->SetFrom($smtpFromAddr, $smtpFromAddr);
-// $mail->AddReplyTo('list@mydomain.com', 'List manager');
-
-// $mail->Subject = "rConfig Report - ".$taskname;
 $mail->Subject = "rConfig Snippet - Sucess: Connected to ".$device['deviceName'];
 $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 $mail->MsgHTML($body);
-
 $smtpRecipientAddresses = explode("; ", $smtpRecipientAddr);
-
 foreach ($smtpRecipientAddresses as $emailAddr) {
 	$mail->AddAddress($emailAddr);
 }
-//$mail->AddStringAttachment($row["photo"], "YourPhoto.jpg");
-
-// // $mail->AddAddress($smtpCurrentUserAddr);
-
 if (!$mail->Send()) {
 	$log->Fatal('Fatal: ' . $title . ' Mailer Error (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ') ' . $mail->ErrorInfo);
 } else {

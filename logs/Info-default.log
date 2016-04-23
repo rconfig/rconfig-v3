@@ -10,3 +10,4 @@
 2016-04-23 07:28:58 INFO Success: Deleted user of ID: 2 in DB (File: /lib/crud/userAdmin.crud.php)
 2016-04-23 10:03:32 INFO The lib/configDeployScript.php script was run from a manual invocation on a shell with Task ID:113928
 2016-04-23 10:04:45 INFO The lib/configDeployScript.php script was run from a manual invocation on a shell with Task ID:113928
+2016-04-23 13:15:45 INFO Info: rConfig Report - Download Configs 2 Email Report sent to :stephenstack@gmail.com (stephenstack&#64;gmail.com)
