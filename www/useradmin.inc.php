@@ -1,16 +1,15 @@
 <?php
 /* Includes */
-require_once("../classes/db.class.php");
+require_once("../classes/db2.class.php");
 include_once('../classes/paginator.class.php');
 
 /* Instantiate DB Class */
-$db = new db();
+$db2 = new db2();
 
-/* Get Row count from nodes where NOT deleted*/
-$rs              = $db->q('SELECT COUNT(*) AS total FROM users WHERE status = 1');
-$row             = mysql_fetch_row($rs);
+/* Get Row count from users where NOT deleted*/
+$db2->query('SELECT COUNT(*) AS total FROM users WHERE status = 1');
+$row  = $db2->resultsetCols();
 $result["total"] = $row[0];
-
 /* Instantiate Paginator Class */
 $pages              = new Paginator;
 $pages->items_total = $result['total'];
@@ -20,24 +19,15 @@ echo $pages->display_pages();
 echo "<span class=\"\">" . $pages->display_jump_menu() . $pages->display_items_per_page() . "</span>";
 
 /* GET all nodes records from DB */
-$q     = $db->q("SELECT 
-		id,
-		username,
-		userlevel,
-		email,
-		timestamp
-	FROM users
-	WHERE status = 1
-	$pages->limit");
+$db2->query("SELECT id, username, userlevel, email, timestamp FROM users WHERE status = 1 $pages->limit");
+$resultSelect = $db2->resultset();
 // push rows to $itesm array
 $items = array();
-while ($row = mysql_fetch_assoc($q)) {
+foreach ($resultSelect as $row) {
     array_push($items, $row);
 }
-
 /* Create Multidimensional array for use later */
 $result["rows"] = $items;
-
 $i = 0; # row counter  to enable alternate row coloring
 ?>
 
@@ -85,4 +75,3 @@ $i = 0; # row counter  to enable alternate row coloring
 echo $pages->display_pages(); 
 echo "<div class=\"spacer\"></div>";
 echo "<p class=\"paginate\">Page: $pages->current_page of $pages->num_pages</p>\n";
-?>

@@ -1,18 +1,17 @@
 <?php
-require_once("../../../classes/db.class.php");
+
+require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 require_once("../../../config/functions.inc.php");
 
-$db  = new db();
+$db2 = new db2();
 $log = ADLog::getInstance();
 
 /* SPECIAL NOTE - due to the use of Login System 2.0, i am using this ../../classes
-features to add/ edit users from the DB. It incorportates ready made error handling, validation and emailing etc..
-
-There are not any ADD or EDIT CRUD fuctions on this page
-
-*/
+  features to add/ edit users from the DB. It incorportates ready made error handling, validation and emailing etc..
+  There are not any ADD or EDIT CRUD fuctions on this page 
+ */
 
 /* begin delete check */
 if (isset($_POST['delete'])) {
@@ -27,10 +26,13 @@ if (isset($_POST['delete'])) {
         header("Location: " . $config_basedir . "useradmin.php?error");
         exit();
     }
+
+    /* the query */
+    $db2->query("UPDATE users SET status = 2 WHERE id = :id");
+    $db2->bind(':id', $id);
+    $resultUpdate = $db2->execute();
     
-    /* the query*/
-    $q = "UPDATE users SET status = 2 WHERE id = " . $id . ";";
-    if ($result = $db->q($q)) {
+    if ($resultUpdate) {
         $log->Info("Success: Deleted user of ID: " . $id . " in DB (File: " . $_SERVER['PHP_SELF'] . ")");
         $response = json_encode(array(
             'success' => true
@@ -42,13 +44,11 @@ if (isset($_POST['delete'])) {
         ));
     }
     echo $response;
-    
 }
-/* end 'delete' if*/
+/* end 'delete' if */
 
 /* Below is used for an ajax call from vendors update 
-jquery function to get row information to present back to vendor edit form*/
-elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+  jquery function to get row information to present back to vendor edit form */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
     if (ctype_digit($_GET['id'])) {
         $id = $_GET['id'];
@@ -60,21 +60,14 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
         header("Location: " . $config_basedir . "useradmin.php?error");
         exit();
     }
-
-    $q     = $db->q("SELECT 
-			id,
-			username,
-			email,
-			userlevel
-		FROM users
-		WHERE status = 1
-		AND id = $id");
+    $db2->query("SELECT id, username, email, userlevel FROM users WHERE status = 1 AND id = :id");
+    $db2->bind(':id', $id);
+    $resultSelect = $db2->resultset();
     $items = array();
-    while ($row = mysql_fetch_assoc($q)) {
+    foreach ($resultSelect as $row) {
         array_push($items, $row);
     }
     $result["rows"] = $items;
     echo json_encode($result);
 }
 /* end GetId */
-?>
