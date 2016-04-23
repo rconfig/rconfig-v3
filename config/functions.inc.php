@@ -377,7 +377,7 @@ function cntCategories() {
     require_once("../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT COUNT(*) as total FROM categories WHERE status = 1");
-    $result= $db2->resultset();
+    $result = $db2->resultset();
     return $result[0]['total'];
 }
 
@@ -385,7 +385,7 @@ function cntDevices() {
     require_once("../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT COUNT(*) as total FROM nodes WHERE status = 1");
-    $result= $db2->resultset();
+    $result = $db2->resultset();
     return $result[0]['total'];
 }
 
@@ -407,35 +407,4 @@ function rrmdir($dir) {
  */
 function chkWhiteSpaceInStr($string) {
     return preg_match("/\\s/", $string);
-}
-
-/// maybe used as a global function for all *.frm.func.php functions. Logged as a 'FIX'
-function getList($nameofRefferingPage, $tableName, $query){
-    require_once("../classes/db2.class.php");
-    require_once("../classes/ADLog.class.php");
-    $db2 = new db2();
-    $log = ADLog::getInstance();
-
-    /*
-     * Extract all Policy Elements for select list below
-     */
-    $db2->query($query);
-    $resultSelect = $db2->resultset();
-    $num_rows = $db2->rowCount();
-    if (!$resultSelect || ($num_rows < 0)) {
-        $log->Warn("Failure: Problem Displaying ".$tableName." options (File: " . $_SERVER['PHP_SELF'] . ")");
-        echo "Error displaying info for ".$nameofRefferingPage." getList() function";
-        return;
-    }
-    if ($num_rows == 0) {
-        $log->Warn("Failure: Problem Displaying ".$nameofRefferingPage." getList() function - no options returned (File: " . $_SERVER['PHP_SELF'] . ")");
-        echo "Database table empty";
-        return;
-    }
-    for ($i = 0; $i < $num_rows; $i++) {
-        $id = $resultSelect[0]['id'];
-        $policyName = $resultSelect[0]['policyName'];
-        $list .= "<option value=" . $id . ">" . $policyName . "</option>";
-    }
-    return $list;
 }
