@@ -9,6 +9,7 @@
 
 // requires - full path required
 require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 

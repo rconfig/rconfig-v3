@@ -1,6 +1,7 @@
 <?php
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
+require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require("/home/rconfig/classes/sshlib/Net/SSH2.php"); // this will be used in connection.class.php 
@@ -13,31 +14,24 @@ require_once("/home/rconfig/config/functions.inc.php");
 
 // declare DB Class
 $db2 = new db2();
-
-// check and set timeZone
-$db2->query("SELECT timeZone FROM settings");
-$result = $db2->resultsetCols();
-$timeZone = $result[0];
-date_default_timezone_set($timeZone);
+//setup backend scripts Class
+$backendScripts = new backendScripts($db2);
+// get & set time for the script
+$backendScripts->getTime();
 
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
 
-// script startTime
-$startTime = date('h:i:s A');
-$date = date('Ymd');
-$time_start = microtime(true);
-
-// if statement to check first argument in phpcli script - otherwise the script will not run under phpcli - similar to PHP getopt()
+// script startTime and use extract to convert keys into variables for the script
+extract($backendScripts->startTime());
+// get ID from argv input
+/// if statement to check first argument in phpcli script - otherwise the script will not run under phpcli - similar to PHP getopt()
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
     $_GET['id'] = $argv[1];
 } else {
-    $text = "Task ID not Set - unable to run script";
-    echo $text . "\n";
-    $log->Fatal("Error: " . $text . " (File: " . $_SERVER['PHP_SELF'] . ")");
-    die();
+    echo $backendScripts->errorId($log, 'Task ID');
 }
 
 // Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
@@ -61,14 +55,12 @@ $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime
 $reportFail = '<font color="red">Fail</font>';
 $reportPass = '<font color="green">Success</font>';
 
-
-
 // Get active nodes for a given task ID
 // Query to retireve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $db2->query("SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $resultSelect = $db2->resultset();
 
-if ($resultSelect) {
+if (!empty($resultSelect)) {
     // push rows to $devices array
     $devices = array();
     foreach ($resultSelect as $row) {
@@ -180,6 +172,7 @@ if ($resultSelect) {
         $body = file_get_contents($report);
     }
 } else {
+    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'];
     $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF']);
     die();
 }

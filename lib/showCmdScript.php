@@ -1,6 +1,7 @@
 <?php
 // requires - full path required
 require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
@@ -12,47 +13,31 @@ require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
 
 // declare DB Class
-$db = new db();
-
-// check and set timeZone
-$q      = $db->q("SELECT timeZone FROM settings");
-$result = mysql_fetch_assoc($q);
-$timeZone = $result['timeZone'];
-date_default_timezone_set($timeZone);
+$db2 = new db2();
+//setup backend scripts Class
+$backendScripts = new backendScripts($db2);
+// get & set time for the script
+$backendScripts->getTime();
 
 // declare Logging Class
 $log = ADLog::getInstance();
-$log->logDir = $config_app_basedir."logs/";
+$log->logDir = $config_app_basedir . "logs/";
 
-// script startTime
-$startTime = date('h:i:s A');
-$date = date('Ymd');
-$time_start = microtime(true);
-
-// get debugging switch from DB - 1 = on, 0 = off
-$debugSql = $db->q("SELECT commandDebug, commandDebugLocation FROM settings");		
-$debugRes = mysql_fetch_assoc($debugSql);
-$debugOnOff = $debugRes['commandDebug'];
-$debugPath = $debugRes['commandDebugLocation'];
-	
-// declare debug Class
-$debug = new debug($debugPath);	
-
-// if statement to check first argument in phpcli script - otherwise the script will not run under phpcli - similar to PHP getopt()
+// script startTime and use extract to convert keys into variables for the script
+extract($backendScripts->startTime());
+// get ID from argv input
+/// if statement to check first argument in phpcli script - otherwise the script will not run under phpcli - similar to PHP getopt()
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
-	$tid = $argv[1];
+    $_GET['id'] = $argv[1];
 } else {
-	$text = "Task ID not Set - unable to run script";
-	echo $text."\n";
-	$log->Fatal("Error: ".$text." (File: ".$_SERVER['PHP_SELF'].")");
-	die();
+    echo $backendScripts->errorId($log, 'Task ID');
 }
 
-$cliDebugOutput = false;
-if (isset($argv[2]) && $argv[2] == true) {
-	$cliDebugOutput = $argv[2];
-}
+//set $argv to true of false based on 2nd parameter input
+if (isset($argv[2]) && $argv[2] == 'true') {$argv = true;} else {$argv = false;}
+extract($backendScripts->debugOnOff($db2, $argv));
+$debug = new debug($debugPath);
 
 // check how the script was run and log the info
 $resetPerms = 0;
