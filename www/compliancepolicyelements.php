@@ -45,24 +45,32 @@
                             <div id="formDiv" style="width:600px; margin-bottom:10px;">
                                 <div>
                                     <label for="elementName"><font color="red">*</font> Element Name:</label>
-                                    <input name="elementName" id="elementName" size="75" tabindex='1' <?php if (isset($errors['elementNameVal'])) {
-                        echo 'value="' . $errors['elementNameVal'] . '"';
-                    } ?>>
+                                    <input name="elementName" id="elementName" size="75" tabindex='1' <?php
+                                    if (isset($errors['elementNameVal'])) {
+                                        echo 'value="' . $errors['elementNameVal'] . '"';
+                                    }
+                                    ?>>
                                     <div  id="errorDiv" style="float:left;margin-left:220px; margin-top:-10px; margin-bottom:10px;">
-<?php if (isset($errors['elementName'])) {
-    echo "<span class=\"error\">" . $errors['elementName'] . "</span>";
-} ?>
+                                        <?php
+                                        if (isset($errors['elementName'])) {
+                                            echo "<span class=\"error\">" . $errors['elementName'] . "</span>";
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <div style="float:left;">
                                     <label for="elementDesc"><font color="red">*</font> Element Description:</label>
-                                    <input name="elementDesc" id="elementDesc" size="150" tabindex='2'  <?php if (isset($errors['elementDescVal'])) {
-    echo 'value="' . $errors['elementDescVal'] . '"';
-} ?>>
+                                    <input name="elementDesc" id="elementDesc" size="150" tabindex='2'  <?php
+                                        if (isset($errors['elementDescVal'])) {
+                                            echo 'value="' . $errors['elementDescVal'] . '"';
+                                        }
+                                        ?>>
                                     <div id="errorDiv" style="float:left;margin-left:220px; margin-top:-10px; margin-bottom:10px;">
-                                        <?php if (isset($errors['elementDesc'])) {
-                                            echo "<span class=\"error\">" . $errors['elementDesc'] . "</span>";
-                                        } ?>
+<?php
+if (isset($errors['elementDesc'])) {
+    echo "<span class=\"error\">" . $errors['elementDesc'] . "</span>";
+}
+?>
                                     </div>
                                 </div>
 
@@ -71,15 +79,19 @@
                                         <option value="1">equals</option>
                                         <option value="2">contains</option>
                                     </select>
-                                    <input type="text" id="singleLine1" name="singleLine1" tabindex='6' style="width:345px;" <?php if (isset($errors['singleLine1val'])) {
-                                            echo 'value="' . $errors['singleLine1val'] . '"';
-                                        } ?>/>
+                                    <input type="text" id="singleLine1" name="singleLine1" tabindex='6' style="width:345px;" <?php
+if (isset($errors['singleLine1val'])) {
+    echo 'value="' . $errors['singleLine1val'] . '"';
+}
+?>/>
 
                                     <div class="spacer"></div>
                                     <div  id="errorDiv" style="float:left;margin-left:77px; margin-top:-10px; margin-bottom:10px;">
-                        <?php if (isset($errors['singleLine1'])) {
-                            echo "<span class=\"error\">" . $errors['singleLine1'] . "</span>";
-                        } ?>
+<?php
+if (isset($errors['singleLine1'])) {
+    echo "<span class=\"error\">" . $errors['singleLine1'] . "</span>";
+}
+?>
                                     </div>						
                                 </div>
 

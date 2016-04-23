@@ -20,12 +20,16 @@
                 ?>
                 <fieldset id="tableFieldset">
                     <legend>Vendor Management</legend>
-                    <?php if (isset($errors['Success'])) {
+                    <?php
+                    if (isset($errors['Success'])) {
                         echo "<span class=\"error\">" . $errors['Success'] . "</span><br/>";
-                    } ?> 
-<?php if (isset($errors['Fail'])) {
-    echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";
-} ?>
+                    }
+                    ?> 
+                    <?php
+                    if (isset($errors['Fail'])) {
+                        echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";
+                    }
+                    ?>
                     <div id="toolbar">
                         <button class="show_hide">Add Vendor</button>
                         <button onclick="editVendor()">Edit Vendor</button>
@@ -39,22 +43,26 @@
                                 <label for="vendorName"><font color="red">*</font> Vendor Name:</label>
                                 <input name="vendorName" id="vendorName">
                                 <div class="spacer"></div>
-<?php
+                                <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['vendorName'])) {
-    echo "<span class=\"error\">" . $errors['vendorName'] . "</span>";
-}
-?>
+                                if (isset($errors['vendorName'])) {
+                                    echo "<span class=\"error\">" . $errors['vendorName'] . "</span>";
+                                }
+                                ?>
 
                                 <label for="vendorLogo">Vendor Logo:</label>
                                 <input name="vendorLogo" type="file" id="vendorLogo" size="40"/>
                                 <div class="spacer"></div>
-<?php if (isset($errors['fileInvalid'])) {
-    echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
-} ?> 
-<?php if (isset($errors['fileError'])) {
+                                <?php
+                                if (isset($errors['fileInvalid'])) {
+                                    echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
+                                }
+                                ?> 
+<?php
+if (isset($errors['fileError'])) {
     echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
-} ?> 
+}
+?> 
 
                                 <input type="hidden" id="add" name="add" value="add">
                                 <input type="hidden" id="editid" name="editid" value="">

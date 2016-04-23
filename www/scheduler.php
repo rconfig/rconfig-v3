@@ -27,7 +27,7 @@
             /* Get all Hostnames for the deviceSelect Selection list where NOT deleted */
             $db2->query('SELECT `id`, `deviceName`, `status` FROM `nodes` WHERE status = 1 ORDER BY `deviceName` ASC');
             $devQ = $db2->resultset();
-    ?>
+            ?>
             <div id="content">
                 <?php
                 // echo error message if is sent back in GET from CRUD
@@ -40,21 +40,31 @@
                 ?>
                 <fieldset id="tableFieldset">
                     <legend>Current Tasks</legend>
-                    <?php if (isset($errors['Success'])) {
+                    <?php
+                    if (isset($errors['Success'])) {
                         echo "<span class=\"error\">" . $errors['Success'] . "</span><br/>";
-                    } ?> 
-                    <?php if (isset($errors['Fail'])) {
+                    }
+                    ?> 
+                    <?php
+                    if (isset($errors['Fail'])) {
                         echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";
-                    } ?> 
-<?php if (isset($errors['hostfolder'])) {
-    echo "<span class=\"error\">" . $errors['hostfolder'] . "</span><br/>";
-} ?> 
-<?php if (isset($errors['fileCreateError'])) {
+                    }
+                    ?> 
+                    <?php
+                    if (isset($errors['hostfolder'])) {
+                        echo "<span class=\"error\">" . $errors['hostfolder'] . "</span><br/>";
+                    }
+                    ?> 
+<?php
+if (isset($errors['fileCreateError'])) {
     echo "<span class=\"error\">" . $errors['fileCreateError'] . "</span><br/>";
-} ?>
-                        <?php if (isset($errors['crontab'])) {
+}
+?>
+                        <?php
+                        if (isset($errors['crontab'])) {
                             echo "<span class=\"error\">" . $errors['crontab'] . "</span><br/>";
-                        } ?>
+                        }
+                        ?>
                     <div id="toolbar">
                         <button class="show_hide">Add Scheduled Task</button>
                         <button onclick="delTask()">Remove Scheduled Task</button>
@@ -74,13 +84,14 @@ include("scheduler.inc.php");
                             <label><font color="red">*</font> Select a Task Type:
                                 <div class="spacer">
                                 </div>
-                                    <?php // echo error message if is sent back in GET from CRUD
+                                    <?php
+                                    // echo error message if is sent back in GET from CRUD
                                     if (isset($errors['taskType'])) {
                                         echo "<span class=\"error\">" . $errors['taskType'] . "</span>";
                                     }
                                     ?>
                             </label>
-<?php //http://stackoverflow.com/questions/3988938/onclick-in-select-not-working-in-ie  ?>
+                                    <?php //http://stackoverflow.com/questions/3988938/onclick-in-select-not-working-in-ie  ?>
                             <select name="taskType" id ="taskType" size="3" 
                                     onchange="switch (this.value) {
                                                 case '1':
@@ -104,7 +115,7 @@ include("scheduler.inc.php");
                                 <label><font color="red">*</font> Report Name:</label>
                                 <select name="reportTypeSlct[]" id="reportTypeSlct">
                                     <option value="compare">Configuration Comparison</option>
-<?php echo reportsOptions(); // output full report name list options from scheduler.frm.func.php ?>
+<?php echo reportsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
                                 </select>
                             </div>
 
@@ -112,33 +123,38 @@ include("scheduler.inc.php");
                             <div name="snippetSlctDiv" id ="snippetSlctDiv">
                                 <label><font color="red">*</font> Snippet Name:
                                     <div class="spacer"></div>
-<?php if (isset($errors['snippetSlct'])) {
+<?php
+if (isset($errors['snippetSlct'])) {
     echo "<span class=\"error\">" . $errors['snippetSlct'] . "</span><br/>";
-} ?>
+}
+?>
                                 </label>
                                 <select name="snippetSlct" id="snippetSlct">
                                     <option value="select">Select</option>
-<?php echo snippetsOptions(); // output full report name list options from scheduler.frm.func.php ?>
+<?php echo snippetsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
                                 </select>
                             </div>
 
                             <div class="spacer"></div>
                             <label><font color="red">*</font> Task Name:
                                 <div class="spacer"></div>
-<?php if (isset($errors['taskName'])) {
-    echo "<span class=\"error\">" . $errors['taskName'] . "</span><br/>";
-} ?>
+                                <?php
+                                if (isset($errors['taskName'])) {
+                                    echo "<span class=\"error\">" . $errors['taskName'] . "</span><br/>";
+                                }
+                                ?>
                             </label>
                             <input type="text" name="taskName" id ="taskName" size="50"/>
                             <div class="spacer">
                             </div>
                             <label><font color="red">*</font> Task Description:
                                 <div class="spacer"></div>
-                                    <?php // echo error message if is sent back in GET from CRUD
-                                    if (isset($errors['taskDesc'])) {
-                                        echo "<span class=\"error\">" . $errors['taskDesc'] . "</span>";
-                                    }
-                                    ?>
+<?php
+// echo error message if is sent back in GET from CRUD
+if (isset($errors['taskDesc'])) {
+    echo "<span class=\"error\">" . $errors['taskDesc'] . "</span>";
+}
+?>
                             </label>
                             <input type="text" name="taskDesc" id ="taskDesc" size="50"/>
                             <div class="spacer">
@@ -154,20 +170,22 @@ include("scheduler.inc.php");
                             <div class="spacer">
                             </div>
                             <div id="chooseCatDiv">
-                                <label>Choose category: <?php // echo error message if is sent back in GET from CRUD
+                                <label>Choose category: <?php
+                                    // echo error message if is sent back in GET from CRUD
                                     if (isset($errors['catId'])) {
                                         echo "<span class=\"error\">" . $errors['catId'] . "</span>";
                                     }
                                     ?>
                                 </label>
                                 <select name="catId" id="catId" onchange="changeType()" tabindex='2'>
-                                    <?php categories(); /* taken from devices.frm.func.php */ ?>
+<?php categories(); /* taken from devices.frm.func.php */ ?>
                                 </select>
                                 <div class="spacer">
                                 </div>
                             </div>
                             <div id="catCommandDiv" style="display:none;">
-                                <label>Choose command: <?php // echo error message if is sent back in GET from CRUD
+                                <label>Choose command: <?php
+                                    // echo error message if is sent back in GET from CRUD
                                     if (isset($errors['catCommand'])) {
                                         echo "<span class=\"error\">" . $errors['catCommand'] . "</span>";
                                     }
@@ -194,11 +212,11 @@ if (isset($errors['deviceSelectRadio'])) {
                                 </label>
                                 <input type="radio" name="selectRadio" id="selectRadio" value="deviceSelectRadio" onclick="deviceOrCatSelect();" class="checkbox">
                                 <select name="deviceSelect[]" id ="deviceSelect" size="10" multiple disabled>
-<?php
-foreach ($devQ as $row) {
-    echo "<option value=" . $row['id'] . "> " . $row['deviceName'] . "</option> ";
-}
-?>
+                                    <?php
+                                    foreach ($devQ as $row) {
+                                        echo "<option value=" . $row['id'] . "> " . $row['deviceName'] . "</option> ";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="spacer">
@@ -207,17 +225,19 @@ foreach ($devQ as $row) {
                                 <label>Select Categories:
                                     <div class="spacer">
                                     </div>
-<?php if (isset($errors['catSelectRadio'])) {
+<?php
+if (isset($errors['catSelectRadio'])) {
     echo "<span class=\"error\">" . $errors['catSelectRadio'] . "</span>";
-} ?>
+}
+?>
                                 </label>
                                 <input type="radio" name="selectRadio" id="selectRadio" value="catSelectRadio" onclick="deviceOrCatSelect();" class="checkbox">
                                 <select name="catSelect[]" id ="catSelect" size="10" multiple disabled>
-<?php
-foreach ($catQ as $row) {
-    echo "<option value=" . $row['id'] . ">" . $row['categoryName'] . "</option>";
-}
-?>
+                                <?php
+                                foreach ($catQ as $row) {
+                                    echo "<option value=" . $row['id'] . ">" . $row['categoryName'] . "</option>";
+                                }
+                                ?>
                                 </select>
                             </div>
                             <div class="spacer">

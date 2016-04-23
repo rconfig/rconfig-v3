@@ -31,7 +31,8 @@
                             <label for="searchTerm"><font color="red">*</font> Search Term:</label>
                             <span class="small">enter search string</span>
                             <input type="text" name="searchTerm" id="searchTerm" title="Minimum 2 chars for autocomplete" tabindex="1" placeholder="string here..">
-                            <?php // echo error message if is sent back in GET from CRUD
+                            <?php
+                            // echo error message if is sent back in GET from CRUD
                             if (isset($errors['searchTerm'])) {
                                 echo "<br /><span class='\"error\"'>" . $errors['searchTerm'] . "</span>";
                             }
@@ -41,11 +42,13 @@
                             <label><font color="red">*</font> Category</label>
                             <span class="small">Choose category</span>
                             <select name="catId" id="catId" onchange="changeType()" tabindex='2'>
-<?php categories(); /* taken from devices.frm.func.php */ ?>
+                            <?php categories(); /* taken from devices.frm.func.php */ ?>
                             </select>
-<?php if (isset($errors['catId'])) {
-    echo "<br /><span class='\"error\"'>" . $errors['catId'] . "</span>";
-} ?>
+                            <?php
+                            if (isset($errors['catId'])) {
+                                echo "<br /><span class='\"error\"'>" . $errors['catId'] . "</span>";
+                            }
+                            ?>
                             <div class="spacer"></div>
 
                             <div id="catCommandDiv" style="display:none;">

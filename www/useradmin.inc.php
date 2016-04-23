@@ -6,14 +6,14 @@ include_once('../classes/paginator.class.php');
 /* Instantiate DB Class */
 $db2 = new db2();
 
-/* Get Row count from users where NOT deleted*/
+/* Get Row count from users where NOT deleted */
 $db2->query('SELECT COUNT(*) AS total FROM users WHERE status = 1');
-$row  = $db2->resultsetCols();
+$row = $db2->resultsetCols();
 $result["total"] = $row[0];
 /* Instantiate Paginator Class */
-$pages              = new Paginator;
+$pages = new Paginator;
 $pages->items_total = $result['total'];
-$pages->mid_range   = 7; // Number of pages to display. Must be odd and > 3
+$pages->mid_range = 7; // Number of pages to display. Must be odd and > 3
 $pages->paginate();
 echo $pages->display_pages();
 echo "<span class=\"\">" . $pages->display_jump_menu() . $pages->display_items_per_page() . "</span>";
@@ -32,46 +32,46 @@ $i = 0; # row counter  to enable alternate row coloring
 ?>
 
 <table id="userAddTbl" class="tableSimple">
-	<thead>
-		<th rowspan="2"><input type="checkbox" disabled="disabled"/></th>
-		<th rowspan="2">Username</th>
-		<th rowspan="2">E-mail</th>
-		<th rowspan="2">User Level</th>
-		<th rowspan="2">Last Login</th>
-	</thead>
-	<tbody>
-	<?php 
-		foreach ($result['rows'] as $rows):
-		$id = $rows['id'];
-		/* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring*/
-		echo '<tr class="row' . ($i++ % 2) . '">'; 
-	?>
+    <thead>
+    <th rowspan="2"><input type="checkbox" disabled="disabled"/></th>
+    <th rowspan="2">Username</th>
+    <th rowspan="2">E-mail</th>
+    <th rowspan="2">User Level</th>
+    <th rowspan="2">Last Login</th>
+</thead>
+<tbody>
+    <?php
+    foreach ($result['rows'] as $rows):
+        $id = $rows['id'];
+        /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
+        echo '<tr class="row' . ($i++ % 2) . '">';
+        ?>
     <td align="center"><input type="checkbox" id="<?php echo $id; ?>"/></td>
-	<td align="center"><strong><?php echo $rows['username'] ?></strong></td>
-	<td align="center"><?php echo $rows['email'] ?></td>
-	<td align="center">
-	<?php 
-	// quick check if userlevel =9 user is admin else, user is a User
-		if ($rows['userlevel'] == 9){
-		$userlevel = "Admin";
-		} else {
-		$userlevel = "User";
-		}
-		echo $userlevel; 
-	?></td>
-	<td align="center">
-		<?php 
-			// quick convert unix TimeStamp to normal times
-			$lastLogin = date('H:i d-m-Y', $rows['timestamp']);
-			echo $lastLogin; 
-		?>
-	</td>
-  </tr>
-<?php endforeach;?>
-	</tbody>
+    <td align="center"><strong><?php echo $rows['username'] ?></strong></td>
+    <td align="center"><?php echo $rows['email'] ?></td>
+    <td align="center">
+        <?php
+        // quick check if userlevel =9 user is admin else, user is a User
+        if ($rows['userlevel'] == 9) {
+            $userlevel = "Admin";
+        } else {
+            $userlevel = "User";
+        }
+        echo $userlevel;
+        ?></td>
+    <td align="center">
+        <?php
+        // quick convert unix TimeStamp to normal times
+        $lastLogin = date('H:i d-m-Y', $rows['timestamp']);
+        echo $lastLogin;
+        ?>
+    </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
 </table>
 
-<?php 
-echo $pages->display_pages(); 
+<?php
+echo $pages->display_pages();
 echo "<div class=\"spacer\"></div>";
 echo "<p class=\"paginate\">Page: $pages->current_page of $pages->num_pages</p>\n";

@@ -137,7 +137,8 @@
                         <div class="spacer"></div>
                         <hr />
                         <br />
-                        <?php // check if logged in user is admin and display next lines
+                        <?php
+                        // check if logged in user is admin and display next lines
                         if ($session->isAdmin()) {
                             ?>
                             <label class="labelwide">Manual upload/download credentials
@@ -200,12 +201,16 @@
                 <fieldset id="settings">
                     <legend>Email Settings</legend><a name="emailSettings"></a>
                     <form id="emailSettingsForm" method="post" action="lib/crud/settingsEmail.crud.php" enctype="multipart/form-data">
-                        <?php if (isset($errors['Success'])) {
+                        <?php
+                        if (isset($errors['Success'])) {
                             echo "<span class=\"error\">" . $errors['Success'] . "</span><br />";
-                        } ?>
-<?php if (isset($errors['Fail'])) {
+                        }
+                        ?>
+<?php
+if (isset($errors['Fail'])) {
     echo "<span class=\"error\">" . $errors['Fail'] . "</span><br />";
-} ?>
+}
+?>
 
                         <div id="emailSettingsDiv" class="myform stylizedForm stylized">
 
@@ -219,12 +224,12 @@
                                 <span class="small">Mail from address:</span>
                             </label>
                             <input type="text" id="smtpFromAddr" name="smtpFromAddr" size="40" placeholder="admin@example.com">
-<?php
+                            <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['smtpFromAddr'])) {
-    echo "<br /><span class=\"error\">" . $errors['smtpFromAddr'] . "</span>";
-}
-?>					
+                            if (isset($errors['smtpFromAddr'])) {
+                                echo "<br /><span class=\"error\">" . $errors['smtpFromAddr'] . "</span>";
+                            }
+                            ?>					
                             <div class="spacer"></div>
 
                             <label>Authentication:</label>
@@ -242,12 +247,12 @@ if (isset($errors['smtpFromAddr'])) {
 
                             <b>E-mail Recipients	</b><br/>
                             Email Recipient Address:<br/><textarea type="textarea" rows="4" cols="30" id="smtpRecipientAddr" name="smtpRecipientAddr" placeholder="user@example.com"></textarea><br/>
-<?php
+                            <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['smtpRecipientAddr'])) {
-    echo "<br /><span class=\"error\">" . $errors['smtpRecipientAddr'] . "</span>";
-}
-?><br/>
+                            if (isset($errors['smtpRecipientAddr'])) {
+                                echo "<br /><span class=\"error\">" . $errors['smtpRecipientAddr'] . "</span>";
+                            }
+                            ?><br/>
                             <em>Seperate multiple address with a semi-colon and a space i.e. user@example.com; user2@example.com</em><br/><br/>
 
                             <button class="smlButton" id="smtpSaveButton" name="smtpSaveButton">Save</button>
@@ -269,12 +274,12 @@ if (isset($errors['smtpRecipientAddr'])) {
 
                 <fieldset id="settings">
                     <legend>Software & Database Details</legend>
-<?php
-$db2->query("SELECT DATABASE()");
-$dbNameRes = $db2->resultsetCols();
-$db2->query("SELECT count(*) as total FROM nodes WHERE status = 1");
-$nodesCntRes = $db2->resultset();
-?>
+                    <?php
+                    $db2->query("SELECT DATABASE()");
+                    $dbNameRes = $db2->resultsetCols();
+                    $db2->query("SELECT count(*) as total FROM nodes WHERE status = 1");
+                    $nodesCntRes = $db2->resultset();
+                    ?>
                     <div style="width:60%;">
                         <div class="tableSummary">
                             <div class="row even">
@@ -300,7 +305,7 @@ $nodesCntRes = $db2->resultset();
                                     Database Verson
                                 </div>
                                 <div class="cell last">
-<?php echo mysql_get_server_info(); ?>
+<?php echo $db2->pdo_get_server_info(); ?>
                                 </div>
                             </div>
 
@@ -327,10 +332,9 @@ $nodesCntRes = $db2->resultset();
                                     Database Connection
                                 </div>
                                 <div class="cell last">
-<?php echo mysql_get_host_info(); ?>
+<?php echo $db2->pdo_get_host_info(); ?>
                                 </div>
                             </div>
-
                         </div>	
                     </div>
                     <div class="spacer"></div>

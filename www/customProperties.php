@@ -30,7 +30,7 @@
                     ?>
                     <div id="toolbar">
                         <button class="show_hide">Add Property</button>
-<?php // removed<button onclick="editCustProp()">Edit Property</button>  ?>
+                        <?php // removed<button onclick="editCustProp()">Edit Property</button>  ?>
                         <button onclick="delCustProp()">Remove Property</button>
                     </div>
                     <!-- begin devices form -->
@@ -43,12 +43,12 @@
                                 </label>
                                 <input name="customProperty" id="customProperty">
                                 <div class="spacer"></div>
-<?php
+                                <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['customProperty'])) {
-    echo "<span class=\"error\">" . $errors['customProperty'] . "</span>";
-}
-?> 
+                                if (isset($errors['customProperty'])) {
+                                    echo "<span class=\"error\">" . $errors['customProperty'] . "</span>";
+                                }
+                                ?> 
                                 <div class="spacer"></div>
 
                                 <input type="hidden" id="add" name="add" value="add">
@@ -60,10 +60,10 @@ if (isset($errors['customProperty'])) {
                     </div>
                     <!-- End mainformDiv -->
                     <div id="table">
-<?php
-/* full table stored off in different script */
-include("customProperties.inc.php");
-?>
+                        <?php
+                        /* full table stored off in different script */
+                        include("customProperties.inc.php");
+                        ?>
                     </div>
                 </fieldset>
             </div>
@@ -75,7 +75,7 @@ include("customProperties.inc.php");
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/customProperties.js"></script>
         <!-- Footer Include -->
-<?php include("includes/footer.inc.php"); ?>
+        <?php include("includes/footer.inc.php"); ?>
     </div>
     <!-- End Mainwrap -->
 </body>

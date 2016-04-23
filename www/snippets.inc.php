@@ -39,7 +39,7 @@ $pages->paginate();
             }
             ?>
             <br/>
-            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script ?>
+            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script  ?>
             <button onClick="clearSearch()" type="button" class="paginate">Clear Search</button>
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
@@ -83,7 +83,7 @@ if (isset($_GET['search'])) {
         }
     }
     $db2->query("SELECT id, snippetName, snippetDesc, snippet FROM snippets WHERE " . $searchColumn . " " . $searchOption . " '" . $searchField . "' ORDER BY id ASC $pages->limit");
-    $searchResult = $db2->resultset();  
+    $searchResult = $db2->resultset();
 } else {
     /* GET all records from DB */
     $db2->query("SELECT id, snippetName, snippetDesc, snippet FROM snippets ORDER BY id ASC $pages->limit");

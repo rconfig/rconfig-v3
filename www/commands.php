@@ -47,19 +47,23 @@
                                 <label for="command"><font color="red">*</font> Command:</label>
                                 <input name="command" id="command" size="75" tabindex='1'>
                                 <div class="spacer"></div>
-                                    <?php if (isset($errors['command'])) {
-                                        echo "<span class=\"error\">" . $errors['command'] . "</span>";
-                                    } ?>
+                                <?php
+                                if (isset($errors['command'])) {
+                                    echo "<span class=\"error\">" . $errors['command'] . "</span>";
+                                }
+                                ?>
                                 <br/>
 
                                 <label><font color="red">*</font> Category</label>
                                 <select name="catId[]" id="catId" tabindex='2' size='6' multiple>
-<?php categories(); /* taken from devices.frm.func.php */ ?>
+                                <?php categories(); /* taken from devices.frm.func.php */ ?>
                                 </select>
                                 <div class="spacer"></div>
-<?php if (isset($errors['catId'])) {
-    echo "<span class=\"error\">" . $errors['catId'] . "</span>";
-} ?>
+                                <?php
+                                if (isset($errors['catId'])) {
+                                    echo "<span class=\"error\">" . $errors['catId'] . "</span>";
+                                }
+                                ?>
 
                                 <input type="hidden" id="add" name="add" value="add" tabindex='3'>
                                 <input type="hidden" id="editid" name="editid" value="" tabindex='4'>

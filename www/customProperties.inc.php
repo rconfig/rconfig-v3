@@ -6,9 +6,9 @@ include_once('../classes/paginator.class.php');
 /* Instantiate DB Class */
 $db2 = new db2();
 
-/* Get Row count from customProperties where NOT deleted*/
+/* Get Row count from customProperties where NOT deleted */
 $db2->query('SELECT COUNT(*) AS total FROM customProperties');
-$row  = $db2->resultsetCols();
+$row = $db2->resultsetCols();
 $result["total"] = $row[0];
 
 /* Instantiate Paginator Class */
@@ -24,7 +24,7 @@ echo "<div class=\"spacer\" style=\"padding-bottom:3px;\"></div>";
 
 /* GET all customProperties records from DB */
 $db2->query("SELECT customProperty FROM customProperties $pages->limit");
-$catRes  = $db2->resultset();
+$catRes = $db2->resultset();
 
 // push rows to $itesm array
 $items = array();

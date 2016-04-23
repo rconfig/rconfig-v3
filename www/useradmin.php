@@ -22,12 +22,16 @@
                 ?>
                 <fieldset id="tableFieldset">
                     <legend>User Management</legend>
-                    <?php if (isset($errors['Success'])) {
+                    <?php
+                    if (isset($errors['Success'])) {
                         echo "<span class=\"error\">" . $errors['Success'] . "</span><br/>";
-                    } ?> 
-<?php if (isset($errors['Fail'])) {
-    echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";
-} ?>
+                    }
+                    ?> 
+                    <?php
+                    if (isset($errors['Fail'])) {
+                        echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";
+                    }
+                    ?>
                     <div id="toolbar">
                         <button class="show_hide">Add User</button>
                         <button onclick="editUser()">Edit User</button>
@@ -42,25 +46,28 @@
                                 <label for="username"><font color="red">*</font> Username: </label>
                                 <input name="username" id="username" tabindex='1'>
                                 <div class="spacer"></div>
-<?php // echo error message if is sent back in GET from CRUD
-if (isset($errors['username'])) {
-    echo "<span class=\"error\">" . $errors['username'] . "</span>";
-}
-?>
+                                <?php
+                                // echo error message if is sent back in GET from CRUD
+                                if (isset($errors['username'])) {
+                                    echo "<span class=\"error\">" . $errors['username'] . "</span>";
+                                }
+                                ?>
 
                                 <label for="password"><font color="red">*</font> Password:</label>
                                 <input name="password" id="password" type="password" tabindex='2'>
                                 <div class="spacer"></div>
-                                <?php // echo error message if is sent back in GET from CRUD
-                                if (isset($errors['password'])) {
-                                    echo "<br /><span class=\"error\">" . $errors['password'] . "</span>";
-                                }
-                                ?>
+<?php
+// echo error message if is sent back in GET from CRUD
+if (isset($errors['password'])) {
+    echo "<br /><span class=\"error\">" . $errors['password'] . "</span>";
+}
+?>
 
                                 <label for="passconf"><font color="red">*</font> Password Confirm:</label>
                                 <input name="passconf" id="passconf" type="password" tabindex='3'>
                                 <div class="spacer"></div>
-<?php // echo error message if is sent back in GET from CRUD
+<?php
+// echo error message if is sent back in GET from CRUD
 if (isset($errors['passconf'])) {
     echo "<br /><span class=\"error\">" . $errors['passconf'] . "</span>";
 }
@@ -69,7 +76,8 @@ if (isset($errors['passconf'])) {
                                 <label for="email"><font color="red">*</font> E-mail:</label>
                                 <input name="email" id="email" size="40" tabindex='4'>
                                 <div class="spacer"></div>
-<?php // echo error message if is sent back in GET from CRUD
+<?php
+// echo error message if is sent back in GET from CRUD
 if (isset($errors['email'])) {
     echo "<br /><span class=\"error\">" . $errors['email'] . "</span>";
 }

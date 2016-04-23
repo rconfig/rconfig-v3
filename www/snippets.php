@@ -58,16 +58,16 @@
                                 <div style="float:left;">
                                     <label for="snippetDesc"><font color="red">*</font> Snippet Description:</label>
                                     <input name="snippetDesc" id="snippetDesc" size="150" tabindex='2'  <?php
-                                        if (isset($errors['snippetDescVal'])) {
-                                            echo 'value="' . $errors['snippetDescVal'] . '"';
-                                        }
-                                        ?>>
+                                    if (isset($errors['snippetDescVal'])) {
+                                        echo 'value="' . $errors['snippetDescVal'] . '"';
+                                    }
+                                    ?>>
                                     <div id="errorDiv" style="float:left;margin-left:220px; margin-top:-10px; margin-bottom:10px;">
-<?php
-if (isset($errors['snippetDesc'])) {
-    echo "<span class=\"error\">" . $errors['snippetDesc'] . "</span>";
-}
-?>
+                                        <?php
+                                        if (isset($errors['snippetDesc'])) {
+                                            echo "<span class=\"error\">" . $errors['snippetDesc'] . "</span>";
+                                        }
+                                        ?>
                                     </div>
                                 </div>
 
@@ -77,15 +77,15 @@ if (isset($errors['snippetDesc'])) {
                                     if (isset($errors['snippetVal'])) {
                                         echo 'value="' . $errors['snippetVal'] . '"';
                                     }
-?>/>
+                                    ?>/>
                                     </textarea> 
                                     <div class="spacer"></div>
                                     <div  id="errorDiv" style="float:left;margin-left:77px; margin-top:-10px; margin-bottom:10px;">
-<?php
-if (isset($errors['snippet'])) {
-    echo "<span class=\"error\">" . $errors['snippet'] . "</span>";
-}
-?>
+                                        <?php
+                                        if (isset($errors['snippet'])) {
+                                            echo "<span class=\"error\">" . $errors['snippet'] . "</span>";
+                                        }
+                                        ?>
                                     </div>						
                                 </div>
 
@@ -99,10 +99,10 @@ if (isset($errors['snippet'])) {
                     </div>
                     <!-- End mainformDiv -->
                     <div id="table">
-<?php
-/* full table stored off in different script */
-include("snippets.inc.php");
-?>
+                        <?php
+                        /* full table stored off in different script */
+                        include("snippets.inc.php");
+                        ?>
                     </div>
                 </fieldset>
             </div>
@@ -114,7 +114,7 @@ include("snippets.inc.php");
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/snippets.js"></script>
         <!-- Footer Include -->
-<?php include("includes/footer.inc.php"); ?>
+        <?php include("includes/footer.inc.php"); ?>
     </div>
     <!-- End Mainwrap -->
 </body>

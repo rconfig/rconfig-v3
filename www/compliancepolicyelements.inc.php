@@ -38,7 +38,7 @@ $pages->paginate();
             }
             ?>
             <br/>
-            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script ?>
+            <button type="submit" class="paginate">Go!</button> <?php //search logic below in this script  ?>
             <button onClick="clearSearch()" type="button" class="paginate">Clear Search</button>
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
@@ -78,7 +78,7 @@ if (isset($_GET['search'])) {
     }
 
     if (isset($_GET['searchField'])) {
-        $searchField = mysql_real_escape_string($_GET['searchField']);
+        $searchField = $_GET['searchField'];
         $searchField = str_replace("*", "%", $searchField); // swap * for % for SQL query
         if ($searchOption == "LIKE" || $searchOption == "NOT LIKE") {
             $searchField = '%' . $searchField . '%';

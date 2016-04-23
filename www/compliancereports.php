@@ -49,24 +49,32 @@
                             <div id="formDiv" style="width:600px; margin-bottom:10px;">
                                 <div>
                                     <label for="reportsName"><font color="red">*</font> Report Name:</label>
-                                    <input name="reportsName" id="reportsName" size="75" tabindex='1' <?php if (isset($errors['reportsNameVal'])) {
-                        echo 'value="' . $errors['reportsNameVal'] . '"';
-                    } ?>>
+                                    <input name="reportsName" id="reportsName" size="75" tabindex='1' <?php
+                                    if (isset($errors['reportsNameVal'])) {
+                                        echo 'value="' . $errors['reportsNameVal'] . '"';
+                                    }
+                                    ?>>
                                     <div  id="errorDiv" style="float:left;margin-left:220px; margin-top:-10px; margin-bottom:10px;">
-<?php if (isset($errors['reportsName'])) {
-    echo "<span class=\"error\">" . $errors['reportsName'] . "</span>";
-} ?>
+                                        <?php
+                                        if (isset($errors['reportsName'])) {
+                                            echo "<span class=\"error\">" . $errors['reportsName'] . "</span>";
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <div style="float:left;">
                                     <label for="reportsDesc"><font color="red">*</font> Report Description:</label>
-                                    <input name="reportsDesc" id="reportsDesc" size="150" tabindex='2'  <?php if (isset($errors['reportsDescVal'])) {
-    echo 'value="' . $errors['reportsDescVal'] . '"';
-} ?>>
+                                    <input name="reportsDesc" id="reportsDesc" size="150" tabindex='2'  <?php
+                                        if (isset($errors['reportsDescVal'])) {
+                                            echo 'value="' . $errors['reportsDescVal'] . '"';
+                                        }
+                                        ?>>
                                     <div id="errorDiv" style="float:left;margin-left:220px; margin-top:-10px; margin-bottom:10px;">
-<?php if (isset($errors['reportsDesc'])) {
+<?php
+if (isset($errors['reportsDesc'])) {
     echo "<span class=\"error\">" . $errors['reportsDesc'] . "</span>";
-} ?>
+}
+?>
                                     </div>
                                 </div>
                                 <div style="clear:both;">
@@ -82,10 +90,10 @@
                                         <tr>
                                             <td>
                                                 <select id="availablePoliciesSel" name="availablePolicies[]" multiple="multiple" size="15" MULTIPLE>
-                                                    <?php
-                                                    // get list of available elements from lib/crud/complianceReports.frm.func.php
-                                                    echo availablePolicies();
-                                                    ?>
+<?php
+// get list of available elements from lib/crud/complianceReports.frm.func.php
+echo availablePolicies();
+?>
                                                 </select>
                                             </td>
                                             <td align="center" style="vertical-align:middle">
@@ -95,18 +103,20 @@
                                             </td>
                                             <td>
                                                 <select id="selectedPoliciesSel" name="selectedPolicies[]" multiple="multiple" size="15" MULTIPLE>
-<?php
+                                <?php
 // get list of selected elements from lib/crud/complianceReports.frm.func.php
 // echo selectPolicies(); 
-?>				
+                                ?>				
                                                 </select>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                        <?php if (isset($errors['selectedPolicies'])) {
-                            echo "<span class=\"error\" style=\"padding-left:252px\">" . $errors['selectedPolicies'] . "</span>";
-                        } ?>
+<?php
+if (isset($errors['selectedPolicies'])) {
+    echo "<span class=\"error\" style=\"padding-left:252px\">" . $errors['selectedPolicies'] . "</span>";
+}
+?>
 
                                 <input type="hidden" id="add" name="add" value="add" tabindex='3'>
                                 <input type="hidden" id="editid" name="editid" value="" tabindex='4'>
