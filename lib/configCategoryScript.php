@@ -23,7 +23,6 @@ $backendScripts->getTime();
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
 // get ID from argv[1] input
@@ -34,7 +33,6 @@ if (isset($argv[1])) {
 } else {
     echo $backendScripts->errorId($log, 'Task ID');
 }
-
 //set $argv to true of false based on 2nd parameter input
 if (isset($argv[2]) && $argv[2] == 'true') {
     $argv = true;
@@ -60,7 +58,6 @@ if (php_sapi_name() == 'cli') {
     $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run from a webserver, or something else"); // logg to file
     echo "The script was run from a webserver, or something else\r\n";
 }
-
 
 // get task details from DB
 $db2->query("SELECT taskname, mailConnectionReport, snipId FROM tasks WHERE status = '1' AND id = :tid");
@@ -108,7 +105,6 @@ if (!empty($resultNodesRes)) {
     $snippetArr = explode("\n", $snippet); // explode text new lines to array
     $snippetArr = array_map('trim', $snippetArr); // trim whitespace from each array value
     $tableRow = "";
-
     foreach ($devices as $device) {
         // debugging check and action
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
@@ -124,7 +120,6 @@ if (!empty($resultNodesRes)) {
             $log->Conn($text . " - getHostStatus() Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
             continue;
         }
-
         // get the category for the device						
         $catNameQ = $db->q("SELECT categoryName FROM categories WHERE id = " . $device['nodeCatId']);
         $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
@@ -133,21 +128,16 @@ if (!empty($resultNodesRes)) {
         $catName = $catNameRow[0]; // select only first value returned
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
-
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
         $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
-
         $failureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
         $connectedText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for taskID " . $tid;
-
         // Set VARs
         $prompt = $device['devicePrompt'];
-
         if (!$prompt) {
             echo "Command or Prompt Empty - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn("Command or Prompt Empty - for function switch in  Success:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
         }
-
         // if connection is telnet, connect to device function
         if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
             if ($conn->connectTelnet() === false) {
@@ -156,11 +146,9 @@ if (!empty($resultNodesRes)) {
                 echo $failureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
                 continue; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
             }
-
             echo $connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn($connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
             $report->eachData($device['deviceName'], $connStatusPass, $connectedText); // log to report
-
             foreach ($snippetArr as $k => $command) {
                 $conn->writeSnippetTelnet($command, $result);
                 $tableRow .= "
@@ -169,7 +157,6 @@ if (!empty($resultNodesRes)) {
 			</tr>
 			";
             }
-
             $conn->close('40'); // close telnet connection - ssh already closed at this point	
         } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
             // SSH conn failure 
@@ -191,7 +178,6 @@ if (!empty($resultNodesRes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($result);
         }
-
         // send data output to the report
         $report->eachConfigSnippetData($tableRow);
         // unset tableRow data for next iteration
@@ -207,7 +193,6 @@ if (!empty($resultNodesRes)) {
     if ($taskRow[0]['mailConnectionReport'] == '1') {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
-
 // reset folder permissions for data directory. This means script was run from the shell as possibly root 
 // i.e. not apache user and this cause dir owner to be reset causing future downloads to be permission denied
     if ($resetPerms = 1) {

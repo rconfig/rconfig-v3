@@ -10,18 +10,15 @@ require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
 $backendScripts = new backendScripts($db2);
 // get & set time for the script
 $backendScripts->getTime();
-
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
 // get ID from argv input
@@ -32,11 +29,8 @@ if (isset($argv[1])) {
 } else {
     echo $backendScripts->errorId($log, 'Report ID');
 }
-
-
 // Get/Set report ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
 $tid = $_GET['id'];
-
 // get task details from DB
 $db2->query("SELECT * FROM tasks WHERE id = :tid AND status = '1'");
 $db2->bind(':tid', $tid);
@@ -45,7 +39,6 @@ $command = str_replace(' ', '', $taskRow[0]['catCommand']);
 $taskname = $taskRow[0]['taskname'];
 $rid = $taskRow[0]['complianceId'];
 $complianceReportId = $taskRow[0]['complianceId'];
-
 // create connection report file
 $reportFilename = 'complianceReport' . $date . '.html';
 $reportDirectory = 'complianceReports';
@@ -56,11 +49,9 @@ $title = "rConfig Report - " . $taskname;
 $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime);
 $reportFail = '<font color="red">Fail</font>';
 $reportPass = '<font color="green">Success</font>';
-
 // get base_encoded images for checkmarks later on
 $greenCheck = file_get_contents('/home/rconfig/www/images/tick_32.png.base');
 $redCross = file_get_contents('/home/rconfig/www/images/redCross.png.base');
-
 // get polices for given $rid from DB
 $policies = array();
 $db2->query("SELECT polId FROM complianceReportPolTbl WHERE reportId = :rid");
@@ -69,20 +60,17 @@ $policyResult = $db2->resultset();
 foreach ($policyResult as $row) {
     $policies[$row['polId']] = $row['polId'];
 }
-
 // Get active nodes for a given task ID
 // Query to retireve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $getNodesSql = "SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1";
 $db2->query("SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodesSql = $db2->resultset();
-
 if (!empty($getNodesSql)) {
     // push rows to $devices array
     $devices = array();
     foreach ($getNodesSql as $row) {
         array_push($devices, $row);
     }
-
     // loop over retrieved devices
     foreach ($devices as $device) {
         $deviceId = $device['id'];
@@ -90,7 +78,6 @@ if (!empty($getNodesSql)) {
         $db2->query("SELECT * FROM configs WHERE deviceId = $deviceId AND configFilename LIKE '%$command%' ORDER BY configDate DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultLatest = $db2->resultset();
-
         // append device name to report		
         $report->eachComplianceDataRowDeviceName($device['deviceName']); // log deviceName to report
         // continue for the foreach if one of the files is not available as this compliance will be invalid		
@@ -98,14 +85,10 @@ if (!empty($getNodesSql)) {
             echo 'continue invoked for ' . $device['deviceName'];
             continue;
         }
-
         $pathResult_a = $pathResultLatest[0]['configLocation'];
         $filenameResult_a = $pathResultLatest[0]['configFilename'];
         $configFile = $pathResult_a . '/' . $filenameResult_a;
-
-//		$configFile = $pathResult_a . '/' . $command . '.txt';
         $tableRow = ""; // set tableRow for later use and avoid  Undefined variable errors
-
         foreach ($policies as $k => $v) {
             $db2->query("SELECT e.elemId, cpe.elementName, cpe.singleParam1, cpe.singleLine1
                             FROM compliancePolElemTbl as e
@@ -122,7 +105,6 @@ if (!empty($getNodesSql)) {
             }
             // print policy name header to report
             $report->eachComplianceDataRowPolicyName($policyName, $configFile);
-
             foreach ($elemsRes as $row) {
                 $elems[] = array(
                     'elemId' => $row['elemId'],
@@ -131,7 +113,6 @@ if (!empty($getNodesSql)) {
                     'singleLine1' => $row['singleLine1']
                 );
             }
-
             // file to array
             $fileArr = file($configFile);
             foreach ($elems as $kElem => $vElem) {
@@ -149,7 +130,6 @@ if (!empty($getNodesSql)) {
                 }
 
                 foreach ($fileArr as $k => $line) {
-
                     if (regexpMatch($pattern, $line) == 1) {
                         // convert images to base here http://webcodertools.com/imagetobase64converter/Create
                         // images from https://www.iconfinder.com/icons/34218/add_cross_delete_exit_remove_icon#size=32

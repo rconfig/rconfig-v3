@@ -19,11 +19,9 @@ $db2 = new db2();
 $backendScripts = new backendScripts($db2);
 // get & set time for the script
 $backendScripts->getTime();
-
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
 // get ID from argv input
@@ -61,13 +59,11 @@ if (php_sapi_name() == 'cli') {
     echo "The script was run from a webserver, or something else\r\n";
 }
 
-
 // get mailConnectionReport Status form tasks table and send email
 $deployResult = $db->q("SELECT deployname, mailConnectionReport, snipId FROM deploy WHERE status = '1' AND id = " . $tid);
 $deployRow = mysql_fetch_assoc($tasksResult);
 $deployname = $taskRow['deployname'];
 $snipId = $taskRow['snipId'];
-
 // create connection report file
 $reportFilename = 'conigDeployReport' . $date . '.html';
 $reportDirectory = 'configDeployReports';
@@ -78,13 +74,10 @@ $title = "rConfig Report - " . $deployname;
 $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime);
 $connStatusFail = '<font color="red">Connection Fail</font>';
 $connStatusPass = '<font color="green">Connection Success</font>';
-
 // get timeout setting from DB
 $timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
 $result = mysql_fetch_assoc($timeoutSql);
 $timeout = $result['deviceConnectionTimout'];
-
-
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $getNodesSql = "SELECT 
@@ -180,7 +173,6 @@ if ($result = $db->q($getNodesSql)) {
 			</tr>
 			";
             }
-
             $conn->close('40'); // close telnet connection - ssh already closed at this point	
         } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
             // SSH conn failure 
@@ -218,7 +210,6 @@ if ($result = $db->q($getNodesSql)) {
     if ($taskRow[0]['mailConnectionReport'] == '1') {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
-
 // reset folder permissions for data directory. This means script was run from the shell as possibly root 
 // i.e. not apache user and this cause dir owner to be reset causing future downloads to be permission denied
     if ($resetPerms = 1) {

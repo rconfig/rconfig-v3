@@ -34,11 +34,8 @@ if (isset($argv[1])) {
 } else {
     echo $backendScripts->errorId($log, 'Task ID');
 }
-
-
 // Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
 $tid = $_GET['id'];
-
 // get task details from DB
 // get mailConnectionReport Status form tasks table and send email
 $db2->query("SELECT * FROM tasks WHERE id = :tid AND status = '1'");
@@ -56,27 +53,20 @@ $title = "rConfig Report - " . $taskname;
 $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime);
 $reportFail = '<font color="red">Fail</font>';
 $reportPass = '<font color="green">Success</font>';
-
-
-
 // Get active nodes for a given task ID
 // Query to retireve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $db2->query("SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $resultSelect = $db2->resultset();
-
 if (!empty($resultSelect)) {
     // push rows to $devices array
     $devices = array();
     foreach ($resultSelect as $row) {
         array_push($devices, $row);
     }
-
     $startupConfigFile = "showstartup-config.txt";
     $runningConfigFile = "showrun.txt";
-
     foreach ($devices as $device) {
         $deviceId = $device['id'];
-
         $db2->query("SELECT * FROM configs WHERE deviceId = $deviceId AND configFilename LIKE '%$runningConfigFile%' ORDER BY configDate DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultRunning = $db2->resultset();
@@ -84,25 +74,19 @@ if (!empty($resultSelect)) {
         $db2->query("SELECT * FROM configs  WHERE deviceId = $deviceId AND configFilename LIKE '%$startupConfigFile%' ORDER BY configDate DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultStartup = $db2->resultset();
-
         if (empty($pathResultRunning) || empty($pathResultStartup)) {
             // continue for the foreach if one of the files is not available as this compare will be invalid
             echo 'continue invoked for ' . $device['deviceName'];
             continue;
         }
-
         $pathResult_a = $pathResultRunning[0]['configLocation'];
         $pathResult_b = $pathResultStartup[0]['configLocation'];
-
         $path_a = $pathResult_a . '/' . $runningConfigFile;
         $path_b = $pathResult_b . '/' . $startupConfigFile;
-
         // run the comapre with no linepadding set
         $diff = new diff;
         $text = $diff->inline($path_a, $path_b);
-
         $count = count($diff->changes) . ' changes';
-
         // send output to the report
         $report->eachData($device['deviceName'], $count, $text); // log to report
     } // End Data insert loop

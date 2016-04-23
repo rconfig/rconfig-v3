@@ -19,11 +19,9 @@ $db2 = new db2();
 $backendScripts = new backendScripts($db2);
 // get & set time for the script
 $backendScripts->getTime();
-
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
 // get ID from argv input
@@ -34,7 +32,6 @@ if (isset($argv[1])) {
 } else {
     echo $backendScripts->errorId($log, 'Task ID');
 }
-
 //set $argv to true of false based on 2nd parameter input
 if (isset($argv[2]) && $argv[2] == 'true') {
     $argv = true;
@@ -43,7 +40,6 @@ if (isset($argv[2]) && $argv[2] == 'true') {
 }
 extract($backendScripts->debugOnOff($db2, $argv));
 $debug = new debug($debugPath);
-
 // check how the script was run and log the info
 $resetPerms = 0;
 if (php_sapi_name() == 'cli') {
@@ -61,12 +57,10 @@ if (php_sapi_name() == 'cli') {
     echo "The script was run from a webserver, or something else\r\n";
 }
 
-
 // get mailConnectionReport Status from tasks table and send email
 $tasksResult = $db->q("SELECT taskname, mailConnectionReport, mailErrorsOnly FROM tasks WHERE status = '1' AND id = " . $tid);
 $taskRow = mysql_fetch_assoc($tasksResult);
 $taskname = $taskRow['taskname'];
-
 // create connection report file
 $reportFilename = 'deviceConnectionReport' . $date . '.html';
 $reportDirectory = 'connectionReports';
@@ -77,13 +71,10 @@ $title = "rConfig Report - " . $taskname;
 $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime);
 $connStatusFail = '<font color="red">Connection Fail</font>';
 $connStatusPass = '<font color="green">Connection Success</font>';
-
 // get timeout setting from DB
 $timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
 $result = mysql_fetch_assoc($timeoutSql);
 $timeout = $result['deviceConnectionTimout'];
-
-
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $getNodesSql = "SELECT 
@@ -101,22 +92,16 @@ $getNodesSql = "SELECT
 										FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1";
 
 if ($result = $db->q($getNodesSql)) {
-
     // push rows to $devices array
     $devices = array();
-
     while ($row = mysql_fetch_assoc($result)) {
         array_push($devices, $row);
     }
-
-
     foreach ($devices as $device) {
-
         // debugging check and action
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
-
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 
@@ -127,7 +112,6 @@ if ($result = $db->q($getNodesSql)) {
             $log->Conn($text . " - getHostStatus() Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
             continue;
         }
-
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
         $commands = $db->q("SELECT cmd.command 
 							FROM cmdCatTbl AS cct
@@ -272,7 +256,6 @@ if ($result = $db->q($getNodesSql)) {
     if ($taskRow[0]['mailConnectionReport'] == '1') {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
-
 // reset folder permissions for data directory. This means script was run from the shell as possibly root 
 // i.e. not apache user and this cause dir owner to be reset causing future downloads to be permission denied
     if ($resetPerms = 1) {

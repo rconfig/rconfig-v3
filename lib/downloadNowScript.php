@@ -26,11 +26,9 @@ $db2 = new db2();
 $backendScripts = new backendScripts($db2);
 // get & set time for the script
 $backendScripts->getTime();
-
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // create array for json output to return to downloader window
 $jsonArray = array();
 
@@ -217,14 +215,9 @@ if ($result = $db->q($getNodesSql)) {
     } //end foreach
 // final msg
     $jsonArray['finalMsg'] = "<b>Manual download completed</b> <br/><br/> <a href='javascript:window.close();window.opener.location.reload();'>close</a>";
-
-// echo json response for msgs back to page
-// echo '<pre>';
-// print_r($jsonArray);
     echo json_encode($jsonArray);
 } else {
     echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error();
     $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error());
     die();
 }
-?>

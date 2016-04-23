@@ -44,7 +44,6 @@ $db2->bind(':tid', $tid);
 $taskRow = $db2->resultset();
 $command = $taskRow[0]['catCommand'];
 $taskname = $taskRow[0]['taskname'];
-
 // create connection report file
 $reportFilename = 'compareReport' . $date . '.html';
 $reportDirectory = 'compareReports';
@@ -79,11 +78,11 @@ if (!empty($resultSelect)) {
                         WHERE deviceId = $deviceId
                         AND configFilename LIKE '%$command%'
                         AND configDate < 
-                                (SELECT configDate FROM configs 
-                                        WHERE deviceId = $deviceId
-                                        AND configFilename LIKE '%$command%'
-                                        ORDER BY configDate 
-                                        DESC LIMIT 1)
+                        (SELECT configDate FROM configs 
+                            WHERE deviceId = $deviceId
+                            AND configFilename LIKE '%$command%'
+                            ORDER BY configDate 
+                            DESC LIMIT 1)
                         ORDER BY configDate 
                         DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
@@ -94,22 +93,16 @@ if (!empty($resultSelect)) {
             echo 'continue invoked for ' . $device['deviceName'] . "\n";
             continue;
         }
-
         $pathResult_a = $pathResultToday[0]['configLocation'];
         $pathResult_b = $pathResultYesterday[0]['configLocation'];
-
         $filenameResult_a = $pathResultToday[0]['configFilename'];
         $filenameResult_b = $pathResultYesterday[0]['configFilename'];
-
         $path_a = $pathResult_a . '/' . $filenameResult_a;
         $path_b = $pathResult_b . '/' . $filenameResult_b;
-
         // run the compare with no linepadding set
         $diff = new diff;
         $text = $diff->inline($path_a, $path_b);
-
         $count = count($diff->changes) . ' changes';
-
         // send output to the report
         $report->eachData($device['deviceName'], $count, $text); // log to report
     } // End Data insert loop
