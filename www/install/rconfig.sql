@@ -359,31 +359,17 @@ AND (`nodes`.`model` <> ''));
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
 
--- Dumping structure for table DATABASE_NAME.configtemplates
-CREATE TABLE IF NOT EXISTS `configtemplates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `templateName` varchar(50) NOT NULL,
-  `templateDesc` varchar(50) NOT NULL,
-  `template` mediumtext NOT NULL,
-  `templateVars` mediumtext NOT NULL,
-  `templateVarSyms` mediumtext NOT NULL,
-  `templateVarSubs` mediumtext NOT NULL,
-  `newTemplate` mediumtext NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
 -- Dumping structure for table DATABASE_NAME.generatedConfigs
-CREATE TABLE `generatedConfigs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `configName` varchar(50) NOT NULL,
-  `templateName` varchar(50) NOT NULL,
-  `configDesc` varchar(50) NOT NULL,
-  `linkedId` int(11) NOT NULL,
-  `newConfig` mediumtext NOT NULL,
-  `configLocation` varchar(100) NOT NULL,
-  `configFilename` varchar(100) NOT NULL,
-  `configDate` date NOT NULL,
-  `status` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+-- CREATE TABLE `generatedConfigs` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `configName` varchar(50) NOT NULL,
+--   `templateName` varchar(50) NOT NULL,
+--   `configDesc` varchar(50) NOT NULL,
+--   `linkedId` int(11) NOT NULL,
+--   `newConfig` mediumtext NOT NULL,
+--   `configLocation` varchar(100) NOT NULL,
+--   `configFilename` varchar(100) NOT NULL,
+--   `configDate` date NOT NULL,
+--   `status` int(1) NOT NULL,
+--   PRIMARY KEY (`id`)
+-- ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
