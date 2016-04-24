@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Why I am creating a new downloadNowScript when a lot of the code is already in the showCmdScript already?
  * well, most of the code is similar for sure, but the functionality between the features is different, where
@@ -8,7 +7,7 @@
  *
  */
 // requires - full path required
-require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
@@ -39,7 +38,6 @@ if (php_sapi_name() == 'cli') {  // if invoked from CLI
     $log->Fatal("Error: " . $text . " (File: " . $_SERVER['PHP_SELF'] . ")");
     die();
 }
-
 // set vars passed from ajaxConfigDevice.php on require()
 $rid = $passedRid;
 $snipId = $passedSnipId;
@@ -48,29 +46,19 @@ $providedPassword = $passedPassword;
 // Log the script start
 $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run manually invoked with Router ID: $rid & Snippet ID: $snipId "); // logg to file
 // get time-out setting from DB
-$timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
-$result = mysql_fetch_assoc($timeoutSql);
-$timeout = $result['deviceConnectionTimout'];
+$db2->query("SELECT deviceConnectionTimout FROM settings");
+$result = $db2->resultset();
+$timeout = $result[0]['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$getNodesSql = "SELECT 
-					id, 
-					deviceName, 
-					deviceIpAddr, 
-					devicePrompt, 
-					deviceUsername, 
-					devicePassword, 
-					deviceEnableMode, 
-					deviceEnablePassword, 
-					nodeCatId, 
-					deviceAccessMethodId, 
-					connPort
-					FROM nodes WHERE id = " . $rid . " AND status = 1";
-
-if ($result = $db->q($getNodesSql)) {
+$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+                FROM nodes WHERE id = :rid AND status = 1");
+$db2->bind(':rid', $rid);
+$getNodes = $db2->resultset();
+if (!empty($getNodes)) {
     // push rows to $devices array
     $devices = array();
-    while ($row = mysql_fetch_assoc($result)) {
+    foreach ($getNodes as $row) {
         array_push($devices, $row);
     }
     // create cliOutputArray
@@ -94,10 +82,11 @@ if ($result = $db->q($getNodesSql)) {
             $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
         }
 
-        // get the config snippet data from the DB
-        $cmdsSql = $db->q("SELECT * FROM snippets WHERE id = " . $snipId);
-        $result = mysql_fetch_assoc($cmdsSql);
-        $snippet = $result['snippet'];
+        // get the config snippet data from the DB     
+        $db2->query("SELECT * FROM snippets WHERE id = :snipId");
+        $db2->bind(':snipId', $snipId);
+        $result = $db2->resultset();
+        $snippet = $result[0]['snippet'];
         $snippetArr = explode("\n", $snippet); // explode text new lines to array
         $snippetArr = array_map('trim', $snippetArr); // trim whitespace from each array value
         $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid;
@@ -136,25 +125,25 @@ if ($result = $db->q($getNodesSql)) {
     $jsonArray['finalMsg'] = "<br/><b>Manual device configuration completed</b> <br/><br/> <a href='javascript:window.close();'>close</a>";
     echo json_encode($jsonArray);
 // mail user results of snippet execution
-    $currentUser = $session->username;
-    $q = $db->q("SELECT email FROM users WHERE username = $currentUser");
-    $result = mysql_fetch_assoc($q);
-    $smtpCurrentUserAddr = $result['email'];
-    $q = $db->q("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
-
-    $result = mysql_fetch_assoc($q);
-    $smtpServerAddr = $result['smtpServerAddr'];
-    $smtpFromAddr = $result['smtpFromAddr'];
-    $smtpRecipientAddr = $result['smtpRecipientAddr'];
-    if ($result['smtpAuth'] == 1) {
-        $smtpAuth = $result['smtpAuth'];
-        $smtpAuthUser = $result['smtpAuthUser'];
-        $smtpAuthPass = $result['smtpAuthPass'];
+    $currentUser = $session->username;   
+    $db2->query("SELECT email FROM users WHERE username = :currentUser");
+    $db2->bind(':currentUser', $currentUser);
+    $result = $db2->resultset();
+    $smtpCurrentUserAddr = $result[0]['email'];  
+    $db2->query("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
+    $resultSelSmtp = $db2->resultset();
+    $smtpServerAddr = $resultSelSmtp[0]['smtpServerAddr'];
+    $smtpFromAddr = $resultSelSmtp[0]['smtpFromAddr'];
+    $smtpRecipientAddr = $resultSelSmtp[0]['smtpRecipientAddr'];
+    if ($resultSelSmtp[0]['smtpAuth'] == 1) {
+        $smtpAuth = $resultSelSmtp[0]['smtpAuth'];
+        $smtpAuthUser = $resultSelSmtp[0]['smtpAuthUser'];
+        $smtpAuthPass = $resultSelSmtp[0]['smtpAuthPass'];
     }
     $mail = new PHPMailer();
     $body = $cliOutputArray;
     $mail->IsSMTP(); // telling the class to use SMTP
-    if ($result['smtpAuth'] == 1) {
+    if ($resultSelSmtp[0]['smtpAuth'] == 1) {
         $mail->SMTPAuth = true; // enable SMTP authentication
         $mail->Username = $smtpAuthUser; // SMTP account username
         $mail->Password = $smtpAuthPass; // SMTP account password
@@ -179,9 +168,8 @@ if ($result = $db->q($getNodesSql)) {
     $mail->ClearAddresses();
     $mail->ClearAttachments();
 } else {
-    $text = "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error();
+    $text = $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
     $log->Fatal($text);
     $jsonArray['finalMsg'] = $text;
     echo json_encode($jsonArray);
-    die();
 }

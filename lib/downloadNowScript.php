@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Why i am creating a new downloadNowScript when a lot of the code is already in the showCmdScript already?
  * well, most of the code is similar for sure, but the functionality between the required features is different, where
@@ -7,7 +6,6 @@
  * that, I will build JS call backs into the script so that the GUI is updated with the device output. I will also remove the reporting
  * elements as they appear in the showCmdScript script.
  */
-
 // requires - full path required
 require("/home/rconfig/classes/db.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -19,7 +17,6 @@ require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
@@ -31,7 +28,6 @@ $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
 // create array for json output to return to downloader window
 $jsonArray = array();
-
 // check if this script was CLI Invoked and throw an error to the CLI if it was.
 if (php_sapi_name() == 'cli') {  // if invoked from CLI
     $text = "You are not allowed to invoke this script from the CLI - unable to run script";
@@ -39,47 +35,31 @@ if (php_sapi_name() == 'cli') {  // if invoked from CLI
     $log->Fatal("Error: " . $text . " (File: " . $_SERVER['PHP_SELF'] . ")");
     die();
 }
-
 // set vars passed from ajaxDownloadNow.php on require()
 $rid = $passedRid;
 $providedUsername = $passedUsername;
 $providedPassword = $passedPassword;
-
 // Log the script start
 $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run manually invoked with Router ID: $rid "); // logg to file
 // get time-out setting from DB
-$timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
-$result = mysql_fetch_assoc($timeoutSql);
-$timeout = $result['deviceConnectionTimout'];
-
+$db2->query("SELECT deviceConnectionTimout FROM settings");
+$result = $db2->resultset();
+$timeout = $result[0]['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$getNodesSql = "SELECT 
-					id, 
-					deviceName, 
-					deviceIpAddr, 
-					devicePrompt, 
-					deviceUsername, 
-					devicePassword, 
-					deviceEnableMode, 
-					deviceEnablePassword, 
-					nodeCatId, 
-					deviceAccessMethodId, 
-					connPort 
-					FROM nodes WHERE id = " . $rid . " AND status = 1";
-
-if ($result = $db->q($getNodesSql)) {
-
+$db2->query("SELECT id, deviceName, deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort 
+                    FROM nodes WHERE id = :rid AND status = 1");
+$db2->bind(':rid', $rids);
+$resultSelect = $db2->resultset();
+if (!empty($resultSelect)) {
     // push rows to $devices array
     $devices = array();
-    while ($row = mysql_fetch_assoc($result)) {
+    foreach ($resultSelect as $row) {
         array_push($devices, $row);
     }
-
     foreach ($devices as $device) { // iterate over each device - in this scripts case, there will only be a single device
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
-
         if ($status === "<font color=red>Unavailable</font>") {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running Router ID " . $rid;
             $jsonArray['connFailMsg'] = $text;
@@ -87,18 +67,18 @@ if ($result = $db->q($getNodesSql)) {
             echo json_encode($jsonArray);
             continue;
         }
-
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
-        $commands = $db->q("SELECT cmd.command 
-							FROM cmdCatTbl AS cct
-							LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
-							WHERE cct.nodeCatId = " . $device['nodeCatId']);
-        $cmdNumRows = mysql_num_rows($commands);
-
+        $d2b->query("SELECT cmd.command 
+                        FROM cmdCatTbl AS cct
+                        LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
+                        WHERE cct.nodeCatId = :nodeCatId");
+        $db2->bind(':nodeCatId', $device['nodeCatId']);
+        $commands = $db2->resultset();
+        $cmdNumRows = $db2->rowCount();
         // get the category for the device						
-        $catNameQ = $db->q("SELECT categoryName FROM categories WHERE id = " . $device['nodeCatId']);
-
-        $catNameRow = mysql_fetch_row($catNameQ);
+        $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
+        $db2->bind(':nodeCatId', $device['nodeCatId']);
+        $catNameRow = $db2->resultset();
         $catName = $catNameRow[0]; // select only first value returned
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
@@ -108,7 +88,6 @@ if ($result = $db->q($getNodesSql)) {
             echo json_encode($jsonArray);
             continue;
         }
-
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
 
@@ -176,28 +155,22 @@ if ($result = $db->q($getNodesSql)) {
             } else {
                 continue;
             }
-
             // output command json for response to web page
             $jsonArray['cmdMsg' . $i] = "Command '" . $command . "' ran successfully";
-
             // create new array with PHPs EOL parameter
             $filecontents = implode(PHP_EOL, $showCmd);
-
             // insert $filecontents to file
             $file->insertFileContents($filecontents, $fullpath);
-
             $filename = basename($fullpath); // get filename for DB entry
             $fullpath = dirname($fullpath); // get fullpath for DB entry
             // insert info to DB
-            $configDbQ = "INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
-					VALUES (
-					" . $device['id'] . ", 
-					NOW(), 
-					'" . $fullpath . "',
-					'" . $filename . "'
-					)";
-
-            if ($result = $db->q($configDbQ)) {
+            $db2->query("INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
+                            VALUES (:id, NOW(), :fullpath,:filename)");
+            $db2->bind(':id', $device['id']);
+            $db2->bind(':fullpath', $fullpath);
+            $db2->bind(':filename', $filename);
+            $result = $db2->resultset();
+            if (!empty($result)) {
                 $log->Conn("Success: Show Command '" . $command . "' for device '" . $device['deviceName'] . "' successful (File: " . $_SERVER['PHP_SELF'] . ")");
             } else {
                 $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR:" . mysql_error());
@@ -217,7 +190,5 @@ if ($result = $db->q($getNodesSql)) {
     $jsonArray['finalMsg'] = "<b>Manual download completed</b> <br/><br/> <a href='javascript:window.close();window.opener.location.reload();'>close</a>";
     echo json_encode($jsonArray);
 } else {
-    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error();
-    $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error());
-    die();
+    echo $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
 }

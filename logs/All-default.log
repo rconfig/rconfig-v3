@@ -35,3 +35,48 @@
 2016-04-23 11:18:04 FATAL Error: Task ID not Set - unable to run script (File: lib/configCategoryScript.php)
 2016-04-23 11:18:24 FATAL Error: Task ID not Set - unable to run script (File: lib/configCategoryScript.php)
 2016-04-23 13:15:45 INFO Info: rConfig Report - Download Configs 2 Email Report sent to :stephenstack@gmail.com (stephenstack&#64;gmail.com)
+2016-04-24 08:13:21 FATAL Error: Task ID not Set - unable to run script (File: lib/showCmdScript.php)
+2016-04-24 08:13:47 FATAL Error: Task ID not Set - unable to run script (File: lib/showCmdScript.php)
+2016-04-24 08:13:54 FATAL Error: Task ID not Set - unable to run script (File: lib/showCmdScript.php)
+2016-04-24 08:14:06 FATAL Error: Task ID not Set - unable to run script (File: lib/showCmdScript.php)
+2016-04-24 08:14:06 INFO The lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:14:36 INFO The lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:14:44 INFO The lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:15:23 INFO The lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:18:45 INFO The lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:23:00 FATAL Error: Task ID not Set - unable to run script (File: lib/configCategoryScript.php)
+2016-04-24 08:23:00 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:23:08 FATAL Error: Task ID not Set - unable to run script (File: lib/configCategoryScript.php)
+2016-04-24 08:23:08 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:23:14 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:23:20 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:25:43 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:26:03 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:26:32 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:27:20 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-24 08:27:20 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-24 08:27:20 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-24 08:27:23 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:27:43 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:27:55 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:28:13 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:28:28 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:29:33 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: lib/configCategoryScript.php)
+2016-04-24 08:29:33 CONN  - in  Error:(File: lib/configCategoryScript.php)
+2016-04-24 08:31:45 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:32:24 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:986760
+2016-04-24 08:33:29 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: lib/configCategoryScript.php)
+2016-04-24 08:33:29 CONN  - in  Error:(File: lib/configCategoryScript.php)
+2016-04-24 08:33:29 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-04-24 08:40:47 INFO The lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:43:46 FATAL Error: Task ID not Set - unable to run script (File: lib/configDeployScript.php)
+2016-04-24 08:43:46 INFO The  script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:43:48 FATAL Error: Task ID not Set - unable to run script (File: lib/configDeployScript.php)
+2016-04-24 08:43:48 INFO The  script was run from a manual invocation on a shell with Task ID:
+2016-04-24 08:43:58 INFO The  script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:44:00 INFO The  script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:45:23 INFO The lib/configDeployScript.php script was run from a manual invocation on a shell with Task ID:463809
+2016-04-24 08:48:44 FATAL Error: You are not allowed to invoke this script from the CLI - unable to run script (File: lib/configDeviceScript.php)
+2016-04-24 09:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-24 10:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-24 11:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809

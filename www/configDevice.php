@@ -3,7 +3,7 @@
 include("../config/config.inc.php");
 include("../config/functions.inc.php");
 include("../classes/usersession.class.php");
-include("../classes/db.class.php");
+include("../classes/db2.class.php");
 
 /* Turn on event logging */
 include("../classes/ADLog.class.php");
@@ -96,7 +96,7 @@ if (!$session->logged_in) {
     </head>
     <body>
         <?php
-        $db = new db();
+        $db2 = new db2();
         /* Get all snippets for the snippetSelect Selection list */
         $db2->query("SELECT `id`, `snippetName` FROM `snippets` ORDER BY `snippetName` ASC");
         $snippetQ = $db2->resultset();
@@ -121,8 +121,6 @@ if (!$session->logged_in) {
                 <?php
                 echo '<button id="uploadButton" onclick="startConfigurationScript(\'' . $_GET['rid'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;margin-left:-2px;float:left;" title="Begin Configuration">Upload Configuration</button>';
                 ?>
-
-
             </fieldset>
         </div>
         <div id="loading">

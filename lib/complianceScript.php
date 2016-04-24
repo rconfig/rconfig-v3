@@ -26,11 +26,12 @@ extract($backendScripts->startTime());
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
     $_GET['id'] = $argv[1];
+    // Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
+    $tid = $_GET['id']; // set the Task ID
 } else {
-    echo $backendScripts->errorId($log, 'Report ID');
+    echo $backendScripts->errorId($log, 'Task ID');
 }
-// Get/Set report ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
-$tid = $_GET['id'];
+
 // get task details from DB
 $db2->query("SELECT * FROM tasks WHERE id = :tid AND status = '1'");
 $db2->bind(':tid', $tid);
@@ -128,7 +129,6 @@ if (!empty($getNodesSql)) {
                     $pattern = "/.*$string.*/i";
                     $symbol = '~'; // not used yet
                 }
-
                 foreach ($fileArr as $k => $line) {
                     if (regexpMatch($pattern, $line) == 1) {
                         // convert images to base here http://webcodertools.com/imagetobase64converter/Create
@@ -177,7 +177,5 @@ if (!empty($getNodesSql)) {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
 } else {
-    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'];
-    $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF']);
-    die();
+    echo $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
 }

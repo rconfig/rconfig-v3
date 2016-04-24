@@ -1,5 +1,4 @@
 <?php
-
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -12,18 +11,15 @@ require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
 $backendScripts = new backendScripts($db2);
 // get & set time for the script
 $backendScripts->getTime();
-
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
-
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
 // get ID from argv input
@@ -31,12 +27,11 @@ extract($backendScripts->startTime());
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
     $_GET['id'] = $argv[1];
+    // Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
+    $tid = $_GET['id']; // set the Task ID
 } else {
     echo $backendScripts->errorId($log, 'Task ID');
 }
-
-// Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
-$tid = $_GET['id'];
 // get task details from DB
 //$taskResult = $db->q("SELECT * FROM tasks WHERE id = $tid AND status = '1'");
 $db2->query("SELECT * FROM tasks WHERE id = :tid AND status = '1'");
@@ -66,14 +61,12 @@ if (!empty($resultSelect)) {
     foreach ($resultSelect as $row) {
         array_push($devices, $row);
     }
-
     foreach ($devices as $device) {
         $deviceId = $device['id'];
         $command = str_replace(" ", "", $command);
         $db2->query("SELECT * FROM configs WHERE deviceId = :deviceId AND configFilename LIKE '%$command%' ORDER BY configDate  DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultToday = $db2->resultset();
-
         $db2->query("SELECT * FROM configs 
                         WHERE deviceId = $deviceId
                         AND configFilename LIKE '%$command%'
@@ -87,7 +80,6 @@ if (!empty($resultSelect)) {
                         DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultYesterday = $db2->resultset();
-
         if (empty($pathResultToday) || empty($pathResultYesterday)) {
             // continue for the foreach if one of the files is not available as this compare will be invalid
             echo 'continue invoked for ' . $device['deviceName'] . "\n";
@@ -115,7 +107,5 @@ if (!empty($resultSelect)) {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
 } else {
-    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'];
-    $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF']);
-    die();
+    echo $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
 }

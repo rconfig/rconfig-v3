@@ -1,7 +1,6 @@
 <?php
-
 // requires - full path required
-require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
@@ -12,7 +11,6 @@ require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
@@ -29,6 +27,8 @@ extract($backendScripts->startTime());
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
     $_GET['id'] = $argv[1];
+    // Get/Set Task ID - as sent from cronjob when this script is called and is stored in DB.nodes table also
+    $tid = $_GET['id']; // set the Task ID
 } else {
     echo $backendScripts->errorId($log, 'Task ID');
 }
@@ -38,29 +38,18 @@ if (isset($argv[2]) && $argv[2] == 'true') {
 } else {
     $argv = false;
 }
+// turn on/off debugging based on $agrv
 extract($backendScripts->debugOnOff($db2, $argv));
 $debug = new debug($debugPath);
 // check how the script was run and log the info
-$resetPerms = 0;
-if (php_sapi_name() == 'cli') {
-    if (isset($_SERVER['TERM'])) {
-        $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run from a manual invocation on a shell with Task ID:" . $tid . ""); // logg to file
-        echo "The " . $_SERVER['PHP_SELF'] . " script was run from a manual invocation on a shell\r\n";
-        // set this var so that later we can reset permissions on the /home/rconfig/data dir. Running the script from a shell causes perms to be set as root otherwise
-        $resetPerms = 1;
-    } else {
-        $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run from crontab ID:" . $tid . ""); // logg to file
-        echo "The script was run from the crontab entry\r\n";
-    }
-} else {
-    $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run from a webserver, or something else"); // logg to file
-    echo "The script was run from a webserver, or something else\r\n";
-}
+extract($backendScripts->invokationCheck($log, $tid, php_sapi_name(), $_SERVER['TERM'], $_SERVER['PHP_SELF']));
+echo $alert;
 
 // get mailConnectionReport Status from tasks table and send email
-$tasksResult = $db->q("SELECT taskname, mailConnectionReport, mailErrorsOnly FROM tasks WHERE status = '1' AND id = " . $tid);
-$taskRow = mysql_fetch_assoc($tasksResult);
-$taskname = $taskRow['taskname'];
+$db2->query("SELECT taskname, mailConnectionReport, mailErrorsOnly FROM tasks WHERE status = '1' AND id = :tid");
+$db2->bind(':tid', $tid);
+$taskRow = $db2->resultset();
+$taskname = $taskRow[0]['taskname'];
 // create connection report file
 $reportFilename = 'deviceConnectionReport' . $date . '.html';
 $reportDirectory = 'connectionReports';
@@ -77,24 +66,14 @@ $result = mysql_fetch_assoc($timeoutSql);
 $timeout = $result['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$getNodesSql = "SELECT 
-										id, 
-										deviceName, 
-										deviceIpAddr, 
-										devicePrompt, 
-										deviceUsername, 
-										devicePassword, 
-										deviceEnableMode, 
-										deviceEnablePassword, 
-										nodeCatId, 
-										deviceAccessMethodId, 
-										connPort 
-										FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1";
+$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+                FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
+$getNodes = $db2->resultset();
 
-if ($result = $db->q($getNodesSql)) {
+if (!empty($getNodes)) {
     // push rows to $devices array
     $devices = array();
-    while ($row = mysql_fetch_assoc($result)) {
+    foreach ($getNodes as $row) {
         array_push($devices, $row);
     }
     foreach ($devices as $device) {
@@ -113,17 +92,17 @@ if ($result = $db->q($getNodesSql)) {
             continue;
         }
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
-        $commands = $db->q("SELECT cmd.command 
-							FROM cmdCatTbl AS cct
-							LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
-							WHERE cct.nodeCatId = " . $device['nodeCatId']);
-        $cmdNumRows = mysql_num_rows($commands);
-
+        $db2->query("SELECT cmd.command 
+                        FROM cmdCatTbl AS cct
+                        LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
+                        WHERE cct.nodeCatId = :nodeCatId");
+        $db2->bind(':nodeCatId', $device['nodeCatId']);
+        $cmdNumRows = $db2->rowCount();
         // get the category for the device						
-        $catNameQ = $db->q("SELECT categoryName FROM categories WHERE id = " . $device['nodeCatId']);
-
-        $catNameRow = mysql_fetch_row($catNameQ);
-        $catName = $catNameRow[0]; // select only first value returned
+        $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
+        $db2->bind(':nodeCatId', $device['nodeCatId']);
+        $catNameRow = $db2->resultset();
+        $catName = $catNameRow[0];
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
             $text = "Failure: There are no commands configured for category " . $catName . " when running taskID " . $tid;
@@ -224,20 +203,20 @@ if ($result = $db->q($getNodesSql)) {
             $fullpath = dirname($fullpath); // get fullpath for DB entry
             // insert info to DB
             $configDbQ = "INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
-					VALUES (
-					" . $device['id'] . ", 
-					NOW(), 
-					'" . $fullpath . "',
-					'" . $filename . "'
-					)";
-
-            if ($result = $db->q($configDbQ)) {
+                            VALUES (" . $device['id'] . ", NOW(), '" . $fullpath . "', '" . $filename . "' )";
+            
+            $db2->query("INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
+                            VALUES (:id, NOW(), :fullpath, :filename)");
+            $db2->bind(':id', $device['id']);
+            $db2->bind(':fullpath', $fullpath);
+            $db2->bind(':filename', $filename);
+            $configDbQExecute = $db2->execute();
+            if ($configDbQExecute) {
                 $log->Conn("Success: Show Command '" . $command . "' for device '" . $device['deviceName'] . "' successful (File: " . $_SERVER['PHP_SELF'] . ")");
             } else {
                 $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR:" . mysql_error());
                 die();
             }
-
             //check for last iteration... 
             if ($i == $cmdNumRows) {
 
@@ -256,17 +235,11 @@ if ($result = $db->q($getNodesSql)) {
     if ($taskRow[0]['mailConnectionReport'] == '1') {
         $backendScripts->reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname);
     }
-// reset folder permissions for data directory. This means script was run from the shell as possibly root 
-// i.e. not apache user and this cause dir owner to be reset causing future downloads to be permission denied
-    if ($resetPerms = 1) {
-        $dataDir = '/home/rconfig/data/';
-        shell_exec('chown -R apache ' . $dataDir);
-        $log->Info("The owner permisions for directory " . $dataDir . " were reset to owner apache because script was run interactively"); // log to file
-        echo "The owner permisions for directory " . $dataDir . " were reset to owner apache because script was run interactively\r\n";
-    }
+    // reset folder permissions for data directory. This means script was run from the shell as possibly root 
+    // i.e. not apache user and this cause dir owner to be reset causing future downloads to be permission denied
+    // check if $resetPerms is set to 1, and invoke permissions reset for /home/rconfig/*
+    extract($backendScripts->resetPerms($log, $resetPerms));
+    echo $resetAlert; // from resetPerms method
 } else {
-    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error();
-    $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error());
-    die();
+    echo $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
 }
-?>

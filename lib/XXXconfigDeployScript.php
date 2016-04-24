@@ -22,7 +22,7 @@ $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
-// get ID from argv[1] input
+// get ID from argv input
 /// if statement to check first argument in phpcli script - otherwise the script will not run under phpcli - similar to PHP getopt()
 // script will exit with Error if not TID is sent
 if (isset($argv[1])) {
@@ -44,54 +44,71 @@ $debug = new debug($debugPath);
 extract($backendScripts->invokationCheck($log, $tid, php_sapi_name(), $_SERVER['TERM'], $_SERVER['PHP_SELF']));
 echo $alert;
 
-// get task details from DB
-$db2->query("SELECT taskname, mailConnectionReport, snipId FROM tasks WHERE status = '1' AND id = :tid");
+// get mailConnectionReport Status form tasks table and send email
+$db2->query("SELECT deployname, mailConnectionReport, snipId FROM deploy WHERE status = '1' AND id = :tid");
 $db2->bind(':tid', $tid);
-$taskRow = $db2->resultset();
-$taskname = $taskRow[0]['taskname'];
+$deployRow = $db2->resultset();
+$deployname = $taskRow[0]['deployname'];
 $snipId = $taskRow[0]['snipId'];
 
+echo '<pre>';
+var_dump($deployname);
+die();
 // create connection report file
-$reportFilename = 'conigSnippetReport' . $date . '.html';
-$reportDirectory = 'configSnippetReports';
+$reportFilename = 'conigDeployReport' . $date . '.html';
+$reportDirectory = 'configDeployReports';
 $serverIp = getHostByName(getHostName()); // get server IP address for CLI scripts
 $report = new report($config_reports_basedir, $reportFilename, $reportDirectory, $serverIp);
 $report->createFile();
-$title = "rConfig Report - " . $taskname;
+$title = "rConfig Report - " . $deployname;
 $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime);
 $connStatusFail = '<font color="red">Connection Fail</font>';
 $connStatusPass = '<font color="green">Connection Success</font>';
-
 // get timeout setting from DB
-$db2->query("SELECT deviceConnectionTimout FROM settings");
-$timeoutResult = $db2->resultset();
-$timeout = $timeoutResult[0]['deviceConnectionTimout'];
-
+$timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
+$result = mysql_fetch_assoc($timeoutSql);
+$timeout = $result['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName, deviceIpAddr, devicePrompt, deviceUsername,devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort 
-		FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
-$resultNodesRes = $db2->resultset();
-if (!empty($resultNodesRes)) {
+$getNodesSql = "SELECT 
+										id, 
+										deviceName, 
+										deviceIpAddr, 
+										devicePrompt, 
+										deviceUsername, 
+										devicePassword, 
+										deviceEnableMode, 
+										deviceEnablePassword, 
+										nodeCatId, 
+										deviceAccessMethodId, 
+										connPort 
+										FROM nodes WHERE taskId" . $tid . " = 1 
+										AND status = 1";
+
+if ($result = $db->q($getNodesSql)) {
+
     // push rows to $devices array
     $devices = array();
-    foreach ($resultNodesRes as $row) {
+
+    while ($row = mysql_fetch_assoc($result)) {
         array_push($devices, $row);
     }
 
 // get the config snippet data from the DB
-    $db2->query("SELECT * FROM snippets WHERE id = :snipId");
-    $db2->bind(':snipId', $snipId);
-    $cmdsSql = $db2->resultset();
-    $snippet = $cmdsSql[0]['snippet'];
+    $cmdsSql = $db->q("SELECT * FROM snippets WHERE id = " . $snipId);
+    $result = mysql_fetch_assoc($cmdsSql);
+    $snippet = $result['snippet'];
     $snippetArr = explode("\n", $snippet); // explode text new lines to array
     $snippetArr = array_map('trim', $snippetArr); // trim whitespace from each array value
     $tableRow = "";
+
     foreach ($devices as $device) {
+
         // debugging check and action
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
+
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 
@@ -102,23 +119,29 @@ if (!empty($resultNodesRes)) {
             $log->Conn($text . " - getHostStatus() Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
             continue;
         }
+
         // get the category for the device						
-        $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
-        $db2->bind(':nodeCatId', $device['nodeCatId']);
-        $catNameRow = $db2->resultset();
+        $catNameQ = $db->q("SELECT categoryName FROM categories WHERE id = " . $device['nodeCatId']);
+
+        $catNameRow = mysql_fetch_row($catNameQ);
         $catName = $catNameRow[0]; // select only first value returned
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
+
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
-        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
+        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $timeout);
+
         $failureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
         $connectedText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for taskID " . $tid;
+
         // Set VARs
         $prompt = $device['devicePrompt'];
+
         if (!$prompt) {
             echo "Command or Prompt Empty - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn("Command or Prompt Empty - for function switch in  Success:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
         }
+
         // if connection is telnet, connect to device function
         if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
             if ($conn->connectTelnet() === false) {
@@ -127,9 +150,11 @@ if (!empty($resultNodesRes)) {
                 echo $failureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
                 continue; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
             }
+
             echo $connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn($connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
             $report->eachData($device['deviceName'], $connStatusPass, $connectedText); // log to report
+
             foreach ($snippetArr as $k => $command) {
                 $conn->writeSnippetTelnet($command, $result);
                 $tableRow .= "
@@ -159,6 +184,7 @@ if (!empty($resultNodesRes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($result);
         }
+
         // send data output to the report
         $report->eachConfigSnippetData($tableRow);
         // unset tableRow data for next iteration

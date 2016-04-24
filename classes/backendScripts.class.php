@@ -56,6 +56,37 @@ class backendScripts {
         return array('debugOnOff'=>$debugRes[0]['commandDebug'], 'debugPath'=>$debugRes[0]['commandDebugLocation'], 'cliDebugOutput' => false, 'cliDebugOutput' => $debugOutputArray);
     }
     
+    public function invokationCheck($log, $tid, $php_sapi_name, $serverTerm=null, $pageName){
+        // set $resetPerms to 0 as this will be be used later to NOT reset permissions on /home/rconfig/*
+        $resetPerms = 0;
+        if ($php_sapi_name == 'cli') {
+            // check if script was run manually using the $_SERVER['TERM'] global
+            if ($serverTerm != NULL) {
+                $log->Info("The " . $pageName . " script was run from a manual invocation on a shell with Task ID:" . $tid . ""); // logg to file
+                $alert = "The " . $pageName . " script was run from a manual invocation on a shell with Task ID:" . $tid . "\r\n";
+                // set this var so that later we can reset permissions on the /home/rconfig/data dir. Running the script from a shell causes perms to be set as root otherwise
+                $resetPerms = 1;
+            } else {
+                $log->Info("The " . $pageName . " script was run from crontab ID:" . $tid . ""); // logg to file
+                $alert =  "The script was run from the crontab entry with Task ID:" . $tid . "\r\n";
+            }
+        } else {
+            $log->Info("The " . $pageName . " script was run from a webserver, or something else"); // logg to file
+            $alert =  "The script was run from a webserver, or something else with Task ID:" . $tid . "\r\n";
+        }
+        return array('resetPerms'=>$resetPerms, 'alert'=>$alert);
+    }
+
+    public function resetPerms($log, $resetPerms=0){
+        if ($resetPerms = 1) {
+            $dataDir = '/home/rconfig/data/';
+            shell_exec('chown -R apache ' . $dataDir);
+            $log->Info("The owner permisions for directory " . $dataDir . " were reset to owner apache because script was run interactively"); // log to file
+            $resetAlert = "The owner permisions for directory " . $dataDir . " were reset to owner apache because script was run interactively\r\n";
+            return array('resetAlert'=>$resetAlert);
+        }
+    }
+
     public function reportMailer($db2, $log, $title, $config_reports_basedir, $reportDirectory, $reportFilename, $taskname){
         require("/home/rconfig/classes/phpmailer/class.phpmailer.php");
         $db2->query("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
@@ -97,4 +128,10 @@ class backendScripts {
         $mail->ClearAddresses();
         $mail->ClearAttachments();
     }     
+    
+    public function finalAlert($param, $pageName) {
+        $text = "Failure: Unable to get Device information from Database Command (File: " . $pageName;
+        $log->Fatal($text);
+        return $text;
+    }
 }
