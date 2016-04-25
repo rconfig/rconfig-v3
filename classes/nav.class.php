@@ -60,6 +60,10 @@ class nav {
                   echo '<li><a href="'.$value['pageName'].'" '.$activeClass.'">'.$value['menuName'].'</a></li>';
               }            
              echo '</div>'; // end nav2 div
+             echo '</div>'; // end navwrap div
+        } else {
+            // display final navwrap div tag for renderTopNav if no sub menu items per 'if ($menuCount >1){' so that the div renders correctly
+            echo '</div>'; // end navwrap div
         }
     }
 }
