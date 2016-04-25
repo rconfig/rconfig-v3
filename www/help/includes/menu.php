@@ -1,10 +1,10 @@
 <HTML>
-<HEAD>
-<TITLE>Top Frame</TITLE>
-</HEAD>
-<BODY BGCOLOR="FFAADD">
+    <HEAD>
+        <TITLE>Top Frame</TITLE>
+    </HEAD>
+    <BODY BGCOLOR="FFAADD">
 
-Side menu
+        Side menu
 
-</BODY>
+    </BODY>
 </HTML>
