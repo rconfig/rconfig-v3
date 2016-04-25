@@ -160,7 +160,7 @@
                         <label>Connection Timeout:
                             <span class="small">Timeout in seconds</span>
                         </label>
-                        <input type="text" value="<?php echo $timeout; ?>" id="deviceTout" name="deviceTout" size="1" maxlength="3" style="width:15px;margin-right:5px;"/>
+                        <input type="text" value="<?php echo $timeout; ?>" id="deviceTout" name="deviceTout" size="1" maxlength="3" style="width:25px;margin-right:5px;"/>
                         <label>
                             <button class="smlButton" id="deviceToutGo" onclick="deviceToutGo()">Update</button>
                             <span  id="updated" style="display:none; color:green;">Updated!</span>

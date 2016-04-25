@@ -134,7 +134,7 @@ class Process
     * emailed to the address the user gave on sign up.
     */
    function procForgotPass(){
-      global $database, $session, $mailer, $form;
+       global $database, $session, $mailer, $form;
       /* Username error checking */
       $subuser = $_POST['user'];
       $field = "user";  //Use field name for username
@@ -148,7 +148,7 @@ class Process
          /* Make sure username is in database */
          $subuser = stripslashes($subuser);
          if(strlen($subuser) < 5 || strlen($subuser) > 30 ||
-            !eregi("^([0-9a-z])+$", $subuser) ||
+            !preg_match("/^([0-9a-z])+$/", $subuser) ||
             (!$database->usernameTaken($subuser))){
             $form->setError($field, "Unknown Username");
          $_SESSION['value_array'] = $_POST;
@@ -175,15 +175,14 @@ class Process
          if($mailer->sendNewPass($subuser,$email,$newpass)){
             /* Email sent, update database */
             $database->updateUserField($subuser, "password", md5($newpass));
-            $_SESSION['forgotpass'] = true;
-         }
-         /* Email failure, do not change password */
-         else{
-            $_SESSION['forgotpass'] = false;
+//            $_SESSION['forgotpass'] = true;
+            echo "<script>"
+            . "alert('Your new password has been generated. The password was emailed to $email');"
+            . "window.close();"
+            . "</script>";
          }
       }
-      
-      header("Location: useradmin.php");
+//      header("Location: useradmin.php");
    }
    
    /**
@@ -265,5 +264,3 @@ class Process
 };
 /* Initialize process */
 $process = new Process;
-
-?>

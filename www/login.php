@@ -44,8 +44,8 @@
                         <a href="javascript: void(0)" 
                            onclick="window.open('userforgot.php',
                                                            'ForgotPassword',
-                                                           'width=415, \
-					   height=200, \
+                                                           'width=400, \
+					   height=250, \
 					   directories=no, \
 					   location=no, \
 					   menubar=no, \
