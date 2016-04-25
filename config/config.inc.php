@@ -100,4 +100,3 @@ define("EMAIL_WELCOME", true);
  * converted automatically.
  */
 define("ALL_LOWERCASE", true);
-?>

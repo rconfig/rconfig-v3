@@ -5,6 +5,24 @@
  * reference this file
  */
 
+
+// gets & sets data for Annoucements section and Bredcrumb text on pages from the DB
+function pageTitles($pageName, $pageType=NULL){
+    require_once("../classes/db2.class.php");
+    $db2 = new db2();
+    $db2->query("SELECT * FROM menuPages WHERE pageName = :pageName");
+    $db2->bind(':pageName', $pageName);
+    $result = $db2->resultset();
+    if($pageType == 'announcement'){
+        $text = $result[0]['annoucementText'];
+    } elseif($pageType == 'breadcrumb') {
+        $text = $result[0]['breadcrumbText'];
+    } else {
+        $text = ' <font color=\"red\">$pageType Not Found for function pageTitles()</font>';
+    }
+    return $text;
+}
+
 /**
  * phpErrorReporting to check if PHP Error reporting is set to on in dbase_add_record
  * if it is start logging errors to DB file. Function is added to head.inc.php on each and every page
