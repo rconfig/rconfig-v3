@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2008, David R. Nadeau, NadeauSoftware.com.
  * All rights reserved.
@@ -7,18 +8,18 @@
  * modification, are permitted provided that the following conditions
  * are met:
  *
- *	* Redistributions of source code must retain the above copyright
- *	  notice, this list of conditions and the following disclaimer.
+ * 	* Redistributions of source code must retain the above copyright
+ * 	  notice, this list of conditions and the following disclaimer.
  *
- *	* Redistributions in binary form must reproduce the above
- *	  copyright notice, this list of conditions and the following
- *	  disclaimer in the documentation and/or other materials provided
- *	  with the distribution.
+ * 	* Redistributions in binary form must reproduce the above
+ * 	  copyright notice, this list of conditions and the following
+ * 	  disclaimer in the documentation and/or other materials provided
+ * 	  with the distribution.
  *
- *	* Neither the names of David R. Nadeau or NadeauSoftware.com, nor
- *	  the names of its contributors may be used to endorse or promote
- *	  products derived from this software without specific prior
- *	  written permission.
+ * 	* Neither the names of David R. Nadeau or NadeauSoftware.com, nor
+ * 	  the names of its contributors may be used to endorse or promote
+ * 	  products derived from this software without specific prior
+ * 	  written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,12 +34,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
-
 /*
  * This is a BSD License approved by the Open Source Initiative (OSI).
  * See:  http://www.opensource.org/licenses/bsd-license.php
  */
-
 
 /**
  * Strip out (X)HTML tags and invisible content.  This function
@@ -66,47 +65,42 @@
  * See:
  * 	http://nadeausoftware.com/articles/2007/09/php_tip_how_strip_html_tags_web_page
  */
-function strip_html_tags( $text )
-{
-	// PHP's strip_tags() function will remove tags, but it
-	// doesn't remove scripts, styles, and other unwanted
-	// invisible text between tags.  Also, as a prelude to
-	// tokenizing the text, we need to insure that when
-	// block-level tags (such as <p> or <div>) are removed,
-	// neighboring words aren't joined.
-	$text = preg_replace(
-		array(
-			// Remove invisible content
-			'@<head[^>]*?>.*?</head>@siu',
-			'@<style[^>]*?>.*?</style>@siu',
-			'@<script[^>]*?.*?</script>@siu',
-			'@<object[^>]*?.*?</object>@siu',
-			'@<embed[^>]*?.*?</embed>@siu',
-			'@<applet[^>]*?.*?</applet>@siu',
-			'@<noframes[^>]*?.*?</noframes>@siu',
-			'@<noscript[^>]*?.*?</noscript>@siu',
-			'@<noembed[^>]*?.*?</noembed>@siu',
+function strip_html_tags($text) {
+    // PHP's strip_tags() function will remove tags, but it
+    // doesn't remove scripts, styles, and other unwanted
+    // invisible text between tags.  Also, as a prelude to
+    // tokenizing the text, we need to insure that when
+    // block-level tags (such as <p> or <div>) are removed,
+    // neighboring words aren't joined.
+    $text = preg_replace(
+            array(
+        // Remove invisible content
+        '@<head[^>]*?>.*?</head>@siu',
+        '@<style[^>]*?>.*?</style>@siu',
+        '@<script[^>]*?.*?</script>@siu',
+        '@<object[^>]*?.*?</object>@siu',
+        '@<embed[^>]*?.*?</embed>@siu',
+        '@<applet[^>]*?.*?</applet>@siu',
+        '@<noframes[^>]*?.*?</noframes>@siu',
+        '@<noscript[^>]*?.*?</noscript>@siu',
+        '@<noembed[^>]*?.*?</noembed>@siu',
+        // Add line breaks before & after blocks
+        '@<((br)|(hr))@iu',
+        '@</?((address)|(blockquote)|(center)|(del))@iu',
+        '@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
+        '@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
+        '@</?((table)|(th)|(td)|(caption))@iu',
+        '@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
+        '@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
+        '@</?((frameset)|(frame)|(iframe))@iu',
+            ), array(
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
+        "\n\$0", "\n\$0",
+            ), $text);
 
-			// Add line breaks before & after blocks
-			'@<((br)|(hr))@iu',
-			'@</?((address)|(blockquote)|(center)|(del))@iu',
-			'@</?((div)|(h[1-9])|(ins)|(isindex)|(p)|(pre))@iu',
-			'@</?((dir)|(dl)|(dt)|(dd)|(li)|(menu)|(ol)|(ul))@iu',
-			'@</?((table)|(th)|(td)|(caption))@iu',
-			'@</?((form)|(button)|(fieldset)|(legend)|(input))@iu',
-			'@</?((label)|(select)|(optgroup)|(option)|(textarea))@iu',
-			'@</?((frameset)|(frame)|(iframe))@iu',
-		),
-		array(
-			' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-			"\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0", "\n\$0",
-			"\n\$0", "\n\$0",
-		),
-		$text );
-
-	// Remove all remaining tags and comments and return.
-	return strip_tags( $text );
+    // Remove all remaining tags and comments and return.
+    return strip_tags($text);
 }
-
 
 ?>
