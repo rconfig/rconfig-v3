@@ -1,15 +1,15 @@
 <?php
 if (php_sapi_name() != 'cli') {
-	// only set this when not run from CLI 
-	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
-		$config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
-	} else {
-		$config_basedir = "http://".$_SERVER['HTTP_HOST']."/";
-	}
+    // only set this when not run from CLI 
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
+        $config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
+    } else {
+        $config_basedir = "http://".$_SERVER['HTTP_HOST']."/";
+    }
 }
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";
-$config_author = "Stephen Stack & Matt Vitale";
+$config_author = "Stephen Stack";
 $config_version = "3.1.0";
 $config_app_basedir = "/home/rconfig/";
 $config_log_basedir = "/home/rconfig/logs/";
@@ -100,4 +100,3 @@ define("EMAIL_WELCOME", true);
  * converted automatically.
  */
 define("ALL_LOWERCASE", true);
-?>

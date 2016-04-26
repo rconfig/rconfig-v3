@@ -15,7 +15,6 @@ class MySQLDB {
 
     var $connection;         //The MySQL database connection
     var $num_active_users;   //Number of active users viewing site
-    var $num_active_guests;  //Number of active guests viewing site
     var $num_members;        //Number of signed-up users
 
     /* Note: call getNumMembers() to access $num_members! */
@@ -23,10 +22,12 @@ class MySQLDB {
     /* Class constructor */
 
     function MySQLDB() {
-        /* Make connection to database */
-        $this->connection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD) or die(mysql_error());
-        mysql_select_db(DB_NAME, $this->connection) or die(mysql_error());
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
 
+        /* Make connection to database */
+        require_once("/home/rconfig/classes/db2.class.php");
+        $this->connection = new db2();
         /**
          * Only query database to find out number of members
          * when getNumMembers() is called for the first time,
@@ -37,9 +38,6 @@ class MySQLDB {
         if (TRACK_VISITORS) {
             /* Calculate number of users at site */
             $this->calcNumActiveUsers();
-
-            /* Calculate number of guests at site */
-            $this->calcNumActiveGuests();
         }
     }
 
@@ -52,23 +50,16 @@ class MySQLDB {
      * (1 or 2). On success it returns 0.
      */
     function confirmUserPass($username, $password) {
-        /* Add slashes if necessary (for query) */
-        if (!get_magic_quotes_gpc()) {
-            $username = addslashes($username);
-        }
-
         /* Verify that user is in database */
-        $q = "SELECT password FROM " . TBL_USERS . " WHERE username = '$username'";
-        $result = mysql_query($q, $this->connection);
-        if (!$result || (mysql_numrows($result) < 1)) {
+        $this->connection->query("SELECT password FROM " . TBL_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $result = $this->connection->resultset();
+        $num_rows = $this->connection->rowCount();
+        if (!$result || $num_rows < 1) {
             return 1; //Indicates username failure
         }
-
         /* Retrieve password from result, strip slashes */
-        $dbarray = mysql_fetch_array($result);
-        $dbarray['password'] = stripslashes($dbarray['password']);
-        $password = stripslashes($password);
-
+        $dbarray = $result[0];
         /* Validate that password is correct */
         if ($password == $dbarray['password']) {
             return 0; //Success! Username and password confirmed
@@ -86,23 +77,17 @@ class MySQLDB {
      * (1 or 2). On success it returns 0.
      */
     function confirmUserID($username, $userid) {
-        /* Add slashes if necessary (for query) */
-        if (!get_magic_quotes_gpc()) {
-            $username = addslashes($username);
-        }
-
         /* Verify that user is in database */
-        $q = "SELECT userid FROM " . TBL_USERS . " WHERE username = '$username'";
-        $result = mysql_query($q, $this->connection);
-        if (!$result || (mysql_numrows($result) < 1)) {
+        $this->connection->query("SELECT userid FROM " . TBL_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $result = $this->connection->resultset();
+        $num_rows = $this->connection->rowCount();
+        if (!$result || $num_rows < 1) {
             return 1; //Indicates username failure
         }
 
         /* Retrieve userid from result, strip slashes */
-        $dbarray = mysql_fetch_array($result);
-        $dbarray['userid'] = stripslashes($dbarray['userid']);
-        $userid = stripslashes($userid);
-
+        $dbarray = $result[0];
         /* Validate that userid is correct */
         if ($userid == $dbarray['userid']) {
             return 0; //Success! Username and userid confirmed
@@ -116,21 +101,21 @@ class MySQLDB {
      * been taken by another user, false otherwise.
      */
     function usernameTaken($username) {
-        if (!get_magic_quotes_gpc()) {
-            $username = addslashes($username);
-        }
-        $q = "SELECT username FROM " . TBL_USERS . " WHERE username = '$username'";
-        $result = mysql_query($q, $this->connection);
-        return (mysql_numrows($result) > 0);
+        $this->connection->query("SELECT username FROM " . TBL_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $result = $this->connection->resultsetCols();
+        $num_rows = count($result);
+        return ($num_rows > 0);
     }
 
     /**
      * passwordConfirm - Returns password
      */
     function passwordConfirm($username, $password) {
-        $q = "SELECT password FROM " . TBL_USERS . " WHERE username = '$username'";
-        $result = mysql_query($q, $this->connection);
-        $password = mysql_fetch_assoc($result);
+        $this->connection->query("SELECT password FROM " . TBL_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $result = $this->connection->resultset();
+        $password = $result[0];
         $curpass = $password['password'];
         return $curpass;
     }
@@ -143,8 +128,12 @@ class MySQLDB {
     function addNewUser($username, $password, $email, $subulevelid) {
         $status = 1;
         $time = time();
-        $q = "INSERT INTO " . TBL_USERS . " (username, password, userlevel, email, timestamp, status) VALUES ('$username', '$password', $subulevelid, '$email', $time, $status)";
-        return mysql_query($q, $this->connection);
+        $this->connection->query("INSERT INTO " . TBL_USERS . " (username, password, userlevel, email, timestamp, status) VALUES (:username, :password, :subulevelid, :email, $time, $status)");
+        $this->connection->bind(':username', $username);
+        $this->connection->bind(':password', $password);
+        $this->connection->bind(':email', $email);
+        $this->connection->bind(':subulevelid', $subulevelid);
+        return $this->connection->execute();
     }
 
     /**
@@ -152,16 +141,12 @@ class MySQLDB {
      *
      */
     function updateUser($id, $username, $password, $email, $ulevelid) {
-        $q = "UPDATE " . TBL_USERS . " SET 
-	  username = '$username',  
-	  password = '$password',  
-	  email = '$email',  
-	  userlevel = '$ulevelid'	  
-	  WHERE username = '$username'";
-        // echo $q; die();
-        $this->connection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD) or die(mysql_error());
-        mysql_select_db(DB_NAME, $this->connection) or die(mysql_error());
-        return mysql_query($q, $this->connection) or die(mysql_error());
+        $this->connection->query("UPDATE " . TBL_USERS . " SET username = :username,   password = :password, email = :email, userlevel = :ulevelid WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $this->connection->bind(':password', $password);
+        $this->connection->bind(':email', $email);
+        $this->connection->bind(':ulevelid', $ulevelid);
+        return $this->connection->execute();
     }
 
     /**
@@ -169,10 +154,10 @@ class MySQLDB {
      * parameter, in the user's row of the database.
      */
     function updateUserField($username, $field, $value) {
-        $q = "UPDATE " . TBL_USERS . " SET " . $field . " = '$value' WHERE username = '$username'";
-        $this->connection = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD) or die(mysql_error());
-        mysql_select_db(DB_NAME, $this->connection) or die(mysql_error());
-        return mysql_query($q) or die(mysql_error());
+        $this->connection->query("UPDATE " . TBL_USERS . " SET ".$field." = :value WHERE username = :username");
+        $this->connection->bind(':username', $username);        
+        $this->connection->bind(':value', $value);        
+        return $this->connection->execute();
     }
 
     /**
@@ -181,14 +166,16 @@ class MySQLDB {
      * the given username. If query fails, NULL is returned.
      */
     function getUserInfo($username) {
-        $q = "SELECT * FROM " . TBL_USERS . " WHERE username = '$username'";
-        $result = mysql_query($q, $this->connection);
+        $this->connection->query("SELECT * FROM " . TBL_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $result = $this->connection->resultset();
+        $num_rows = $this->connection->rowCount();
         /* Error occurred, return given name by default */
-        if (!$result || (mysql_numrows($result) < 1)) {
+        if (!$result || $num_rows < 1) {
             return NULL;
         }
         /* Return result array */
-        $dbarray = mysql_fetch_array($result);
+        $dbarray = $result[0];
         return $dbarray;
     }
 
@@ -202,9 +189,9 @@ class MySQLDB {
      */
     function getNumMembers() {
         if ($this->num_members < 0) {
-            $q = "SELECT * FROM " . TBL_USERS;
-            $result = mysql_query($q, $this->connection);
-            $this->num_members = mysql_numrows($result);
+            $this->connection->query("SELECT * FROM " . TBL_USERS);
+            $num_rows = $this->connection->rowCount();
+            $this->num_members = $num_rows;
         }
         return $this->num_members;
     }
@@ -215,9 +202,9 @@ class MySQLDB {
      */
     function calcNumActiveUsers() {
         /* Calculate number of users at site */
-        $q = "SELECT * FROM " . TBL_ACTIVE_USERS;
-        $result = mysql_query($q, $this->connection);
-        $this->num_active_users = mysql_numrows($result);
+        $this->connection->query("SELECT * FROM " . TBL_ACTIVE_USERS);
+        $num_rows = $this->connection->rowCount();
+        $this->num_active_users = $num_rows;
     }
 
     /**
@@ -226,9 +213,9 @@ class MySQLDB {
      */
     function calcNumActiveGuests() {
         /* Calculate number of guests at site */
-        $q = "SELECT * FROM " . TBL_ACTIVE_GUESTS;
-        $result = mysql_query($q, $this->connection);
-        $this->num_active_guests = mysql_numrows($result);
+        $this->connection->query("SELECT * FROM " . TBL_ACTIVE_GUESTS);
+        $num_rows = $this->connection->rowCount();
+        $this->num_active_guests = $num_rows;
     }
 
     /**
@@ -237,13 +224,17 @@ class MySQLDB {
      * active users, or updates timestamp if already there.
      */
     function addActiveUser($username, $time) {
-        $q = "UPDATE " . TBL_USERS . " SET timestamp = '$time' WHERE username = '$username'";
-        mysql_query($q, $this->connection);
+        $this->connection->query("UPDATE " . TBL_USERS . " SET timestamp = :time WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $this->connection->bind(':time', $time);
+        $this->connection->execute();
 
         if (!TRACK_VISITORS)
             return;
-        $q = "REPLACE INTO " . TBL_ACTIVE_USERS . " VALUES ('$username', '$time')";
-        mysql_query($q, $this->connection);
+        $this->connection->query("REPLACE INTO " . TBL_ACTIVE_USERS . " VALUES (:username, :time)");
+        $this->connection->bind(':username', $username);
+        $this->connection->bind(':time', $time);
+        $this->connection->execute();
         $this->calcNumActiveUsers();
     }
 
@@ -252,8 +243,8 @@ class MySQLDB {
     function addActiveGuest($ip, $time) {
         if (!TRACK_VISITORS)
             return;
-        $q = "REPLACE INTO " . TBL_ACTIVE_GUESTS . " VALUES ('$ip', '$time')";
-        mysql_query($q, $this->connection);
+        $this->connection->query("REPLACE INTO " . TBL_ACTIVE_GUESTS . " VALUES ('$ip', '$time')");
+        $this->connection->execute();
         $this->calcNumActiveGuests();
     }
 
@@ -264,8 +255,9 @@ class MySQLDB {
     function removeActiveUser($username) {
         if (!TRACK_VISITORS)
             return;
-        $q = "DELETE FROM " . TBL_ACTIVE_USERS . " WHERE username = '$username'";
-        mysql_query($q, $this->connection);
+        $this->connection->query("DELETE FROM " . TBL_ACTIVE_USERS . " WHERE username = :username");
+        $this->connection->bind(':username', $username);
+        $this->connection->execute();
         $this->calcNumActiveUsers();
     }
 
@@ -274,8 +266,8 @@ class MySQLDB {
     function removeActiveGuest($ip) {
         if (!TRACK_VISITORS)
             return;
-        $q = "DELETE FROM " . TBL_ACTIVE_GUESTS . " WHERE ip = '$ip'";
-        mysql_query($q, $this->connection);
+        $this->connection->query("DELETE FROM " . TBL_ACTIVE_GUESTS . " WHERE ip = '$ip'");
+        $this->connection->execute();
         $this->calcNumActiveGuests();
     }
 
@@ -285,8 +277,8 @@ class MySQLDB {
         if (!TRACK_VISITORS)
             return;
         $timeout = time() - USER_TIMEOUT * 60;
-        $q = "DELETE FROM " . TBL_ACTIVE_USERS . " WHERE timestamp < $timeout";
-        mysql_query($q, $this->connection);
+        $this->connection->query("DELETE FROM " . TBL_ACTIVE_USERS . " WHERE timestamp < $timeout");
+        $this->connection->execute();
         $this->calcNumActiveUsers();
     }
 
@@ -296,22 +288,19 @@ class MySQLDB {
         if (!TRACK_VISITORS)
             return;
         $timeout = time() - GUEST_TIMEOUT * 60;
-        $q = "DELETE FROM " . TBL_ACTIVE_GUESTS . " WHERE timestamp < $timeout";
-        mysql_query($q, $this->connection);
+        $this->connection->query("DELETE FROM " . TBL_ACTIVE_GUESTS . " WHERE timestamp < $timeout");
+        $this->connection->execute();
         $this->calcNumActiveGuests();
     }
 
     function checkLdapServer() {
-
-        $q = "SELECT ldapServer FROM settings WHERE id = 1";
-        $result = mysql_query($q, $this->connection);
-        if (!$result || (mysql_numrows($result) < 1)) {
+        $this->connection->query("SELECT ldapServer FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
+        $num_rows = $this->connection->rowCount();
+        if (!$result || $num_rows < 1) {
             return 1; //Indicates LDAP server lookup failure
         }
-
-        $dbarray = mysql_fetch_array($result);
-        $dbarray['ldapServer'] = stripslashes($dbarray['ldapServer']);
-
+        $dbarray = $result[0];
         if (!empty($dbarray['ldapServer'])) {
             return 0; //LDAP server is set
         } else {
@@ -320,26 +309,18 @@ class MySQLDB {
     }
 
     function getLdapServer() {
-        $q = "SELECT ldapServer FROM settings WHERE id = 1";
+        $this->connection->query("SELECT ldapServer FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
         $result = mysql_query($q, $this->connection);
-        $dbarray = mysql_fetch_array($result);
-        $dbarray['ldapServer'] = stripslashes($dbarray['ldapServer']);
+        $dbarray = $result[0];
         return $dbarray['ldapServer'];
     }
 
-    /**
-     * query - Performs the given query on the database and
-     * returns the result, which may be false, true or a
-     * resource identifier.
-     */
-    function query($query) {
-        return mysql_query($query, $this->connection);
+    function querySelect($qry){
+        $this->connection->query($qry);
+        return $this->connection->resultset();
     }
-
 }
-
-;
 
 /* Create database connection */
 $database = new MySQLDB;
-?>

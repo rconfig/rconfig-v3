@@ -357,19 +357,3 @@ FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL')
 AND (`nodes`.`model` <> ''));
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-
-
--- Dumping structure for table DATABASE_NAME.generatedConfigs
--- CREATE TABLE `generatedConfigs` (
---   `id` int(11) NOT NULL AUTO_INCREMENT,
---   `configName` varchar(50) NOT NULL,
---   `templateName` varchar(50) NOT NULL,
---   `configDesc` varchar(50) NOT NULL,
---   `linkedId` int(11) NOT NULL,
---   `newConfig` mediumtext NOT NULL,
---   `configLocation` varchar(100) NOT NULL,
---   `configFilename` varchar(100) NOT NULL,
---   `configDate` date NOT NULL,
---   `status` int(1) NOT NULL,
---   PRIMARY KEY (`id`)
--- ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

@@ -170,3 +170,36 @@
 2016-04-25 15:39:50 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com) Error:(File: /lib/crud/userprocess.php)
 2016-04-25 15:42:02 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com) Error:(File: /lib/crud/userprocess.php)
 2016-04-25 15:43:21 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com) Error:(File: /lib/crud/userprocess.php)
+2016-04-25 16:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 17:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 18:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 19:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 20:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 21:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 22:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-25 23:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 00:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:986760
+2016-04-26 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 00:01:06 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-26 00:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-26 00:01:06 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-04-26 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 02:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 03:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 04:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 05:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 06:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 07:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 08:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 09:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 10:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 11:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 11:44:27 FATAL <strong>SMTP Error: Could not connect to SMTP host.</strong><br />
+ Error:(File: /lib/crud/userprocess.php)
+2016-04-26 11:44:56 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com) Error:(File: /lib/crud/userprocess.php)
+2016-04-26 11:46:56 INFO Success: Deleted user of ID: 4 in DB (File: /lib/crud/userAdmin.crud.php)
+2016-04-26 12:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:986760
+2016-04-26 12:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-26 12:01:06 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-26 12:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-26 12:01:06 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

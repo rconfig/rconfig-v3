@@ -1,5 +1,5 @@
 <?php include("includes/head.inc.php"); ?>
-<body>
+<body style="overflow:hidden;">
     <?php
     /**
      * userAccountEdit.php
@@ -153,7 +153,3 @@
         <?php
     }
 }
-?>
-                        </div>
-</body>
-</html>

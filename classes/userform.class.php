@@ -79,12 +79,8 @@ class Form {
     }
 
     /* getErrorArray - Returns the array of error messages */
-
     function getErrorArray() {
         return $this->errors;
     }
 
 }
-
-;
-?>

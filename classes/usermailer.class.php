@@ -46,18 +46,12 @@ class Mailer {
      * to the user's email address that was specified at
      * sign-up.
      */
-    function sendNewPass($user, $smtpRecipientAddr, $pass) {       
+    function sendNewPass($user, $smtpRecipientAddr, $pass) {    
+        global $database;
         require("phpmailer/class.phpmailer.php");
-        require("db2.class.php");
         require("ADLog.class.php");
-//        require("/home/rconfig/config/config.inc.php");
-        // declare DB Class
-        $db2 = new db2();
-        // declare Logging Class
         $log = ADLog::getInstance();
-        // $log->logDir = $config_log_basedir; // set correct log dir
-        $db2->query("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
-        $resultSelSmtp = $db2->resultset();
+        $resultSelSmtp = $database->querySelect("SELECT smtpServerAddr, smtpFromAddr, smtpRecipientAddr, smtpAuth, smtpAuthUser, smtpAuthPass FROM settings");
         $smtpServerAddr = $resultSelSmtp[0]['smtpServerAddr'];
         $smtpFromAddr = $resultSelSmtp[0]['smtpFromAddr'];
 //        $smtpRecipientAddr = $resultSelSmtp[0]['smtpRecipientAddr'];
@@ -68,7 +62,6 @@ class Mailer {
         }
 
         $mail = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
-
         $body = $user . ",<br/><br/>"
                 . "A new password has been generated for you "
                 . "at your request to log in to rConfig.<br/><br/>"
