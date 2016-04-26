@@ -77,7 +77,7 @@ if($update->checkForUpdateFile($updateFile)){
     $sqlUpdateFile = $extractDir.'/rconfig/updates/sqlupdate.sql';
     if($update->checkForUpdateFile($sqlUpdateFile) && filesize($sqlUpdateFile) !== 0){
         // loadSqlFile from classes/updater.class.php
-        if($update->loadSqlFile($sqlUpdateFile, DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)){
+        if($update->loadSqlFile($sqlUpdateFile, DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)){
             $response['sqlUpdateComplete'] = 'rConfig Database was updated';
             $log->Info("Database was updated - (File: " . $_SERVER['PHP_SELF'] . ")");
         }

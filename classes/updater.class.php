@@ -109,12 +109,12 @@ class updater {
      * @param path sqlFileToExecute
      * @return errors
      */
-    public function loadSqlFile($sqlFileToExecute, $sqlServer, $sqlUser, $sqlPass, $sqlDb) {
+    public function loadSqlFile($sqlFileToExecute, $dbPort, $sqlServer, $sqlUser, $sqlPass, $sqlDb) {
         try {
-            $db = new PDO('mysql:dbname=' . $sqlDb . ';host=' . $sqlServer, $sqlUser, $sqlPass);
+            $db = new PDO('mysql:dbname=' . $sqlDb . ';port=' . $dbPort . ';host=' . $sqlServer, $sqlUser, $sqlPass);
             $sql = file_get_contents($sqlFileToExecute); //file name should be name of SQL file with .sql extension. 
             $qr = $db->exec($sql);
-            echo($qr); // if query execut successfully, this will print 0 else 1
+//            echo($qr); // if query execut successfully, this will print 0 else 1
         } catch (PDOException $e) {
             echo 'Connection failed: ' . $e->getMessage();
             $qr == 1; // set query result to fail and it returns false below

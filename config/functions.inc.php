@@ -5,7 +5,6 @@
  * reference this file
  */
 
-
 // gets & sets data for Annoucements section and Bredcrumb text on pages from the DB
 function pageTitles($pageName, $pageType=NULL){
     require_once("../classes/db2.class.php");

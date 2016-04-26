@@ -1,7 +1,10 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 $configFilePathInstalled = '/home/rconfig/config/config.inc.php';
 include($configFilePathInstalled);
-$sqlHost = DB_HOST . ":" . DB_PORT;
+include("/home/rconfig/classes/db2.class.php");
 $array = array();
 
 /* config.inc.php  file read check */
@@ -12,17 +15,20 @@ if (defined('DB_HOST') && defined('DB_USER')) {
 }
 
 /* DB checks */
-$link = mysql_connect($sqlHost, DB_USER, DB_PASSWORD);
+// now invoking DB2 class, beacuse if this works, then the DB, and config file is fully installed
+$db2 = new db2();
 
-if ($link) {
+if ($db2) {
     $array['dbReadMsg'] = '<strong><font class="Good">Pass</strong></font><br/>';
 
-    mysql_select_db(DB_NAME, $link);
-    if (!mysql_query("INSERT INTO categories (categoryName, status) VALUES ('testCat', 2)")) {
-        $array['dbWriteMsg'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
+    $db2->query("INSERT INTO categories (categoryName, status) VALUES ('testCat', 2)");
+    $resultInsert = $db2->execute();
+    if (!$resultInsert) {
+        $array['dbWriteMsg'] = '<strong><font class="bad">Fail - Could not insert into Database </strong></font><br/>';
     }
-    $result = mysql_query("SELECT * FROM categories");
-    while ($row = mysql_fetch_array($result)) {
+    $db2->query("SELECT * FROM categories");
+    $resultSelect = $db2->resultset();
+    foreach ($resultSelect as $row) {
         if ($row['categoryName'] == 'testCat') {
             $dbWriteTest = 1;
         }
@@ -32,14 +38,14 @@ if ($link) {
     } else {
         $array['dbWriteMsg'] = '<strong><font class="Bad">Could not write to Database</strong></font><br/>';
     }
-    if (!mysql_query("DELETE FROM categories WHERE categoryName = 'testCat'")) {
-        $array['dbWriteMsg'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
+    $db2->query("DELETE FROM categories WHERE categoryName = 'testCat'");
+    $resultDelete = $db2->execute();
+    if (!$resultDelete) {
+        $array['dbWriteMsg'] = '<strong><font class="bad">Fail - Could not read from Database </strong></font><br/>';
     }
 } else {
-    $array['dbReadMsg'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
+    $array['dbReadMsg'] = '<strong><font class="bad">Fail - Could not access Database </strong></font><br/>';
 }
-
-mysql_close($link);
 
 /* rConfig Application Directory file checks */
 

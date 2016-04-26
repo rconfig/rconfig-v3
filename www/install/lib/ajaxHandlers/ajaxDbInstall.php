@@ -1,45 +1,56 @@
 <?php
-$server = $_GET['server'];
-$port = $_GET['port'];
-$dbName = $_GET['dbName'];
-$dbUsername = $_GET['dbUsername'];
-$dbPassword = $_GET['dbPassword'];
-$siteUrl = $_GET['siteUrl'];
-$installDir = $_GET['installDir'];
+if(isset($_GET['server'])){$server = $_GET['server'];}
+if(isset($_GET['port'])){$port = $_GET['port'];}
+if(isset($_GET['dbName'])){$dbName = $_GET['dbName'];}
+if(isset($_GET['dbUsername'])){$dbUsername = $_GET['dbUsername'];}
+if(isset($_GET['dbPassword'])){$dbPassword = $_GET['dbPassword'];}
 $sqlHost = $server . ":" . $port;
 $dbFile = '../../rconfig.sql';
 $configFilePathOriginal = '/home/rconfig/www/install/config.inc.php.template';
 $configFilePathInstalled = '/home/rconfig/config/config.inc.php';
-include $array = array();
+$array = array();
 
-$link = mysql_connect($sqlHost, $dbUsername, $dbPassword);
-
-if ($link) {
-    if (mysql_query("CREATE DATABASE $dbName", $link)) {
-        if (mysql_select_db($dbName, $link)) {
-
-            // rewrite the 'DATABASE_NAME' tage from the SQL file into memory
-            $templateFile = file_get_contents($dbFile);
-
-            // do tag replacements or whatever you want
-            $templateFile = str_replace('DATABASE_NAME', $dbName, $templateFile);
-
-            $sqlArray = explode(';', $templateFile);
-            $sqlErrorCode = '';
-            $sqlErrorText = '';
-            foreach ($sqlArray as $stmt) {
-                if (strlen($stmt) > 3 && substr(ltrim($stmt), 0, 2) != '/*') {
-                    $result = mysql_query($stmt);
-                    if (!$result) {
-                        $sqlErrorCode = mysql_errno();
-                        $sqlErrorText = mysql_error();
-                        $sqlStmt = $stmt;
-                        break;
-                    }
-                }
+// add DB
+$options = array(
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_PERSISTENT => true,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+);
+$error = ''; // set error var to blank
+try {
+    $dbh = new PDO('mysql:port=' . $port . ';host=' . $server, $dbUsername, $dbPassword, $options);
+    $dbh->exec("CREATE DATABASE `$dbName`;") 
+    or die(print_r($dbh->errorInfo(), true));
+    $dbCreated = 1;
+} catch (PDOException $e) {
+    $error = "DB ERROR: ". $e->getMessage();
+    echo $error;
+}
+        
+if ($dbCreated = 1) {
+    // rewrite the 'DATABASE_NAME' tag from the SQL file into memory
+    $templateFile = file_get_contents($dbFile);
+    $templateFile = str_replace('DATABASE_NAME', $dbName, $templateFile);
+    $sql = file_get_contents($dbFile); //file name should be name of SQL file with .sql extension. 
+    try {
+        $dsn = 'mysql:host=' . $server . ';dbname=' . $dbName . ';port=' . $port;
+        $dbh = new PDO($dsn, $dbUsername, $dbPassword, $options);
+        $sqlArray = explode(';',$templateFile);
+        foreach ($sqlArray as $stmt) { //loop through each line of the sql file and execute
+            if (strlen($stmt) > 3 && substr(ltrim($stmt), 0, 2) != '/*') {
+                $sth = $dbh->prepare($stmt);
+                $sth->execute() or die(print_r($sth->errorInfo(), true));
             }
-
-            /* Add details to /includes/config.inc.php file */
+        }
+        $qr = 0;
+    } catch (PDOException $e) {
+        echo $e->getMessage();
+            $error = "DB ERROR: ". $e->getMessage();
+            echo $error;
+            $qr == 1; // set query result to fail and it returns false below
+    }
+    echo $qr;
+/* Add details to /includes/config.inc.php file */
             $configFile = file_get_contents($configFilePathOriginal);
             // re-write config file in memory
             $configFile = str_replace('_DATABASEHOST', $server, $configFile);
@@ -47,30 +58,24 @@ if ($link) {
             $configFile = str_replace('_DATABASENAME', $dbName, $configFile);
             $configFile = str_replace('_DATABASEUSERNAME', $dbUsername, $configFile);
             $configFile = str_replace('_DATABASEPASSWORD', $dbPassword, $configFile);
-            $configFile = str_replace('_SITEURL', $siteUrl, $configFile);
-            $configFile = str_replace('_INSTALLDIR', $installDir, $configFile);
 
-            chmod($configFilePath, 0777);
+            chmod($configFilePathInstalled, 0777);
             file_put_contents($configFilePathInstalled, $configFile);
-            chmod($configFilePath, 0644);
+            chmod($configFilePathInstalled, 0644);
+            shell_exec('chown -R apache /home/rconfig'); // set all dir permissions correctly
 
-            if ($sqlErrorCode != 0) {
-                $array['error'] = 'An error occured during installation!<br/>';
-                $array['error'] = 'Error code: $sqlErrorCode<br/>';
-                $array['error'] = 'Error text: $sqlErrorText<br/>';
-                $array['error'] = 'Statement:<br/> $sqlStmt<br/>';
-            } else {
-                $array['success'] = '<strong><font class="Good">rConfig database installed successfully</strong></font><br/>';
-            }
-        } else {
-            $array['error'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
-            mysql_query("DROP DATABASE $dbName", $link);
-        }
-    } else {
-        $array['error'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
-    }
+    $array['success'] = '<strong><font class="Good">rConfig database installed successfully</strong></font><br/>';
+            
 } else {
-    $array['error'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
+    $array['error'] = '<strong><font class="bad">Fail - ' . $error . '</strong></font><br/>';
+    // DROP DB on failure
+        try {
+            $dbh = new PDO('mysql:port=' . $port . ';host=' . $server, $dbUsername, $dbPassword, $options);
+            $dbh->exec("DROP DATABASE `$dbName`;") 
+            or die(print_r($dbh->errorInfo(), true));
+        } catch (PDOException $e) {
+            $error = "DB ERROR: ". $e->getMessage();
+            echo $error;
+        }
 }
-mysql_close($link);
 echo json_encode($array);

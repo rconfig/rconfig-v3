@@ -38,8 +38,21 @@ if ($link) {
 
 //check if DB exists
 if(isset($dbName)){
-    $conn = new PDO("mysql:host=$server", $dbUsername, $dbPassword);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dsn = 'mysql:host=' . $server . ';dbname=' . $dbName . ';port=' . $port;
+    // Set options
+    $options = array(
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_PERSISTENT => true,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    );
+    //Create a new PDO instance
+    try {
+        $conn = new PDO($dsn, $dbUsername, $dbPassword, $options);
+    }
+    // Catch any errors
+    catch (PDOException $e) {
+        $sqlError = $e->getMessage();
+    }    
     $stmt = $conn->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$dbName."'");
     $db_selected = $stmt->fetchColumn();
     if ($db_selected == 1) {
