@@ -203,3 +203,4 @@
 2016-04-26 12:01:06 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: /home/rconfig/lib/configCategoryScript.php)
 2016-04-26 12:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
 2016-04-26 12:01:06 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-04-26 13:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809

@@ -1,9 +1,4 @@
 <?php
-
-// ini_set('display_errors', 1);
-// ini_set('log_errors', 1);
-// error_reporting(E_ALL);
-
 $server = $_GET['server'];
 $port = $_GET['port'];
 $dbName = $_GET['dbName'];
@@ -15,8 +10,7 @@ $sqlHost = $server . ":" . $port;
 $dbFile = '../../rconfig.sql';
 $configFilePathOriginal = '/home/rconfig/www/install/config.inc.php.template';
 $configFilePathInstalled = '/home/rconfig/config/config.inc.php';
-include
-        $array = array();
+include $array = array();
 
 $link = mysql_connect($sqlHost, $dbUsername, $dbPassword);
 
@@ -78,12 +72,5 @@ if ($link) {
 } else {
     $array['error'] = '<strong><font class="bad">Fail - ' . mysql_error() . ': ' . mysql_errno() . '</strong></font><br/>';
 }
-
 mysql_close($link);
-
-
-
-
-
 echo json_encode($array);
-?>
