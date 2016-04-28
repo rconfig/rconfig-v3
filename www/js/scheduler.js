@@ -18,22 +18,22 @@ $(document).ready(function () {
 
     document.getElementById('reportTypeSlctDiv').style.display = 'none';
     document.getElementById('reportTypeSlct').disabled = true;
-	
+
     document.getElementById('snippetSlctDiv').style.display = 'none';
     document.getElementById('snippetSlct').disabled = true;
-	
+
     document.getElementById('mailErrorsOnlyDiv').style.display = 'none';
-    document.getElementById('mailErrorsOnly').disabled = true;	
-	
+    document.getElementById('mailErrorsOnly').disabled = true;
+
     document.getElementById('deviceSelectRadioDiv').style.display = 'none';
     document.getElementById('catSelectRadioDiv').style.display = 'none';
-	document.getElementById('selectRadio').disabled = true;
+    document.getElementById('selectRadio').disabled = true;
 
     document.getElementById('chooseCatDiv').style.display = 'none';
-    document.getElementById('catId').disabled = true;	
-		
+    document.getElementById('catId').disabled = true;
+
     document.getElementById('catCommandDiv').style.display = 'none';
-    document.getElementById('catCommand').disabled = true;	
+    document.getElementById('catCommand').disabled = true;
 
 });
 
@@ -210,68 +210,70 @@ function getTask() {
 
 function mailErrorsChkBox() {
     var mailConnectionReportChkBox = document.getElementById('mailConnectionReport')
-    if (mailConnectionReportChkBox.checked) document.getElementById('mailErrorsOnly').disabled = false;
-    else document.getElementById('mailErrorsOnly').disabled = true;
+    if (mailConnectionReportChkBox.checked)
+        document.getElementById('mailErrorsOnly').disabled = false;
+    else
+        document.getElementById('mailErrorsOnly').disabled = true;
 }
 
 function displayDownloadElements() {
     document.getElementById("reportTypeSlct").disabled = true;
     document.getElementById("reportTypeSlctDiv").style.display = 'none';
-	
-	document.getElementById("snippetSlct").disabled = true;
-	document.getElementById("snippetSlctDiv").style.display = 'none';
 
-	document.getElementById('mailErrorsOnlyDiv').style.display = 'block';
+    document.getElementById("snippetSlct").disabled = true;
+    document.getElementById("snippetSlctDiv").style.display = 'none';
+
+    document.getElementById('mailErrorsOnlyDiv').style.display = 'block';
     document.getElementById('mailErrorsOnly').disabled = false;
-	
+
     document.getElementById('deviceSelectRadioDiv').style.display = 'block';
-	document.getElementById('catSelectRadioDiv').style.display = 'block';
+    document.getElementById('catSelectRadioDiv').style.display = 'block';
     document.getElementById('selectRadio').disabled = false;
-	
+
     document.getElementById('chooseCatDiv').style.display = 'none';
-    document.getElementById('catId').disabled = true;	
-	
+    document.getElementById('catId').disabled = true;
+
     document.getElementById('catCommandDiv').style.display = 'none';
-	document.getElementById('catCommand').disabled = true;
+    document.getElementById('catCommand').disabled = true;
 }
 
 function displayReportElements() {
     document.getElementById("reportTypeSlct").disabled = false;
     document.getElementById("reportTypeSlctDiv").style.display = 'block';
-	
-	document.getElementById("snippetSlct").disabled = true;
-	document.getElementById("snippetSlctDiv").style.display = 'none';
-	
-	document.getElementById('mailErrorsOnlyDiv').style.display = 'none';
-    document.getElementById('mailErrorsOnly').disabled = true;	
-	
+
+    document.getElementById("snippetSlct").disabled = true;
+    document.getElementById("snippetSlctDiv").style.display = 'none';
+
+    document.getElementById('mailErrorsOnlyDiv').style.display = 'none';
+    document.getElementById('mailErrorsOnly').disabled = true;
+
     document.getElementById('deviceSelectRadioDiv').style.display = 'none';
     document.getElementById('catSelectRadioDiv').style.display = 'none';
     document.getElementById('selectRadio').disabled = true;
 
     document.getElementById('chooseCatDiv').style.display = 'block';
-    document.getElementById('catId').disabled = false;	
-	
+    document.getElementById('catId').disabled = false;
+
     document.getElementById('catCommandDiv').style.display = 'block';
-	document.getElementById('catCommand').disabled = false;
+    document.getElementById('catCommand').disabled = false;
 }
 
-function displaySnippetElements(){
+function displaySnippetElements() {
     document.getElementById("snippetSlct").disabled = false;
     document.getElementById("snippetSlctDiv").style.display = 'block';
-	
-	document.getElementById('reportTypeSlctDiv').style.display = 'none';
+
+    document.getElementById('reportTypeSlctDiv').style.display = 'none';
     document.getElementById('reportTypeSlct').disabled = true;
 
     document.getElementById('chooseCatDiv').style.display = 'none';
     document.getElementById('catId').disabled = true;
-	
+
     document.getElementById('deviceSelectRadioDiv').style.display = 'block';
     document.getElementById('catSelectRadioDiv').style.display = 'block';
     document.getElementById('selectRadio').disabled = false;
-	
+
     document.getElementById('catCommandDiv').style.display = 'none';
-	document.getElementById('catCommand').disabled = true;
+    document.getElementById('catCommand').disabled = true;
 }
 
 // change list of commands in select box based on categories selection - only when run report is selected
@@ -280,120 +282,118 @@ function changeType() {
     var catCommandSel = document.getElementById('catCommand');
     var catIdSelect = document.getElementById('catId');
     var catId = $('#catId').val();
-	var taskTypeVal = $('#taskType').val()
-	
-    catCommandDiv.style.display = catIdSelect.selectedIndex != '' ? 'block' : 'none'; // check that anything other than '' for the catIdSelect is selected and display commands dropdown
-    catCommandDiv.style.display =  taskTypeVal === '3' ? 'none' : 'block'; // however, if the 'config snippet' task type is selected. Hide the Commands Div
-    catCommandSel.disabled =  taskTypeVal === '3' ? true : false; // however, if the 'config snippet' task type is selected. Disable the Commands Select
-	
-	
-	if(taskTypeVal == 2){ // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
-		if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
-			$.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
-				var command = '';
-				command += '<option value="">Please select</option>';
-				for (var i = 0; i < data.length; i++) {
-					command += '<option value="' + data[i].command + '">' + data[i].command + '</option>'; // need to specify command as value for option as this is what will populate the grep
-				}
-				$("select#catCommand").html(command);
-			})
-		}
+    var taskTypeVal = $('#taskType').val()
 
-		if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
-			$.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
-				var options = '';
-				options += '<option value="">Please select</option>';
-				for (var i = 0; i < data.length; i++) {
-					options += '<option value="' + data[i].deviceName + '">' + data[i].deviceName + '</option>'; // need to specify deviceName as value for option as this is what will populate the grep
-				}
-				$("select#nodeId").html(options);
-			})
-		}
-		
-	} // end if taskType
+    catCommandDiv.style.display = catIdSelect.selectedIndex != '' ? 'block' : 'none'; // check that anything other than '' for the catIdSelect is selected and display commands dropdown
+    catCommandDiv.style.display = taskTypeVal === '3' ? 'none' : 'block'; // however, if the 'config snippet' task type is selected. Hide the Commands Div
+    catCommandSel.disabled = taskTypeVal === '3' ? true : false; // however, if the 'config snippet' task type is selected. Disable the Commands Select
+
+    if (taskTypeVal == 2) { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
+        if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+            $.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
+                var command = '';
+                command += '<option value="">Please select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    command += '<option value="' + data[i].command + '">' + data[i].command + '</option>'; // need to specify command as value for option as this is what will populate the grep
+                }
+                $("select#catCommand").html(command);
+            })
+        }
+
+        if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+            $.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
+                var options = '';
+                options += '<option value="">Please select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].deviceName + '">' + data[i].deviceName + '</option>'; // need to specify deviceName as value for option as this is what will populate the grep
+                }
+                $("select#nodeId").html(options);
+            })
+        }
+    } // end if taskType
 }
 
 // function to take sample cron string and populate fields
-function selectSample(cronValue){
+function selectSample(cronValue) {
 
-var array = cronValue.split(' ');
+    var array = cronValue.split(' ');
 
-var minute = array[0];
-var hour = array[1];
-var day = array[2];
-var month = array[3];
-var weekday = array[4];
+    var minute = array[0];
+    var hour = array[1];
+    var day = array[2];
+    var month = array[3];
+    var weekday = array[4];
 
-	if(array != '' || array != ' ' || array != null){
+    if (array != '' || array != ' ' || array != null) {
 
-	// foreach section below - 
-	// update the relevant field with the cron value
-	// switch for the value, and update the relevant fields select for the output text related i.e. */5 = '*/5 every 5 minutes'
-	$('#minute').val(minute)
-	switch (minute)
-	{
-	case minute:
-	  $('#minuteSelect').val(minute)
-	  break;
-	default:
-	 $('#minuteSelect').val('--')
-	} 
+        // foreach section below - 
+        // update the relevant field with the cron value
+        // switch for the value, and update the relevant fields select for the output text related i.e. */5 = '*/5 every 5 minutes'
+        $('#minute').val(minute)
+        switch (minute)
+        {
+            case minute:
+                $('#minuteSelect').val(minute)
+                break;
+            default:
+                $('#minuteSelect').val('--')
+        }
 
-	$('#hour').val(hour)
-	switch (hour)
-	{
-	case hour:
-	  $('#hourSelect').val(hour)
-	  break;
-	default:
-	 $('#hourSelect').val('--')
-	} 		
-		
-	$('#day').val(day)
-	switch (day)
-	{
-	case day:
-	  $('#daySelect').val(day)
-	  break;
-	default:
-	 $('#daySelect').val('--')
-	} 		
+        $('#hour').val(hour)
+        switch (hour)
+        {
+            case hour:
+                $('#hourSelect').val(hour)
+                break;
+            default:
+                $('#hourSelect').val('--')
+        }
 
-	$('#month').val(month)
-	switch (month)
-	{
-	case month:
-	  $('#monthSelect').val(month)
-	  break;
-	default:
-	 $('#monthSelect').val('--')
-	} 		
-	
-	$('#weekday').val(weekday)
-	switch (weekday)
-	{
-	case weekday:
-	  $('#weekdaySelect').val(weekday)
-	  break;
-	default:
-	 $('#weekdaySelect').val('--')
-	} 		
-	
-		
-	} else {
-		alert('cron details not found')
-	}
+        $('#day').val(day)
+        switch (day)
+        {
+            case day:
+                $('#daySelect').val(day)
+                break;
+            default:
+                $('#daySelect').val('--')
+        }
+
+        $('#month').val(month)
+        switch (month)
+        {
+            case month:
+                $('#monthSelect').val(month)
+                break;
+            default:
+                $('#monthSelect').val('--')
+        }
+
+        $('#weekday').val(weekday)
+        switch (weekday)
+        {
+            case weekday:
+                $('#weekdaySelect').val(weekday)
+                break;
+            default:
+                $('#weekdaySelect').val('--')
+        }
+
+
+    } else {
+        alert('cron details not found')
+    }
 }
 
 // function to add option value to relevant field
-function selectOption(field, value){
+function selectOption(field, value) {
 // chnage sample selction back to default
-$('#sampleOptions').val('--')
+    $('#sampleOptions').val('--')
 
-	if(value != '' || value != ' ' || value != null){
-		$('#'+field).val(value)
-	} else {
-		alert('Details not found for field'+field)
-	}
+    if (value != '' || value != ' ' || value != null) {
+        $('#' + field).val(value)
+    } else {
+        alert('Details not found for field' + field)
+    }
 
 }

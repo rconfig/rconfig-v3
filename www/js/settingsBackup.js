@@ -9,7 +9,6 @@ $(function () {
                 var filename = obj.filename
                 var filepath = obj.filepath
                 var filesize = obj.filesize
-
                 var rowHTML = ['<tr class="">'];
                 rowHTML.push('<td><a href="lib/crud/downloadFile.php?download_file=' + filepath + '" rel="nofollow" title="click to download" alt="click to download">' + filename + '</a>  ' + filesize + '</td>');
                 "onclick=javascript:openFile('[link]');"

@@ -288,3 +288,18 @@
 2016-04-28 15:45:40 INFO Success: Added new vendor, saf to DB (File: /lib/crud/vendors.crud.php)
 2016-04-28 15:48:05 INFO Success: Edited vendor, PaloAltoasf in DB (File: /lib/crud/vendors.crud.php)
 2016-04-28 15:48:13 INFO Success: Edited vendor, PaloAltoasf3465 in DB (File: /lib/crud/vendors.crud.php)
+2016-04-28 15:50:55 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-28 15:50:55 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-28 15:50:55 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-04-28 16:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-28 17:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-28 18:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-28 18:18:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:18:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:18:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:18:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:18:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:20:36 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:22:57 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10 (File: /lib/crud/downloadFile.php)
+2016-04-28 18:24:52 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10& Username: admin (File: /lib/crud/downloadFile.php)
+2016-04-28 18:28:49 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.10& Username: Guest (File: /lib/crud/downloadFile.php)

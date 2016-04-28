@@ -25,7 +25,7 @@ $db2->query("SELECT * FROM tasks WHERE status = 1 ORDER BY id ASC $pages->limit"
 $taskRes = $db2->resultset();
 
 // push rows to $items array
-unset($db); // need to close DB connection cause interferes with chooseCatDiv function call and throws errors
+unset($db2); // need to close DB connection cause interferes with chooseCatDiv function call and throws errors
 $items = array();
 foreach ($taskRes as $row) {
     array_push($items, $row);

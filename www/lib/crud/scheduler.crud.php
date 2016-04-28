@@ -87,7 +87,9 @@ if (isset($_POST['add'])) {
     } else {
         $errors['deviceSelectRadio'] = "Error: the deviceSelect array was empty";
     }
-
+echo '<pre>';
+var_dump($categories);
+die();
     // validate $deviceSelect select
     if (isset($_POST['catCommand'])) {
         $catCommand = $_POST['catCommand'];
