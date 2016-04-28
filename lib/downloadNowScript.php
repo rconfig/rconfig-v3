@@ -7,7 +7,7 @@
  * elements as they appear in the showCmdScript script.
  */
 // requires - full path required
-require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
@@ -116,7 +116,7 @@ if (!empty($resultSelect)) {
 
         $i = 0; // set i to prevent php notices	
         // loop over commands for given device
-        while ($cmds = mysql_fetch_assoc($commands)) {
+        foreach ($commands as $cmds) {
             $i++;
 
             // Set VARs
@@ -173,7 +173,7 @@ if (!empty($resultSelect)) {
             if (!empty($result)) {
                 $log->Conn("Success: Show Command '" . $command . "' for device '" . $device['deviceName'] . "' successful (File: " . $_SERVER['PHP_SELF'] . ")");
             } else {
-                $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR:" . mysql_error());
+                $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ")");
                 die();
             }
 

@@ -78,8 +78,8 @@ if (isset($_POST['add'])) {
                     session_write_close();
                     header("Location: " . $config_basedir . "vendors.php");
                 } else {
-                    $errors['Fail'] = "ERROR: " . mysql_error();
-                    $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                    $errors['Fail'] = "ERROR: Could not add new vendor " . $vendorName . " to Database";
+                    $log->Fatal("Fatal: ERROR: Could not add new vendor " . $vendorName . " to Database (File: " . $_SERVER['PHP_SELF'] . ")");
                     $_SESSION['errors'] = $errors;
                     session_write_close();
                     header("Location: " . $config_basedir . "vendors.php?error");
@@ -108,8 +108,8 @@ if (isset($_POST['add'])) {
                     session_write_close();
                     header("Location: " . $config_basedir . "vendors.php");
                 } else {
-                    $errors['Fail'] = "ERROR: " . mysql_error();
-                    $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                    $errors['Fail'] = "ERROR: Could not edit vendor " . $vendorName . " in Database";
+                    $log->Fatal("Fatal: ERROR: Could not edit vendor " . $vendorName . " in Database (File: " . $_SERVER['PHP_SELF'] . ")");
                     $_SESSION['errors'] = $errors;
                     session_write_close();
                     header("Location: " . $config_basedir . "vendors.php?error");

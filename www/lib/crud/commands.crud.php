@@ -79,8 +79,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "commands.php");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not Add command '" . $command . "' to Database ";
+                $log->Fatal("Fatal: Could not Add command '" . $command . "' to Database (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "commands.php?error");
@@ -127,8 +127,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "commands.php");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not edit command '" . $command . "' in Database";
+                $log->Fatal("Fatal: Could not edit command '" . $command . "' in Database (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "commands.php?error");

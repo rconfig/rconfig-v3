@@ -46,8 +46,8 @@ if (isset($_POST['add'])) {
             session_write_close();
             header("Location: " . $config_basedir . "customProperties.php");
         } else {
-            $errors['Fail'] = "ERROR: " . mysql_error();
-            $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+            $errors['Fail'] = "ERROR: Could not add new Custom Property " . $customProperty . " to Database";
+            $log->Fatal("Fatal: Could not add new Custom Property " . $customProperty . " to Database (File: " . $_SERVER['PHP_SELF'] . ")");
             $_SESSION['errors'] = $errors;
             session_write_close();
             header("Location: " . $config_basedir . "customProperties.php?error");

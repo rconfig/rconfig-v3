@@ -225,7 +225,7 @@ function smtpClearSettings() {
 
     var answer = confirm("Are you sure you want to clear SMTP Settings?")
     if (answer) {
-        $.post('lib/settingsEmail.crud.php', {
+        $.post('lib/crud/settingsEmail.crud.php', {
             del: "delete"
         }, function (result) {
             if (result.success) {

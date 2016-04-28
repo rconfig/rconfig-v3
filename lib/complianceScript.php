@@ -1,7 +1,7 @@
 <?php
 
 // requires - full path required
-require("/home/rconfig/classes/db.class.php");
+require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
@@ -63,7 +63,6 @@ foreach ($policyResult as $row) {
 }
 // Get active nodes for a given task ID
 // Query to retireve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$getNodesSql = "SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1";
 $db2->query("SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodesSql = $db2->resultset();
 if (!empty($getNodesSql)) {
@@ -75,7 +74,6 @@ if (!empty($getNodesSql)) {
     // loop over retrieved devices
     foreach ($devices as $device) {
         $deviceId = $device['id'];
-        $pathResultLatest = mysql_fetch_assoc($getPathSqlLatest);
         $db2->query("SELECT * FROM configs WHERE deviceId = $deviceId AND configFilename LIKE '%$command%' ORDER BY configDate DESC LIMIT 1");
         $db2->bind(':deviceId', $deviceId);
         $pathResultLatest = $db2->resultset();

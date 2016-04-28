@@ -20,7 +20,7 @@ if(defined('DB_NAME')){
     $tbls = $db2->resultsetCols();
 } else {
 	$response['response'] = "ERROR: executing query";
-	$log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+	$log->Fatal("Fatal: Could not execute query (File: " . $_SERVER['PHP_SELF'] . ")");
 }
 
 foreach ($tbls as &$tbl) {
@@ -30,7 +30,7 @@ foreach ($tbls as &$tbl) {
         $log->Info("Info: Deleted rows purged from Table:" . $tbl . "  (File: " . $_SERVER['PHP_SELF'] . ")");
     } else {
         $response['response'] = "ERROR: Could not delete rows. Errors logged to log file";
-        $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+        $log->Fatal("Fatal: Delete rows from Table:" . $tbl . " (File: " . $_SERVER['PHP_SELF'] . ")");
     }
 }
 echo json_encode($response);

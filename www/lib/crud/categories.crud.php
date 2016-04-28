@@ -41,8 +41,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "categories.php");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not add category to DB";
+                $log->Fatal("Fatal: Could not add category to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "categories.php?error");
@@ -75,8 +75,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "categories.php");
                 exit();
             } else { // else Q failed, send back an error
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not Edit category to DB ";
+                $log->Fatal("Fatal: Could not Edit category to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "categories.php?error");

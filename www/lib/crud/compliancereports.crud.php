@@ -76,7 +76,7 @@ if (isset($_POST['add'])) {
                 exit();
             } else {
                 $errors['Fail'] = "ERROR: Could not add Report to DB";
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $log->Fatal("Fatal: Could not add Report to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "compliancereports.php?errors&elem=" . $elementValue);

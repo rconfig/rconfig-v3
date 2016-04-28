@@ -255,7 +255,7 @@ if (isset($_POST['add'])) {
                 }
 
                 $nodeIdArr = array();
-                while ($catRow = mysql_fetch_assoc($catRes)) {
+                foreach ($catRes as $catRow) {
                     $nodeIdArr[] = $catRow['id'];
                 }
             }

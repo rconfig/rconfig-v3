@@ -68,8 +68,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "snippets.php?success");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not add Snippet to DB";
+                $log->Fatal("Fatal: Could not add Snippet to DB(File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "snippets.php?errors&elem=" . $snippetValue);

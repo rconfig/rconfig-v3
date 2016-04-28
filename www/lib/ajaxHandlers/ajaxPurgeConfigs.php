@@ -23,7 +23,7 @@ if($getIDs){
     $log->Info("Info: Start manual ".$purgeDays." day Config File Purge - GET DB IDs(File: " . $_SERVER['PHP_SELF'] . ")");
 } else {
     $response['response'] = "ERROR: executing query $getIDs";
-    $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+    $log->Fatal("Fatal: Could not Get GET DB IDs (File: " . $_SERVER['PHP_SELF'] . ")");
 }
 $iDlist = implode (", ", $getIDs);
 
@@ -36,7 +36,7 @@ if($executeRes){
     $log->Info("Info: Start manual ".$purgeDays." day Config File Purge - GET DIRs (File: " . $_SERVER['PHP_SELF'] . ")");
 } else {
     $response['response'] = "ERROR: executing query ". $getDirs;
-    $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+    $log->Fatal("Fatal: Could not Config File Purge - GET DIRs (File: " . $_SERVER['PHP_SELF'] . ")");
 }
 // physically remove directories
 $dirsToPurgeArr = array();
@@ -58,7 +58,7 @@ if($executeRes){
         $response['response'] = "SUCCESS: ".$purgeDays." day Config File Purge Completed";
     } else {
         $response['response'] = "ERROR: executing query Delete ID";
-        $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+        $log->Fatal("Fatal: Could not Config File Purge - Delete DB Rows (File: " . $_SERVER['PHP_SELF'] . ")");
     }
 }
 

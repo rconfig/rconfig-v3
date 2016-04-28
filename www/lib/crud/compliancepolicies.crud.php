@@ -75,8 +75,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "compliancepolicies.php?success");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: " . mysql_error() . " (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not Add Policy to DB";
+                $log->Fatal("Fatal: Could not Add Policy to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "compliancepolicies.php?errors&elem=" . $elementValue);
@@ -121,8 +121,8 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "compliancepolicies.php?errors");
                 exit();
             } else {
-                $errors['Fail'] = "ERROR: " . mysql_error();
-                $log->Fatal("Fatal: Could not edit Policy -  (File: " . $_SERVER['PHP_SELF'] . ")");
+                $errors['Fail'] = "ERROR: Could not edit Policy '" . $policyName . "' in Database";
+                $log->Fatal("Fatal: Could not edit Policy '" . $policyName . "' in Database-  (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
                 session_write_close();
                 header("Location: " . $config_basedir . "compliancepolicies.php?errors&elem=" . $elementValue);

@@ -311,7 +311,6 @@ class MySQLDB {
     function getLdapServer() {
         $this->connection->query("SELECT ldapServer FROM settings WHERE id = 1");
         $result = $this->connection->resultset();
-        $result = mysql_query($q, $this->connection);
         $dbarray = $result[0];
         return $dbarray['ldapServer'];
     }
