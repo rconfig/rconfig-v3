@@ -12,7 +12,6 @@ if (isset($_POST['add'])) {
     session_start();
     $errors = array();
 
-
     if (!empty($_POST['vendorName'])) {
         /* Validate Input from Form */
         if (!ctype_alnum($_POST['vendorName'])) {
@@ -36,8 +35,7 @@ if (isset($_POST['add'])) {
                     $log->Warn("File Error Return Code: " . $_FILES["vendorLogo"]["error"] . " (File: " . $_SERVER['PHP_SELF'] . ")");
                 } else {
                     $filename = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
-                    $location = $config_web_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
-
+                    $location = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
                     if (file_exists($location)) {
                         $log->Warn("Failure: " . $_FILES["vendorLogo"]["name"] . " already exists (File: " . $_SERVER['PHP_SELF'] . ")");
                     } else {
@@ -96,6 +94,14 @@ if (isset($_POST['add'])) {
         } else { // do the UPDATE/EDIT
             if (ctype_alnum($vendorName)) {
                 $id = $_POST['editid'];
+                // if an edit takes place and a new logo is not updated, keep the current logo
+                $db2->query("SELECT vendorLogo FROM vendors WHERE status = 1 AND id = :id");
+                $db2->bind(':id', $id); 
+                $queryResult = $db2->resultset(); 
+                // only update $location if I get a result from above for given vendor ID
+                if(empty($_FILES["vendorLogo"]["name"]) && !empty($queryResult[0])){ // if an image was not chosen to be uploaded & the select query returned a result
+                    $location = $queryResult[0]['vendorLogo'];
+                }
                 $db2->query("UPDATE vendors SET vendorName = :vendorName, vendorLogo = :location WHERE id = :id");
                 $db2->bind(':vendorName', $vendorName); 
                 $db2->bind(':location', $location); 

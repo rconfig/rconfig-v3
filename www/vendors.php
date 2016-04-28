@@ -58,11 +58,11 @@
                                     echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
                                 }
                                 ?> 
-<?php
-if (isset($errors['fileError'])) {
-    echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
-}
-?> 
+                                <?php
+                                if (isset($errors['fileError'])) {
+                                    echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
+                                }
+                                ?> 
 
                                 <input type="hidden" id="add" name="add" value="add">
                                 <input type="hidden" id="editid" name="editid" value="">
@@ -74,10 +74,10 @@ if (isset($errors['fileError'])) {
                     </div>
                     <!-- End mainformDiv -->
                     <div id="table">
-<?php
-/* full table stored off in different script */
-include("vendors.inc.php");
-?>
+                        <?php
+                        /* full table stored off in different script */
+                        include("vendors.inc.php");
+                        ?>
                     </div>
                 </fieldset>
             </div>
@@ -89,7 +89,7 @@ include("vendors.inc.php");
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/vendors.js"></script>
         <!-- Footer Include -->
-<?php include("includes/footer.inc.php"); ?>
+        <?php include("includes/footer.inc.php"); ?>
     </div>
     <!-- End Mainwrap -->
 </body>
