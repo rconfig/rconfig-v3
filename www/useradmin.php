@@ -82,7 +82,7 @@ if (isset($errors['email'])) {
     echo "<br /><span class=\"error\">" . $errors['email'] . "</span>";
 }
 ?>
-
+<div class="spacer"></div>
                                 <label for="ulevelid"><font color="red">*</font> User Level:</label>
                                 <select name="ulevelid" id="ulevelid" tabindex='5'>
                                     <option value="1" selected>User</option>
