@@ -1,8 +1,4 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
@@ -148,7 +144,7 @@ if (isset($_POST['add'])) {
     /* the query */
     $db2->query("UPDATE complianceReports SET status = 2 WHERE id = :id");
     $db2->bind(':id', $id);
-    $resultDeleteUpdate = $db2->resultset();
+    $resultDeleteUpdate = $db2->execute();
     if ($resultDeleteUpdate) {
         // hard delete reports/element pairings
         $db2->query("DELETE FROM complianceReportPolTbl WHERE reportId = :id");

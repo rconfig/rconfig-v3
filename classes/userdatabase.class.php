@@ -22,9 +22,6 @@ class MySQLDB {
     /* Class constructor */
 
     function MySQLDB() {
-        error_reporting(E_ALL);
-        ini_set('display_errors', '1');
-
         /* Make connection to database */
         require_once("/home/rconfig/classes/db2.class.php");
         $this->connection = new db2();

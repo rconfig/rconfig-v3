@@ -12,3 +12,5 @@
 2016-04-28 00:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
 2016-04-28 12:01:06 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: /home/rconfig/lib/configCategoryScript.php)
 2016-04-28 12:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-29 00:01:06 CONN Failure: Unable to connect to 1.1.1.1 on port 23 - fsockopen Error:Connection timed out (110) (File: /home/rconfig/lib/configCategoryScript.php)
+2016-04-29 00:01:06 CONN  - in  Error:(File: /home/rconfig/lib/configCategoryScript.php)
