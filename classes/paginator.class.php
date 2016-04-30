@@ -23,14 +23,14 @@ class Paginator {
     var $querystring;
     var $ipp_array;
 
-    function Paginator() {
+    public function __construct() {
         $this->current_page = 1;
         $this->mid_range = 7;
         $this->ipp_array = array(10, 25, 50, 100, 'All');
         $this->items_per_page = (!empty($_GET['ipp'])) ? $_GET['ipp'] : $this->default_ipp;
     }
 
-    function paginate() {
+    public function paginate() {
         if (!isset($this->default_ipp))
             $this->default_ipp = 10;
         if (isset($_GET['ipp']) && $_GET['ipp'] == 'All') {  // stacky edit
@@ -104,7 +104,7 @@ class Paginator {
         }
     }
 
-    function display_items_per_page() {
+    public function display_items_per_page() {
         $items = '';
         if (!isset($_GET['ipp']))
             $this->items_per_page = $this->default_ipp;
@@ -113,7 +113,7 @@ class Paginator {
         return "<span class=\"paginate\">Items per page:</span><select class=\"paginate\" onchange=\"window.location='$_SERVER[PHP_SELF]?page=1&ipp='+this[this.selectedIndex].value+'$this->querystring';return false\">$items</select>\n";
     }
 
-    function display_jump_menu() {
+    public function display_jump_menu() {
         $option = ""; //stacky edit - initialise outside the loop to avoid errorss
         for ($i = 1; $i <= $this->num_pages; $i++) {
 
@@ -122,7 +122,7 @@ class Paginator {
         return "<span class=\"paginate\">Page:</span><select class=\"paginate\" onchange=\"window.location='$_SERVER[PHP_SELF]?page='+this[this.selectedIndex].value+'&ipp=$this->items_per_page$this->querystring';return false\">$option</select>\n";
     }
 
-    function display_pages() {
+    public function display_pages() {
         return $this->return;
     }
 

@@ -297,7 +297,6 @@ if (isset($_POST['add'])) {
             $db2->bind(':catId', $catId); 
             $db2->bind(':username', $username); 
             $db2->bind(':defaultCreds', $defaultCreds); 
-            $db2->debugDumpParams();
             $queryResult = $db2->execute();
             if($queryResult){
                 $errors['Success'] = "Added new device " . $deviceName . " to Database";

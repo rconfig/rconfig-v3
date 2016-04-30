@@ -260,3 +260,7 @@
 2016-04-29 11:02:23 INFO Success: Added Report to DB (File: /lib/crud/compliancereports.crud.php)
 2016-04-29 11:03:07 INFO Success: Added Report to DB (File: /lib/crud/compliancereports.crud.php)
 2016-04-29 11:03:13 INFO Success: Deleted Report in DB (File: /lib/crud/compliancereports.crud.php)
+2016-04-29 12:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:986760
+2016-04-29 12:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:227928
+2016-04-29 12:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:463809
+2016-04-29 12:01:06 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

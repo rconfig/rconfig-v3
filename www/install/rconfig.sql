@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dumping data for table DATABASE_NAME.settings: ~1 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`) VALUES
-	(1, 1, '/home/rconfig/data/', '', '', '', 0, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 60, '', '', '', 1, '', '', '', '');
+	(1, 1, '/home/rconfig/data/', '', '', '', 0, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 60, '', '', '', 1, '', '', '', NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 -- Dumping structure for table rconfigdev1.snippets
@@ -376,8 +376,8 @@ CREATE TABLE IF NOT EXISTS `menuPages` (
 DELETE FROM `menuPages`;
 /*!40000 ALTER TABLE `menuPages` DISABLE KEYS */;
 INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, `menuName`, `topLevel`, `parentId`, `menuSortId`) VALUES
-	(1, 'login.php', 'Login Page', 'Enter Username & Password to login', 'Login', '0', 0, 0),
-	(2, 'compatibility.php', 'Compatibility Page', 'rConfig Compatibility Details', '0', '0', 0, 0),
+	(1, 'login.php', 'Login Page', 'Enter Username & Password to login', 'Login', '2', 1, 0),
+	(2, 'compatibility.php', 'Compatibility Page', 'rConfig Compatibility Details', '2', '2', 0, 0),
 	(3, 'dashboard.php', 'Dashboard', 'View rConfig Server and Device Status on this page', 'Home', '1', 3, 1),
 	(4, 'devices.php', 'Devices', 'View/Edit Devices on this page', 'Devices', '1', 4, 2),
 	(5, 'devicemgmt.php', 'Devices > Device Management', 'Manage devices on this page', 'Device Management', '0', 0, 0),
@@ -399,7 +399,7 @@ INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, 
 	(21, 'scheduler.php', 'Scheduled Tasks', 'Manage Scheduled Tasks on this page', 'Scheduled Tasks', '1', 21, 3),
 	(22, 'useradmin.php', 'Settings > Users Management', 'Manage User details on this page', 'Users (Admin)', '0', 20, 0),
 	(23, 'settingsBackup.php', 'Settings > Backup', 'Backup rConfig on this page', 'System Backup(Admin)', '0', 20, 0),
-	(24, 'updater.php', 'Update', 'Update rConfig on this page', '0', '0', 0, 0);
+	(24, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0);
 /*!40000 ALTER TABLE `menuPages` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
