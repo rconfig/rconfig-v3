@@ -107,12 +107,15 @@
                         <div class="spacer"></div>
                         <div id="timeZoneNoticeDiv"></div>
                         <div class="spacer"></div>
-                        <hr />
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
                         <label title="Time before webpages expire and the user will be logged out" alt="Time before webpages expire and the user will be logged out">Webpage Timeout:
                             <span class="small">Timeout in seconds</span>
                         </label>
                         <input type="text" value="<?php echo $pageTimeout; ?>" id="pageTimeout" name="pageTimeout" size="3" maxlength="6" style="width:45px;margin-right:5px;"/>
-                       <br/>
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
                         <label>
                             <button class="smlButton" id="pageTimeoutGo" onclick="pageTimeoutGo()">Update Timeout</button>
                             <span id="pageTimeOutUpdated" style="display:none; color:green;">Updated!</span>
@@ -147,7 +150,7 @@
                                             document.getElementById('defaultNodeUsername').value,
                                             document.getElementById('defaultNodePassword').value,
                                             document.getElementById('defaultNodeEnable').value
-                                            )">Update
+                                            )">Update Credentials
                             </button>
                         </label>
                         <div class="spacer"></div>
@@ -180,7 +183,7 @@
                         </label>
                         <input type="text" value="<?php echo $timeout; ?>" id="deviceTout" name="deviceTout" size="1" maxlength="3" style="width:25px;margin-right:5px;"/>
                         <label>
-                            <button class="smlButton" id="deviceToutGo" onclick="deviceToutGo()">Update</button>
+                            <button class="smlButton" id="deviceToutGo" onclick="deviceToutGo()">Update Connection Timout</button>
                             <span  id="updated" style="display:none; color:green;">Updated!</span>
                         </label>
                         <div class="spacer"></div>
@@ -274,7 +277,7 @@ if (isset($errors['Fail'])) {
                             <em>Seperate multiple address with a semi-colon and a space i.e. user@example.com; user2@example.com</em><br/><br/>
 
                             <button class="smlButton" id="smtpSaveButton" name="smtpSaveButton">Save</button>
-                            <button class="smlButton" id="smtpUpdateButton" name="smtpUpdateButton">Update</button> 
+                            <button class="smlButton" id="smtpUpdateButton" name="smtpUpdateButton">Update SMTP Details</button> 
                             <button class="smlButton" id="smtpClearButton" name="smtpClearButton" type="button" onclick="smtpClearSettings()">Clear SMTP Settings</button> <br/><br/>
 
                             <input type="hidden" id="add" name="add" value="add">

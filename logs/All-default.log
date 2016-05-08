@@ -946,3 +946,5 @@
 2016-05-08 15:30:13 INFO Success: Edit device site2gw.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
 2016-05-08 15:30:22 INFO Success: Edit device site2gw.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
 2016-05-08 15:30:33 INFO Success: Edit device headend.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-08 21:22:36 INFO Success: SMTP Settings saved (File: /lib/crud/settingsEmail.crud.php)
+2016-05-08 21:23:13 INFO Info: Test Message sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
