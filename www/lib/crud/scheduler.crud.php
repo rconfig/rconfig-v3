@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
@@ -46,10 +48,16 @@ if (isset($_POST['add'])) {
     }
 
     // validate snippetSlct select 
-    if ($_POST['snippetSlct'] != 'select') {
-        $snipId = deleteChar($_POST['snippetSlct'], 10); // delete snippetId- from returned value
+    if (isset($_POST['snippetSlct'])) {
+        
+        if($_POST['snippetSlct'] != 'select'){
+            $snipId = deleteChar($_POST['snippetSlct'], 10); // delete snippetId- from returned value
+        } else {
+            $errors['snippetSlct'] = "Please select a snippet";
+        }
     } else {
         $errors['snippetSlct'] = "Select a Snippet";
+        $snipId = '';
     }
 
     // validate mailReport checkbox
@@ -87,9 +95,6 @@ if (isset($_POST['add'])) {
     } else {
         $errors['deviceSelectRadio'] = "Error: the deviceSelect array was empty";
     }
-echo '<pre>';
-var_dump($categories);
-die();
     // validate $deviceSelect select
     if (isset($_POST['catCommand'])) {
         $catCommand = $_POST['catCommand'];
@@ -116,8 +121,6 @@ die();
 
     // test if any of the cron fields are empty
     foreach ($cronArray as $cronK => $cronV) {
-
-        // echo $cronV;
         if ($cronV === null || $cronV === '') {
             $errors['cron'] = 'A field was empty!';
             break;
@@ -271,11 +274,8 @@ die();
 
                 //Get the ids and add a trailing ",", but remove the last one
                 $in_str = implode(',', $sanitized_ids);
-
                 //Build the sql and execute it
-                $addNodesToTask = "UPDATE nodes SET taskId" . $randNum . " = 1 WHERE id IN ( $in_str ) AND status = 1";
-                $db2->query("UPDATE nodes SET taskId" . $randNum . " = 1 WHERE id IN (:in_str) AND status = 1");
-                $db2->bind(':in_str', $in_str);
+                $db2->query("UPDATE nodes SET taskId" . $randNum . " = 1 WHERE id IN (".$in_str.") AND status = 1");
                 $queryResult = $db2->execute();
              if ($queryResult) {
                     $log->Info("Success: Added task Column to nodes table to DB (File: " . $_SERVER['PHP_SELF'] . ")");

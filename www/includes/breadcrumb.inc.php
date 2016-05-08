@@ -1,3 +1,5 @@
+<!-- dialog-confirm-logout is called fom pageTimeout.js -->
+<div id="dialog-confirm-logout" style="display:none;">Due to inactivity, you will be logged out of rConfig in 1 minute!<br /> Click OK to continue working</div>
 <div id="breadcrumb">
     <h2>
         <?php

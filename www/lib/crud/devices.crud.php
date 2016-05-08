@@ -1,22 +1,23 @@
 <?php
+
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
 require_once("../../../config/functions.inc.php");
 
-$db2  = new db2();
+$db2 = new db2();
 $log = ADLog::getInstance();
 
 /* Add Custom Property Here */
 if (isset($_POST['add'])) {
     session_start();
     $errors = array();
-    
+
     // validate deviceName field
     if (!empty($_POST['deviceName'])) {
         $deviceName = $_POST['deviceName'];
-            // check device name for whitespace
-        if(!chkWhiteSpaceInStr($deviceName) === false){
+        // check device name for whitespace
+        if (!chkWhiteSpaceInStr($deviceName) === false) {
             $errors['deviceName'] = "Device Name cannot contain spaces";
             $log->Warn("Failure: Device Name cannot contain spaces (File: " . $_SERVER['PHP_SELF'] . ")");
             $deviceName = ""; // set back to blank so text with spaces is not returned to devices form
@@ -37,8 +38,8 @@ if (isset($_POST['add'])) {
     } else {
         $errors['deviceIpAddr'] = "IP Address cannot be empty ";
         $log->Warn("Failure: IP Address cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
-    }    
-	
+    }
+
     // validate devicePrompt field
     if (!empty($_POST['devicePrompt'])) {
         $devicePrompt = str_replace(' ', '', $_POST['devicePrompt']);
@@ -54,7 +55,7 @@ if (isset($_POST['add'])) {
         $errors['vendorId'] = "Vendor field cannot be empty";
         $log->Warn("Failure: Vendor Field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
     }
-    
+
     // validate deviceModel field
     if (!empty($_POST['deviceModel'])) {
         $deviceModel = $_POST['deviceModel'];
@@ -69,7 +70,7 @@ if (isset($_POST['add'])) {
     } else {
         $defaultCreds = '0';
     }
-    
+
     // validate deviceUsername field
     if (!empty($_POST['deviceUsername']) && is_string($_POST['deviceUsername'])) {
         $deviceUsername = $_POST['deviceUsername'];
@@ -77,7 +78,7 @@ if (isset($_POST['add'])) {
         $errors['deviceUsername'] = "Username cannot be empty";
         $log->Warn("Failure: Username field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
     }
-    
+
     // validate devicePassword field
     if (!empty($_POST['devicePassword']) && is_string($_POST['devicePassword'])) {
         $devicePassword = $_POST['devicePassword'];
@@ -85,7 +86,7 @@ if (isset($_POST['add'])) {
         $errors['devicePassword'] = "Password cannot be empty";
         $log->Warn("Failure: Password field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
     }
-    
+
     // validate devicePassConf field
     if (!empty($_POST['devicePassConf']) && is_string($_POST['devicePassConf'])) {
         if ($_POST['devicePassConf'] !== $_POST['devicePassword']) {
@@ -98,21 +99,21 @@ if (isset($_POST['add'])) {
         $errors['devicePassword'] = "Confirm Password field cannot be empty";
         $log->Warn("Failure: Confirm Password field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
     }
-    
+
     // if 'deviceEnableMode' is checked - deviceEnablePassword field must be populated
-	if (isset($_POST['deviceEnableMode'])){
-            if ($_POST['deviceEnableMode'] == 'on' && empty($_POST['deviceEnablePassword'])) {
-                $errors['deviceEnableMode'] = "Enable mode checked but password was not entered";
-                $log->Warn("Failure: Enable mode checked but password was not entered (File: " . $_SERVER['PHP_SELF'] . ")");
-            } else {
-                $deviceEnableMode     = $_POST['deviceEnableMode'];
-                $deviceEnablePassword = $_POST['deviceEnablePassword'];
-            }
-	} else {
-            $deviceEnableMode     = 'off';
-            $deviceEnablePassword = '';
-	}
-    
+    if (isset($_POST['deviceEnableMode'])) {
+        if ($_POST['deviceEnableMode'] == 'on' && empty($_POST['deviceEnablePassword'])) {
+            $errors['deviceEnableMode'] = "Enable mode checked but password was not entered";
+            $log->Warn("Failure: Enable mode checked but password was not entered (File: " . $_SERVER['PHP_SELF'] . ")");
+        } else {
+            $deviceEnableMode = $_POST['deviceEnableMode'];
+            $deviceEnablePassword = $_POST['deviceEnablePassword'];
+        }
+    } else {
+        $deviceEnableMode = 'off';
+        $deviceEnablePassword = '';
+    }
+
     // validate catId field
     if (ctype_digit($_POST['catId'])) {
         $catId = $_POST['catId'];
@@ -120,23 +121,23 @@ if (isset($_POST['add'])) {
         $errors['catId'] = "Category field cannot be empty";
         $log->Warn("Failure: Category field did not pass numeric value i.e. catId OR awas empty (File: " . $_SERVER['PHP_SELF'] . ")");
     }
-	
-    if(isset($_POST['username'])){
+
+    if (isset($_POST['username'])) {
         $username = $_POST['username'];
     } else {
         $errors['username'] = "Username passed to devices.crud.php was not valid";
         $log->Warn("Failure: Username passed to devices.crud.php was not valid (File: " . $_SERVER['PHP_SELF'] . ")");
-    }	
+    }
 
     /* See if category is added to any scheduled tasks and get correct column name if it is */
     $db2->query("SELECT id, catId FROM tasks WHERE status = '1'");
-    $q = $db2->resultset();
+    $resultCatSelect = $db2->resultset();
     $taskIdColumns = '';
     $taskValue = '';
-    foreach ($q as $taskRow) {
-        if (in_array($catId, unserialize($taskRow['catId']))) {
+    foreach ($resultCatSelect as $taskRow) {
+        if (!empty($taskRow['catId']) && in_array($catId, unserialize($taskRow['catId']))) {
             $taskIdColumns .= ", taskId" . $taskRow['id'];
-            $taskValue .= ", '1'";
+            $taskValue .= "'1'";
         }
     }
 
@@ -155,11 +156,11 @@ if (isset($_POST['add'])) {
     if (ctype_digit($_POST['deviceAccessMethodId'])) {
         $deviceAccessMethodId = $_POST['deviceAccessMethodId'];
     } else {
-        $errors['deviceAccessMethodId'] = "deviceAccessMethodId input is incorrect";
+        $errors['deviceAccessMethodId'] = "You must select telnet or SSH";
         $log->Warn("Failure: deviceAccessMethodId input is incorrect (File: " . $_SERVER['PHP_SELF'] . ")");
-    }    
-	
-	// validate connPort field
+    }
+
+    // validate connPort field
     if (ctype_digit($_POST['connPort'])) {
         $connPort = $_POST['connPort'];
     } else {
@@ -168,29 +169,57 @@ if (isset($_POST['add'])) {
     }
 
     /* No validation on Custom_ Fields */
-    
+
     // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open 
     if (!empty($errors)) {
-        if(isset($deviceName)){ $_SESSION['deviceName'] = $deviceName;}
-        if(isset($deviceIpAddr)){ $_SESSION['deviceIpAddr'] = $deviceIpAddr;}
-        if(isset($devicePrompt)){ $_SESSION['devicePrompt'] = $devicePrompt;}
-        if(isset($vendorId)){ $_SESSION['vendorId'] = $vendorId;}
-        if(isset($deviceModel)){ $_SESSION['deviceModel'] = $deviceModel;}
-        if(isset($defaultCreds)){ $_SESSION['defaultCreds'] = $defaultCreds;}
-        if(isset($deviceUsername)){ $_SESSION['deviceUsername'] = $deviceUsername;}
-        if(isset($devicePassword)){ $_SESSION['devicePassword'] = $devicePassword;}
-        if(isset($devicePassConf)){ $_SESSION['devicePassConf'] = $devicePassConf;}
-        if(isset($deviceEnableMode)){ $_SESSION['deviceEnableMode'] = $deviceEnableMode;}
-        if(isset($deviceEnablePassword)){ $_SESSION['deviceEnablePassword'] = $deviceEnablePassword;}
-        if(isset($catId)){ $_SESSION['catId'] = $catId;}
-        if(isset($deviceAccessMethodId)){ $_SESSION['deviceAccessMethodId'] = $deviceAccessMethodId;}
-        if(isset($connPort)){ $_SESSION['connPort'] = $connPort;}
+        if (isset($deviceName)) {
+            $_SESSION['deviceName'] = $deviceName;
+        }
+        if (isset($deviceIpAddr)) {
+            $_SESSION['deviceIpAddr'] = $deviceIpAddr;
+        }
+        if (isset($devicePrompt)) {
+            $_SESSION['devicePrompt'] = $devicePrompt;
+        }
+        if (isset($vendorId)) {
+            $_SESSION['vendorId'] = $vendorId;
+        }
+        if (isset($deviceModel)) {
+            $_SESSION['deviceModel'] = $deviceModel;
+        }
+        if (isset($defaultCreds)) {
+            $_SESSION['defaultCreds'] = $defaultCreds;
+        }
+        if (isset($deviceUsername)) {
+            $_SESSION['deviceUsername'] = $deviceUsername;
+        }
+        if (isset($devicePassword)) {
+            $_SESSION['devicePassword'] = $devicePassword;
+        }
+        if (isset($devicePassConf)) {
+            $_SESSION['devicePassConf'] = $devicePassConf;
+        }
+        if (isset($deviceEnableMode)) {
+            $_SESSION['deviceEnableMode'] = $deviceEnableMode;
+        }
+        if (isset($deviceEnablePassword)) {
+            $_SESSION['deviceEnablePassword'] = $deviceEnablePassword;
+        }
+        if (isset($catId)) {
+            $_SESSION['catId'] = $catId;
+        }
+        if (isset($deviceAccessMethodId)) {
+            $_SESSION['deviceAccessMethodId'] = $deviceAccessMethodId;
+        }
+        if (isset($connPort)) {
+            $_SESSION['connPort'] = $connPort;
+        }
 
         $_SESSION['errors'] = $errors;
         session_write_close();
         header("Location: " . $config_basedir . "devices.php?error");
         exit();
-    } else {       
+    } else {
         // Search POST for any key with partial string 'custom_' to get the names of the 
         // custom fields column names in DB
         $custom_results = array();
@@ -200,50 +229,52 @@ if (isset($_POST['add'])) {
                 $custom_results[$k] = $v;
             }
         }
-        
-        /* http://php.net/manual/en/function.extract.php*/
+
+        /* http://php.net/manual/en/function.extract.php */
         /* Extract Keys as Column Names for dynamic Query
          * and extract values as DB values for dynamic query */
         $dynamicValues = array();
-        $dynamicTbls   = array();
+        $dynamicTbls = array();
         $customPropEditQueryStr = '';
         foreach ($custom_results as $key => $value) {
-            $customPropEditQueryStr .= $key." = "."'".$value."', "; // create the edit query for any custom properties fields
+            $customPropEditQueryStr .= $key . " = " . "'" . $value . "', "; // create the edit query for any custom properties fields
             array_push($dynamicValues, $value);
             array_push($dynamicTbls, $key);
         }
         // Output above arrays to simple string variables for use in the query
         $dynamicValuesBlk = implode("', '", $dynamicValues);
-        $dynamicTblsBlk   = implode(", ", $dynamicTbls);
-        
+        $dynamicTblsBlk = implode(", ", $dynamicTbls);
+
         // create part of the UPDATE query for custom_ fields
         $customPropQueryStr = "";
         foreach ($custom_results as $k => $v) {
             $customPropQueryStr = $customPropQueryStr . $k . " = '" . $v . "', ";
         }
-		
+
         // next if vars are not empty, add a comma to complete SQL statement
         // because if no custom props, or Tasks added errors will occur
-        if(!empty($dynamicTblsBlk)){
-                $dynamicTblsBlk = $dynamicTblsBlk .",";
-                if(empty($dynamicValuesBlk)){
-                    $dynamicValuesBlk = "NULL".",";
-                } else {
-                    if(!empty($dynamicValuesBlk)){
-                        $dynamicValuesBlk = "'".$dynamicValuesBlk ."',";
+        if (!empty($dynamicTblsBlk)) {
+            $dynamicTblsBlk = $dynamicTblsBlk . ",";
+            if (empty($dynamicValuesBlk)) {
+                $dynamicValuesBlk = "NULL" . ",";
+            } else {
+                if (!empty($dynamicValuesBlk)) {
+                    $dynamicValuesBlk = "'" . $dynamicValuesBlk . "',";
                 }
             }
         }
 
-        if(!empty($taskIdColumns)){$taskIdColumns = $taskIdColumns .",";}
-        if(!empty($taskValue)){
-            $taskValue = $taskValue .",";
+        if (!empty($taskIdColumns)) {
+            $taskIdColumns = $taskIdColumns . ",";
+        }
+        if (!empty($taskValue)) {
+            $taskValue = $taskValue . ",";
         } else {
             $taskValue = '';
         }
         /* Begin DB query. This will either be an Insert if $_POST ID is not set - or an edit/Update if ID is set in POST */
         if (empty($_POST['editid'])) {
-        $db2->query("INSERT INTO nodes
+            $db2->query("INSERT INTO nodes
             (deviceName, 
             deviceIpAddr,
             devicePrompt,
@@ -281,24 +312,23 @@ if (isset($_POST['add'])) {
                 $dynamicValuesBlk
                 $taskValue
                 CURDATE(),
-                '1'
-                )");
-            $db2->bind(':deviceName', $deviceName); 
-            $db2->bind(':deviceIpAddr', $deviceIpAddr); 
-            $db2->bind(':devicePrompt', $devicePrompt); 
-            $db2->bind(':deviceUsername', $deviceUsername); 
-            $db2->bind(':devicePassword', $devicePassword); 
-            $db2->bind(':deviceEnableMode', $deviceEnableMode); 
-            $db2->bind(':deviceEnablePassword', $deviceEnablePassword); 
-            $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId); 
-            $db2->bind(':connPort', $connPort); 
-            $db2->bind(':deviceModel', $deviceModel); 
-            $db2->bind(':vendorId', $vendorId); 
-            $db2->bind(':catId', $catId); 
-            $db2->bind(':username', $username); 
-            $db2->bind(':defaultCreds', $defaultCreds); 
+                '1')");
+            $db2->bind(':deviceName', $deviceName);
+            $db2->bind(':deviceIpAddr', $deviceIpAddr);
+            $db2->bind(':devicePrompt', $devicePrompt);
+            $db2->bind(':deviceUsername', $deviceUsername);
+            $db2->bind(':devicePassword', $devicePassword);
+            $db2->bind(':deviceEnableMode', $deviceEnableMode);
+            $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
+            $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
+            $db2->bind(':connPort', $connPort);
+            $db2->bind(':deviceModel', $deviceModel);
+            $db2->bind(':vendorId', $vendorId);
+            $db2->bind(':catId', $catId);
+            $db2->bind(':username', $username);
+            $db2->bind(':defaultCreds', $defaultCreds);
             $queryResult = $db2->execute();
-            if($queryResult){
+            if ($queryResult) {
                 $errors['Success'] = "Added new device " . $deviceName . " to Database";
                 $log->Info("Success: Added new device, " . $deviceName . " to DB (File: " . $_SERVER['PHP_SELF'] . ")");
                 $_SESSION['errors'] = $errors;
@@ -312,7 +342,6 @@ if (isset($_POST['add'])) {
                 header("Location: " . $config_basedir . "devices.php?error");
                 exit();
             }
-			
         } else { // if ID is set in post when running a save from the form do an UPDATE
             $id = $_POST['editid'];
             $db2->query("UPDATE nodes SET 
@@ -332,20 +361,20 @@ if (isset($_POST['add'])) {
                             $customPropEditQueryStr 
                             deviceDateAdded = CURDATE()
                             WHERE id = :id");
-            $db2->bind(':deviceName', $deviceName); 
-            $db2->bind(':deviceIpAddr', $deviceIpAddr); 
-            $db2->bind(':devicePrompt', $devicePrompt); 
-            $db2->bind(':deviceUsername', $deviceUsername); 
-            $db2->bind(':devicePassword', $devicePassword); 
-            $db2->bind(':deviceEnableMode', $deviceEnableMode); 
-            $db2->bind(':deviceEnablePassword', $deviceEnablePassword); 
-            $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId); 
-            $db2->bind(':connPort', $connPort); 
-            $db2->bind(':deviceModel', $deviceModel); 
-            $db2->bind(':vendorId', $vendorId); 
-            $db2->bind(':catId', $catId); 
-            $db2->bind(':defaultCreds', $defaultCreds); 
-            $db2->bind(':id', $id); 
+            $db2->bind(':deviceName', $deviceName);
+            $db2->bind(':deviceIpAddr', $deviceIpAddr);
+            $db2->bind(':devicePrompt', $devicePrompt);
+            $db2->bind(':deviceUsername', $deviceUsername);
+            $db2->bind(':devicePassword', $devicePassword);
+            $db2->bind(':deviceEnableMode', $deviceEnableMode);
+            $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
+            $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
+            $db2->bind(':connPort', $connPort);
+            $db2->bind(':deviceModel', $deviceModel);
+            $db2->bind(':vendorId', $vendorId);
+            $db2->bind(':catId', $catId);
+            $db2->bind(':defaultCreds', $defaultCreds);
+            $db2->bind(':id', $id);
             $db2->debugDumpParams();
             $queryResult = $db2->execute();
             if ($queryResult) {
@@ -365,18 +394,17 @@ if (isset($_POST['add'])) {
         }
         /* end check if 'id' is iset in input field */
     }
-    /* end '!empty($errors)' check*/
+    /* end '!empty($errors)' check */
 }
-/* end 'add' if*/
+/* end 'add' if */
 
 
-/* begin delete check */
-elseif (isset($_POST['del'])) {
+/* begin delete check */ elseif (isset($_POST['del'])) {
 
-    /* the query*/
+    /* the query */
     $q = "UPDATE nodes SET status = 2 WHERE id = " . $_POST['id'] . ";";
     $db2->query("UPDATE nodes SET status = 2 WHERE id = :id");
-    $db2->bind(':id', $_POST['id']); 
+    $db2->bind(':id', $_POST['id']);
     $result = $db2->execute();
     if ($result) {
         $log->Info("Success: Deleted Node ID = " . $_POST['id'] . " in DB (File: " . $_SERVER['PHP_SELF'] . ")");
@@ -390,9 +418,7 @@ elseif (isset($_POST['del'])) {
         ));
     }
     echo $response;
-} /* end 'delete' if*/ 
-
-elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+} /* end 'delete' if */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
     if (ctype_digit($_GET['id'])) {
         $id = $_GET['id'];
@@ -406,16 +432,16 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
     }
 
 
-    /* first get custom fieldnames  and impode to create part of final SQL query*/
+    /* first get custom fieldnames  and impode to create part of final SQL query */
     $db2->query("SELECT customProperty FROM customProperties");
     $qCustProp = $db2->resultset();
     $items = array();
     foreach ($qCustProp as $row) {
         $customProperty = $row['customProperty'];
         array_push($items, $customProperty);
-        $customProp_string = implode(", ", $items).', ';
+        $customProp_string = implode(", ", $items) . ', ';
     }
-    
+
     $db2->query("SELECT 
                     n.id,
                     n.deviceName,
@@ -440,7 +466,7 @@ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 		LEFT OUTER JOIN categories cat ON n.nodeCatId = cat.id
 		WHERE n.status = 1
 		AND n.id = :id");
-    $db2->bind(':id', $id); 
+    $db2->bind(':id', $id);
     $qSelectnodeData = $db2->resultset();
 
     $items = array();

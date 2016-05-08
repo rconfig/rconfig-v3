@@ -5,11 +5,11 @@ $(function () {
     })
     $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getPhpLoggingStatus", function (data) {
         $('#getPhpLoggingStatusDiv').html(data);
-    })    
-	$.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getTimeZone", function (dataTime) {
+    })
+    $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getTimeZone", function (dataTime) {
         $("#timeZone").val(dataTime)
-    })    
-	$.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDefaultCredsManualSet", function (dataCredSet) {
+    })
+    $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDefaultCredsManualSet", function (dataCredSet) {
         $("#defaultCredsManualSet").val(dataCredSet)
     })
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/logs/debugging/&ext=txt", function (data) {
@@ -78,36 +78,41 @@ $(function () {
             $('#authDiv').hide();
         }
     });
-	
+
 // when pressing Enter on text box, auto-click relevant Update button
-	$(document).ready(function(){
+    $(document).ready(function () {
 // LDAP Server text box
-		$('#ldapServer').keypress(function(e){
-		  if(e.keyCode==13)
-		  $('#ldapServerGo').click();
-		});
+        $('#ldapServer').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#ldapServerGo').click();
+        });
+//Page Timeout text box
+        $('#pageTimeout').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#pageTimeoutGo').click();
+        });
 //Connection Timeout text box
-		$('#deviceTout').keypress(function(e){
-		  if(e.keyCode==13)
-		  $('#deviceToutGo').click();
-		});
+        $('#deviceTout').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#deviceToutGo').click();
+        });
 //Default Credentials text boxes (all 3)
 //Default Node Username text box
-		$('#defaultNodeUsername').keypress(function(e){
-		  if(e.keyCode==13)
-		  $('#updateDefaultPass').click();
-		});
+        $('#defaultNodeUsername').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#updateDefaultPass').click();
+        });
 //Default Node Password text box
-		$('#defaultNodePassword').keypress(function(e){
-		  if(e.keyCode==13)
-		  $('#updateDefaultPass').click();
-		});
+        $('#defaultNodePassword').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#updateDefaultPass').click();
+        });
 //Default Node Enable Mode Password text box
-		$('#defaultNodeEnable').keypress(function(e){
-		  if(e.keyCode==13)
-		  $('#updateDefaultPass').click();
-		});
-	});
+        $('#defaultNodeEnable').keypress(function (e) {
+            if (e.keyCode == 13)
+                $('#updateDefaultPass').click();
+        });
+    });
 });
 
 // Open File by ajax
@@ -167,6 +172,18 @@ function debugOnOff() {
 }
 
 
+function showPasswords() {
+    var checkBoxStatus = document.getElementById('passwordChkBox').checked;
+    if (checkBoxStatus == true) {
+        $('#defaultNodePassword').get(0).type = 'text';
+        $('#defaultNodeEnable').get(0).type = 'text';
+    } else {
+        $('#defaultNodePassword').get(0).type = 'password';
+        $('#defaultNodeEnable').get(0).type = 'password';
+    }
+}
+
+
 function phpLoggingOnOff() {
     var phpLoggingOnOff = $('#phpLoggingOnOff').val();
 
@@ -197,7 +214,19 @@ function deviceToutGo() {
     }
 } // end deviceToutGo()
 
+function pageTimeoutGo() {
+    var pageTimeoutVal = $('#pageTimeout').val();
 
+    if (pageTimeoutVal == null || pageTimeoutVal == '' || pageTimeoutVal == '0' || pageTimeoutVal == '00' || pageTimeoutVal == '000' || pageTimeoutVal <= 119) {
+        alert('Device Connection Timeout must be a value between 120 - 999999')
+    } else {
+        $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?pageTimeoutVal=" + pageTimeoutVal, function (data) {
+//            $('#pageTimeoutInfoDiv').html(data);
+            $('#pageTimeOutUpdated').slideDown('fast');
+        })
+    }
+} // end deviceToutGo()
+//
 // function to open new window based on content passed to the function
 function writeConsole(content, filePath) {
     top.consoleRef = window.open('', 'myconsole', 'width=750,height=600' + ',menubar=0' + ',toolbar=0' + ',status=0' + ',scrollbars=1' + ',resizable=1')
@@ -253,24 +282,24 @@ function smtpTest() {
     })
 }
 
-function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNodeEnable){
-	var defaultNodeUsername = defaultNodeUsername
-	var defaultNodePassword = defaultNodePassword
-	var defaultNodeEnable = defaultNodeEnable
-        $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPass.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
-            if (data) {
-                var response = data
-                    document.getElementById('updatedDefault').innerHTML = response;
-                    $('#updatedDefault').slideDown('fast');
-            }
-        });
-        $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPassNode.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
-            if (data) {
-                var response = data
-                    document.getElementById('updatedDefault').innerHTML = response;
-                    $('#updatedDefault').slideDown('fast');
-            }
-        });
+function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNodeEnable) {
+    var defaultNodeUsername = defaultNodeUsername
+    var defaultNodePassword = defaultNodePassword
+    var defaultNodeEnable = defaultNodeEnable
+    $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPass.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
+        if (data) {
+            var response = data
+            document.getElementById('updatedDefault').innerHTML = response;
+            $('#updatedDefault').slideDown('fast');
+        }
+    });
+    $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPassNode.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
+        if (data) {
+            var response = data
+            document.getElementById('updatedDefault').innerHTML = response;
+            $('#updatedDefault').slideDown('fast');
+        }
+    });
 
 }
 
@@ -281,8 +310,8 @@ function defaultCredsManualSet() {
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?defaultCredsManualSet=" + defaultCredsManualSet, function (data) {
             if (data) {
                 var response = data
-                  document.getElementById('updatedDefaultCredsManualSet').innerHTML = response;
-                  $('#updatedDefaultCredsManualSet').slideDown('fast');
+                document.getElementById('updatedDefaultCredsManualSet').innerHTML = response;
+                $('#updatedDefaultCredsManualSet').slideDown('fast');
             }
         });
     } else {

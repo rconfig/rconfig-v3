@@ -51,9 +51,11 @@ if (!$session->logged_in) {
         <script type="text/javascript" src="js/jquery/jquery.ui.position.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.ui.autocomplete.js"></script>
+        <script type="text/javascript" src="js/jquery/jquery.ui.dialog.js"></script>
         <script type="text/javascript" src="js/filetree/php_file_tree.js" ></script>
         <script type="text/javascript" src="js/simpleModal/jquery.simplemodal.1.4.2.min.js" ></script>
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
+        <script type="text/javascript" src="js/pageTimeout.js" ></script>
         <!-- Custom JS -->
         <script type="text/javascript" src="js/rconfigFunctions.js"></script>
     </head>

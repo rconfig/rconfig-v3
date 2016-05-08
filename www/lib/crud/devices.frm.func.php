@@ -1,12 +1,13 @@
 <?php
+
 require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
 
 function vendorId($id = null) {
-	// $id is set if from is reloaded with errors so that selected item is pre-populated after form reload
-    $db2  = new db2();
+    // $id is set if from is reloaded with errors so that selected item is pre-populated after form reload
+    $db2 = new db2();
     $log = ADLog::getInstance();
-    
+
     //Extract Nodes vendorId for select list below
     $db2->query("SELECT * FROM vendors WHERE status = 1 ORDER BY vendorname ASC");
     $result = $db2->resultset();
@@ -21,15 +22,15 @@ function vendorId($id = null) {
         echo "Database table empty";
         return;
     }
-    if($id == null){ 
+    if ($id == null) {
         echo "<option value=\"\" selected></option>";
     } else {
         echo "<option value=\"\"></option>";
     }
     for ($i = 0; $i < $num_rows; $i++) {
-        $vendorId   = $result[$i]['id'];
+        $vendorId = $result[$i]['id'];
         $vendorName = $result[$i]['vendorName'];
-        if($id == $vendorId && $id != null){
+        if ($id == $vendorId && $id != null) {
             echo "<option value=" . $vendorId . " selected>" . $vendorName . "</option>";
         } else {
             echo "<option value=" . $vendorId . ">" . $vendorName . "</option>";
@@ -40,8 +41,8 @@ function vendorId($id = null) {
 function accessMethod($id = null) {
 // $id is set if from is reploaded with errors so that selected item is pre-populated after form reload
 
-    $db2       = new db2();
-    $log      = ADLog::getInstance();
+    $db2 = new db2();
+    $log = ADLog::getInstance();
     //Extract Nodes accessMethod for select list below
     $db2->query("SELECT * FROM devicesaccessmethod");
     $result = $db2->resultset();
@@ -56,29 +57,29 @@ function accessMethod($id = null) {
         echo "Database table empty";
         return;
     }
-    if($id == null){ 
+    if ($id == null) {
         echo "<option selected=\"selected\" value=\"\">- Select an option -</option>";
     } else {
         echo "<option value=\"\">- Select an option -</option>";
     }
 
     for ($i = 0; $i < $num_rows; $i++) {
-        $accessId   = $result[$i]['id'];
+        $accessId = $result[$i]['id'];
         $accessName = $result[$i]['devicesAccessMethod'];
-        if($id == $accessId && $id != null){
+        if ($id == $accessId && $id != null) {
             echo "<option value=" . $accessId . " selected>" . $accessName . "</option>";
         } else {
             echo "<option value=" . $accessId . ">" . $accessName . "</option>";
-        }		
-    }    
+        }
+    }
 }
 
-function categories($id=null) {
-	// $id is set if from is reloaded with errors so that selected item is pre-populated after form reload	
-    $db2       = new db2();
-    $log      = ADLog::getInstance();
+function categories($id = null) {
+    // $id is set if from is reloaded with errors so that selected item is pre-populated after form reload	
+    $db2 = new db2();
+    $log = ADLog::getInstance();
     //Extract Categories for select list below
-  
+
     $db2->query("SELECT * FROM categories WHERE status = 1");
     $result = $db2->resultset();
     $num_rows = $db2->rowCount();
@@ -92,30 +93,30 @@ function categories($id=null) {
         $log->Warn("Failure: Database table returned empty on categories - no options returned (File: " . $_SERVER['PHP_SELF'] . ")");
         return;
     }
-    if($id == null){ 
+    if ($id == null) {
         echo "<option value=\"\" selected>Select a Category </option>";
     } else {
         echo "<option value=\"\">Select a Category </option>";
     }
     for ($i = 0; $i < $num_rows; $i++) {
-        $catId   = $result[$i]['id'];
+        $catId = $result[$i]['id'];
         $catName = $result[$i]['categoryName'];
-        if($id == $catId && $id != null){
+        if ($id == $catId && $id != null) {
             echo "<option value=" . $catId . " selected>" . $catName . "</option>";
         } else {
             echo "<option value=" . $catId . ">" . $catName . "</option>";
-        }		
-    }    
-	
-} // end categories function
+        }
+    }
+}
 
-function customProp()
-{
-    $db2       = new db2();
+// end categories function
+
+function customProp() {
+    $db2 = new db2();
     $db2->query("SELECT * FROM customProperties");
     $result = $db2->resultset();
     $num_rows = $db2->rowCount();
-    
+
     for ($i = 0; $i < $num_rows; $i++) {
         $custprop = $result[$i]['customProperty'];
         // remove 'custom_' bit for display purposes
@@ -123,4 +124,6 @@ function customProp()
         echo "<label>" . $newcustprop . ":</label>  
             <input type=\"text\" name=\"$custprop\" id=\"$custprop\" tabindex=12  style=\"width:150px;\"/> ";
     }
-} // end custom properties function
+}
+
+// end custom properties function

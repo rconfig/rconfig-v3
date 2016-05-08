@@ -10,6 +10,8 @@ class Process
             $this->procDebugOnOff();
         } else if (isset($_GET['deviceToutVal'])) {
             $this->procDeviceTimeout();
+        } else if (isset($_GET['pageTimeoutVal'])) {
+            $this->procPageTimeout();
         }  else if (isset($_GET['timeZoneChange'])) {
             $this->procTimeZoneChange();
         } else if (isset($_GET['getTimeZone'])) {
@@ -127,8 +129,39 @@ class Process
             $log->Warn("Failure: Could not update deviceConnectionTimout in DB for ajaxSettingsProcess.php:".$queryResult);
         }
         echo json_encode($response);
-    }    
-	
+    }  
+    
+    /**
+     * procPageTimeout - Change the webpage timeout value
+     */
+    function procPageTimeout()
+    {
+        session_start();
+        require_once("../../../classes/db2.class.php");
+        require_once("../../../classes/ADLog.class.php");
+        $db2  = new db2();
+        $log = ADLog::getInstance();
+        
+        if (isset($_GET['pageTimeoutVal'])) {
+            $timeout = $_GET['pageTimeoutVal'];
+        }
+        $db2->query("UPDATE `settings` SET `pageTimeout` = :pageTimeoutVal");
+        $db2->bind(':pageTimeoutVal', $timeout);
+        $queryResult = $db2->execute();
+        /* Update successful */
+        if ($queryResult) {
+            $response = "<br/><font color='green'>Webpage Timeout changed successfully to " . $timeout . " Seconds</font>";
+        }
+        /* Update failed */
+        else {
+            $response = "failed";
+            $log->Warn("Failure: Could not update procPageTimeout in DB for ajaxSettingsProcess.php:".$queryResult);
+        }
+        echo json_encode($response);
+    }
+    
+    
+    
 /**
  * procTimeZoneChange - Change the server timezone
  */

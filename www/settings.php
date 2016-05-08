@@ -33,7 +33,7 @@
                     $ds = disk_total_space("/");
                     $fs = disk_free_space("/");
 
-                    $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable, useDefaultCredsManualSet, commandDebug, commandDebugLocation, deviceConnectionTimout, ldapServer FROM settings WHERE id = 1");
+                    $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable, useDefaultCredsManualSet, commandDebug, commandDebugLocation, deviceConnectionTimout, ldapServer, pageTimeout FROM settings WHERE id = 1");
                     $result = $db2->resultset();
                     $defaultNodeUsername = $result[0]['defaultNodeUsername'];
                     $defaultNodePassword = $result[0]['defaultNodePassword'];
@@ -43,6 +43,7 @@
                     $debugLocation = $result[0]['commandDebugLocation'];
                     $timeout = $result[0]['deviceConnectionTimout'];
                     $ldapServer = $result[0]['ldapServer'];
+                    $pageTimeout = $result[0]['pageTimeout'];
                     ?>	
                     <div style="width:60%;">
                         <div class="tableSummary">
@@ -106,6 +107,16 @@
                         <div class="spacer"></div>
                         <div id="timeZoneNoticeDiv"></div>
                         <div class="spacer"></div>
+                        <hr />
+                        <label title="Time before webpages expire and the user will be logged out" alt="Time before webpages expire and the user will be logged out">Webpage Timeout:
+                            <span class="small">Timeout in seconds</span>
+                        </label>
+                        <input type="text" value="<?php echo $pageTimeout; ?>" id="pageTimeout" name="pageTimeout" size="3" maxlength="6" style="width:45px;margin-right:5px;"/>
+                       <br/>
+                        <label>
+                            <button class="smlButton" id="pageTimeoutGo" onclick="pageTimeoutGo()">Update Timeout</button>
+                            <span id="pageTimeOutUpdated" style="display:none; color:green;">Updated!</span>
+                        </label>
                     </div>
                 </fieldset>
                 <fieldset id="settings">
@@ -123,6 +134,13 @@
                             Default Enable Mode Password:
                         </label>
                         <input type="password" value="<?php echo $defaultNodeEnable; ?>" id="defaultNodeEnable" name="defaultNodePassword" placeholder="password" />
+                        
+                        <div class="spacer"></div>
+                        <label style="width: 120px;">
+                            Show passwords
+                        </label>
+                        <input type="checkbox" id="passwordChkBox" onchange="showPasswords(this)" style="width: 80px;"> 
+                        <div class="spacer"></div>
 
                         <label>
                             <button class="smlButton" id="updateDefaultPass" onclick="updateDefaultPass(

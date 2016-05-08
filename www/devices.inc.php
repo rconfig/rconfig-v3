@@ -200,10 +200,10 @@ $i = 0; # row counter  to enable alternate row coloring
 <table id="devicesTbl" class="tableSimple">
     <thead>
     <th><input type="checkbox" disabled="disabled"/></th>
-    <th align="left">Vendor</th>
     <th align="left">Device Name</th>
     <th align="left">IP Address</th>
     <th align="left">Category</th>
+    <th align="left">Vendor</th>
 <?php
 /* Create and add new Customer Properties Headers to Table */
 if (!empty($customArray)) {
@@ -229,12 +229,12 @@ foreach ($result['rows'] as $rows):
     echo '<tr class="row' . ($i++ % 2) . '">';
     ?>
     <td align="center"><input type="checkbox" name="checkboxId" id="<?php echo $id; ?>"/></td>
-    <td align="left"><img src="<?php echo $rows['vendorLogo'] ?>" /> <?php echo $rows['vendorName'] ?></td>
     <td >
         <a href="devicemgmt.php?deviceId=<?php echo $rows['id'] ?>&device=<?php echo $rows['deviceName'] ?>" title="View <?php echo $rows['deviceName'] ?> Configurations"><?php echo $rows['deviceName'] ?>
     </td>
     <td align="left"><?php echo $rows['deviceIpAddr'] ?></td>
     <td align="left"><?php echo $rows['categoryName'] ?></td>
+    <td align="left"><img src="<?php echo $rows['vendorLogo'] ?>" /> <?php echo $rows['vendorName'] ?></td>
     <?php
     /*  Block extracts key from array that partial matchs 'custom_' 
       When a match happens - output the html with the actual value $v.

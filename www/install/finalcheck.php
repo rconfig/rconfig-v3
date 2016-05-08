@@ -41,6 +41,11 @@ require('includes/head.php');
                 <b>Login Credentials:-</b><br/>
                 Default username:- <b>admin</b><br/>
                 Default password:- <b>admin</b><br/><br/>
+                Before Logging into rConfig, please carry out the following actions
+                <ul STYLE="list-style-image: url(img/bullet_delete.png); padding-left:20px;">
+                    <li>Login to System Shell and run '<b>chown -R apache /home/rconfig/</b>' </li>
+                </ul>
+                <br /><br /><br />
                 Please carry out the following tasks once you are logged in to rConfig
                 <ul STYLE="list-style-image: url(img/bullet_delete.png); padding-left:20px;">
                     <li>Reset admin password on the <b>settings/users</b> page</li>

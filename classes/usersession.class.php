@@ -305,14 +305,13 @@ class Session {
             if (strlen($subpass) < 4) {
                 $form->setError($field, "Password too short");
             }
-            /* Check if password is not alphanumeric */ 
-            else if(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))){
+            /* Check if password is not alphanumeric */ else if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))) {
                 $form->setError($field, "Password not alphanumeric. Must be: <br />"
                         . "&nbsp;&nbsp;at least one lowercase char <br/>"
                         . "&nbsp;&nbsp;at least one uppercase char <br/>"
                         . "&nbsp;&nbsp;at least one digit <br/>"
                         . "&nbsp;&nbsp;at least one special sign of @#-_$%^&+=§!? <br/> <br/> <br/>");
-            } 
+            }
             /* Check if password fields match */ else if ($subpass != $subpassconf) {
                 $form->setError($fieldConf, "Passwords do not match");
             }
@@ -402,14 +401,13 @@ class Session {
             if (strlen($subpass) < 4) {
                 $form->setError($field, "Password too short");
             }
-            /* Check if password is not alphanumeric */
-            else if(!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))){
+            /* Check if password is not alphanumeric */ else if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))) {
                 $form->setError($field, "Passwordsss not alphanumeric<br />"
                         . "at least one lowercase char <br/>"
                         . "at least one uppercase char <br/>"
                         . "at least one digit <br/>"
                         . "at least one special sign of @#-_$%^&+=§!? <br/>");
-            } 
+            }
             /* Check if password fields match */ else if ($subpass != $subpassconf) {
                 $form->setError($fieldConf, "Passwords do not match");
             }
@@ -558,11 +556,7 @@ class Session {
         }
         return $randstr;
     }
-
 }
-
-;
-
 
 /**
  * Initialize session object - This must be initialized before
