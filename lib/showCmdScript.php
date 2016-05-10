@@ -11,6 +11,7 @@ require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
+phpErrorReporting();
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
@@ -61,9 +62,9 @@ $report->header($title, $title, basename($_SERVER['PHP_SELF']), $tid, $startTime
 $connStatusFail = '<font color="red">Connection Fail</font>';
 $connStatusPass = '<font color="green">Connection Success</font>';
 // get timeout setting from DB
-$timeoutSql = $db->q("SELECT deviceConnectionTimout FROM settings");
-$result = mysql_fetch_assoc($timeoutSql);
-$timeout = $result['deviceConnectionTimout'];
+$timeoutSql = $db2->query("SELECT deviceConnectionTimout FROM settings");
+$connResult = $db2->resultset();
+$timeout = $connResult[0]['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
 $db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
@@ -76,6 +77,7 @@ if (!empty($getNodes)) {
     foreach ($getNodes as $row) {
         array_push($devices, $row);
     }
+    // start looping over every device returned 
     foreach ($devices as $device) {
         // debugging check and action
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
@@ -97,12 +99,14 @@ if (!empty($getNodes)) {
                         LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
                         WHERE cct.nodeCatId = :nodeCatId");
         $db2->bind(':nodeCatId', $device['nodeCatId']);
-        $cmdNumRows = $db2->rowCount();
+        $commands = $db2->resultsetCols();
+        $cmdNumRows = count($commands);
         // get the category for the device						
         $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
         $db2->bind(':nodeCatId', $device['nodeCatId']);
         $catNameRow = $db2->resultset();
         $catName = $catNameRow[0];
+        
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
             $text = "Failure: There are no commands configured for category " . $catName . " when running taskID " . $tid;
@@ -113,7 +117,7 @@ if (!empty($getNodes)) {
         }
 
         // declare file Class based on catName and DeviceName
-        $file = new file($catName, $device['deviceName'], $config_data_basedir);
+        $file = new file($catName['categoryName'], $device['deviceName'], $config_data_basedir);
 
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
         $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
@@ -130,23 +134,21 @@ if (!empty($getNodes)) {
 
                 continue; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
             }
-
             // telnet success logging
             // check if mailErrorsOnly flag is set and if it is, do not log successfuly connections
-            if ($taskRow['mailErrorsOnly'] == '0') {
+            if ($taskRow[0]['mailErrorsOnly'] == '0') {
                 $report->eachData($device['deviceName'], $connStatusPass, $connectedText); // log to report
             }
             echo $connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn($connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
         } // end if device access method
 
-        $i = 0; // set i to prevent php notices	
+        $i = -1; // set i to prevent php notices & becuase the $commands array will always have a start key at 0	
         // loop over commands for given device
-        while ($cmds = mysql_fetch_assoc($commands)) {
+        while ($commands) {
             $i++;
-
             // Set VARs
-            $command = $cmds['command'];
+            $command = $commands[$i];
             $prompt = $device['devicePrompt'];
 
             if (!$command || !$prompt) {
@@ -157,7 +159,7 @@ if (!empty($getNodes)) {
 
             // debugging check & write to file
             if ($debugOnOff === '1' || isset($cliDebugOutput)) {
-                $debug->debug($cmds);
+                $debug->debug($command);
             }
 
             //create new filepath and filename based on date and command -- see testFileClass for details - $fullpath return for use in insertFileContents method
@@ -180,7 +182,7 @@ if (!empty($getNodes)) {
                     $sshConnectedText = "Success: Connected via SSH to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for command (" . $command . ") for taskID " . $tid;
                     echo $sshConnectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
                     $log->Conn($sshConnectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
-                    if ($taskRow['mailErrorsOnly'] == '0') {
+                    if ($taskRow[0]['mailErrorsOnly'] == '0') {
                         $report->eachData($device['deviceName'], $connStatusPass, $sshConnectedText); // log to report
                     }
                 }
@@ -217,11 +219,13 @@ if (!empty($getNodes)) {
                 $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR:" . mysql_error());
                 die();
             }
-            //check for last iteration... 
-            if ($i == $cmdNumRows) {
-
+            //check for last command iteration...
+            // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
+            // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
+            if ($i == $cmdNumRows-1) { 
                 if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
                     $conn->close('40'); // close telnet connection - ssh already closed at this point
+                    break;
                 }
             }
         }// end command while loop

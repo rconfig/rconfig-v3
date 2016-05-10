@@ -332,3 +332,81 @@
 2016-05-08 15:30:33 INFO Success: Edit device headend.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
 2016-05-08 21:22:36 INFO Success: SMTP Settings saved (File: /lib/crud/settingsEmail.crud.php)
 2016-05-08 21:23:13 INFO Info: Test Message sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-10 20:02:17 INFO Success: Deleted task 869405 in DB and CRONTAB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:02:22 INFO Success: Deleted task 209981 in DB and CRONTAB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:03:16 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:03:16 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:03:16 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:04:38 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:04:38 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:04:38 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-05-10 20:08:57 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:10:28 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:10:46 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:11:26 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:13:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:13:20 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:13:37 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:13:58 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:14:30 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:18:43 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:19:21 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:19:35 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:20:55 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:21:35 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:23:13 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:24:32 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:25:24 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:26:27 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:26:50 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:28:28 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:29:59 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:30:29 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:32:23 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:32:50 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:34:27 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:35:25 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:36:14 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:36:48 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:37:04 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:37:22 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:37:53 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:39:16 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:39:38 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:40:43 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:40:56 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:41:52 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:42:38 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:43:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:44:13 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:44:59 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:49:40 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:49:57 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:50:17 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:50:25 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:50:33 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:52:34 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:53:53 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:54:44 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 20:56:58 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:05:43 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:06:45 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:12:06 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:12:29 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:13:43 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:21:35 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:26:55 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:28:49 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:30:10 INFO Success: Edit device site10gw.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-10 21:30:15 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:30:25 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:31:05 INFO Success: Edit device site10gw.lab.rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-10 21:31:10 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:31:28 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-10 21:31:42 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-10 21:32:02 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-10 21:34:47 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:35:51 INFO Success: Edited command show logg to DB (File: /lib/crud/commands.crud.php)
+2016-05-10 21:37:35 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:47:49 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
+2016-05-10 21:53:57 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

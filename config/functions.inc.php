@@ -7,7 +7,7 @@
 
 // gets & sets data for Annoucements section and Bredcrumb text on pages from the DB
 function pageTitles($pageName, $pageType=NULL){
-    require_once("../classes/db2.class.php");
+    require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT * FROM menuPages WHERE pageName = :pageName");
     $db2->bind(':pageName', $pageName);
@@ -28,7 +28,7 @@ function pageTitles($pageName, $pageType=NULL){
  *
  */
 function phpErrorReporting() {
-    require_once("../classes/db2.class.php");
+    require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     // check and set timeZone to avoid PHP errors
     $db2->query("SELECT timeZone FROM settings");
@@ -424,4 +424,11 @@ function rrmdir($dir) {
  */
 function chkWhiteSpaceInStr($string) {
     return preg_match("/\\s/", $string);
+}
+
+// flatten multidimensional array
+function flatten(array $array) {
+    $return = array();
+    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+    return $return;
 }
