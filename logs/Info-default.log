@@ -410,3 +410,74 @@
 2016-05-10 21:37:35 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
 2016-05-10 21:47:49 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:168050
 2016-05-10 21:53:57 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-11 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:168050
+2016-05-11 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:715785
+2016-05-11 00:00:35 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-11 00:11:35 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-11 12:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:168050
+2016-05-11 12:13:55 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-12 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:715785
+2016-05-12 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:168050
+2016-05-12 00:00:35 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-12 00:13:55 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-12 12:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:168050
+2016-05-12 12:13:55 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-12 20:06:09 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:06:50 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:07:16 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:09:06 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:10:50 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:11:45 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:20:45 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:20:51 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:20:52 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:21:17 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:26:04 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:26:46 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:27:08 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:30:21 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:31:14 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:31:48 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:32:08 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:32:32 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:33:40 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:35:31 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:36:10 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:36:41 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:37:50 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:39:46 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:40:05 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:40:26 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:41:00 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:42:19 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:715785
+2016-05-12 20:42:38 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-12 20:50:24 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 20:53:11 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 24 
+2016-05-12 21:10:31 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 23 
+2016-05-12 21:14:53 INFO Success: Added Snippet to DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:15:06 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 23 & Snippet ID: 6 
+2016-05-12 21:15:11 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-12 21:16:26 INFO Success: Edited Snippet NTP Server to DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:16:29 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 23 & Snippet ID: 6 
+2016-05-12 21:16:39 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-12 21:16:59 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 23 
+2016-05-12 21:17:29 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 23 
+2016-05-12 21:18:22 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 55 & Snippet ID: 6 
+2016-05-12 21:18:35 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-12 21:19:48 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 55 
+2016-05-12 21:20:12 INFO Success: Deleted Command 160 in DB (File: /lib/crud/commands.crud.php)
+2016-05-12 21:20:21 INFO Success: Added command show run to DB (File: /lib/crud/commands.crud.php)
+2016-05-12 21:20:25 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 23 
+2016-05-12 21:21:37 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 21:21:49 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 21:21:57 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-05-12 21:22:35 INFO Success: Deleted Snippet in DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:22:37 INFO Success: Deleted Snippet in DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:22:39 INFO Success: Deleted Snippet in DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:22:41 INFO Success: Deleted Snippet in DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:22:46 INFO Success: Edited Snippet NTP Server to DB (File: /lib/crud/snippets.crud.php)
+2016-05-12 21:38:31 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 53 & Snippet ID: 6 
+2016-05-12 21:38:45 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-12 21:44:32 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 57 & Snippet ID: 6 
+2016-05-12 21:44:49 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-12 21:44:57 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 57 

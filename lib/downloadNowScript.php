@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Why i am creating a new downloadNowScript when a lot of the code is already in the showCmdScript already?
  * well, most of the code is similar for sure, but the functionality between the required features is different, where
@@ -6,6 +7,7 @@
  * that, I will build JS call backs into the script so that the GUI is updated with the device output. I will also remove the reporting
  * elements as they appear in the showCmdScript script.
  */
+
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -17,6 +19,7 @@ require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
+phpErrorReporting();
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
@@ -26,8 +29,12 @@ $backendScripts->getTime();
 // declare Logging Class
 $log = ADLog::getInstance();
 $log->logDir = $config_app_basedir . "logs/";
+// script startTime and use extract to convert keys into variables for the script
+extract($backendScripts->startTime());
+
 // create array for json output to return to downloader window
 $jsonArray = array();
+
 // check if this script was CLI Invoked and throw an error to the CLI if it was.
 if (php_sapi_name() == 'cli') {  // if invoked from CLI
     $text = "You are not allowed to invoke this script from the CLI - unable to run script";
@@ -35,31 +42,34 @@ if (php_sapi_name() == 'cli') {  // if invoked from CLI
     $log->Fatal("Error: " . $text . " (File: " . $_SERVER['PHP_SELF'] . ")");
     die();
 }
+
 // set vars passed from ajaxDownloadNow.php on require()
 $rid = $passedRid;
-$providedUsername = $passedUsername;
-$providedPassword = $passedPassword;
 // Log the script start
 $log->Info("The " . $_SERVER['PHP_SELF'] . " script was run manually invoked with Router ID: $rid "); // logg to file
 // get time-out setting from DB
-$db2->query("SELECT deviceConnectionTimout FROM settings");
-$result = $db2->resultset();
-$timeout = $result[0]['deviceConnectionTimout'];
+$timeoutSql = $db2->query("SELECT deviceConnectionTimout FROM settings");
+$result = $db2->resultsetCols();
+$timeout = $result[0];
+
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName, deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort 
-                    FROM nodes WHERE id = :rid AND status = 1");
-$db2->bind(':rid', $rids);
-$resultSelect = $db2->resultset();
-if (!empty($resultSelect)) {
+$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+                FROM nodes WHERE id = " . $rid . " AND status = 1");
+$getNodes = $db2->resultset();
+
+if (!empty($getNodes)) {
+
     // push rows to $devices array
     $devices = array();
-    foreach ($resultSelect as $row) {
+    foreach ($getNodes as $row) {
         array_push($devices, $row);
     }
+
     foreach ($devices as $device) { // iterate over each device - in this scripts case, there will only be a single device
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
+
         if ($status === "<font color=red>Unavailable</font>") {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running Router ID " . $rid;
             $jsonArray['connFailMsg'] = $text;
@@ -67,19 +77,20 @@ if (!empty($resultSelect)) {
             echo json_encode($jsonArray);
             continue;
         }
+
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
-        $d2b->query("SELECT cmd.command 
+        $db2->query("SELECT cmd.command 
                         FROM cmdCatTbl AS cct
                         LEFT JOIN configcommands AS cmd ON cmd.id = cct.configCmdId
                         WHERE cct.nodeCatId = :nodeCatId");
         $db2->bind(':nodeCatId', $device['nodeCatId']);
-        $commands = $db2->resultset();
-        $cmdNumRows = $db2->rowCount();
+        $commands = $db2->resultsetCols();
+        $cmdNumRows = count($commands);
         // get the category for the device						
         $db2->query("SELECT categoryName FROM categories WHERE id = :nodeCatId");
         $db2->bind(':nodeCatId', $device['nodeCatId']);
         $catNameRow = $db2->resultset();
-        $catName = $catNameRow[0]; // select only first value returned
+        $catName = $catNameRow[0]['categoryName'];
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
             $text = "Failure: There are no commands configured for category " . $catName . " when running Router ID " . $rid;
@@ -88,19 +99,13 @@ if (!empty($resultSelect)) {
             echo json_encode($jsonArray);
             continue;
         }
+
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
-
-        if (!empty($providedUsername) && !empty($providedPassword) && $providedUsername != "0" && $providedPassword != "0") {
-            $conn = new Connection($device['deviceIpAddr'], $providedUsername, $providedPassword, $device['deviceEnableMode'], $providedPassword, $device['connPort'], $timeout);
-        } else {
-            // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
-            $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
-        }
-
+        // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
+        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
         $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid;
         $connSuccessText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for Router ID " . $rid;
-
         // if connection is telnet, connect to device function
         if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
             if ($conn->connectTelnet() === false) {
@@ -116,11 +121,11 @@ if (!empty($resultSelect)) {
 
         $i = 0; // set i to prevent php notices	
         // loop over commands for given device
-        foreach ($commands as $cmds) {
+        while ($commands) {
             $i++;
 
             // Set VARs
-            $command = $cmds['command'];
+            $command = $commands[$i];
             $prompt = $device['devicePrompt'];
 
             if (!$command || !$prompt) {
@@ -155,40 +160,55 @@ if (!empty($resultSelect)) {
             } else {
                 continue;
             }
+
             // output command json for response to web page
             $jsonArray['cmdMsg' . $i] = "Command '" . $command . "' ran successfully";
+
             // create new array with PHPs EOL parameter
             $filecontents = implode(PHP_EOL, $showCmd);
+
             // insert $filecontents to file
             $file->insertFileContents($filecontents, $fullpath);
+
             $filename = basename($fullpath); // get filename for DB entry
             $fullpath = dirname($fullpath); // get fullpath for DB entry
             // insert info to DB
+            $configDbQ = "INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
+                            VALUES (" . $device['id'] . ", NOW(), '" . $fullpath . "', '" . $filename . "' )";
+            
             $db2->query("INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
-                            VALUES (:id, NOW(), :fullpath,:filename)");
+                            VALUES (:id, NOW(), :fullpath, :filename)");
             $db2->bind(':id', $device['id']);
             $db2->bind(':fullpath', $fullpath);
             $db2->bind(':filename', $filename);
-            $result = $db2->resultset();
-            if (!empty($result)) {
+            $configDbQExecute = $db2->execute();
+
+            if ($configDbQExecute) {
                 $log->Conn("Success: Show Command '" . $command . "' for device '" . $device['deviceName'] . "' successful (File: " . $_SERVER['PHP_SELF'] . ")");
             } else {
-                $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ")");
+                $log->Fatal("Failure: Unable to insert config information into DataBase Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR:" . mysql_error());
                 die();
             }
-
-            //check for last iteration... 
-            if ($i == $cmdNumRows) {
-
+            //check for last command iteration...
+            // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
+            // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
+            if ($i == $cmdNumRows-1) { 
                 if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
                     $conn->close('40'); // close telnet connection - ssh already closed at this point
+                    break;
                 }
             }
         }// end command while loop
     } //end foreach
 // final msg
     $jsonArray['finalMsg'] = "<b>Manual download completed</b> <br/><br/> <a href='javascript:window.close();window.opener.location.reload();'>close</a>";
+
+// echo json response for msgs back to page
+// echo '<pre>';
+// print_r($jsonArray);
     echo json_encode($jsonArray);
 } else {
-    echo $backendScripts->finalAlert($log, $_SERVER['PHP_SELF']);
+    echo "Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error();
+    $log->Fatal("Failure: Unable to get Device information from Database Command (File: " . $_SERVER['PHP_SELF'] . ") SQL ERROR: " . mysql_error());
+    die();
 }

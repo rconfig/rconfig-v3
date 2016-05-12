@@ -3,11 +3,6 @@
 include("../config/config.inc.php");
 include("../config/functions.inc.php");
 include("../classes/usersession.class.php");
-
-/* Turn on event logging */
-include("../classes/ADLog.class.php");
-$log = ADLog::getInstance();
-
 /**
  * User has NOT logged in, so redirect to main login page
  */
@@ -98,15 +93,13 @@ if (!$session->logged_in) {
     <body>
         <div id="loading">
             <div id="innerDiv" class="alert">
-                <img src='images/ajax_loader_gray_32.gif'  height="16" width="16"/>
+                <img src='images/ajax_loader.gif'  height="16" width="16"/>
                 <span>Downloading...</span> 
             </div>
         </div>
         <div id="noticeBoard" class="alertSnippet"></div>
-
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/downloadNow.js"></script> 
-
     </body>
 </html>
 

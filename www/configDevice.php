@@ -1,20 +1,15 @@
 <?php
-// PHP Includes
 include("../config/config.inc.php");
 include("../config/functions.inc.php");
 include("../classes/usersession.class.php");
-include("../classes/db2.class.php");
-
-/* Turn on event logging */
-include("../classes/ADLog.class.php");
-$log = ADLog::getInstance();
-
 /**
  * User has NOT logged in, so redirect to main login page
  */
 if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 }
+// did not include db2.class.php becuase it is already declared in usersession class. Just needed to call it here.
+$db2 = new db2();
 ?>
 <!DOCTYPE html>
 <html>
@@ -89,14 +84,10 @@ if (!$session->logged_in) {
                 box-shadow: 2px 2px 4px #999; 
                 max-width:150px;
             }
-
-
-
         </style>
     </head>
     <body>
         <?php
-        $db2 = new db2();
         /* Get all snippets for the snippetSelect Selection list */
         $db2->query("SELECT `id`, `snippetName` FROM `snippets` ORDER BY `snippetName` ASC");
         $snippetQ = $db2->resultset();
@@ -114,7 +105,6 @@ if (!$session->logged_in) {
                     ?>
                 </select>
                 <div style="clear:both;"></div>
-
                 <div id="snippetDiv" class="alertSnippet">
                 </div>
                 <div style="clear:both;"></div>
@@ -130,10 +120,8 @@ if (!$session->logged_in) {
             </div>
         </div>
         <div id="noticeBoard" class="alertSnippet"></div>
-
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/configDevice.js"></script> 
-
     </body>
 </html>
 

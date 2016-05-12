@@ -1,11 +1,4 @@
 <?php
-/*
- * Why I am creating a new downloadNowScript when a lot of the code is already in the showCmdScript already?
- * well, most of the code is similar for sure, but the functionality between the features is different, where
- * the showCmdScript is based of the Task ID (tid) and this script is based off the routers own DB ID. 
- * I will also remove the reporting elements as they appear in the showCmdScript script.
- *
- */
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");

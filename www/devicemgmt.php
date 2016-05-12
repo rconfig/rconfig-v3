@@ -80,19 +80,8 @@
                     </div>
                     <div id="#deviceActionsDiv">
                         <?php
-                        /* Instantiate DB Class */
-                        //$db     = new db();
-                        $db2->query("SELECT useDefaultCredsManualSet FROM settings WHERE id = '1'");
-                        $resultSelect2 = $db2->resultsetCols();
-                        $useDefaultCredsManualSet = $resultSelect2;
-
-                        if ($useDefaultCredsManualSet == '1') {
-                            echo '<button id="hideAll" onclick="manualDownloadCreds(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Begin a manual download of configurations for this device">Manual Download</button>';
-                            echo '<button id="hideAll" onclick="configDeviceCreds(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Run a configuration snippet on this device">Run Config Snippet</button>';
-                        } else {
-                            echo '<button id="hideAll" onclick="manualDownload(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Begin a manual download of configurations for this device">Manual Download</button>';
-                            echo '<button id="hideAll" onclick="configDevice(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Run a configuration snippet on this device">Run Config Snippet</button>';
-                        }
+                        echo '<button id="hideAll" onclick="manualDownload(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Begin a manual download of configurations for this device">Manual Download</button>';
+                        echo '<button id="hideAll" onclick="configDevice(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Run a configuration snippet on this device">Run Config Snippet</button>';
                         ?>
                     </div>
                 </fieldset>
@@ -120,9 +109,9 @@
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/devicemgmt.js"></script> 
         <script>
-        // var passed to onload function to load device status
-        var deviceIpAddr = "<?php echo $deviceIpAddr; ?>";
-        var connPort = "<?php echo $connPort; ?>";
+                            // var passed to onload function to load device status
+                            var deviceIpAddr = "<?php echo $deviceIpAddr; ?>";
+                            var connPort = "<?php echo $connPort; ?>";
         </script>
         <!-- Footer Include -->    
         <?php include("includes/footer.inc.php"); ?>
