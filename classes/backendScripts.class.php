@@ -129,7 +129,7 @@ class backendScripts {
         $mail->ClearAttachments();
     }     
     
-    public function finalAlert($param, $pageName) {
+    public function finalAlert($log, $pageName) {
         $text = "Failure: Unable to get Device information from Database Command (File: " . $pageName;
         $log->Fatal($text);
         return $text;

@@ -1,0 +1,6 @@
+#727191 - SSH Single Download - Headend
+#727191 - SSH Single Download - Headend
+0 0 1 * * php /home/rconfig/lib/showCmdScript.php 727191
+#414844 - SSH Single Download - Site1GW
+#414844 - SSH Single Download - Site1GW
+0 0 1 1 * php /home/rconfig/lib/showCmdScript.php 414844

@@ -101,6 +101,8 @@ include("includes/head.inc.php");
                             <button class="show_hide">Add Device</button>
                             <button onclick="editDevice()">Edit Device</button>
                             <button onclick="delDevice()">Remove Device</button>
+                            <!-- set below to let scripts know that the from is in edit mode - set in editDevice() -->
+                            <input type="hidden" id="editModeOn" name="editModeOn" value="">
                             <!-- <button class="show_import"><img src="images/icon_import_dark.gif"/> &nbsp;Bulk Import</button> -->
                         </div>
                         <!-- end toolbarButtons -->
@@ -164,11 +166,16 @@ if (isset($errors['deviceModel'])) {
 ?>
 
                             </div>
-
+                            <!-- dialog-category-Switch-Error used in changeCatAlert to display error if required. Hidden by default -->
+                            <div id="dialog-category-Switch-Error" title="NOTICE:">
+                                By changing changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />
+                                If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>
+                                The change to this device will only take effect once you click 'save'
+                            </div>
                             <div id="right">
                                 <legend>Other Details</legend>
                                 <label>Category:</label>
-                                <select name="catId" id="catId" style="width:155px;" tabindex='5' value="<?php if (isset($catId)) echo $catId; ?>">
+                                <select name="catId" id="catId" style="width:155px;" tabindex='5' value="<?php if (isset($catId)) echo $catId; ?>" onchange="changeCatAlert(document.getElementById('editModeOn').value)">
                                 <?php
                                 if (isset($catId)) {
                                     categories($catId);

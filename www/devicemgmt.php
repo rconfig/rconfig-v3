@@ -22,7 +22,7 @@
                 <?php
                 /* Instantiate DB Class */
                 $db2 = new db2();
-                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.connPort, v.vendorName vendorName, n.model, cat.categoryName categoryName
+                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.deviceAccessMethodId , n.connPort, v.vendorName vendorName, n.model, cat.categoryName categoryName
 			FROM nodes n 
                         LEFT OUTER JOIN vendors v ON n.vendorId = v.id
                         LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
@@ -41,6 +41,7 @@
                 $connPort = $items['connPort'];
                 $vendorName = $items['vendorName'];
                 $model = $items['model'];
+                $deviceAccessMethodId = $items['deviceAccessMethodId'];
                 $categoryName = $items['categoryName'];
                 ?>
                 <a name="top"></a> 
@@ -67,7 +68,12 @@
                             <tr>
                                 <td><b>Category:</b></td>
                                 <td class="infoCell"><?php echo $categoryName; ?></td>
-                            </tr>							 
+                            </tr>
+                            <tr>
+                                <td><b>Connection Type:</b></td>
+                                <td class="infoCell"><?php 
+                                echo ($deviceAccessMethodId == 1 ? 'Telnet' : 'SSH') ?></td>
+                            </tr>
                             <tr>
                                 <td><b>Status:</b></td>
                                 <td class="infoCell">

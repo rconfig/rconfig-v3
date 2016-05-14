@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../classes/crontab.class.php");
@@ -81,14 +78,14 @@ if (isset($_POST['add'])) {
     // validate catSelect select // used only if download type is selected on scheduler
     $categories = "";
     if (isset($_POST['catSelect'])) {
-        // serialsed data should always be an array for checks in devies.crud.pp for example
-        $categories = serialize(array($_POST['catSelect']));
+        // serialsed data should always be an array for checks in devies.crud.php for example if not already an array
+        $categories = serialize($_POST['catSelect']);
     }
 
     // validate catId select // used only if report type is selected on scheduler
     if (isset($_POST['catId'])) {
         // serialsed data should always be an array for checks in devies.crud.pp for example
-        $categories = serialize(array($_POST['catId']));
+        $categories = serialize($_POST['catId']);
     }
 
     // validate $deviceSelect select
@@ -273,7 +270,7 @@ if (isset($_POST['add'])) {
                 foreach ($nodeIdArr as $nodeId) {
                     $sanitized_ids[] = intval($nodeId);
                 }
-
+   
                 //Get the ids and add a trailing ",", but remove the last one
                 $in_str = implode(',', $sanitized_ids);
                 //Build the sql and execute it
@@ -286,7 +283,6 @@ if (isset($_POST['add'])) {
                     $log->Fatal("Fatal: ERROR: Could not add task Column to nodes table (File: " . $_SERVER['PHP_SELF'] . ")");
                 }
             }
-
             /* END - UPDATE NEW COLUMN WITH '1' FOR SELECTED NODES/CATEGORIES */
         }
 

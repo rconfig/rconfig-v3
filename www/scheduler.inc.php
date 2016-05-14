@@ -39,6 +39,7 @@ $i = 0; # row counter  to enable alternate row coloring
 <table id="taskTbl" class="tableSimple">
     <thead>
     <th><input type="checkbox" disabled="disabled"/></th>
+    <th align="left" style="width:60px">Task ID</th>
     <th align="left">Task Name</th>
     <th align="left">Task Description</th>
     <th align="left">Created</th>
@@ -52,6 +53,7 @@ $i = 0; # row counter  to enable alternate row coloring
         echo '<tr class="row' . ($i++ % 2) . '">';
         ?>
     <td align="center"><input type="checkbox" id="<?php echo $id; ?>"/></td>
+    <td align="left"><?php echo $rows['id'] ?></td>
     <td align="left"><?php echo $rows['taskname'] ?></td>
     <td align="left"><?php echo $rows['taskDescription'] ?></td>
     <td align="left"><?php echo $rows['dateAdded'] ?></td>

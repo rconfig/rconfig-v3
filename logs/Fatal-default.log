@@ -22,3 +22,5 @@
 2016-04-24 08:43:46 FATAL Error: Task ID not Set - unable to run script (File: lib/configDeployScript.php)
 2016-04-24 08:43:48 FATAL Error: Task ID not Set - unable to run script (File: lib/configDeployScript.php)
 2016-04-24 08:48:44 FATAL Error: You are not allowed to invoke this script from the CLI - unable to run script (File: lib/configDeviceScript.php)
+2016-05-14 11:08:20 FATAL Failure: Unable to get Device information from Database Command (File: /home/rconfig/lib/showCmdScript.php
+2016-05-14 11:17:26 FATAL Failure: Unable to get Device information from Database Command (File: /home/rconfig/lib/showCmdScript.php

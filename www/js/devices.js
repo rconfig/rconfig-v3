@@ -1,17 +1,17 @@
 $(document).ready(function () {
-    if (location.href.match(/\error/)) { 
-        $('mainformDiv').show(); 
-        $(".show_hide").show(); 
+    if (location.href.match(/\error/)) {
+        $("#dialog-category-Switch-Error").hide();
+        $('.mainformDiv').show();
+        $(".show_hide").show();
     } else {
-        $(".mainformDiv").hide(); 
-        $(".bulkImportDiv").hide(); 
-        $(".show_hide").show(); 
+        $("#dialog-category-Switch-Error").hide();
+        $(".mainformDiv").hide();
+        $(".bulkImportDiv").hide();
+        $(".show_hide").show();
     }
-    $('.show_hide').click(function () { 
+    $('.show_hide').click(function () {
+        $(".dialog-category-Switch-Error").hide();
         $(".mainformDiv").toggle();
-    });
-    $('.show_import').click(function () { 
-        $(".bulkImportDiv").toggle();
     });
 
     $("#deviceModel").autocomplete({
@@ -22,7 +22,7 @@ $(document).ready(function () {
             $('#modelName').val(ui.item.abbrev);
         }
     });
-}); 
+});
 
 function searchValidateForm()
 // simple input text box check for search form. if nothing in the field throw and alert box
@@ -99,18 +99,18 @@ function editDevice() {
                     }
                     //output data to fields
                     $('input[name="deviceName"]').val(deviceName)
-					$('input[name="deviceName"]').focus(function(e) {
-						$(this).blur();
-						$(this).css({'background-color' : '#DFD8D1'});
-					});
+                    $('input[name="deviceName"]').focus(function (e) {
+                        $(this).blur();
+                        $(this).css({'background-color': '#DFD8D1'});
+                    });
                     $('input[name="deviceIpAddr"]').val(data.deviceIpAddr)
                     $('input[name="devicePrompt"]').val(data.devicePrompt)
                     $("#vendorId").val(data.vendorId);
                     $('input[name="deviceModel"]').val(data.model)
                     $('input[name="termLength"]').val(data.termLength)
-		    if (data.defaultCreds == "1") {
-			$('#defaultCreds').attr('checked', 'checked')
-		    }
+                    if (data.defaultCreds == "1") {
+                        $('#defaultCreds').attr('checked', 'checked')
+                    }
                     $('input[name="deviceUsername"]').val(data.deviceUsername)
                     $('input[name="devicePassword"]').val(data.devicePassword)
                     $('input[name="devicePassConf"]').val(data.devicePassword)
@@ -122,6 +122,7 @@ function editDevice() {
                     $("#accessMeth").val(data.accessMeth)
                     $("#catId").val(data.catId)
                     $('input[name="editid"]').val(rowid) // used to populate id input so that edit script will insert
+                    $('input[name="editModeOn"]').val(1) // used to populate id input so that edit script will insert
 
                     // check if data has any 'custom_' keys
                     for (var key in data) {
@@ -146,49 +147,65 @@ function editDevice() {
     }
 }
 
-function resolveDevice(host){
-	if (host == '' || host == ' ' || host == null){
-		alert('You must enter a Device Name')
-	 } else {
-		 $.getJSON("lib/ajaxHandlers/ajaxGetIpByDevName.php?hostname=" + host, function (data) {
-			if(data != '' || data != ' ' || data != null){
-				$('input[name="deviceIpAddr"]').val(data)
-			} else {
-				alert('Could not resolve hostname - Please check spelling or add domain name to Device Name')
-			}
-		});
-	 }
+function resolveDevice(host) {
+    if (host == '' || host == ' ' || host == null) {
+        alert('You must enter a Device Name')
+    } else {
+        $.getJSON("lib/ajaxHandlers/ajaxGetIpByDevName.php?hostname=" + host, function (data) {
+            if (data != '' || data != ' ' || data != null) {
+                $('input[name="deviceIpAddr"]').val(data)
+            } else {
+                alert('Could not resolve hostname - Please check spelling or add domain name to Device Name')
+            }
+        });
+    }
 }
 
-function getDefaultUserPass(cb){
-	if($(cb).is(":checked")){
-		 $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
-			$.each(data, function(i, item) {
-				$('#deviceUsername').val(item.defaultNodeUsername)
-				$('#devicePassword').val(item.defaultNodePassword)
-				$('#devicePassConf').val(item.defaultNodePassword)
-				$('#deviceEnablePassword').val(item.defaultNodeEnable)
-			});
-		});
-	}
-	else {
-		$.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
-			$.each(data, function(i, item) {
-				$('#deviceUsername').val("")
-				$('#devicePassword').val("")
-				$('#devicePassConf').val("")
-				$('#deviceEnablePassword').val("")
-			});
-		});
+function getDefaultUserPass(cb) {
+    if ($(cb).is(":checked")) {
+        $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
+            $.each(data, function (i, item) {
+                $('#deviceUsername').val(item.defaultNodeUsername)
+                $('#devicePassword').val(item.defaultNodePassword)
+                $('#devicePassConf').val(item.defaultNodePassword)
+                $('#deviceEnablePassword').val(item.defaultNodeEnable)
+            });
+        });
+    } else {
+        $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
+            $.each(data, function (i, item) {
+                $('#deviceUsername').val("")
+                $('#devicePassword').val("")
+                $('#devicePassConf').val("")
+                $('#deviceEnablePassword').val("")
+            });
+        });
 
-	}
- }
+    }
+}
 
-function updatePort(value){
- var connPortInput = document.getElementById("connPort"); 
-	if (value == 3){
-		connPortInput.value = "22";
-	} else if (value == 1){
-		connPortInput.value = "23";
-	}
- }
+function updatePort(value) {
+    var connPortInput = document.getElementById("connPort");
+    if (value == 3) {
+        connPortInput.value = "22";
+    } else if (value == 1) {
+        connPortInput.value = "23";
+    }
+}
+
+function changeCatAlert(editModeOn){
+//    alert(editModeOn);
+    if(editModeOn != '' || editModeOn != NULL){
+        $( "#dialog-category-Switch-Error" ).dialog({
+        height:200,
+        width:400,
+        open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); }, // hide close button in title
+        buttons: {
+          OK: function() {
+            $( this ).dialog( "close" );
+          }
+        }
+    });
+        $("#dialog-category-Switch-Error").show();
+    }
+}
