@@ -1,4 +1,5 @@
 <?php
+// used in www\lib\ajaxHandlers\ajaxConfigDevice.php to config device for config snippets
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -102,7 +103,7 @@ if (!empty($getNodes)) {
             $conn->close('40'); // close telnet connection - ssh already closed at this point
         } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
             // SSH conn failure 
-            $jsonArray['telnetConnMsg'] = $connSuccessText . '<br /><br />';
+            $jsonArray['sshConnMsg'] = $connSuccessText . '<br /><br />';
             $log->Conn($connSuccessText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
 
             $result = $conn->writeSnippetSSH($snippetArr, $prompt);

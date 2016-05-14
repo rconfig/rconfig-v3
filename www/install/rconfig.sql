@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `configs` (
   `configLocation` varchar(255) DEFAULT NULL,
   `configFilename` varchar(255) DEFAULT NULL,
   `configDate` date DEFAULT NULL,
+  `configTime` time DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 

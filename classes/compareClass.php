@@ -18,21 +18,19 @@
  */
 
 class diff {
-
+    
     var $changes = array();
     var $diff = array();
     var $linepadding = null;
-
+    
     function doDiff($old, $new) {
         if (!is_array($old))
             $old = file($old);
         if (!is_array($new))
             $new = file($new);
-
         $maxlen = 0;
-
         foreach ($old as $oindex => $ovalue) {
-            $nkeys = array_keys($new, $ovalue);
+             $nkeys = array_keys($new, $ovalue); // maybe wrap array around $new to remove error
             foreach ($nkeys as $nindex) {
                 $matrix[$oindex][$nindex] = isset($matrix[$oindex - 1][$nindex - 1]) ? $matrix[$oindex - 1][$nindex - 1] + 1 : 1;
                 if ($matrix[$oindex][$nindex] > $maxlen) {
@@ -44,12 +42,11 @@ class diff {
         }
         if ($maxlen == 0)
             return array(array('d' => $old, 'i' => $new));
-
         return array_merge(
                 $this->doDiff(array_slice($old, 0, $omax), array_slice($new, 0, $nmax)), array_slice($new, $nmax, $maxlen), $this->doDiff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen)));
     }
 
-    function diffWrap($old, $new) {
+    function diffWrap($old, $new) {       
         $this->diff = $this->doDiff($old, $new);
         $this->changes = array();
         $ndiff = array();

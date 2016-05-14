@@ -55,26 +55,26 @@
                         echo "<span class=\"error\">" . $errors['hostfolder'] . "</span><br/>";
                     }
                     ?> 
-<?php
-if (isset($errors['fileCreateError'])) {
-    echo "<span class=\"error\">" . $errors['fileCreateError'] . "</span><br/>";
-}
-?>
-                        <?php
-                        if (isset($errors['crontab'])) {
-                            echo "<span class=\"error\">" . $errors['crontab'] . "</span><br/>";
-                        }
-                        ?>
+                    <?php
+                    if (isset($errors['fileCreateError'])) {
+                        echo "<span class=\"error\">" . $errors['fileCreateError'] . "</span><br/>";
+                    }
+                    ?>
+                    <?php
+                    if (isset($errors['crontab'])) {
+                        echo "<span class=\"error\">" . $errors['crontab'] . "</span><br/>";
+                    }
+                    ?>
                     <div id="toolbar">
                         <button class="show_hide">Add Scheduled Task</button>
                         <button onclick="delTask()">Remove Scheduled Task</button>
                         <button onclick="getTask()">View Scheduled Task</button>
                     </div>
                     <div id="table">
-<?php
-/* full table stored off in different script */
-include("scheduler.inc.php");
-?>
+                        <?php
+                        /* full table stored off in different script */
+                        include("scheduler.inc.php");
+                        ?>
                     </div>
                 </fieldset>
                 <div class="schedulerForm">
@@ -84,14 +84,14 @@ include("scheduler.inc.php");
                             <label><font color="red">*</font> Select a Task Type:
                                 <div class="spacer">
                                 </div>
-                                    <?php
-                                    // echo error message if is sent back in GET from CRUD
-                                    if (isset($errors['taskType'])) {
-                                        echo "<span class=\"error\">" . $errors['taskType'] . "</span>";
-                                    }
-                                    ?>
+                                <?php
+                                // echo error message if is sent back in GET from CRUD
+                                if (isset($errors['taskType'])) {
+                                    echo "<span class=\"error\">" . $errors['taskType'] . "</span>";
+                                }
+                                ?>
                             </label>
-                                    <?php //http://stackoverflow.com/questions/3988938/onclick-in-select-not-working-in-ie  ?>
+                            <?php //http://stackoverflow.com/questions/3988938/onclick-in-select-not-working-in-ie  ?>
                             <select name="taskType" id ="taskType" size="3" 
                                     onchange="switch (this.value) {
                                                 case '1':
@@ -115,7 +115,7 @@ include("scheduler.inc.php");
                                 <label><font color="red">*</font> Report Name:</label>
                                 <select name="reportTypeSlct[]" id="reportTypeSlct">
                                     <option value="compare">Configuration Comparison</option>
-<?php echo reportsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
+                                    <?php echo reportsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
                                 </select>
                             </div>
 
@@ -123,15 +123,15 @@ include("scheduler.inc.php");
                             <div name="snippetSlctDiv" id ="snippetSlctDiv">
                                 <label><font color="red">*</font> Snippet Name:
                                     <div class="spacer"></div>
-<?php
-if (isset($errors['snippetSlct'])) {
-    echo "<span class=\"error\">" . $errors['snippetSlct'] . "</span><br/>";
-}
-?>
+                                    <?php
+                                    if (isset($errors['snippetSlct'])) {
+                                        echo "<span class=\"error\">" . $errors['snippetSlct'] . "</span><br/>";
+                                    }
+                                    ?>
                                 </label>
                                 <select name="snippetSlct" id="snippetSlct">
                                     <option value="select">Select</option>
-<?php echo snippetsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
+                                    <?php echo snippetsOptions(); // output full report name list options from scheduler.frm.func.php  ?>
                                 </select>
                             </div>
 
@@ -149,12 +149,12 @@ if (isset($errors['snippetSlct'])) {
                             </div>
                             <label><font color="red">*</font> Task Description:
                                 <div class="spacer"></div>
-<?php
-// echo error message if is sent back in GET from CRUD
-if (isset($errors['taskDesc'])) {
-    echo "<span class=\"error\">" . $errors['taskDesc'] . "</span>";
-}
-?>
+                                <?php
+                                // echo error message if is sent back in GET from CRUD
+                                if (isset($errors['taskDesc'])) {
+                                    echo "<span class=\"error\">" . $errors['taskDesc'] . "</span>";
+                                }
+                                ?>
                             </label>
                             <input type="text" name="taskDesc" id ="taskDesc" size="50"/>
                             <div class="spacer">
@@ -178,7 +178,7 @@ if (isset($errors['taskDesc'])) {
                                     ?>
                                 </label>
                                 <select name="catId" id="catId" onchange="changeType()" tabindex='2'>
-<?php categories(); /* taken from devices.frm.func.php */ ?>
+                                    <?php categories(); /* taken from devices.frm.func.php */ ?>
                                 </select>
                                 <div class="spacer">
                                 </div>
@@ -200,15 +200,15 @@ if (isset($errors['taskDesc'])) {
                                 <label>Select Devices:
                                     <div class="spacer">
                                     </div>
-<?php
+                                    <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['selectRadio'])) {
-    echo "<span class=\"error\">" . $errors['selectRadio'] . "</span>";
-}
-if (isset($errors['deviceSelectRadio'])) {
-    echo "<span class=\"error\">" . $errors['deviceSelectRadio'] . "</span>";
-}
-?>
+                                    if (isset($errors['selectRadio'])) {
+                                        echo "<span class=\"error\">" . $errors['selectRadio'] . "</span>";
+                                    }
+                                    if (isset($errors['deviceSelectRadio'])) {
+                                        echo "<span class=\"error\">" . $errors['deviceSelectRadio'] . "</span>";
+                                    }
+                                    ?>
                                 </label>
                                 <input type="radio" name="selectRadio" id="selectRadio" value="deviceSelectRadio" onclick="deviceOrCatSelect();" class="checkbox">
                                 <select name="deviceSelect[]" id ="deviceSelect" size="10" multiple disabled>
@@ -225,19 +225,19 @@ if (isset($errors['deviceSelectRadio'])) {
                                 <label>Select Categories:
                                     <div class="spacer">
                                     </div>
-<?php
-if (isset($errors['catSelectRadio'])) {
-    echo "<span class=\"error\">" . $errors['catSelectRadio'] . "</span>";
-}
-?>
+                                    <?php
+                                    if (isset($errors['catSelectRadio'])) {
+                                        echo "<span class=\"error\">" . $errors['catSelectRadio'] . "</span>";
+                                    }
+                                    ?>
                                 </label>
                                 <input type="radio" name="selectRadio" id="selectRadio" value="catSelectRadio" onclick="deviceOrCatSelect();" class="checkbox">
                                 <select name="catSelect[]" id ="catSelect" size="10" multiple disabled>
-                                <?php
-                                foreach ($catQ as $row) {
-                                    echo "<option value=" . $row['id'] . ">" . $row['categoryName'] . "</option>";
-                                }
-                                ?>
+                                    <?php
+                                    foreach ($catQ as $row) {
+                                        echo "<option value=" . $row['id'] . ">" . $row['categoryName'] . "</option>";
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="spacer">
@@ -248,12 +248,12 @@ if (isset($errors['catSelectRadio'])) {
                                 </div>
                                 <div class="spacer">
                                 </div>
-<?php
+                                <?php
 // echo error message if is sent back in GET from CRUD
-if (isset($errors['cron'])) {
-    echo "<span class=\"error\">" . $errors['cron'] . "</span><br/>";
-}
-?>
+                                if (isset($errors['cron'])) {
+                                    echo "<span class=\"error\">" . $errors['cron'] . "</span><br/>";
+                                }
+                                ?>
                                 <div class="spacer">
                                 </div>
 
@@ -498,7 +498,7 @@ if (isset($errors['cron'])) {
                                 <div id="bottomDiv">
                                     <button id="save" class="smlButton" type="submit">Save</button>
                                     <button class="show_hide smlButton" type="button">Close</button>
-<?php /* type="button" to remove default form submit function which when pressed can cause the form action attr to take place */ ?>
+                                    <?php /* type="button" to remove default form submit function which when pressed can cause the form action attr to take place */ ?>
                                 </div>
                             </div>
                         </form>
@@ -569,7 +569,7 @@ if (isset($errors['cron'])) {
             </div>
             <!-- Modal -->
             <!-- Footer Include -->
-<?php include("includes/footer.inc.php"); ?>
+            <?php include("includes/footer.inc.php"); ?>
         </div>
         <!-- End Mainwrap -->
     </div>

@@ -81,12 +81,14 @@ if (isset($_POST['add'])) {
     // validate catSelect select // used only if download type is selected on scheduler
     $categories = "";
     if (isset($_POST['catSelect'])) {
-        $categories = serialize($_POST['catSelect']);
+        // serialsed data should always be an array for checks in devies.crud.pp for example
+        $categories = serialize(array($_POST['catSelect']));
     }
 
     // validate catId select // used only if report type is selected on scheduler
     if (isset($_POST['catId'])) {
-        $categories = serialize($_POST['catId']);
+        // serialsed data should always be an array for checks in devies.crud.pp for example
+        $categories = serialize(array($_POST['catId']));
     }
 
     // validate $deviceSelect select
@@ -253,7 +255,7 @@ if (isset($_POST['add'])) {
                     $catRes = $db2->resultset();                    
                     
                 } else {
-                    $catRes = $db->q("SELECT id FROM nodes WHERE nodeCatId = $categories ");
+                    $catRes = $db2->query("SELECT id FROM nodes WHERE nodeCatId = $categories ");
                     $db2->query("SELECT id FROM nodes WHERE nodeCatId IN (:categories)");
                     $db2->bind(':categories', $categories);
                     $catRes = $db2->resultset(); 

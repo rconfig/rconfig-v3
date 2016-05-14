@@ -1,4 +1,6 @@
 <?php
+
+// called from www\lib\crud\scheduler.crud.php to setup a task to configure devices
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -42,7 +44,6 @@ extract($backendScripts->debugOnOff($db2, $argv));
 $debug = new debug($debugPath);
 // check how the script was run and log the info
 extract($backendScripts->invokationCheck($log, $tid, php_sapi_name(), $_SERVER['TERM'], $_SERVER['PHP_SELF']));
-echo $alert;
 
 // get task details from DB
 $db2->query("SELECT taskname, mailConnectionReport, snipId FROM tasks WHERE status = '1' AND id = :tid");
@@ -134,30 +135,38 @@ if (!empty($resultNodesRes)) {
                 $conn->writeSnippetTelnet($command, $result);
                 $tableRow .= "
 			<tr class=\"even indentRow\" style=\"float:left; width:800px;\">
-				<td>" . nl2br($result) . "</td>							
+                            <td>" . nl2br($result) . "</td>							
 			</tr>
 			";
+                // debugging check & write to file
+                if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+                    $debug->debug($result);
+                    echo $result;
+                }
             }
-            $conn->close('40'); // close telnet connection - ssh already closed at this point	
+            if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+                 echo 'Notice: Close Connection';
+            }           
+            // close the connection if it still open. It maybe already closed if a quit was in the snippet
+            $conn->close('40'); 
         } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
             // SSH conn failure 
             echo $connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn($connectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
             $report->eachData($device['deviceName'], $connStatusPass, $connectedText); // log to report
-
             $result = $conn->writeSnippetSSH($snippetArr, $prompt);
             $tableRow .= "
 		<tr class=\"even indentRow\" style=\"float:left; width:800px;\">
 			<td>" . nl2br($result) . "</td>							
 		</tr>
 		";
+                // debugging check & write to file
+                if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+                    $debug->debug($result);
+                    echo $result;
+                }
         } else {
             continue;
-        }
-
-        // debugging check & write to file
-        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
-            $debug->debug($result);
         }
         // send data output to the report
         $report->eachConfigSnippetData($tableRow);

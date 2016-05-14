@@ -1,5 +1,4 @@
 <?php
-
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
@@ -129,12 +128,10 @@ if (!empty($getNodesSql)) {
                 }
                 foreach ($fileArr as $k => $line) {
                     if (regexpMatch($pattern, $line) == 1) {
-                        // convert images to base here http://webcodertools.com/imagetobase64converter/Create
-                        // images from https://www.iconfinder.com/icons/34218/add_cross_delete_exit_remove_icon#size=32
                         $result = 1;
                         $tableRow .= "
                                         <tr class=\"even indentRow\" style=\"float:left; width:800px;\">
-                                                <td><img src='$greenCheck' width=\"16\" height=\"14\" alt=\"pass\" title=\"pass\">
+                                                <td>yes
                                                 </td>	
                                                 <td> - " . $vElem['elementName'] . "</td>							
                                         </tr>
@@ -148,7 +145,7 @@ if (!empty($getNodesSql)) {
                 if ($result !== 1) {
                     $tableRow .= "
                                     <tr class=\"even indentRow\" style=\"float:left; width:800px;\">
-                                            <td><img src='$redCross' width=\"16\" height=\"14\" alt=\"fail: line No - $k\" title=\"Fail: line - $k\">
+                                            <td>no
                                             </td>
                                             <td> - " . $vElem['elementName'] . "</td>							
                                     </tr>

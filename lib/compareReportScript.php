@@ -82,7 +82,7 @@ if (!empty($resultSelect)) {
         $pathResultYesterday = $db2->resultset();
         if (empty($pathResultToday) || empty($pathResultYesterday)) {
             // continue for the foreach if one of the files is not available as this compare will be invalid
-            echo 'continue invoked for ' . $device['deviceName'] . "\n";
+            echo 'continue invoked for ' . $device['deviceName'] . " due to lack of data/ files to compare\n";
             continue;
         }
         $pathResult_a = $pathResultToday[0]['configLocation'];
@@ -91,7 +91,7 @@ if (!empty($resultSelect)) {
         $filenameResult_b = $pathResultYesterday[0]['configFilename'];
         $path_a = $pathResult_a . '/' . $filenameResult_a;
         $path_b = $pathResult_b . '/' . $filenameResult_b;
-        // run the compare with no linepadding set
+        // run the compare with no linepadding set      
         $diff = new diff;
         $text = $diff->inline($path_a, $path_b);
         $count = count($diff->changes) . ' changes';

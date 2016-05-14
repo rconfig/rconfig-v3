@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
@@ -135,22 +137,21 @@ if (isset($_POST['add'])) {
     $taskIdColumns = '';
     $taskValue = '';
     foreach ($resultCatSelect as $taskRow) {
-        if (!empty($taskRow['catId']) && in_array($catId, unserialize($taskRow['catId']))) {
-            $taskIdColumns .= ", taskId" . $taskRow['id'];
-            $taskValue .= "'1'";
+        
+    echo '<pre>';
+    var_dump($taskRow);
+        var_dump(unserialize($taskRow['catId']));
+echo '------------------';
+
+    if (!empty($taskRow['catId']) && in_array($catId, unserialize($taskRow['catId']))) {
+            $taskIdColumns .= "taskId" . $taskRow['id'] . ", ";
+            $taskValue .= "'1',";
         }
     }
 
     // add query variables
-    $taskIdColumns = substr($taskIdColumns, 1); // format values for Query 
-//    $taskValue = substr($taskValue, 1); // format values for Query 
-    // edit/update query variables
-    $taskIdColumnsUpdateStr = '';
-    $taskIdColumnsUpdateStrDefault = '';
-    $taskIdColumnsUpdate = explode(", ", $taskIdColumns);
-    foreach ($taskIdColumnsUpdate as $item) {
-        $taskIdColumnsUpdateStr .= $item . " = '1',";
-    }
+    $taskIdColumns = rtrim($taskIdColumns, ","); // format values for Query 
+    $taskValue = rtrim($taskValue, ","); // remove trailing comma for building the SQL query
 
     // validate deviceAccessMethodId field
     if (ctype_digit($_POST['deviceAccessMethodId'])) {
@@ -172,48 +173,20 @@ if (isset($_POST['add'])) {
 
     // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open 
     if (!empty($errors)) {
-        if (isset($deviceName)) {
-            $_SESSION['deviceName'] = $deviceName;
-        }
-        if (isset($deviceIpAddr)) {
-            $_SESSION['deviceIpAddr'] = $deviceIpAddr;
-        }
-        if (isset($devicePrompt)) {
-            $_SESSION['devicePrompt'] = $devicePrompt;
-        }
-        if (isset($vendorId)) {
-            $_SESSION['vendorId'] = $vendorId;
-        }
-        if (isset($deviceModel)) {
-            $_SESSION['deviceModel'] = $deviceModel;
-        }
-        if (isset($defaultCreds)) {
-            $_SESSION['defaultCreds'] = $defaultCreds;
-        }
-        if (isset($deviceUsername)) {
-            $_SESSION['deviceUsername'] = $deviceUsername;
-        }
-        if (isset($devicePassword)) {
-            $_SESSION['devicePassword'] = $devicePassword;
-        }
-        if (isset($devicePassConf)) {
-            $_SESSION['devicePassConf'] = $devicePassConf;
-        }
-        if (isset($deviceEnableMode)) {
-            $_SESSION['deviceEnableMode'] = $deviceEnableMode;
-        }
-        if (isset($deviceEnablePassword)) {
-            $_SESSION['deviceEnablePassword'] = $deviceEnablePassword;
-        }
-        if (isset($catId)) {
-            $_SESSION['catId'] = $catId;
-        }
-        if (isset($deviceAccessMethodId)) {
-            $_SESSION['deviceAccessMethodId'] = $deviceAccessMethodId;
-        }
-        if (isset($connPort)) {
-            $_SESSION['connPort'] = $connPort;
-        }
+        if (isset($deviceName)) { $_SESSION['deviceName'] = $deviceName; }
+        if (isset($deviceIpAddr)) { $_SESSION['deviceIpAddr'] = $deviceIpAddr; }
+        if (isset($devicePrompt)) { $_SESSION['devicePrompt'] = $devicePrompt; }
+        if (isset($vendorId)) { $_SESSION['vendorId'] = $vendorId; }
+        if (isset($deviceModel)) { $_SESSION['deviceModel'] = $deviceModel; }
+        if (isset($defaultCreds)) { $_SESSION['defaultCreds'] = $defaultCreds; }
+        if (isset($deviceUsername)) { $_SESSION['deviceUsername'] = $deviceUsername; }
+        if (isset($devicePassword)) {  $_SESSION['devicePassword'] = $devicePassword; }
+        if (isset($devicePassConf)) {  $_SESSION['devicePassConf'] = $devicePassConf; }
+        if (isset($deviceEnableMode)) {  $_SESSION['deviceEnableMode'] = $deviceEnableMode;  }
+        if (isset($deviceEnablePassword)) { $_SESSION['deviceEnablePassword'] = $deviceEnablePassword; }
+        if (isset($catId)) { $_SESSION['catId'] = $catId; }
+        if (isset($deviceAccessMethodId)) { $_SESSION['deviceAccessMethodId'] = $deviceAccessMethodId; }
+        if (isset($connPort)) { $_SESSION['connPort'] = $connPort; }
 
         $_SESSION['errors'] = $errors;
         session_write_close();
@@ -264,9 +237,9 @@ if (isset($_POST['add'])) {
             }
         }
 
-        if (!empty($taskIdColumns)) {
-            $taskIdColumns = $taskIdColumns . ",";
-        }
+if (!empty($taskIdColumns)) {
+//            $taskIdColumns = $taskIdColumns . ",";
+}
         if (!empty($taskValue)) {
             $taskValue = $taskValue . ",";
         } else {
@@ -327,6 +300,7 @@ if (isset($_POST['add'])) {
             $db2->bind(':catId', $catId);
             $db2->bind(':username', $username);
             $db2->bind(':defaultCreds', $defaultCreds);
+            $db2->debugDumpParams();
             $queryResult = $db2->execute();
             if ($queryResult) {
                 $errors['Success'] = "Added new device " . $deviceName . " to Database";
@@ -344,6 +318,37 @@ if (isset($_POST['add'])) {
             }
         } else { // if ID is set in post when running a save from the form do an UPDATE
             $id = $_POST['editid'];
+            // reset all taskID*  columns to 2 before updating them in the UPDATE query for correct taskId assignments
+            $db2->query("SELECT column_name FROM information_schema.COLUMNS c
+                        WHERE c.table_schema = 'rconfig35' 
+                        AND c.table_name='nodes' 
+                        AND c.column_name LIKE '%taskId%'");
+            $taskColNames = $db2->resultsetCols();
+            foreach ($taskColNames as $taskColName){
+                $db2->query("UPDATE nodes SET ".$taskColName." = 2 WHERE id = :id");
+                $db2->bind(":id", $id);            
+                $db2->execute();
+            }
+            // updated taskId Columns partial query for the update statement
+            //  explode to array for previously built string. array_filter to remove blanks
+            // array_flip to move all values from $taskIdColumns to key names
+
+            $taskIdColumns = rtrim($taskIdColumns, ", "); // delete last comma and space
+            $taskIdColumns = array_flip(array_filter(explode(",", $taskIdColumns)));
+            // set all values in array to 1 as these are the correct taskId assignments for this device when updating
+            $taskIdColumns = array_fill_keys(array_keys($taskIdColumns), 1);
+            //iterate over $taskIdColumn array and chnage it to a string for the sql update
+            $prefix = '';
+            $taskIdColumnList = '';
+            foreach ($taskIdColumns as $taskIdColumnK => $taskIdColumnV)
+            {
+                $taskIdColumnList .= $prefix . $taskIdColumnK . ' = ' . $taskIdColumnV;
+                $prefix = ', ';
+            }
+            // add a trailing comma if the $taskIdColumnList is not empty, otherwise the query is broken
+            if($taskIdColumnList != ''){
+                $taskIdColumnList = $taskIdColumnList .',';
+            }
             $db2->query("UPDATE nodes SET 
                             deviceName = :deviceName,
                             deviceIpAddr = :deviceIpAddr,
@@ -358,7 +363,8 @@ if (isset($_POST['add'])) {
                             vendorId = :vendorId, 
                             nodeCatId = :catId, 
                             defaultCreds = :defaultCreds,
-                            $customPropEditQueryStr 
+                            $customPropEditQueryStr
+                            $taskIdColumnList
                             deviceDateAdded = CURDATE()
                             WHERE id = :id");
             $db2->bind(':deviceName', $deviceName);

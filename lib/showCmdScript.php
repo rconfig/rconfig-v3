@@ -204,11 +204,8 @@ if (!empty($getNodes)) {
             $filename = basename($fullpath); // get filename for DB entry
             $fullpath = dirname($fullpath); // get fullpath for DB entry
             // insert info to DB
-            $configDbQ = "INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
-                            VALUES (" . $device['id'] . ", NOW(), '" . $fullpath . "', '" . $filename . "' )";
-            
-            $db2->query("INSERT INTO configs (deviceId, configDate, configLocation, configFilename) 
-                            VALUES (:id, NOW(), :fullpath, :filename)");
+            $db2->query("INSERT INTO configs (deviceId, configDate, configTime, configLocation, configFilename) 
+                            VALUES (:id, NOW(), CURTIME(), :fullpath, :filename)");
             $db2->bind(':id', $device['id']);
             $db2->bind(':fullpath', $fullpath);
             $db2->bind(':filename', $filename);

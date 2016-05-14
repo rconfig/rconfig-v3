@@ -241,7 +241,7 @@ function displayReportElements() {
     document.getElementById("reportTypeSlct").disabled = false;
     document.getElementById("reportTypeSlctDiv").style.display = 'block';
 
-    document.getElementById("snippetSlct").disabled = true;
+    document.getElementById("snippetSlct").disabled = false;
     document.getElementById("snippetSlctDiv").style.display = 'none';
 
     document.getElementById('mailErrorsOnlyDiv').style.display = 'none';

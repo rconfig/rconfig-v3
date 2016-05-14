@@ -280,7 +280,6 @@ class Connection {
      */
     public function writeSnippetTelnet($c, &$r) {
         if ($this->_connection) {
-
             fputs($this->_connection, "$c\r");
             $this->_sleep();
             $this->_getResponse($r);
@@ -376,7 +375,7 @@ class Connection {
     }
 
     /*
-     * send termLen value to console		
+     * send termLen value to console for ASAs only	
      */
 
     public function termLen($value) {

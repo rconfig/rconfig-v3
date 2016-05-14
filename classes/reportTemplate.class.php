@@ -111,54 +111,47 @@ class report {
         $handle = $this->openFile();
         $reportCss = file_get_contents('/home/rconfig/www/css/reportstyle.css');
         $compareTableCss = file_get_contents('/home/rconfig/www/css/compareTable.css');
-        $logo = file_get_contents('/home/rconfig/www/images/logos/rconfig96.png.base');
+        $logo = 'http://www.rconfig.com/images/images/rconfig96.png';
 
         $data = <<<EOF
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>$title</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+    <title>$title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type='text/css'>
-
 $reportCss
 $compareTableCss
-
 </style>
 </head>
 <body>
-
-	<div id="wrapper">
-         <div id="header">
-		 
-		       <h1><span id="title">$title</span></h1>
-			   
-		 </div>
-	 <div id="content">
-		<div style="float: left;" id="summDiv">
-			<b>Report Name:</b><br/>
-			<b>Report Date:</b><br/>
-			<b>ScriptName:</b><br/>
-			<b>Task ID:</b><br/>
-			<b>Task Start Time:</b><br/>
-			<b>Task End Time:</b><br/>
-			<b>Task Run Time:</b><br/>
-		</div>
-		<div style="float: left;" id="summDiv">
-			$reportName<br/>
-			$this->reportDate<br/>
-			$scriptName<br/>
-			$taskid<br/>
-			$taskStartTime<br/>
-			<taskEndTime><br/>
-			<taskRunTime><br/>
-		</div>
-		<div style="float: right;"  id="summDiv"><img src="$logo" alt="rConfig" title="rConfig"></div>
-		<div style="clear:both"> </div>
-		<hr/>
+    <div id="wrapper">
+    <div id="header">
+        <h1><span id="title">$title</span></h1>
+    </div>
+     <div id="content">
+        <div style="float: left;" id="summDiv">
+            <b>Report Name:</b><br/>
+            <b>Report Date:</b><br/>
+            <b>ScriptName:</b><br/>
+            <b>Task ID:</b><br/>
+            <b>Task Start Time:</b><br/>
+            <b>Task End Time:</b><br/>
+            <b>Task Run Time:</b><br/>
+        </div>
+        <div style="float: left;" id="summDiv">
+            $reportName<br/>
+            $this->reportDate<br/>
+            $scriptName<br/>
+            $taskid<br/>
+            $taskStartTime<br/>
+            <taskEndTime><br/>
+            <taskRunTime><br/>
+        </div>
+        <div style="float: right;"  id="summDiv"><img src="$logo" alt="rConfig" title="rConfig"></div>
+        <div style="clear:both"> </div>
+        <hr/>
 EOF;
-
         $this->writeAndCloseFile($handle, $data);
     }
 
