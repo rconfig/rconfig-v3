@@ -7,7 +7,10 @@
 <div id="mainContent">
     <div class="break"></div>
     <p>
-        The <span class="rconfigNameStyle">rConfig</span> dashboard is a landing page after login to <span class="rconfigNameStyle">rConfig</span> and a location to get some basic system information. The <span class="rconfigNameStyle">rConfig</span> dashboard for this <a href="2_version.php" target="content">version</a> contains two sections. 
+        The <span class="rconfigNameStyle">rConfig</span> dashboard is a landing page after login to 
+        <span class="rconfigNameStyle">rConfig</span> and a location to get some basic system information. 
+        The <span class="rconfigNameStyle">rConfig</span> dashboard for this <a href="2_version.php" target="content">version</a> 
+        contains two sections. 
     <ul>
         <li>Server information</li>
         <li>Last 5 devices added</li>
@@ -16,7 +19,10 @@
 
 <div class="break"></div>
 <p>
-    The first thing you should know about the <span class="rconfigNameStyle">rConfig</span> dashboard is, if the install directory is not deleted, or renamed per the setup requirements, a warning per fig3. will display every time the dashboard page is loaded.
+    The first thing you should know about the <span class="rconfigNameStyle">rConfig</span> dashboard is, 
+    if the install directory is not deleted, or renamed per the setup requirements, a warning per fig3. 
+    will display every time the dashboard page is loaded. You will be present the option to click the 'remove' link when the message displays
+    where <span class="rconfigNameStyle">rConfig</span> will then remove the installation directory for you.
 </p>
 <div class="break"></div>
 <p>

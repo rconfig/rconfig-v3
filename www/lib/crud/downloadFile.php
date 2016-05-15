@@ -9,9 +9,8 @@ if (!$session->logged_in) {
         // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-
-    $path = $_SERVER['DOCUMENT_ROOT'] . "/path2file/"; // change the path to fit your websites document structure
-    $fullPath = $_GET['download_file'];
+    // realpath used to prevent path traversal exploit
+    $fullPath = realpath($_GET['download_file']);
 
     $pathWhiteList = array('/home/rconfig/backups/', '/home/rconfig/logs/', '/home/rconfig/reports/', '/home/rconfig/data/', '/home/rconfig/backups/syslogs/');
 

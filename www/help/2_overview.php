@@ -46,14 +46,15 @@
 </p>
 <h4 class="helpH4">Reports</h4>
 <p>
-    There are two different report types in <span class="rconfigNameStyle">rConfig</span> also. Device connectivity reports and configuration comparison reports. These can be emailed when a scheduled task is run or historical reports can be viewed in the reports section
+    There are three different report types in <span class="rconfigNameStyle">rConfig</span> also. Device connectivity reports and configuration comparison reports. These can be emailed when a scheduled task is run or historical reports can be viewed in the reports section of <span class="rconfigNameStyle">rConfig</span>. 
 <div class="break"></div>
 </p>
 <h4 class="helpH4">Search and Compare</h4>
 <p>
-    <span class="rconfigNameStyle">rConfig</span> has an extremely quick search utility which is based exclusively on the Linux command lin tools, <em>find</em> and <em>grep</em>. When run, the webpage ask the OS to search all files within the specified criteria and return the result.
+    <span class="rconfigNameStyle">rConfig</span> has an extremely quick search utility which is based exclusively on the Linux command line tools, <em>find</em> and <em>grep</em>. When run, the webpage ask the OS to search all files within the specified criteria and return the result.
 <p>
-    Similarly, <span class="rconfigNameStyle">rConfig</span> has a very fast configuration comparison tool, allowing you to very quickly compare configuration between devices and command outputs.
+    Similarly, <span class="rconfigNameStyle">rConfig</span> has a very fast configuration comparison tool, allowing you to very quickly compare configuration between devices and command outputs.<br/>
+    Please visit <a href="www.rconfig.com" target="_blank">www.rconfig.com</a> for performance information
 </p>
 <div class="break"></div>
 </p>

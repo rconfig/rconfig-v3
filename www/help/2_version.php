@@ -11,7 +11,7 @@
     </p>
     <div class="break"></div>
     <p>
-        You can see release notes for this version online at <a href="http://www.rconfig.com/releasenotes<?php echo $config_version; ?>.txt" target="_blank">www.rconfig.com/releasenotes<?php echo $config_version; ?>.txt</a>
+        You can see release notes for this version online at <a href="http://www.rconfig.com/downloads/readme.php" target="_blank">http://www.rconfig.com/downloads/readme.php</a>
     </p>
 </div>
 </body>
