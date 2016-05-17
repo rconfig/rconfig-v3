@@ -250,6 +250,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `smtpLastTestTime` datetime DEFAULT NULL,
   `timeZone` VARCHAR(100) DEFAULT NULL,
   `ldapServer` varchar(100) DEFAULT NULL,
+  `pageTimeout` INT(1) NOT NULL DEFAULT '120' COMMENT 'Page Timeout Value',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
