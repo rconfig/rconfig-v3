@@ -248,16 +248,17 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `smtpAuthPass` varchar(100) DEFAULT NULL,
   `smtpLastTest` varchar(20) DEFAULT NULL,
   `smtpLastTestTime` datetime DEFAULT NULL,
-  `timeZone` VARCHAR(100) DEFAULT NULL,
-  `ldapServer` varchar(100) DEFAULT NULL,
-  `pageTimeout` INT(1) NOT NULL DEFAULT '120' COMMENT 'Page Timeout Value',
+  `timeZone` varchar(100) DEFAULT NULL,
+  `ldapServer` int(1) NOT NULL DEFAULT '0',
+  `pageTimeout` int(1) NOT NULL DEFAULT '120' COMMENT 'Page Timeout Value',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table DATABASE_NAME.settings: ~1 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`) VALUES
-	(1, 1, '/home/rconfig/data/', '', '', '', 0, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 60, '', '', '', 1, '', '', '', NULL);
+INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `useDefaultCredsManualSet`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`, `timeZone`, `ldapServer`, `pageTimeout`) VALUES
+	(1, 1, '/home/rconfig/data/', '', '', '', 0, 1, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '0000-00-00 00:00:00', '', '0', 600);
+
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 -- Dumping structure for table rconfigdev1.snippets
