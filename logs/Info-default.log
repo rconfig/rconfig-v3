@@ -3,3 +3,15 @@
 2016-05-15 01:05:57 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
 2016-05-15 21:58:51 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
 2016-05-15 21:58:55 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID:  
+2016-05-16 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-16 00:06:07 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-16 00:06:07 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-16 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-16 01:05:54 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-16 01:05:54 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-17 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-17 00:06:09 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-17 00:06:09 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-17 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-17 01:05:59 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-17 01:05:59 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
