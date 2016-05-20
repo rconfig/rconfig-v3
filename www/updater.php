@@ -56,12 +56,16 @@
 
                                         <label for="updateFile">Update ZIP File:</label>
                                         <div class="spacer"></div>
-                                        <?php if (isset($errors['fileInvalid'])) {
+                                        <?php
+                                        if (isset($errors['fileInvalid'])) {
                                             echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
-                                        } ?> 
-    <?php if (isset($errors['fileError'])) {
-        echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
-    } ?> 
+                                        }
+                                        ?> 
+                                        <?php
+                                        if (isset($errors['fileError'])) {
+                                            echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
+                                        }
+                                        ?> 
                                         <div class="spacer"></div>
                                         <input name="updateFile" type="file" id="updateFile" size="40"/>
                                         <button id="upload" type="submit" style="float:left; margin-left:10px; margin-top: -5px;">Upload</button>
@@ -77,12 +81,16 @@
 
                                                     <div style="width:500px; margin-bottom:10px;">
                                                         <div class="spacer"></div><br/>
-        <?php if (isset($errors['fileInvalid'])) {
-            echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
-        } ?> 
-        <?php if (isset($errors['fileError'])) {
+                                                        <?php
+                                                        if (isset($errors['fileInvalid'])) {
+                                                            echo "<span class=\"error\">" . $errors['fileInvalid'] . "</span>";
+                                                        }
+                                                        ?> 
+        <?php
+        if (isset($errors['fileError'])) {
             echo "<span class=\"error\">" . $errors['fileError'] . "</span>";
-        } ?> 
+        }
+        ?> 
                                                         <button id="installUpdateBtn" type="button" style="float:left; margin-left:10px; margin-top: -5px;" onclick="updateFn()">Install Update</button>
                                                         <div class="spacer"></div>
                                                         <input type="hidden" id="installUpdate" name="installUpdate" value="installUpdate">

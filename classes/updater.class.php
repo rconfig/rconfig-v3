@@ -25,7 +25,7 @@ class updater {
     }
 
     /**
-     * Extracts Xip archive
+     * Extracts Zip archive
      *
      * @param updateFile 
      * @param extractDir 
@@ -70,8 +70,11 @@ class updater {
                 // echo $k;
                 $lines[$k] = '$config_version = "' . $latestVer . '";' . PHP_EOL;
             }
+            if (strpos($v, '$config_author') !== false) {
+                // echo $k;
+                $lines[$k] = '$config_author = "Stephen Stack";' . PHP_EOL;
+            }            
         }
-        // 
         file_put_contents($destinationConfigFile, $lines);
     }
 
