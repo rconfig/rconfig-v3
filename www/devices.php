@@ -166,7 +166,7 @@ if (isset($errors['deviceModel'])) {
                             </div>
                             <!-- dialog-category-Switch-Error used in changeCatAlert to display error if required. Hidden by default -->
                             <div id="dialog-category-Switch-Error" title="NOTICE:">
-                                By changing changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />
+                                By changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />
                                 If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>
                                 The change to this device will only take effect once you click 'save'
                             </div>

@@ -1,6 +1,6 @@
 -- Dumping structure for table DATABASE_NAME.nodes
 ALTER TABLE settings
-ADD COLUMN `pageTimeout` int(1) NOT NULL DEFAULT '120' COMMENT 'Page Timeout Value';
+ADD COLUMN `pageTimeout` int(1) NOT NULL DEFAULT '600' COMMENT 'Page Timeout Value';
 
 ALTER TABLE configs
 ADD COLUMN `configTime` time DEFAULT NULL AFTER configDate;
@@ -24,10 +24,10 @@ DELETE FROM `menuPages`;
 /*!40000 ALTER TABLE `menuPages` DISABLE KEYS */;
 INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, `menuName`, `topLevel`, `parentId`, `menuSortId`) VALUES
 	(1, 'login.php', 'Login Page', 'Enter Username & Password to login', 'Login', '2', 1, 0),
-	(2, 'compatibility.php', 'Compatibility Page', 'rConfig Compatibility Details', '2', '2', 0, 0),
+	(2, 'compatibility.php', 'Compatibility Page', 'rConfig Compatibility Details', 'Compatibility', '2', 0, 0),
 	(3, 'dashboard.php', 'Dashboard', 'View rConfig Server and Device Status on this page', 'Home', '1', 3, 1),
 	(4, 'devices.php', 'Devices', 'View/Edit Devices on this page', 'Devices', '1', 4, 2),
-	(5, 'devicemgmt.php', 'Devices > Device Management', 'Manage devices on this page', 'Device Management', '0', 0, 0),
+	(5, 'devicemgmt.php', 'Devices > Device Management', 'Manage devices on this page', 'Device Management', '0', 5, 0),
 	(6, 'customProperties.php', 'Devices > Custom Properties', 'Update Custom Properties on this page', 'Custom Properties', '0', 4, 0),
 	(7, 'categories.php', 'Devices > Categories', 'Update Categories on this page', 'Categories', '0', 4, 0),
 	(8, 'commands.php', 'Devices > Commands', 'Update Commands on this page', 'Commands', '0', 4, 0),
