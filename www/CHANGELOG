@@ -1,4 +1,33 @@
 ------------------------------------------------------------------------------------
+Version 3.5.0
+20-May-2016
+Author: Stephen Stack
+
+	Deprecated - Config template generation feature (new build coming in V4)
+        Deprecated - Option to require user credentials before manually downloading configs - Not working
+        Added - Show password tick box on settings page
+        Added - Login Timeout Setting (default 15 minutes) on settings page
+        Added - New Installer Bash Scripts for Centos 6.x and 7
+        Changed - Refactor Menu to dynamic DB based
+        Fixed - Password not emailed for forgot password page
+        Fixed - Multiple UI tweaks
+        Fixed - Vendors Edit - does not keep logo on Edit
+        Fixed - Download Now/ Snippets script bugs
+        Fixed - Reports Bugs
+        Major Update - DB connections Layer migrated to PDO 
+	Updated - Help files updates
+        Updated - Help files updates
+        Security - Removed LFI & Path Traversal Bugs
+
+------------------------------------------------------------------------------------
+
+Version 3.1.1
+19-Apr-2016
+Author: Stephen Stack
+
+	Fixed - LFI Bug in downloadFile.php
+
+------------------------------------------------------------------------------------
 Version 3.1.0
 28-Aug-2015
 Author: Matt Vitale
