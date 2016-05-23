@@ -27,3 +27,47 @@
 2016-05-20 00:06:05 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
 2016-05-20 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
 2016-05-20 01:05:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-21 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-21 00:05:28 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-21 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-21 01:05:28 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-22 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-22 00:05:29 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-22 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-22 01:05:54 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-23 00:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-23 00:08:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-23 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-23 01:06:04 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-23 16:38:24 INFO Success: Edit device headend.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:48:59 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:49:56 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:51:04 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:51:56 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:52:02 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:52:44 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:54:02 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:54:33 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:56:11 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:56:17 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:57:33 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 16:58:21 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:01:41 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:02:39 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:03:06 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:03:14 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:04:14 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:04:42 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:04:53 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:07:22 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:07:28 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:07:35 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:07:42 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:16:40 INFO Success:There were errors! on form (File: /lib/crud/settingsEmail.crud.php)
+2016-05-23 17:16:57 INFO Success: SMTP Settings saved (File: /lib/crud/settingsEmail.crud.php)
+2016-05-23 17:17:24 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:17:53 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-23 17:18:05 INFO Success: Added new Custom Property, test to DB (File: /lib/crud/customProperties.crud.php)
+2016-05-23 17:18:09 INFO Success: Added category to DB (File: /lib/crud/categories.crud.php)
+2016-05-23 17:18:14 INFO Success: Added command 124 to DB (File: /lib/crud/commands.crud.php)
+2016-05-23 17:18:19 INFO Success: Added new vendor, 425245 to DB (File: /lib/crud/vendors.crud.php)

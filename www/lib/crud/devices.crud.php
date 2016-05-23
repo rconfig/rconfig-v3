@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 require_once("../../../classes/db2.class.php");
 require_once("../../../classes/ADLog.class.php");
 require_once("../../../config/config.inc.php");
@@ -137,12 +134,6 @@ if (isset($_POST['add'])) {
     $taskIdColumns = '';
     $taskValue = '';
     foreach ($resultCatSelect as $taskRow) {
-        
-    echo '<pre>';
-    var_dump($taskRow);
-        var_dump(unserialize($taskRow['catId']));
-echo '------------------';
-
     if (!empty($taskRow['catId']) && in_array($catId, unserialize($taskRow['catId']))) {
             $taskIdColumns .= "taskId" . $taskRow['id'] . ", ";
             $taskValue .= "'1',";
@@ -381,7 +372,6 @@ if (!empty($taskIdColumns)) {
             $db2->bind(':catId', $catId);
             $db2->bind(':defaultCreds', $defaultCreds);
             $db2->bind(':id', $id);
-            $db2->debugDumpParams();
             $queryResult = $db2->execute();
             if ($queryResult) {
                 $errors['Success'] = "Edit device " . $deviceName . " successful";
@@ -424,7 +414,8 @@ if (!empty($taskIdColumns)) {
         ));
     }
     echo $response;
-} /* end 'delete' if */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+} /* end 'delete' if */ 
+elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
     if (ctype_digit($_GET['id'])) {
         $id = $_GET['id'];

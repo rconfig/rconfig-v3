@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxLicenseCheck.php", function (data) {
 
         if (data == 0) { //license not accepted
@@ -38,7 +38,7 @@ function acceptLicense() {
     if (document.getElementById("acceptLicenseChkBox").checked = true) {
         id = 1;
     }
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxLicenseUpdate.php?id=" + id, function (data) {
 
         if (data == "success") {

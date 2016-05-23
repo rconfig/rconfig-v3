@@ -83,15 +83,16 @@ function delDevice() {
 
 // Next action when editDevice function is called from edit button
 function editDevice() {
+    $.ajaxSetup({cache: false});
     var getRow = "getRow"
     var rowid = $("input:checkbox[name=checkboxId]:checked").attr("id")
     if (rowid) {
+        $.ajaxSetup({cache: false});
         //retrieve vendor details to display on form from getRow GET variable
         $.getJSON("lib/crud/devices.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
                 var deviceName = data.deviceName
-
                 if (deviceName) {
                     // open form if not opened
                     if ($('.mainformDiv').is(':hidden')) {
@@ -151,6 +152,7 @@ function resolveDevice(host) {
     if (host == '' || host == ' ' || host == null) {
         alert('You must enter a Device Name')
     } else {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetIpByDevName.php?hostname=" + host, function (data) {
             if (data != '' || data != ' ' || data != null) {
                 $('input[name="deviceIpAddr"]').val(data)
@@ -163,6 +165,7 @@ function resolveDevice(host) {
 
 function getDefaultUserPass(cb) {
     if ($(cb).is(":checked")) {
+        $.ajaxSetup({cache: false});
         $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
             $.each(data, function (i, item) {
                 $('#deviceUsername').val(item.defaultNodeUsername)
@@ -172,6 +175,7 @@ function getDefaultUserPass(cb) {
             });
         });
     } else {
+        $.ajaxSetup({cache: false});
         $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
             $.each(data, function (i, item) {
                 $('#deviceUsername').val("")
@@ -193,19 +197,21 @@ function updatePort(value) {
     }
 }
 
-function changeCatAlert(editModeOn){
+function changeCatAlert(editModeOn) {
 //    alert(editModeOn);
-    if(editModeOn != '' || editModeOn != NULL){
-        $( "#dialog-category-Switch-Error" ).dialog({
-        height:200,
-        width:400,
-        open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); }, // hide close button in title
-        buttons: {
-          OK: function() {
-            $( this ).dialog( "close" );
-          }
-        }
-    });
+    if (editModeOn != '' || editModeOn != NULL) {
+        $("#dialog-category-Switch-Error").dialog({
+            height: 200,
+            width: 400,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            }, // hide close button in title
+            buttons: {
+                OK: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
         $("#dialog-category-Switch-Error").show();
     }
 }

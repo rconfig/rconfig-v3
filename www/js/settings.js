@@ -1,5 +1,5 @@
 $(function () {
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDebugStatus", function (data) {
         $('#debugNoticeDiv').html(data);
     })
@@ -33,7 +33,7 @@ $(function () {
         }
     })
 
-
+    $.ajaxSetup({cache: false});
     //retrieve vendor details to display on form from getRow GET variable
     $.getJSON("lib/ajaxHandlers/ajaxGetSMTPSettings.php", function (data) {
         //loop through all items in the JSON array  
@@ -81,6 +81,7 @@ $(function () {
 
 // when pressing Enter on text box, auto-click relevant Update button
     $(document).ready(function () {
+        $.ajaxSetup({cache: false});
 // LDAP Server text box
         $('#ldapServer').keypress(function (e) {
             if (e.keyCode == 13)
@@ -119,6 +120,7 @@ $(function () {
 function openFile(filePath) {
 
     if (filePath) {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             writeConsole(data.join('<br/>'), filePath);
         })
@@ -129,7 +131,7 @@ function openFile(filePath) {
 
 
 function deleteDebugFiles(filePath, ext) {
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
             alert("Debug files deleted successfully")
@@ -143,6 +145,7 @@ function deleteDebugFiles(filePath, ext) {
 function timeZoneChange() {
     var timeZone = $('#timeZone').val();
     if (timeZone != '') {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?timeZoneChange=" + timeZone, function (data) {
 
             $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getTimeZone", function (data2) {
@@ -159,8 +162,9 @@ function debugOnOff() {
     var debugOnOff = $('#debugOnOff').val();
     // alert(debugOnOff)	
     if (debugOnOff != '') {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?debugOnOff=" + debugOnOff, function (data) {
-
+            $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDebugStatus", function (data2) {
                 var debugNotice = data2
                 $('#debugNoticeDiv').html(data + "<div class=\"break\"></div>" + debugNotice);
@@ -188,7 +192,9 @@ function phpLoggingOnOff() {
     var phpLoggingOnOff = $('#phpLoggingOnOff').val();
 
     if (phpLoggingOnOff != '') {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?phpLoggingOnOff=" + phpLoggingOnOff, function (data) {
+            $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getPhpLoggingStatus", function (data2) {
                 var getPhpLoggingStatus = data2
                 $('#getPhpLoggingStatusDiv').html(data + "<div class=\"break\"></div>" + getPhpLoggingStatus);
@@ -207,6 +213,7 @@ function deviceToutGo() {
         // if throw error
         alert('Device Connection Timeout must be a value between 1-999')
     } else {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?deviceToutVal=" + deviceToutVal, function (data) {
             $('#deviceToutInfoDiv').html(data);
             $('#updated').slideDown('fast');
@@ -220,6 +227,7 @@ function pageTimeoutGo() {
     if (pageTimeoutVal == null || pageTimeoutVal == '' || pageTimeoutVal == '0' || pageTimeoutVal == '00' || pageTimeoutVal == '000' || pageTimeoutVal <= 119) {
         alert('Device Connection Timeout must be a value between 120 - 999999')
     } else {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?pageTimeoutVal=" + pageTimeoutVal, function (data) {
 //            $('#pageTimeoutInfoDiv').html(data);
             $('#pageTimeOutUpdated').slideDown('fast');
@@ -237,6 +245,7 @@ function writeConsole(content, filePath) {
 function purgeDevice() {
     var answer = confirm("Are you sure you want to purge deleted items from the Database? ")
     if (answer) {
+        $.ajaxSetup({cache: false});
         // call ajax purge script and return either success or fail msg
         $.getJSON("lib/ajaxHandlers/ajaxPurgeSqlData.php", function (data) {
 
@@ -271,6 +280,7 @@ function smtpClearSettings() {
 //  test SMTP mail sending and return success or fail 
 function smtpTest() {
     $('#pleaseWait').slideDown('fast');
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSmtpTest.php", function (data) {
         if (data.success == true) {
             alert("Email sent successfully")
@@ -286,6 +296,7 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
     var defaultNodeUsername = defaultNodeUsername
     var defaultNodePassword = defaultNodePassword
     var defaultNodeEnable = defaultNodeEnable
+    $.ajaxSetup({cache: false});
     $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPass.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
         if (data) {
             var response = data
@@ -293,6 +304,7 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
             $('#updatedDefault').slideDown('fast');
         }
     });
+    $.ajaxSetup({cache: false});
     $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPassNode.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
         if (data) {
             var response = data
@@ -307,6 +319,7 @@ function defaultCredsManualSet() {
     var defaultCredsManualSet = $('#defaultCredsManualSet').val();
 
     if (defaultCredsManualSet != '') {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?defaultCredsManualSet=" + defaultCredsManualSet, function (data) {
             if (data) {
                 var response = data

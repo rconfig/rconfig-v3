@@ -111,7 +111,7 @@ function getTask() {
     var getRow = "getRow"
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
-
+        $.ajaxSetup({cache: false});
         //retrieve task details to display on form from getRow GET variable
         $.getJSON("lib/crud/scheduler.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
@@ -290,6 +290,7 @@ function changeType() {
 
     if (taskTypeVal == 2) { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
         if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+            $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
                 var command = '';
                 command += '<option value="">Please select</option>';
@@ -301,6 +302,7 @@ function changeType() {
         }
 
         if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+            $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
                 var options = '';
                 options += '<option value="">Please select</option>';

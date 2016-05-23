@@ -8,6 +8,7 @@ $(function () {
 
 function updateFn() {
     $('#pleaseWait').show();
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxInstallUpdate.php", function (data) {
 
         if (data.noUpdateFile) {

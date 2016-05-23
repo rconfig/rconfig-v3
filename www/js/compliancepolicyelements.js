@@ -62,7 +62,8 @@ function editPolElem() {
     var getRow = "getRow"
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
-        $.getJSON("lib/crud/compliancepolicyelements.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
+    $.ajaxSetup({ cache: false });
+    $.getJSON("lib/crud/compliancepolicyelements.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
                 var elementName = data.elementName

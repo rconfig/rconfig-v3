@@ -4,6 +4,7 @@ $(function () {
 });
 
 function finalCheck() {
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxFinalCheck.php", function (data) {
 
         if ($.isEmptyObject(data) != true) {

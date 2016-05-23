@@ -18,6 +18,7 @@ $(document).ready(function () {
 function openFile(filePath) {
 
     if (filePath) {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             writeConsole(data.join('<br/>'), filePath);
         })

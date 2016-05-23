@@ -57,6 +57,7 @@ function editCategory() {
     var getRow = "getRow"
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
+        $.ajaxSetup({ cache: false });
         $.getJSON("lib/crud/categories.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
 
             //loop through all items in the JSON array  

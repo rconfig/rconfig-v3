@@ -60,6 +60,7 @@ function editVendor() {
     var getRow = "getRow"
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
+        $.ajaxSetup({ cache: false });
         //retrieve vendor details to display on form from getRow GET variable
         $.getJSON("lib/crud/vendors.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  

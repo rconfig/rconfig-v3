@@ -3,7 +3,7 @@ $(document).ready(function () {
 });
 
 function search() {
-	
+
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
     var searchTerm = $('#searchTerm').val();
     var catId = $('#catId').val();
@@ -11,35 +11,35 @@ function search() {
     var nodeId = $('#nodeId').val();
     var noLines = $('#noLines').val();
     var linesBeforeAfter = $('#linesBeforeAfter').val();
-	
-	
+
+
     // validate searchTerm
     if (searchTerm == '' || searchTerm == ' ') { // check is not empty i.e. a node is actually selected
-         alert('Please enter a search term!')
-		 return;
-    } 
-	
-	
+        alert('Please enter a search term!')
+        return;
+    }
+
+
     var optionalGrep = $("input[name='grepField\\[\\]']").map(function () {
         return $(this).val();
     }).get();
-	
+
     var grepSwitch = $("select[name='containsSelect\\[\\]']").map(function () {
         return $(this).val();
     }).get();
 
     if (catId == '') {
         alert('Category not selected!')
-		return;
+        return;
     }
     // change the command option to the correct filename format for the grep string/var
     // this filename is inline with the filename created in /home/rconfig/scripts/showCmdScript.php $filenameFull var
     if (catCommand != '') {
         var catCommand = catCommand.replace(/\s/g, '')
-        var catCommand = catCommand + '*' + ".txt"; 
+        var catCommand = catCommand + '*' + ".txt";
     } else {
         alert('Command not selected!')
-		return;
+        return;
     }
 
     // validate no of lines leading/trailing is populated and create full or empty var for it to be added to URL
@@ -49,67 +49,68 @@ function search() {
     } else {
         grepNumLine = " " + linesBeforeAfter + " " + noLines + " "
     }
-	
-	// check if noLines is not an INT
-	if (isNaN(noLines)){
-		alert('No. of Lines is not a Number')
-		return;
-	} 
-	
-	// if No. Lines has a value, then select for leading/trailing must be selected also or Error
-	if (noLines > '0' && linesBeforeAfter == ''){
-	alert('Please select leading or trailing lines')
-		return;
-	}
-		
+
+    // check if noLines is not an INT
+    if (isNaN(noLines)) {
+        alert('No. of Lines is not a Number')
+        return;
+    }
+
+    // if No. Lines has a value, then select for leading/trailing must be selected also or Error
+    if (noLines > '0' && linesBeforeAfter == '') {
+        alert('Please select leading or trailing lines')
+        return;
+    }
+
 
     // get infrom from dynamic for fields, and create single tring to pass to searchCrud.php
     // var result = [];
     // for (var i = 0, l = optionalGrep.length; i < l; ++i) {
-        // if (optionalGrep[i] != '') { // add this as the dynmaic div template has a default value of '' and should not be returned
-            // result.push(" | grep " + grepSwitch[i] + " " + optionalGrep[i] + " ");
-        // }
+    // if (optionalGrep[i] != '') { // add this as the dynmaic div template has a default value of '' and should not be returned
+    // result.push(" | grep " + grepSwitch[i] + " " + optionalGrep[i] + " ");
+    // }
     // }
     // var joinedGrepStr = result.join('');
 
     // ajax logic below
     if (searchTerm) {
         //retrieve vendor details to display on form from getRow GET variable
-        $.getJSON("lib/crud/search.crud.php?searchTerm=" + searchTerm + "&catId=" + catId + "&numLinesStr=" + grepNumLine + "&nodeId=" + nodeId  + "&catCommand=" + catCommand + "&noLines=" + noLines, function (data) {
+        $.ajaxSetup({cache: false});
+        $.getJSON("lib/crud/search.crud.php?searchTerm=" + searchTerm + "&catId=" + catId + "&numLinesStr=" + grepNumLine + "&nodeId=" + nodeId + "&catCommand=" + catCommand + "&noLines=" + noLines, function (data) {
             var category = data.category
             var fileCount = data.fileCount
             var searchResult = data.searchResult
             var timeTaken = data.timeTaken
             var fileCount = data.fileCount
-			
+
             if (searchResult != 'Empty') {
                 // next iterate over the JSON array for searchResult:line and then append each line to the Div
                 var html = [];
-				
+
                 $.each(data.searchResult, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
-					var filePath = data.filePath
+                    var filePath = data.filePath
                     var lines = obj.lines.join("");
-					
+
                     var rowHTML = ['<tr class="row_' + key + '">'];
                     rowHTML.push('<td><a href="lib/crud/downloadFile.php?download_file=' + obj.filePath + '" rel="nofollow" title="click to view file" alt="click to view file">' + obj.device + '</a></td>');
                     rowHTML.push('<td>' + obj.date + '</td>');
                     rowHTML.push('<td style="font-family: Courier, \'Courier New\', monospace; font-size:11px">' + lines + '</td>');
                     rowHTML.push('</tr>');
                     html.push(rowHTML.join(''))
-					$('#timeTaken').html('Search Time:<strong> '+timeTaken+' (sec)</strong>');
-					$('#filesSearched').html('Files Searched:<strong> '+fileCount+'</strong>');
+                    $('#timeTaken').html('Search Time:<strong> ' + timeTaken + ' (sec)</strong>');
+                    $('#filesSearched').html('Files Searched:<strong> ' + fileCount + '</strong>');
                 })
                 $('#resultsTable tbody').html(html.join(''));
-            } else if (searchResult == 'Empty'){
-					var html = [];
-					var rowHTML = ['<tr class="row_0">'];
-                    rowHTML.push('<td></td>');
-                    rowHTML.push('<td></td>');
-                    rowHTML.push('<td style="font-family: Courier, \'Courier New\', monospace; font-size:11px"><font color="red">No Results</font></td>');
-                    rowHTML.push('</tr>');
-                    html.push(rowHTML.join(''))
-					$('#resultsTable tbody').html(html.join(''));
-			}
+            } else if (searchResult == 'Empty') {
+                var html = [];
+                var rowHTML = ['<tr class="row_0">'];
+                rowHTML.push('<td></td>');
+                rowHTML.push('<td></td>');
+                rowHTML.push('<td style="font-family: Courier, \'Courier New\', monospace; font-size:11px"><font color="red">No Results</font></td>');
+                rowHTML.push('</tr>');
+                html.push(rowHTML.join(''))
+                $('#resultsTable tbody').html(html.join(''));
+            }
 
         });
     } else {
@@ -128,6 +129,7 @@ function changeType() {
     nodeId.style.display = catIdSelect.selectedIndex != '' ? 'block' : 'none'; // check that anything other than '' is selected and display nodes dropdown
 
     if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
             var command = '';
             command += '<option value="">Please select</option>';
@@ -139,6 +141,7 @@ function changeType() {
     }
 
     if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
             var options = '';
             options += '<option value="">Please select</option>';
@@ -151,14 +154,14 @@ function changeType() {
 }
 
 // function optionalGrep() { // src'd from http://www.satya-weblog.com/2010/02/add-input-fields-dynamically-to-form-using-javascript.html
-    // var div1 = document.createElement('div');
+// var div1 = document.createElement('div');
 
-    // Get template data / input div
-    // div1.innerHTML = document.getElementById('newInputField').innerHTML;
+// Get template data / input div
+// div1.innerHTML = document.getElementById('newInputField').innerHTML;
 
-    // append to our form, so that template data  
-    // become part of form  
-    // document.getElementById('testDiv').appendChild(div1);
+// append to our form, so that template data  
+// become part of form  
+// document.getElementById('testDiv').appendChild(div1);
 
 // }
 

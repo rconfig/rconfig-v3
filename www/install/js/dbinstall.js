@@ -5,7 +5,7 @@ $(function () {
 function getServerStatus() {
     var server = document.getElementById('dbServer').value;
     var port = document.getElementById('dbPort').value;
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxDbServerReachable.php?server=" + server + "&port=" + port + "", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -25,7 +25,7 @@ function getStatus() {
     var dbName = document.getElementById('dbName').value;
     var dbUsername = document.getElementById('dbUsername').value;
     var dbPassword = document.getElementById('dbPassword').value;
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxDbTests.php?server=" + server + "&port=" + port + "&dbName=" + dbName + "&dbUsername=" + dbUsername + "&dbPassword=" + dbPassword + "", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -52,9 +52,8 @@ function installConfig() {
     var dbName = document.getElementById('dbName').value;
     var dbUsername = document.getElementById('dbUsername').value;
     var dbPassword = document.getElementById('dbPassword').value;
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxDbInstall.php?server=" + server + "&port=" + port + "&dbName=" + dbName + "&dbUsername=" + dbUsername + "&dbPassword=" + dbPassword + "", function (data) {
-
         if ($.isEmptyObject(data) != true) {
 
             var error = data.error

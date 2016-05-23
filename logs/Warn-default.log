@@ -60,3 +60,5 @@
 2016-05-15 22:37:05 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.21 & Username: admin (File: /lib/crud/downloadFile.php)
 2016-05-15 22:37:23 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.21 & Username: admin (File: /lib/crud/downloadFile.php)
 2016-05-15 22:38:59 WARN Security Issue: Some tried a Local File Inclusion attempt from IP: 192.168.1.21 & Username: admin (File: /lib/crud/downloadFile.php)
+2016-05-23 17:16:40 WARN Failure: Please enter a valid email address (File: /lib/crud/settingsEmail.crud.php)
+2016-05-23 17:16:40 WARN Failure: Please enter a valid email address (File: /lib/crud/settingsEmail.crud.php)

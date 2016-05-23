@@ -1,6 +1,7 @@
 $(function () {
 
 //check license file and disable menu items if license not agreed to
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxLicenseCheck.php", function (data) {
 
         if (data == 0) { //license not accepted
@@ -22,7 +23,7 @@ $(function () {
 
     })
 
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxGetPhpVer.php", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -34,7 +35,8 @@ $(function () {
             $('#phpVersion').append('<font color="#F7492E">Cannot get PHP version or is not installed</font>');
         }
     })
-
+    
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxGetMysqlVer.php", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -46,7 +48,7 @@ $(function () {
             $('#mysqlVersion').append('<font color="#F7492E">Cannot get MYSQL version or is not installed</font>');
         }
     })
-
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxGetHttpdVer.php", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -59,6 +61,7 @@ $(function () {
         }
     })
 
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxPhpCliCheck.php", function (data) {
 
         if ($.isEmptyObject(data) != true) {

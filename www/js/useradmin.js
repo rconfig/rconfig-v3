@@ -1,16 +1,16 @@
 $(document).ready(function () {
-    if (location.href.match(/\error/)) { 
-        $('mainformDiv').show(); 
+    if (location.href.match(/\error/)) {
+        $('mainformDiv').show();
         $(".show_hide").show();
     } else {
         $(".mainformDiv").hide();
         $(".show_hide").show();
     }
-    $('.show_hide').click(function () { 
+    $('.show_hide').click(function () {
         $(".mainformDiv").toggle();
     });
 
-}); 
+});
 
 $("#userAddTbl tbody tr").click(function (e) {
     var rowid = $(this).attr('setid');
@@ -38,7 +38,7 @@ function delUser() {
                 delete: "delete"
             }, function (result) {
                 if (result.success) {
-                    window.location.reload(); 
+                    window.location.reload();
                 } else {
                     window.location.reload();
                 }
@@ -55,6 +55,7 @@ function editUser() {
     var getRow = "getRow"
     var rowid = $("input:checkbox:checked").attr("id")
     if (rowid) {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/crud/userAdmin.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
@@ -66,11 +67,11 @@ function editUser() {
                     $('input[name="username"]').val(username)
                     $('input[name="email"]').val(data.email)
                     $("#ulevelid").val(data.userlevel);
-                    $('input[name="editid"]').val(rowid) 
+                    $('input[name="editid"]').val(rowid)
                 } else {
                     alert("Could not load data");
                 }
-                $(".show_hide").show(); 
+                $(".show_hide").show();
             });
         });
     } else {

@@ -9,7 +9,7 @@ $(function () {
         $("#logDiv").html(ajax_load).load(getLog(10));
     })
 
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/logs/&ext=log", function (data) {
 
         if ($.isEmptyObject(data) != true) {
@@ -17,23 +17,23 @@ $(function () {
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var filename = obj.filename
                 switch (filename) {
-                case "Conn-default.log":
-                    displayFileName = "Connection Log";
-                    break;
-                case "All-default.log":
-                    displayFileName = "<font color=\"red\">Complete Log</font>";
-                    break;
-                case "Fatal-default.log":
-                    displayFileName = "Fatal Errors";
-                    break;
-                case "Info-default.log":
-                    displayFileName = "Information Log";
-                    break;
-                case "Warn-default.log":
-                    displayFileName = "Warning Log";
-                    break;
-                default:
-                    displayFileName = ""
+                    case "Conn-default.log":
+                        displayFileName = "Connection Log";
+                        break;
+                    case "All-default.log":
+                        displayFileName = "<font color=\"red\">Complete Log</font>";
+                        break;
+                    case "Fatal-default.log":
+                        displayFileName = "Fatal Errors";
+                        break;
+                    case "Info-default.log":
+                        displayFileName = "Information Log";
+                        break;
+                    case "Warn-default.log":
+                        displayFileName = "Warning Log";
+                        break;
+                    default:
+                        displayFileName = ""
                 }
                 var filepath = obj.filepath
 
@@ -49,11 +49,12 @@ $(function () {
         }
     })
 
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/logs/archive/&ext=zip", function (data) {
 
         if ($.isEmptyObject(data) != true) {
             var html = [];
-            $.each(data, function (key, obj) { 
+            $.each(data, function (key, obj) {
                 var filename = obj.filename
                 var filepath = obj.filepath
 
@@ -73,13 +74,14 @@ $(function () {
 
 
 function getLog(value) {
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxGetLogFile.php?logType=All&value=" + value, function (data) {
 
         if (data == "Failed") {
-			$('#logDivError').show();
+            $('#logDivError').show();
         } else {
-				
-				var html = [];
+
+            var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var file = obj.line
                 var rowHTML = ['<tr class="">'];
@@ -88,7 +90,7 @@ function getLog(value) {
                 html.push(rowHTML.join(''))
             })
             $('#logDiv').html(html.join(''));
-		}
+        }
     })
 }
 
@@ -96,6 +98,7 @@ function getLog(value) {
 function openFile(filePath) {
 
     if (filePath) {
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             data.reverse() // sort lines by most recent
             writeConsole(data.join('<br/>'), filePath); //writeConsole located in rconfigFunctions.js
@@ -106,7 +109,7 @@ function openFile(filePath) {
 }
 
 function deleteDebugFiles(filePath, ext) {
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
             alert("Log files deleted successfully")
@@ -118,7 +121,7 @@ function deleteDebugFiles(filePath, ext) {
 }
 
 function archiveFiles(filePath, ext) {
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxArchiveFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
             alert("Log files archived")

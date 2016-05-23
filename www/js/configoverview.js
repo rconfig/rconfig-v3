@@ -11,6 +11,7 @@ $(function () {
 // Open File by ajax
 function openFile(filePath) {
     if (filePath) {
+        $.ajaxSetup({ cache: false });
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             if(data == "Failed"){
                 alert('Could not open log file')
@@ -25,6 +26,7 @@ function openFile(filePath) {
 }
 
 function getLog(value) {
+    $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxGetLogFile.php?logType=Conn&value=" + value, function (data) {
 
         if (data == "Failed") {
@@ -55,6 +57,7 @@ function purge(value) {
 	if (answer) {
 		$('#purgeBtn').hide();
 		$('#pleaseWait').slideDown('fast');
+                $.ajaxSetup({ cache: false });
 		$.getJSON("lib/ajaxHandlers/ajaxPurgeConfigs.php?purgeDays=" + purgeDays, function (data) {
                     if (data == null) {
                         alert('Nothing was deleted')
