@@ -3,7 +3,9 @@ Version 3.5.1
 23-May-2016
 Author: Stephen Stack
 
-        Fixed - Some Edits not appear to be not working due to AJAX caching 'feature' in version of IE
+        Fixed - Some Edits not appear to be working due to AJAX caching 'feature' in version of IE
+        Fixed - Updater hanging on update due to mis-configured PDO statement in updater class
+
 
 ------------------------------------------------------------------------------------
 Version 3.5.0

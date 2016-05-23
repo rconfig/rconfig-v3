@@ -114,7 +114,7 @@ class updater {
      */
     public function loadSqlFile($sqlFileToExecute, $dbPort, $sqlServer, $sqlUser, $sqlPass, $sqlDb) {
         try {
-            $db = new PDO('mysql:dbname=' . $sqlDb . ';port=' . $dbPort . ';host=' . $sqlServer, $sqlUser, $sqlPass);
+            $db = new PDO('mysql:hostname='.$sqlServer.';dbname='.$sqlDb.';port='.$dbPort.'',$sqlUser,$sqlPass);
             $sql = file_get_contents($sqlFileToExecute); //file name should be name of SQL file with .sql extension. 
             $qr = $db->exec($sql);
 //            echo($qr); // if query execut successfully, this will print 0 else 1

@@ -6515,3 +6515,4 @@
 2016-05-23 17:18:09 INFO Success: Added category to DB (File: /lib/crud/categories.crud.php)
 2016-05-23 17:18:14 INFO Success: Added command 124 to DB (File: /lib/crud/commands.crud.php)
 2016-05-23 17:18:19 INFO Success: Added new vendor, 425245 to DB (File: /lib/crud/vendors.crud.php)
+2016-05-23 17:24:05 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)

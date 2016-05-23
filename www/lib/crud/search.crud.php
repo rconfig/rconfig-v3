@@ -107,7 +107,6 @@ if (isset($_GET['searchTerm']) && is_string($_GET['searchTerm']) && !empty($_GET
             );
             array_push($output, $newSearchArr);
         }
-        // var_dump($output);die();
 
         $End = getTime();
         $returnArr['timeTaken'] = number_format(($End - $Start), 2);

@@ -36,7 +36,6 @@ if (isset($_POST['add'])) {
         $errors['singleLine1'] = "Input cannot be empty";
     }
 
-// var_dump($_POST);die();
 // set the session id if any errors occur and redirect back to devices page with ?error and update fields 
     if (!empty($errors)) {
         $errors['elementNameVal'] = $elementName;
