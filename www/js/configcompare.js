@@ -13,11 +13,11 @@ function compare() {
     // error if more than one check box selected for both sides
     if (countChecked_a > 1) {
         alert("You selected more than 1 configuration on the left side")
-		return;
+        return;
     }
     if (countChecked_b > 1) {
         alert("You selected more than 1 configuration on the right side")
-		return;
+        return;
     }
 
     // validate path_a & path_b
