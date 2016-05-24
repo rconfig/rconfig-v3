@@ -72,3 +72,9 @@
 2016-05-23 17:18:14 INFO Success: Added command 124 to DB (File: /lib/crud/commands.crud.php)
 2016-05-23 17:18:19 INFO Success: Added new vendor, 425245 to DB (File: /lib/crud/vendors.crud.php)
 2016-05-23 17:24:05 INFO Success: Edit device Site10GW.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-05-24 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-24 00:09:05 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-24 00:09:05 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-05-24 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-05-24 01:06:04 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-05-24 01:06:04 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
