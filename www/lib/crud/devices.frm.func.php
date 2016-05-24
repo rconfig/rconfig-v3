@@ -110,7 +110,6 @@ function categories($id = null) {
 }
 
 // end categories function
-
 function customProp() {
     $db2 = new db2();
     $db2->query("SELECT * FROM customProperties");
