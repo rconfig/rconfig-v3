@@ -24,7 +24,7 @@
                     <legend>Compare</legend>
                     <div class="mainformDiv">
                         <p>
-                            Please select a configuration file on the right hand side and one from the left hand side to run a comparison
+                            Complete the fields below and click compare to see differences between configuration files
                         </p>
                         <div id="spacer">
                         </div>
@@ -33,9 +33,9 @@
                         <!-- New Config Search Feature Below -->
                         <div id="left" style="width:50%">
                             <label><font color="red">*</font>First Device:
-                                <span class="smallwide">enter to complete device select</span>
+                                <span class="smallwide">Press enter to complete device selection</span>
                             </label>
-                            <input name="firstdevice" id="" placeholder="First Device" tabindex='1' style="width:150px;" value="" title="hit enter to complete select box" alt="hit enter to complete select box">
+                            <input name="firstdevice" id="" placeholder="First Device" tabindex='1' style="width:150px;" value="" title="Press enter to complete device selection" alt="Press enter to complete device selection">
                             <div class="spacer"></div>
                             <label><font color="red">*</font>Select Config to Compare:</label>
                             <select name="firstCommandSelect" id="firstCommandSelect" tabindex='2' style="width:155px;"></select> 
@@ -48,9 +48,9 @@
 
                         <div id="right" style="width:50%">
                             <label><font color="red">*</font>Second Device:
-                                <span class="smallwide">enter to complete device select</span>
+                                <span class="smallwide">Press enter to complete device selection</span>
                             </label>
-                            <input name="seconddevice" id="" placeholder="Second Device" tabindex='4' style="width:150px;" value="" title="hit enter to complete select box" alt="hit enter to complete select box">
+                            <input name="seconddevice" id="" placeholder="Second Device" tabindex='4' style="width:150px;" value="" title="Press enter to complete device selection" alt="Press enter to complete device selection">
                             <div class="spacer"></div>
                             <label><font color="red">*</font>Select Config to Compare:</label>
                             <select name="secondCommandSelect" id="secondCommandSelect" tabindex='5' style="width:155px;"> </select> 
@@ -67,7 +67,9 @@
                         </div>
                         <hr>
                         <div id ="linepaddingDiv">
-                            <label for="linepadding">Line Padding:</label>
+                            <label for="linepadding">Line Padding:
+                                <span class="smallwide">Number of lines to display before/after <br />each difference </span>
+                            </label>
                             <input name="linepadding" id="linepadding" title="number of lines to display before/after each difference" size="1" maxlength="2" tabindex='7'>
                         </div>           
                         <div id="toolbar">
