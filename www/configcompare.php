@@ -6,14 +6,6 @@
         <!-- TopNav Include -->
         <?php include("includes/topnav.inc.php"); ?>
         <div id="main">
-            <?php
-            /* Custom Devices Custom Form Functions */
-            require_once("lib/crud/devices.frm.func.php");
-            // PHP File Tree
-            // For documentation and updates, visit http://abeautifulsite.net/notebook.php?article=21
-            // Main function file
-            include("../classes/php_file_tree.php");
-            ?>
             <!-- Breadcrumb Include -->
             <?php include("includes/breadcrumb.inc.php"); ?>
             <!-- Announcement Include -->
@@ -32,55 +24,58 @@
                     <legend>Compare</legend>
                     <div class="mainformDiv">
                         <p>
-
                             Please select a configuration file on the right hand side and one from the left hand side to run a comparison
                         </p>
                         <div id="spacer">
                         </div>
                         <br/>
-                        <form id="compareForm" method="post" enctype="multipart/form-data">
-                            <div id="comapareTreeLeft">
-                                <label>Left Configuration</label>
-
-                                <div id="tree_a_Div" style="display:none;">
-                                    <?php
-                                    $allowed_a = array("txt");
-                                    $chkOn_a = true; // set option to return lines with checkboxes in class output
-                                    echo php_file_tree("/home/rconfig/data/", "[link]", $allowed_a, $chkOn_a);
-                                    ?>
-                                </div>
-                                <!-- end tree_aDiv -->
+                        <div name="compareForm" class="myform stylizedForm stylized" style="width:100%;">
+                        <!-- New Config Search Feature Below -->
+                        <div id="left" style="width:50%">
+                            <label><font color="red">*</font>First Device:
+                                <span class="smallwide">enter to complete device select</span>
+                            </label>
+                            <input name="firstdevice" id="" placeholder="First Device" tabindex='1' style="width:150px;" value="" title="hit enter to complete select box" alt="hit enter to complete select box">
+                            <div class="spacer"></div>
+                            <label><font color="red">*</font>Select Config to Compare:</label>
+                            <select name="firstCommandSelect" id="firstCommandSelect" tabindex='2' style="width:155px;"></select> 
+                            <div class="spacer"></div>
+                            <div id="firstdatepickerDiv">
+                                <label><font color="red">*</font>Date of Config:</label>
+                                <input type="text" id="firstdatepickerSelect" class="datepicker datePickerCalendar" tabindex='3' style="width:150px;">
                             </div>
-                            <!-- end comapareTreeLeft -->
-                            <div id="comapareTreeLeft">
-                                <label>Right Configuration</label>
+                        </div>
 
-                                <div id="tree_b_Div" style="display:none;">
-                                    <?php
-                                    $allowed_b = array("txt");
-                                    $chkOn_b = true; // set option to return lines with checkboxes in class output
-                                    echo php_file_tree("/home/rconfig/data/", "[link]", $allowed_b, $chkOn_b);
-                                    ?>
-                                </div>
-                                <!-- end tree_aDiv -->
+                        <div id="right" style="width:50%">
+                            <label><font color="red">*</font>Second Device:
+                                <span class="smallwide">enter to complete device select</span>
+                            </label>
+                            <input name="seconddevice" id="" placeholder="Second Device" tabindex='4' style="width:150px;" value="" title="hit enter to complete select box" alt="hit enter to complete select box">
+                            <div class="spacer"></div>
+                            <label><font color="red">*</font>Select Config to Compare:</label>
+                            <select name="secondCommandSelect" id="secondCommandSelect" tabindex='5' style="width:155px;"> </select> 
+                            <div class="spacer"></div>
+                            <div id="seconddatepickerDiv">
+                                <label><font color="red">*</font>Select Config to Compare:</label>
+                                <input type="text" id="seconddatepickerSelect" class ="datepicker datePickerCalendar" tabindex='6' style="width:150px;">
                             </div>
-                            <!-- end comapareTreeLeft -->
-                        </form>
-                    </div>
-                    <!-- End mainformDiv -->
-                    <div style="clear:both;"></div>
-                    <div id="spacer">
-                    </div>
-                    <div id ="linepaddingDiv">
-                        <label for="linepadding">Line Padding:</label>
-                        <input name="linepadding" id="linepadding" title="number of lines to display before/after each difference" size="1" maxlength="2" tabindex='5'>
-                    </div>
+                        </div>
 
-                    <div id="toolbar">
-                        <button id="search" onclick="compare()" tabindex='7'>Compare</button>
-                        <button id="reset" onclick="reloadPage()" tabindex='8'>Reset Page</button>
-                    </div>
-                    <div id="resultsDiv" name="resultsDiv">
+                        <!-- End mainformDiv -->
+                        <div style="clear:both;"></div>
+                        <div id="spacer">
+                        </div>
+                        <hr>
+                        <div id ="linepaddingDiv">
+                            <label for="linepadding">Line Padding:</label>
+                            <input name="linepadding" id="linepadding" title="number of lines to display before/after each difference" size="1" maxlength="2" tabindex='7'>
+                        </div>           
+                        <div id="toolbar">
+                            <button id="search" onclick="compare()" tabindex='8'>Compare</button>
+                            <button id="reset" onclick="reloadPage()" tabindex='9'>Reset Page</button>
+                        </div>
+                        <div id="resultsDiv" name="resultsDiv">
+                        </div>
                     </div>
                 </fieldset>
 

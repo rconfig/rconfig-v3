@@ -38,6 +38,8 @@ if (!$session->logged_in) {
         <link rel="stylesheet" type="text/css" href="css/compareTable.css" />
         <link rel="stylesheet" type="text/css" href="css/compareTable.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryNotification/jquery_notification.css" />
+        <link rel="stylesheet" type="text/css" href="css/jqueryui/jquery.ui.datepicker.css" />
+
         <!-- file Tree CSS -->
         <link rel="stylesheet" type="text/css" href="css/filetreecss/default.css" />
         <!--[if lt IE 9]>
@@ -52,6 +54,7 @@ if (!$session->logged_in) {
         <script type="text/javascript" src="js/jquery/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.ui.autocomplete.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.ui.dialog.js"></script>
+        <script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
         <script type="text/javascript" src="js/filetree/php_file_tree.js" ></script>
         <script type="text/javascript" src="js/simpleModal/jquery.simplemodal.1.4.2.min.js" ></script>
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>

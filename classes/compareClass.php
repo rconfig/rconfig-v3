@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 /*
   Ross Scrivener http://scrivna.com
@@ -18,7 +20,7 @@
  */
 
 class diff {
-    
+
     var $changes = array();
     var $diff = array();
     var $linepadding = null;

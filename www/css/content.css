@@ -560,3 +560,10 @@ span.inactive {
 #taskDetails span{
 	font-size:0.8em;
 }
+
+.datePickerCalendar {  
+    background-image:url(../images/fa-calendar_16_0_5c5c5c_none.png); 
+    background-repeat: no-repeat; 
+    background-position: 2px 3px;
+    text-indent:17px;
+}

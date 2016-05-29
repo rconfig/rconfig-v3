@@ -1,40 +1,157 @@
+$(document).ready(function () {
+
+    // hide datepickers until selected
+    $('#firstdatepickerDiv').hide();
+    $('#seconddatepickerDiv').hide();
+
+    // resets device input to white on select
+    resetDeviceInputBgroud('firstdevice');
+    resetDeviceInputBgroud('seconddevice');
+
+    // device input auto complete
+    deviceinputAutoComplete('firstdevice');
+    deviceinputAutoComplete('seconddevice');
+
+    // populate selects for commands
+    cmdSelectPopulate('firstdevice', 'firstCommandSelect');
+    cmdSelectPopulate('seconddevice', 'secondCommandSelect');
+
+    // get dates for selected command
+    datepickerSetup('firstdevice', 'firstCommandSelect', 'firstdatepickerDiv', 'firstdatepickerSelect');
+    datepickerSetup('seconddevice', 'secondCommandSelect', 'seconddatepickerDiv', 'seconddatepickerSelect');
+});
+
+
+// reset device input text box to white on click - assumes the user wants to chnage the selected device
+function resetDeviceInputBgroud(inputname) {
+    $("input[name=" + inputname + "]").click(function () {
+        $("input[name=" + inputname + "]").css({'background': '#FFF'});
+    });
+}
+
+// autocomplete for device fields
+function deviceinputAutoComplete(inputname) {
+    $("input[name=" + inputname + "]").autocomplete({
+        source: "lib/ajaxHandlers/ajaxCompareDeviceSearchAuto.php",
+        async: false,
+        minLength: 1,
+        select: function (event, ui) {
+            $("input[name=" + inputname + "]").attr('id', ui.item.id);
+            $("input[name=" + inputname + "]").val(ui.item.abbrev);
+        }
+    });
+}
+
+// populate commands select dropdown based on device selection
+function cmdSelectPopulate(inputname, selectname) {
+    $("input[name=" + inputname + "]").enterKey(function () {
+        // color the input field after enter on the keyboard
+        $("input[name=" + inputname + "]").css({'background': '#D0E4F4'});
+
+        var id = $("input[name=" + inputname + "]").attr('id');
+        //Clear out the old values
+        $("#" + selectname + "").empty();
+        $.getJSON("lib/ajaxHandlers/ajaxCompareSelectCmds.php?term=" + id, function (data) {
+            //Add the input items back in
+            var html = '';
+            var len = data.length;
+            html = '<option value="">-- Select a command--</option>'
+            for (var i = 0; i < len; i++) {
+                html += '<option value="' + data[i].value + '">' + data[i].value + '</option>';
+            }
+            $("#" + selectname + "").append(html);
+        });
+    });
+}
+
+// get dates for selected command
+function datepickerSetup(inputname, selectname, datepickerDivName, datepickername) {
+    $("#" + selectname + "").change(function () {
+        firstId = $("input[name=" + inputname + "]").attr('id');
+        command = $("#" + selectname + " option:selected").attr('value');
+        command = command.replace(/\s/g, ''); // remove whitespace
+        if (command != '') {
+            $("#" + datepickerDivName + "").show();
+            $.getJSON("lib/ajaxHandlers/ajaxCompareGetCmdDates.php?deviceId=" + firstId + "&command=" + command, function (data) {
+                //result to array
+                var second_array = new Array();
+                $.each(data, function (index, value) {
+                    second_array.push({name: value.name, index: value.index});
+                });
+
+                $("#" + datepickername + "").datepicker({
+                    dateFormat: 'dd-mm-yy',
+                    beforeShowDay: enableSpecificDates
+                });
+                function enableSpecificDates(date) {
+                    var month = date.getMonth();
+                    var day = date.getDate();
+                    var year = date.getFullYear();
+                    for (i = 0; i < data.length; i++) {
+                        if ($.inArray((month + 1) + '-' + day + '-' + year, data) != -1) {
+                            return [true, 'ui-state-active'];
+                        }
+                    }
+                    return [false];
+                }
+            });
+        } else {
+            $("#" + datepickerDivName + "").hide();
+        }
+    });
+}
+
 function compare() {
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
     var linepadding = $('#linepadding').val();
     if (linepadding == '') {
         linepadding = 'null'
     }
-    var path_a = $("#tree_a_Div input:checkbox:checked").attr("value")
-    var path_b = $("#tree_b_Div input:checkbox:checked").attr("value")
-    // Check of more than one checkbox selected for each side
-    var countChecked_a = $("#tree_a_Div input:checked").length;
-    var countChecked_b = $("#tree_b_Div input:checked").length;
 
-    // error if more than one check box selected for both sides
-    if (countChecked_a > 1) {
-        alert("You selected more than 1 configuration on the left side")
-        return;
-    }
-    if (countChecked_b > 1) {
-        alert("You selected more than 1 configuration on the right side")
-        return;
-    }
+    // get device names
+    var firstDeviceName = $("input[name=firstdevice]").val();
+    var secondDeviceName = $("input[name=seconddevice]").val();
 
-    // validate path_a & path_b
-    if (path_a == null || path_b == null) { // check is not empty i.e. a node is actually selected
-        alert('Please make Selections!')
-    }
+    // get config name and remove space
+    var firstConfigName = $("#firstCommandSelect").attr('value');
+    var firstCommand = firstConfigName.replace(/\s/g, ''); // remove whitespace
+    var secondConfigName = $("#secondCommandSelect").attr('value');
+    var secondCommand = secondConfigName.replace(/\s/g, ''); // remove whitespace
 
-    // ajax logic below
-    if (path_a) {
+    // get dates
+    var firstDate = $("#firstdatepickerSelect").val();
+    var secondDate = $("#seconddatepickerSelect").val();
 
-        $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + path_a + "&path_b=" + path_b + "&linepadding=" + linepadding);
+    // Check is any vars are NOT empty, false, undefined or null etc..
+    if (firstDeviceName && secondDeviceName && firstCommand && secondCommand && firstDate && secondDate) {
+        // first get the actual paths for comparison
+        var firstpath = getPaths(firstDeviceName, firstCommand, firstDate);
+        var secondpath = getPaths(secondDeviceName, secondCommand, secondDate);
+        // now remove forward slashes from json encoding beofer passing to GET
+//        var firstpath = firstpath.replace(/\//g, '');
+//        var secondpath = secondpath.replace(/\//g, '');
+        
+        if(firstpath && secondpath){
+            $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + firstpath + "&path_b=" + secondpath + "&linepadding=" + linepadding);
+        } else {
+            alert("Something went wrong! Could not retrieve configs for both devices")
+        }
 
     } else {
-        alert("Please make selections!")
+        alert("Please complete all fields!")
     }
-} // end compare function
+}
+
+// function to getpaths for inputted data. Syncronous call
+function getPaths(deviceName, command, date){
+   var value= $.ajax({ 
+      url: "lib/ajaxHandlers/ajaxCompareGetPaths.php?deviceName=" + deviceName + "&command=" + command + "&date="+date, 
+      async: false
+   }).responseText;
+   return value;
+}
 
 function reloadPage() {
     window.location.reload(true) // true to reload with out POSTBACK warning in browser
 }
+

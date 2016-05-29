@@ -1,5 +1,4 @@
 <?php
-
 require('../../../classes/compareClass.php');
 require('../../../config/functions.inc.php');
 
@@ -21,15 +20,15 @@ foreach ($_GET as $v) {
         $verified = FALSE;
     }
 }
-
 if (!$verified) {
     echo "<font color=\"red\">*</font> You must select all items with an asterisk"; // put in session to break and return error to script here
     exit();
 } else {
     // initialise Vars
-    $path_a = $_GET['path_a'];
-    $path_b = $_GET['path_b'];
-    $linepadding = $_GET['linepadding'];
+    // clean the strings
+    $path_a = stripslashes(str_replace('"', "", $_GET['path_a']));
+    $path_b = stripslashes(str_replace('"', "", $_GET['path_b']));
+    $linepadding = $_GET['linepadding'];   
 }
 
 $diff = new diff;
