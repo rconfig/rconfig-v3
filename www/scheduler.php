@@ -568,9 +568,10 @@
                 <br/><a href="#" class="simplemodal-close">Close</a>
             </div>
             <!-- Modal -->
-            <!-- Footer Include -->
-            <?php include("includes/footer.inc.php"); ?>
+
         </div>
+        <!-- Footer Include -->
+        <?php include("includes/footer.inc.php"); ?>
         <!-- End Mainwrap -->
     </div>
 </body>

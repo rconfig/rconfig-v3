@@ -7,7 +7,7 @@
 <div id="mainContent">
     <div class="break"></div>
     <p>
-        On this page, you can compare downloaded configurations. Browse the File System tree on each side, select a 'Left' and 'Right' configuration file and click 'compare' to compare the differences. <b>You can only make a single selection on either side</b>
+        You can compare configurations on this page. Fill out all fields in the form and click compare. for the 'device' field, it will auto-populate, but you must hit enter after the device has been selected so that the 'Configs' dropdown will populate with the correct commands for the selected device. 
     </p>
     <div class="break"></div>
     <p>

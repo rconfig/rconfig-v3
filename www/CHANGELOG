@@ -2,6 +2,7 @@ Version 3.5.2
 29-May-2016
 Author: Stephen Stack
 
+        Fixed - scheduled tasks footer fix
         Changed - configcompare re-factored for new config file search functionality
 
 ------------------------------------------------------------------------------------
