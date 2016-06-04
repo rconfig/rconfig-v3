@@ -87,6 +87,20 @@ include("commands.inc.php");
             </div>
         </div>
         <!-- End Main -->
+        <!--Alert Modals-->
+        <div id="commandSelectAlert" class="modal hide">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button">X</button>
+                <h3>Notice!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Please select a Command!</p>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn" href="#">OK!</a>
+                <!--<a data-dismiss="modal" class="btn" href="#">Cancel</a>-->
+            </div>
+        </div>
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/commands.js"></script>
         <!-- Footer Include -->

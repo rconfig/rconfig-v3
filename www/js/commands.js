@@ -48,7 +48,7 @@ function delCommand() {
             window.location.reload();
         }
     } else {
-        alert("Please select a Command!")
+        $('#commandSelectAlert').modal('show');
     }
 }
 
@@ -76,7 +76,7 @@ function editCommand() {
             });
         });
     } else {
-        alert("Please select a Command!")
+        $('#commandSelectAlert').modal('show');
     }
 }
 
