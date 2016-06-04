@@ -6,15 +6,15 @@
  */
 
 // gets & sets data for Annoucements section and Bredcrumb text on pages from the DB
-function pageTitles($pageName, $pageType=NULL){
+function pageTitles($pageName, $pageType = NULL) {
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT * FROM menuPages WHERE pageName = :pageName");
     $db2->bind(':pageName', $pageName);
     $result = $db2->resultset();
-    if($pageType == 'announcement'){
+    if ($pageType == 'announcement') {
         $text = $result[0]['annoucementText'];
-    } elseif($pageType == 'breadcrumb') {
+    } elseif ($pageType == 'breadcrumb') {
         $text = $result[0]['breadcrumbText'];
     } else {
         $text = ' <font color=\"red\">$pageType Not Found for function pageTitles()</font>';
@@ -26,9 +26,9 @@ function pageTitles($pageName, $pageType=NULL){
  * get/set timezone
  *
  */
-function getSetTimeZone(){
+function getSetTimeZone() {
     require_once("/home/rconfig/classes/db2.class.php");
-    $db2  = new db2();
+    $db2 = new db2();
     // check and set timeZone to avoid PHP errors
     $q = $db2->query("SELECT timeZone FROM settings");
     $row = $db2->single();
@@ -41,7 +41,7 @@ function getSetTimeZone(){
  * if it is start logging errors to DB file. Function is added to head.inc.php on each and every page
  *
  */
-function phpErrorReporting(){
+function phpErrorReporting() {
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     // check and set timeZone to avoid PHP errors
@@ -72,6 +72,7 @@ function phpErrorReporting(){
         ini_set('display_errors', 0);
     }
 }
+
 // check for and implement pop reporting by default as functions.inc.php is called on almost all scripts
 phpErrorReporting();
 
@@ -269,7 +270,7 @@ function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*') {
         // tmp dir
         $tmpDir = "/home/rconfig/tmp";
         if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0700);  
+            mkdir($tmpDir, 0700);
         }
         $db = new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass);
         $today = date("Ymd");
@@ -440,6 +441,8 @@ function chkWhiteSpaceInStr($string) {
 // flatten multidimensional array
 function flatten(array $array) {
     $return = array();
-    array_walk_recursive($array, function($a) use (&$return) { $return[] = $a; });
+    array_walk_recursive($array, function($a) use (&$return) {
+        $return[] = $a;
+    });
     return $return;
 }

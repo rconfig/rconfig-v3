@@ -6,6 +6,7 @@ Author: Stephen Stack
         Fixed - scheduled tasks footer fix
         Fixed - Removed default install commands that were not working from SQL
         Changed - configcompare re-factored for new config file search functionality
+        Changed - Updated to jquery 2.2.4 & jqueryui 1.11.3 
         Added - Move phpLogging() function to global functions so that it is called for all scripts - makes logging more available
 
 ------------------------------------------------------------------------------------

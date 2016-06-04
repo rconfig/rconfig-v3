@@ -76,9 +76,6 @@ function closeNotification(duration){
             $('div#info_message').remove();
         },200);
     }, parseInt(duration * 1000));   
-    
-
-    
 }
 
 // sliding down the notification

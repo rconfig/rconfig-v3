@@ -24,7 +24,6 @@ if (!$session->logged_in) {
         <meta name="description" content="Configuration management utility for CLI based devices">
         <meta name="copyright" content="Copyright (c) <?php echo date("Y"); ?> - rConfig">
         <meta name="author" content="Stephen Stack">
-
         <!-- Add ICO -->
         <link rel="Shortcut Icon" href="<?php echo $config_basedir; ?>favicon.ico"> 
         <!-- CSS -->
@@ -35,22 +34,16 @@ if (!$session->logged_in) {
         <link rel="stylesheet" type="text/css" href="css/compareTable.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryNotification/jquery_notification.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryui/jquery.ui.datepicker.css" />
-
         <!-- file Tree CSS -->
         <link rel="stylesheet" type="text/css" href="css/filetreecss/default.css" />
         <!--[if lt IE 9]>
                 <link rel="stylesheet" type="text/css" href="css/all-ie-only.css" />
         <![endif]-->
         <!-- jQuery -->
-        <script type="text/javascript" src="js/jquery/jquery-1.7.min.js"></script>
+        <script type="text/javascript" src="js/jquery/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.validate.min.js"></script>
         <!-- jQuery UI -->
-        <script type="text/javascript" src="js/jquery/jquery.ui.core.js"></script>
-        <script type="text/javascript" src="js/jquery/jquery.ui.position.js"></script>
-        <script type="text/javascript" src="js/jquery/jquery.ui.widget.js"></script>
-        <script type="text/javascript" src="js/jquery/jquery.ui.autocomplete.js"></script>
-        <script type="text/javascript" src="js/jquery/jquery.ui.dialog.js"></script>
-        <script type="text/javascript" src="js/jquery/jquery.ui.datepicker.js"></script>
+        <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
         <script type="text/javascript" src="js/filetree/php_file_tree.js" ></script>
         <script type="text/javascript" src="js/simpleModal/jquery.simplemodal.1.4.2.min.js" ></script>
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
