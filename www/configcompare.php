@@ -77,8 +77,7 @@
 
             </div>
             <!-- End Content -->
-            <div style="clear:both;">
-            </div>
+            <div style="clear:both;"></div>
         </div>
         <!-- End Main -->
         <!-- JS script Include -->

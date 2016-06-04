@@ -476,3 +476,7 @@ padding: 3px 15px;
 	cursor:pointer;
 	text-decoration:underline;
 }
+/*custom css to remove autocomplete text at botton of page*/
+.ui-helper-hidden-accessible{
+    display: none;
+}

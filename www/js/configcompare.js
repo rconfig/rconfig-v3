@@ -37,6 +37,10 @@ function deviceinputAutoComplete(inputname) {
         source: "lib/ajaxHandlers/ajaxCompareDeviceSearchAuto.php",
         async: false,
         minLength: 1,
+        create: function (e) {
+        $(this).prev('.ui-helper-hidden-accessible').remove();
+        },
+    
         select: function (event, ui) {
             $("input[name=" + inputname + "]").attr('id', ui.item.id);
             $("input[name=" + inputname + "]").val(ui.item.abbrev);
@@ -115,15 +119,15 @@ function compare() {
     var secondDeviceName = $("input[name=seconddevice]").val();
 
     // get config name and remove space
-    var firstConfigName = $("#firstCommandSelect").attr('value');
+    var firstConfigName = $('#firstCommandSelect').find(":selected").text();
     var firstCommand = firstConfigName.replace(/\s/g, ''); // remove whitespace
-    var secondConfigName = $("#secondCommandSelect").attr('value');
+    var secondConfigName = $('#secondCommandSelect').find(":selected").text();
     var secondCommand = secondConfigName.replace(/\s/g, ''); // remove whitespace
 
     // get dates
     var firstDate = $("#firstdatepickerSelect").val();
     var secondDate = $("#seconddatepickerSelect").val();
-
+        
     // Check is any vars are NOT empty, false, undefined or null etc..
     if (firstDeviceName && secondDeviceName && firstCommand && secondCommand && firstDate && secondDate) {
         // first get the actual paths for comparison
@@ -132,7 +136,6 @@ function compare() {
         // now remove forward slashes from json encoding beofer passing to GET
 //        var firstpath = firstpath.replace(/\//g, '');
 //        var secondpath = secondpath.replace(/\//g, '');
-        
         if(firstpath && secondpath){
             $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + firstpath + "&path_b=" + secondpath + "&linepadding=" + linepadding);
         } else {
