@@ -3,6 +3,7 @@ Version 3.5.2
 Author: Stephen Stack
 
         Fixed - scheduled tasks footer fix
+        Fixed - Removed default install commands that were not working from SQL
         Changed - configcompare re-factored for new config file search functionality
 
 ------------------------------------------------------------------------------------

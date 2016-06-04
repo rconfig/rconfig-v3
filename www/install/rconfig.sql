@@ -132,9 +132,8 @@ CREATE TABLE IF NOT EXISTS `configcommands` (
 -- Dumping data for table DATABASE_NAME.configcommands: ~6 rows (approximately)
 /*!40000 ALTER TABLE `configcommands` DISABLE KEYS */;
 INSERT INTO `configcommands` (`id`, `command`, `status`) VALUES
-	(160, 'show running-config', 1),
 	(161, 'show startup-config', 1),
-	(162, 'show ip route', 2),
+	(162, 'show ip route', 1),
 	(163, 'show cdp neigh', 1),
 	(164, 'show ip access-list', 1),
 	(165, 'show ip route', 1);
