@@ -34,6 +34,7 @@ if (!$session->logged_in) {
         <link rel="stylesheet" type="text/css" href="css/compareTable.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryNotification/jquery_notification.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryui/jquery.ui.datepicker.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
         <!-- file Tree CSS -->
         <link rel="stylesheet" type="text/css" href="css/filetreecss/default.css" />
         <!--[if lt IE 9]>

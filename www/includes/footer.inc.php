@@ -1,4 +1,5 @@
 <div id="footer">
+    <script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
     <ul>
         <li><a href="http://www.rconfig.com/" target="_blank"  alt="rConfig home page"  title="rConfig home page" >rConfig.com</a> <img src="images/icon_popup_light.gif"/> | </li>
         <li><a href="http:///www.rconfig.com/index.php/blog" target="_blank"  alt="rConfig blog"  title="rConfig blog" >Online Blog</a> <img src="images/icon_popup_light.gif"/> | </li>

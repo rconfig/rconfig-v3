@@ -32,10 +32,8 @@
                         <div name="compareForm" class="myform stylizedForm stylized" style="width:100%;">
                         <!-- New Config Search Feature Below -->
                         <div id="left" style="width:50%">
-                            <label><font color="red">*</font>First Device:
-                                <span class="smallwide">Press enter to complete device selection</span>
-                            </label>
-                            <input name="firstdevice" id="" placeholder="First Device" tabindex='1' style="width:150px;" value="" title="Press enter to complete device selection" alt="Press enter to complete device selection">
+                            <label><font color="red">*</font>First Device:</label>
+                            <input name="firstdevice" class="tooltip-right" data-original-title="Press enter to complete device selection" id="" placeholder="First Device" tabindex='1' style="width:150px;" value="">
                             <div class="spacer"></div>
                             <label><font color="red">*</font>Select Config to Compare:</label>
                             <select name="firstCommandSelect" id="firstCommandSelect" tabindex='2' style="width:155px;"></select> 
@@ -45,12 +43,9 @@
                                 <input type="text" id="firstdatepickerSelect" class="datepicker datePickerCalendar" tabindex='3' style="width:150px;">
                             </div>
                         </div>
-
                         <div id="right" style="width:50%">
-                            <label><font color="red">*</font>Second Device:
-                                <span class="smallwide">Press enter to complete device selection</span>
-                            </label>
-                            <input name="seconddevice" id="" placeholder="Second Device" tabindex='4' style="width:150px;" value="" title="Press enter to complete device selection" alt="Press enter to complete device selection">
+                            <label><font color="red">*</font>Second Device:</label>
+                            <input name="seconddevice" id="" class="tooltip-right" data-original-title="Press enter to complete device selection" placeholder="Second Device" tabindex='4' style="width:150px;" value="" title="Press enter to complete device selection" alt="Press enter to complete device selection">
                             <div class="spacer"></div>
                             <label><font color="red">*</font>Select Config to Compare:</label>
                             <select name="secondCommandSelect" id="secondCommandSelect" tabindex='5' style="width:155px;"> </select> 
@@ -60,7 +55,6 @@
                                 <input type="text" id="seconddatepickerSelect" class ="datepicker datePickerCalendar" tabindex='6' style="width:150px;">
                             </div>
                         </div>
-
                         <!-- End mainformDiv -->
                         <div style="clear:both;"></div>
                         <div id="spacer">

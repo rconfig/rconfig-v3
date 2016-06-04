@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('.tooltip-right').tooltip({ placement: 'right' });
+    
     // hide datepickers until selected
     $('#firstdatepickerDiv').hide();
     $('#seconddatepickerDiv').hide();
