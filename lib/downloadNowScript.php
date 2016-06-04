@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Why i am creating a new downloadNowScript when a lot of the code is already in the showCmdScript already?
  * well, most of the code is similar for sure, but the functionality between the required features is different, where
@@ -19,7 +18,6 @@ require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-phpErrorReporting();
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class

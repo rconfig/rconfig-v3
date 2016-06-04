@@ -11,7 +11,6 @@ require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
-phpErrorReporting();
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class

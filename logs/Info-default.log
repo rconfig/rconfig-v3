@@ -171,3 +171,5 @@
 2016-06-04 08:01:18 INFO Success: Edit device headend.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
 2016-06-04 08:01:25 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
 2016-06-04 08:02:24 INFO Success: Deleted Command 172 in DB (File: /lib/crud/commands.crud.php)
+2016-06-04 13:57:42 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-06-04 14:01:06 INFO Success: Deleted user of ID: 5 in DB (File: /lib/crud/userAdmin.crud.php)

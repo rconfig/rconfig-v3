@@ -20,7 +20,6 @@ if ($session->logged_in) {
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
         <title>rConfig - Configuration Management</title>
         <meta name="description" content="Configuration management utility for CLI based devices">
         <meta name="copyright" content="Copyright (c) <?php echo date("Y"); ?> - rConfig">

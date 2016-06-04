@@ -18,10 +18,6 @@ if (!$session->logged_in) {
 <!DOCTYPE html>
 <html>
     <head>
-        <?php
-        // check for php error reporting per functions.inc.php
-        phpErrorReporting();
-        ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
         <title>rConfig - Configuration Management</title>

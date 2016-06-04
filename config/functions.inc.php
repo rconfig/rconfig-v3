@@ -23,11 +23,25 @@ function pageTitles($pageName, $pageType=NULL){
 }
 
 /**
+ * get/set timezone
+ *
+ */
+function getSetTimeZone(){
+    require_once("/home/rconfig/classes/db2.class.php");
+    $db2  = new db2();
+    // check and set timeZone to avoid PHP errors
+    $q = $db2->query("SELECT timeZone FROM settings");
+    $row = $db2->single();
+    $timeZone = $row['timeZone'];
+    return date_default_timezone_set($timeZone);
+}
+
+/**
  * phpErrorReporting to check if PHP Error reporting is set to on in dbase_add_record
  * if it is start logging errors to DB file. Function is added to head.inc.php on each and every page
  *
  */
-function phpErrorReporting() {
+function phpErrorReporting(){
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     // check and set timeZone to avoid PHP errors
@@ -58,6 +72,8 @@ function phpErrorReporting() {
         ini_set('display_errors', 0);
     }
 }
+// check for and implement pop reporting by default as functions.inc.php is called on almost all scripts
+phpErrorReporting();
 
 /**
  * urlsearch function is to aid in the search for relevant portion of page name
@@ -250,12 +266,15 @@ function scan_dir($path) {
  */
 function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*') {
     try {
+        // tmp dir
+        $tmpDir = "/home/rconfig/tmp";
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0700);  
+        }
         $db = new PDO('mysql:host=' . $host . ';dbname=' . $name, $user, $pass);
-        //    $f = fopen( DUMPFILE, 'wt' );
         $today = date("Ymd");
         $filenamePath = $backupPath . 'rconfig-db-backup-' . $today . '.sql';
         $f = fopen($filenamePath, 'w+');
-
         $tables = $db->query("SHOW FULL TABLES WHERE Table_Type = 'BASE TABLE'");
         foreach ($tables as $table) {
             //        echo $table[0] . ' ... '; 
@@ -275,14 +294,6 @@ function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*') {
 
             $sql = PHP_EOL;
             $result = fwrite($f, $sql);
-            // below for debugging
-            //        if ( $result !== FALSE ) {
-            //            echo '<pre>';
-            //            echo 'OK' . PHP_EOL;
-            //        } else {
-            //            echo '<pre>';
-            //            echo 'ERROR!!' . PHP_EOL;
-            //        }
             flush();
         }
         fclose($f);

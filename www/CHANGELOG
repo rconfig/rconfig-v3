@@ -2,9 +2,11 @@ Version 3.5.2
 29-May-2016
 Author: Stephen Stack
 
+        Fixed - Backup may hang if tmp dir is missing. Added Check if tmp is present and create if not
         Fixed - scheduled tasks footer fix
         Fixed - Removed default install commands that were not working from SQL
         Changed - configcompare re-factored for new config file search functionality
+        Added - Move phpLogging() function to global functions so that it is called for all scripts - makes logging more available
 
 ------------------------------------------------------------------------------------
 Version 3.5.1

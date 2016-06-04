@@ -1,15 +1,9 @@
 <?php
 include("../../../config/config.inc.php");
 include("../../../config/functions.inc.php");
-include("../../../classes/db2.class.php");
 
-$db2  = new db2();
-// check and set timeZone to avoid PHP errors
-$q = $db2->query("SELECT timeZone FROM settings");
-$row = $db2->single();
-$timeZone = $row['timeZone'];
-date_default_timezone_set($timeZone);
-
+// get & set timezone from functions.inc.php
+getSetTimeZone();
 $today = date("Ymd");
 
 // get each dir in /home/rconfig except, backups, tmp
@@ -28,7 +22,6 @@ foreach ($dirsToBackup as $k=>$v) {
 
 //  backup MySQL DB - vars from ../../../config/config.inc.php
 $sqlBackupFile = sqlBackup(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, $config_temp_dir);
-
 
 /**
  * Then Zip all  zip files into one

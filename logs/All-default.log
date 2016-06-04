@@ -15635,3 +15635,12 @@
 2016-06-04 08:01:34 CONN Success: Show Command 'show run' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
 2016-06-04 08:01:34 CONN Success: Show Command '124' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
 2016-06-04 08:02:24 INFO Success: Deleted Command 172 in DB (File: /lib/crud/commands.crud.php)
+2016-06-04 13:57:42 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-06-04 13:57:42 CONN Success: Connected to headend.lab.Rconfig.com (20.0.0.2) for Router ID 13 - in (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:42 CONN Success: Show Command 'show cdp neigh' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:42 CONN Success: Show Command 'show ip access-list' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:42 CONN Success: Show Command 'show ip route' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:44 CONN Success: Show Command 'Show Ip BGP Neigh' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:44 CONN Success: Show Command 'show logg' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 13:57:51 CONN Success: Show Command 'show run' for device 'headend.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-04 14:01:06 INFO Success: Deleted user of ID: 5 in DB (File: /lib/crud/userAdmin.crud.php)
