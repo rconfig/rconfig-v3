@@ -48,7 +48,7 @@ function delCategory() {
             window.location.reload();
         }
     } else {
-        alert("Please select a Category!")
+        $('#categorySelectAlert').modal('show');
     }
 }
 
@@ -77,6 +77,6 @@ function editCategory() {
             });
         });
     } else {
-        alert("Please select a Category!")
+        $('#categorySelectAlert').modal('show');
     }
 }
