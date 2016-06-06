@@ -41,26 +41,8 @@ $("#policyTbl tbody tr").click(function (e) {
 });
 
 function delPolicy() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Policy?")
-        if (answer) {
-            $.post('lib/crud/compliancepolicies.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the user current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a Policy to delete!")
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Policy?", 'lib/crud/compliancepolicies.crud.php', "Please select a Policy to delete!")
 }
 
 function editPolicy() {

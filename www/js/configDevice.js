@@ -1,6 +1,5 @@
 $(window).load(function () {
     pageLoadFunctions();
-    // alert(document.URL);
     var rid = location.search.split('rid=')[1]
 });
 

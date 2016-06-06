@@ -30,34 +30,8 @@ $("#commandsTbl tbody tr").click(function (e) {
 });
 
 function delCommand() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-
-        bootbox.confirm({
-            message: "Are you sure you want to remove this Command?",
-            backdrop: false,
-            size: 'small',
-            title: "Notice!",
-            callback: function (result) {
-                if (result) {
-                    $.post('lib/crud/commands.crud.php', {
-                        id: rowid,
-                        del: "delete"
-                    }, function (result) {
-                        if (result.success) {
-                            window.location.reload(); // reload the user current page
-                        } else {
-                            window.location.reload();
-                        }
-                    }, 'json');
-                } else {
-                    window.location.reload();
-                }
-            }
-        });
-    } else {
-        errorDialog("Please select a Command!");
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Command?", 'lib/crud/commands.crud.php', "Please select a Command!")
 }
 
 function editCommand() {

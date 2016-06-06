@@ -58,26 +58,8 @@ $("#devicesTbl tbody tr").click(function (e) {
 
 // Next action when delDevice function is called from Delete button
 function delDevice() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Device?")
-        if (answer) {
-            $.post('lib/crud/devices.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the user current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a device!");
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Device?", 'lib/crud/devices.crud.php', "Please select a device!")
 }
 
 
@@ -198,7 +180,6 @@ function updatePort(value) {
 }
 
 function changeCatAlert(editModeOn) {
-//    alert(editModeOn);
     if (editModeOn != '' || editModeOn != NULL) {
         errorDialog("By changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />" +
                     "If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>" +

@@ -78,19 +78,26 @@ function createBackupSyslog() {
 }
 
 function deleteFiles(filePath, ext) {
-    var answer = confirm("Are you sure you want to remove all archives?")
-    if (answer) {
-        $('#pleaseWait').slideDown('fast');
-        $.ajaxSetup({cache: false});
-        $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
-            if (data.success == true) {
-                errorDialog("Archives deleted successfully")
+    bootbox.confirm({
+        message: "Are you sure you want to remove all archives?",
+        backdrop: false,
+        size: 'small',
+        title: "Notice!",
+        callback: function (result) {
+            if (result) {
+                $('#pleaseWait').slideDown('fast');
+                $.ajaxSetup({cache: false});
+                $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
+                    if (data.success == true) {
+                        errorDialog("Archives deleted successfully")
+                    } else {
+                        errorDialog("Some Archives could not be deleted")
+                    }
+                    window.location.reload()
+                })
             } else {
-                errorDialog("Some Archives could not be deleted")
+                window.location.reload();
             }
-            window.location.reload()
-        })
-    } else {
-        window.location.reload();
-    }
+        }
+    });
 }

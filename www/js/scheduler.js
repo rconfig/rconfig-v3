@@ -71,27 +71,8 @@ function deviceOrCatSelect() {
 
 // Next action when delTask function is called from Delete button
 function delTask() {
-
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Task?")
-        if (answer) {
-            $.post('lib/crud/scheduler.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a Task!");
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Task?", 'lib/crud/scheduler.crud.php', "Please select a Task!")
 }
 
 

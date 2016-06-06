@@ -29,26 +29,8 @@ $("#userAddTbl tbody tr").click(function (e) {
 });
 
 function delUser() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this User?")
-        if (answer) {
-            $.post('lib/crud/userAdmin.crud.php', {
-                id: rowid,
-                delete: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload();
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a User!")
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this User?", 'lib/crud/userAdmin.crud.php', "Please select a User!")
 }
 
 function editUser() {

@@ -35,26 +35,8 @@ $("#polElemTbl tbody tr").click(function (e) {
 });
 
 function delPolElem() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Policy Element?")
-        if (answer) {
-            $.post('lib/crud/compliancepolicyelements.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the user current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a Policy Element to delete!")
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Policy Element?", 'lib/crud/compliancepolicyelements.crud.php', "Please select a Policy Element to delete!")
 }
 
 function editPolElem() {

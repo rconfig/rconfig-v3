@@ -30,34 +30,8 @@ $("#categoryTbl tbody tr").click(function (e) {
 });
 
 function delCategory() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-
-        bootbox.confirm({
-            message: "Are you sure you want to remove this Category?",
-            backdrop: false,
-            size: 'small',
-            title: "Notice!",
-            callback: function (result) {
-                if (result) {
-                    $.post('lib/crud/categories.crud.php', {
-                        id: rowid,
-                        del: "delete"
-                    }, function (result) {
-                        if (result.success) {
-                            window.location.reload(); // reload the user current page
-                        } else {
-                            window.location.reload();
-                        }
-                    }, 'json');
-                } else {
-                    window.location.reload();
-                }
-            }
-        });
-    } else {
-        errorDialog("Please select a Category!");
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Category?", 'lib/crud/categories.crud.php', "Please select a Category!")
 }
 
 function editCategory() {

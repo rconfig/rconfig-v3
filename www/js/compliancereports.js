@@ -41,26 +41,8 @@ $("#reportsTbl tbody tr").click(function (e) {
 });
 
 function delReport() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Report?")
-        if (answer) {
-            $.post('lib/crud/compliancereports.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the user current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a Report to delete!")
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Report?", 'lib/crud/compliancereports.crud.php', "Please select a Report to delete!")
 }
 
 function editReport() {

@@ -43,6 +43,7 @@ $.fn.enterKey = function (fnc) {
     })
 }
 
+// bootbox dialog box standardised for rconfig alerts
 function errorDialog(text) {
     var dialog = bootbox.dialog({
         size: 'small',
@@ -58,4 +59,35 @@ function errorDialog(text) {
         }
     });
     return dialog;
+}
+
+// standard deletion function for majority of rconfig forms
+function removeItem(message, url, errorMsg) {
+    var rowid = $("input:checkbox:checked").attr("id")
+    if (rowid) {
+        bootbox.confirm({
+            message: message,
+            backdrop: false,
+            size: 'small',
+            title: "Notice!",
+            callback: function (result) {
+                if (result) {
+                    $.post(url, {
+                        id: rowid,
+                        del: "delete"
+                    }, function (result) {
+                        if (result.success) {
+                            window.location.reload(); // reload the user current page
+                        } else {
+                            window.location.reload();
+                        }
+                    }, 'json');
+                } else {
+                    window.location.reload();
+                }
+            }
+        });
+    } else {
+        errorDialog(errorMsg);
+    }
 }

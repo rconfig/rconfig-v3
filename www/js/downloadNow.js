@@ -1,5 +1,4 @@
 $(window).load(function () {
-    // alert(document.URL);
     $('#noticeBoard').hide();
     var rid = location.search.split('rid=')[1]
     runDownloadScript(rid);
@@ -20,7 +19,6 @@ function runDownloadScript(rid) {
         },
         success: function (data) {
             $.each(data, function (i, item) {
-                // alert(item)
                 $('#noticeBoard').append('<div class="noticeDiv">' + item + '</>');
             });
         }

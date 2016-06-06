@@ -28,26 +28,6 @@ $("#customPropTbl tbody tr").click(function (e) {
 });
 
 function delCustProp() {
-
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-        var answer = confirm("Are you sure you want to remove this Custom Property, and all data for this property?")
-        if (answer) {
-            $.post('lib/crud/customProperties.crud.php', {
-                id: rowid,
-                del: "delete"
-            }, function (result) {
-                if (result.success) {
-                    window.location.reload(); // reload the user current page
-                } else {
-                    window.location.reload();
-                }
-            }, 'json');
-        } else {
-            window.location.reload();
-        }
-    } else {
-        errorDialog("Please select a Custom Property!");
-
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Custom Property, and all data for this property?", 'lib/crud/customProperties.crud.php', "Please select a Custom Property!")
 }

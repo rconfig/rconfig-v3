@@ -11,9 +11,9 @@ $(function () {
 // Open File by ajax
 function openFile(filePath) {
     if (filePath) {
-        $.ajaxSetup({ cache: false });
+        $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
-            if(data == "Failed"){
+            if (data == "Failed") {
                 errorDialog('Could not open log file')
             } else {
                 data.reverse() // sort lines by most recent
@@ -26,13 +26,13 @@ function openFile(filePath) {
 }
 
 function getLog(value) {
-    $.ajaxSetup({ cache: false });
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxGetLogFile.php?logType=Conn&value=" + value, function (data) {
 
         if (data == "Failed") {
             $('#logDivError').show();
         } else {
-             var html = [];
+            var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var file = obj.line
                 var rowHTML = ['<tr class="">'];
@@ -41,36 +41,43 @@ function getLog(value) {
                 html.push(rowHTML.join(''))
             })
             $('#logDiv').html(html.join(''));
-            }
+        }
     })
 }
 
 function purge(value) {
-	purgeDays = document.getElementById('purgeDays').value
-	var intRegex = /^\d+$/;
+    purgeDays = document.getElementById('purgeDays').value
+    var intRegex = /^\d+$/;
 
-	if (purgeDays == null || purgeDays == 0 || !intRegex.test(purgeDays)){ 
-		errorDialog ('Please enter a numerical value or a value greater than 0') 
-			return; //stop the execution of function 
-	} else {
-	var answer = confirm("Are you sure you purge all configuration files older than "+purgeDays+" days?")
-	if (answer) {
-		$('#purgeBtn').hide();
-		$('#pleaseWait').slideDown('fast');
-                $.ajaxSetup({ cache: false });
-		$.getJSON("lib/ajaxHandlers/ajaxPurgeConfigs.php?purgeDays=" + purgeDays, function (data) {
-                    if (data == null) {
-                        errorDialog('Nothing was deleted')
-                    } else {
-                        var response = data.response
-                        errorDialog(response)
-                    }
-		$('#purgeBtn').show();
-		$('#pleaseWait').hide();
-                })
-            } else {
-                window.location.reload();
+    if (purgeDays == null || purgeDays == 0 || !intRegex.test(purgeDays)) {
+        errorDialog('Please enter a numerical value or a value greater than 0')
+        return; //stop the execution of function 
+    } else {
+        bootbox.confirm({
+            message: "Are you sure you purge all configuration files older than " + purgeDays + " days?",
+            backdrop: false,
+            size: 'small',
+            title: "Notice!",
+            callback: function (result) {
+                if (result) {
+                    $('#purgeBtn').hide();
+                    $('#pleaseWait').slideDown('fast');
+                    $.ajaxSetup({cache: false});
+                    $.getJSON("lib/ajaxHandlers/ajaxPurgeConfigs.php?purgeDays=" + purgeDays, function (data) {
+                        if (data == null) {
+                            errorDialog('Nothing was deleted')
+                        } else {
+                            var response = data.response
+                            errorDialog(response)
+                        }
+                        $('#purgeBtn').show();
+                        $('#pleaseWait').hide();
+                    })
+                } else {
+                    window.location.reload();
+                }
             }
-	}
+        });
+    }
 }
 

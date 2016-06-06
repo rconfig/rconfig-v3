@@ -32,35 +32,10 @@ $("#vendorsTbl tbody tr").click(function (e) {
 
 // Next action when delVendor function is called from Delete button
 function delVendor() {
-    var rowid = $("input:checkbox:checked").attr("id")
-    if (rowid) {
-
-        bootbox.confirm({
-            message: "Are you sure you want to remove this Vendor?",
-            backdrop: false,
-            size: 'small',
-            title: "Notice!",
-            callback: function (result) {
-                if (result) {
-                    $.post('lib/crud/vendors.crud.php', {
-                        id: rowid,
-                        del: "delete"
-                    }, function (result) {
-                        if (result.success) {
-                            window.location.reload(); // reload the user current page
-                        } else {
-                            window.location.reload();
-                        }
-                    }, 'json');
-                } else {
-                    window.location.reload();
-                }
-            }
-        });
-    } else {
-        errorDialog("Please select a Vendor!");
-    }
+    // remove Item Function located at rconfigFunctions.js
+    removeItem("Are you sure you want to remove this Vendor?", 'lib/crud/vendors.crud.php', "Please select a Vendor!")
 }
+
 // Next action when editVendor function is called from Delete button
 function editVendor() {
     var getRow = "getRow"
