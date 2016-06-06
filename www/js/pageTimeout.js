@@ -32,20 +32,19 @@ window.setInterval(CheckIdleTime, 1000);
 function CheckIdleTime() {
     _idleSecondsCounter++;
     var oPanel = document.getElementById("SecondsUntilExpire");
-    if (oPanel)
+    if (oPanel) {
         oPanel.innerHTML = (IDLE_TIMEOUT - _idleSecondsCounter) + "";
-    if (_idleSecondsCounter >= NOTICE_TIMEOUT) {
-        $("#dialog-confirm-logout").dialog({
-            // #dialog-confirm-logout is a div located in breadcrumb.inc.php
-            resizable: false,
-            height: 120,
-            title: "Inactivity Notice",
-            open: function (event, ui) {
-                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-            }, // hide close button in title
+    }
+    // if the _idleSecondsCounter matches the NOTICE_TIMEOUT then show the dialog. The assumption is if the user clicks ok, them the _idleSecondsCounter resets to zero. 
+    // if not then the script will hit the next 'if' and then log the user out using userprocess.php
+    if (_idleSecondsCounter === NOTICE_TIMEOUT) {
+        bootbox.dialog({
+            message: "Due to inactivity, you will be logged out of rConfig in 1 minute!<br /> Click OK to continue working",
+            title: "Notice!",
             buttons: {
-                OK: function () {
-                    $(this).dialog("close");
+                main: {
+                    label: "Ok!",
+                    className: "btn-primary"
                 }
             }
         });

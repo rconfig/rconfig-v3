@@ -24,9 +24,8 @@ $(document).ready(function () {
     });
 });
 
-function searchValidateForm()
+function searchValidateForm() {
 // simple input text box check for search form. if nothing in the field throw and alert box
-{
     var x = document.forms["searchForm"]["searchField"].value;
     if (x == null || x == "" || x == " ") {
         errorDialog("Please enter a search term!");
@@ -139,7 +138,7 @@ function resolveDevice(host) {
             if (data != '' || data != ' ' || data != null) {
                 $('input[name="deviceIpAddr"]').val(data)
             } else {
-                 errorDialog("Could not resolve hostname - Please check spelling or add domain name to Device Name");
+                errorDialog("Could not resolve hostname - Please check spelling or add domain name to Device Name");
             }
         });
     }
@@ -182,7 +181,7 @@ function updatePort(value) {
 function changeCatAlert(editModeOn) {
     if (editModeOn != '' || editModeOn != NULL) {
         errorDialog("By changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />" +
-                    "If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>" +
-                    "The change to this device will only take effect once you click 'save'");
+                "If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>" +
+                "The change to this device will only take effect once you click 'save'");
     }
 }
