@@ -7,6 +7,7 @@ Author: Stephen Stack
         Fixed - Removed default install commands that were not working from SQL
         Changed - configcompare re-factored for new config file search functionality
         Changed - Updated to jquery 2.2.4 & jqueryui 1.11.3 
+        Changed - All alert, confirmation and modals changed to modern design for better look and feel
         Added - Move phpLogging() function to global functions so that it is called for all scripts - makes logging more available
 
 ------------------------------------------------------------------------------------

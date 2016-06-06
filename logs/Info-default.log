@@ -19,3 +19,6 @@
 2016-06-06 20:27:04 INFO Info: Deleted rows purged from Table:tasks  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
 2016-06-06 20:27:04 INFO Info: Deleted rows purged from Table:users  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
 2016-06-06 20:27:04 INFO Info: Deleted rows purged from Table:vendors  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-06 21:41:07 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-06 21:41:07 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-06 21:41:07 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)

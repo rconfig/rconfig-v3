@@ -84,6 +84,21 @@ function getTask() {
         $.ajaxSetup({cache: false});
         //retrieve task details to display on form from getRow GET variable
         $.getJSON("lib/crud/scheduler.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
+
+            // get devices and list in deviceNameView DIV
+            var devicesStr = '';
+            $.each(data.devices, function (i, data) {
+                var deviceName = data.deviceName
+
+                if (deviceName) {
+                    devicesStr += deviceName + ', ';
+                } else {
+                    bootbox.alert("Could not load data!");
+                }
+                return devicesStr;
+                bootbox.alert("Please select a Task!");
+            });
+
             //loop through all items in the JSON array  
             var id = '';
             var taskTypeView = '';
@@ -131,30 +146,34 @@ function getTask() {
                 } else if (taskTypeView == "3") {
                     var taskTypeView = "Schedule Config Snippet"
                 }
+                // display modal if taskNameView is NOT undefined or NULL
                 if (taskNameView) {
                     bootbox.dialog({
-                        title: '<h3 class="h3">Scheduled task Details: ' + taskNameView + '</h3>',
+                        title: '<h3 class="h3">Scheduled task details:</h3>',
                         size: 'large',
-                        message: '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task ID: </strong><span id="taskIdView" name="taskIdView" style=\"float:left;\">' + id + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Type: </strong><span id="taskTypeView" name="taskTypeView" style=\"float:left;\" >' + taskTypeView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Name: </strong><span id="taskNameView" name="taskNameView" style=\"float:left;\">' + taskNameView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Description: </strong><span id="taskDescView" name="taskDescView" style=\"float:left;\">' + taskDescView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Added By: </strong><span id="addedByView" name="addedByView" style=\"float:left;\">' + addedByView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Created on: </strong><span id="dateAddedView" name="dateAddedView" style=\"float:left;\">' + dateAddedView + '</span></p><br/>' +
-                                '<p><h4 class="h4" style="width: 80%; float:left; text-align: left;">Schedule</h4></p><br />' +
-                                '<br /><hr>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Minutes: </strong><span id="minutesView" name="minutesView" style=\"float:left;\">' + minutesView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Hours: </strong><span id="hoursView" name="hoursView" style=\"float:left;\">' + hoursView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Day of Month: </strong><span id="dayOfMonthView" name="dayOfMonthView" style=\"float:left;\">' + dayOfMonthView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Month: </strong><span id="MonthView" name="MonthView" style=\"float:left;\">' + MonthView + '</span></p><br/>' +
-                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Day of Week: </strong><span id="dayOfWeekView" name="dayOfWeekView" style=\"float:left;\">' + dayOfWeekView + '</span></p><br/>',
+                        message: '' +
+                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Task Details</h4><br />' +
+                                '<hr>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task ID: </span><span id="taskIdView" name="taskIdView" style=\"float:left; font-size:12px;\">' + id + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Type: </span><span id="taskTypeView" name="taskTypeView" style=\"float: left; font-size:12px;\" >' + taskTypeView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Name: </span><span id="taskNameView" name="taskNameView" style=\"float: left; font-size:12px;\">' + taskNameView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Description: </span><span id="taskDescView" name="taskDescView" style=\"float: left; font-size:12px;\">' + taskDescView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Added By: </span><span id="addedByView" name="addedByView" style=\"float: left; font-size:12px;\">' + addedByView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Created on: </span><span id="dateAddedView" name="dateAddedView" style=\"float: left; font-size:12px;\">' + dateAddedView + '</span></p><br/>' +
+                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Schedule</h4><br />' +
+                                '<hr>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Minutes: </span><span id="minutesView" name="minutesView" style=\"float: left; font-size:12px;\">' + minutesView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Hours: </span><span id="hoursView" name="hoursView" style=\"float: left; font-size:12px;\">' + hoursView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Month: </span><span id="dayOfMonthView" name="dayOfMonthView" style=\"float: left; font-size:12px;\">' + dayOfMonthView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Month: </span><span id="MonthView" name="MonthView" style=\"float: left; font-size:12px;\">' + MonthView + '</span></p><br/>' +
+                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Week: </span><span id="dayOfWeekView" name="dayOfWeekView" style=\"float: left; font-size:12px;\">' + dayOfWeekView + '</span></p><br/>' +
+                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Devices</h4><br />' +
+                                '<hr>' +
+                                '<div id="taskDetailsDiv" style="text-align: left;">' + devicesStr + '</div>',
                         buttons: {
                             main: {
                                 label: "close",
                                 className: "btn",
-//                                    callback: function() {
-//                                    Example.show("Primary button");
-//                            }
                             }
                         }
                     });
@@ -167,19 +186,6 @@ function getTask() {
                     });
                 }
             });
-            // get devices and list in deviceNameView DIV
-//            $.each(data.devices, function (i, data) {
-//                var deviceNameView = data.deviceName
-//
-//                if (deviceNameView) {
-//                    $('#deviceNameView').append(deviceNameView + ", ")
-//                } else {
-//                    bootbox.alert("Could not load data!");
-//                }
-//                bootbox.alert("Please select a Task!");
-//            });
-
-
         });
     } else {
         bootbox.alert({
@@ -190,8 +196,6 @@ function getTask() {
         });
     }
 } // end getTask Function
-
-
 
 function mailErrorsChkBox() {
     var mailConnectionReportChkBox = document.getElementById('mailConnectionReport')
