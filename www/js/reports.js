@@ -35,9 +35,9 @@ function deleteFiles(filePath, ext, id) {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
-            alert("Reports deleted successfully")
+            errorDialog("Reports deleted successfully")
         } else {
-            alert("Some Reports could not be deleted")
+            errorDialog("Some Reports could not be deleted")
         }
         window.location.reload()
     })

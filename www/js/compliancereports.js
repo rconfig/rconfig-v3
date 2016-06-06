@@ -59,7 +59,7 @@ function delReport() {
             window.location.reload();
         }
     } else {
-        alert("Please select a Report to delete!")
+        errorDialog("Please select a Report to delete!")
     }
 }
 
@@ -90,13 +90,13 @@ function editReport() {
 
                     $('input[name="editid"]').val(rowid) // used to populate id input so that edit script will insert
                 } else {
-                    alert("Could not load data");
+                    errorDialog("Could not load data");
                 }
                 $(".show_hide").show(); // show show_hide class 
             });
         });
     } else {
-        alert("Please select a Report to edit!")
+        errorDialog("Please select a Report to edit!")
     }
 }
 

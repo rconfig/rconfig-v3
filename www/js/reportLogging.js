@@ -104,7 +104,7 @@ function openFile(filePath) {
             writeConsole(data.join('<br/>'), filePath); //writeConsole located in rconfigFunctions.js
         })
     } else {
-        alert('File not Selected!')
+        errorDialog('File not Selected!')
     }
 }
 
@@ -112,9 +112,9 @@ function deleteDebugFiles(filePath, ext) {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
-            alert("Log files deleted successfully")
+            errorDialog("Log files deleted successfully")
         } else {
-            alert("Some files could not be deleted")
+            errorDialog("Some files could not be deleted")
         }
         window.location.reload()
     })
@@ -124,9 +124,9 @@ function archiveFiles(filePath, ext) {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxArchiveFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
-            alert("Log files archived")
+            errorDialog("Log files archived")
         } else {
-            alert("Some files could not be archived")
+            errorDialog("Some files could not be archived")
         }
         window.location.reload()
     })

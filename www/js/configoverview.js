@@ -14,14 +14,14 @@ function openFile(filePath) {
         $.ajaxSetup({ cache: false });
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             if(data == "Failed"){
-                alert('Could not open log file')
+                errorDialog('Could not open log file')
             } else {
                 data.reverse() // sort lines by most recent
                 writeConsole(data.join('<br/>'), filePath); //writeConsole located in rconfigFunctions.js
             }
         })
     } else {
-        alert('File not Selected!')
+        errorDialog('File not Selected!')
     }
 }
 
@@ -50,7 +50,7 @@ function purge(value) {
 	var intRegex = /^\d+$/;
 
 	if (purgeDays == null || purgeDays == 0 || !intRegex.test(purgeDays)){ 
-		alert ('Please enter a numerical value or a value greater than 0') 
+		errorDialog ('Please enter a numerical value or a value greater than 0') 
 			return; //stop the execution of function 
 	} else {
 	var answer = confirm("Are you sure you purge all configuration files older than "+purgeDays+" days?")
@@ -60,10 +60,10 @@ function purge(value) {
                 $.ajaxSetup({ cache: false });
 		$.getJSON("lib/ajaxHandlers/ajaxPurgeConfigs.php?purgeDays=" + purgeDays, function (data) {
                     if (data == null) {
-                        alert('Nothing was deleted')
+                        errorDialog('Nothing was deleted')
                     } else {
                         var response = data.response
-                        alert(response)
+                        errorDialog(response)
                     }
 		$('#purgeBtn').show();
 		$('#pleaseWait').hide();

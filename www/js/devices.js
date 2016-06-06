@@ -29,7 +29,7 @@ function searchValidateForm()
 {
     var x = document.forms["searchForm"]["searchField"].value;
     if (x == null || x == "" || x == " ") {
-        alert("Please enter a search term!");
+        errorDialog("Please enter a search term!");
         return false;
     }
 }
@@ -76,7 +76,7 @@ function delDevice() {
             window.location.reload();
         }
     } else {
-        alert("Please select a device!")
+        errorDialog("Please select a device!");
     }
 }
 
@@ -138,26 +138,26 @@ function editDevice() {
                         }
                     } // for
                 } else {
-                    alert("Could not load data");
+                    errorDialog("Could not load data!");
                 }
                 $(".show_hide").show(); // show show_hide class 
             });
         });
     } else {
-        alert("Please select a Device to edit!")
+        errorDialog("Please select a Device to edit!");
     }
 }
 
 function resolveDevice(host) {
     if (host == '' || host == ' ' || host == null) {
-        alert('You must enter a Device Name')
+        errorDialog("You must enter a Device Name");
     } else {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetIpByDevName.php?hostname=" + host, function (data) {
             if (data != '' || data != ' ' || data != null) {
                 $('input[name="deviceIpAddr"]').val(data)
             } else {
-                alert('Could not resolve hostname - Please check spelling or add domain name to Device Name')
+                 errorDialog("Could not resolve hostname - Please check spelling or add domain name to Device Name");
             }
         });
     }
@@ -200,18 +200,8 @@ function updatePort(value) {
 function changeCatAlert(editModeOn) {
 //    alert(editModeOn);
     if (editModeOn != '' || editModeOn != NULL) {
-        $("#dialog-category-Switch-Error").dialog({
-            height: 200,
-            width: 400,
-            open: function (event, ui) {
-                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-            }, // hide close button in title
-            buttons: {
-                OK: function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-        $("#dialog-category-Switch-Error").show();
+        errorDialog("By changing devices Category, you may end up removing it from Scheduled Tasks where it was chosen as a specific device for that task.<br />" +
+                    "If you do change this devices Category, you should check to make sure all Scheduled tasks are updated that are associated with this specific device. <br/>" +
+                    "The change to this device will only take effect once you click 'save'");
     }
 }

@@ -39,7 +39,7 @@ $(function () {
             data: {},
             dataType: 'json',
             error: function () {
-                alert('Error');
+                errorDialog('Error');
             },
             success: function (data) {
                 //check error
@@ -79,11 +79,11 @@ function removeInstallDir() {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxRemoveInstallDir.php", function (data) {
         if (data == 'success') {
-            alert("install directory deleted successfully")
+            errorDialog("install directory deleted successfully")
         } else if (data == 'failure') {
-            alert("install directory could not be deleted - check logs for errors or remove/rename it manually")
+            errorDialog("install directory could not be deleted - check logs for errors or remove/rename it manually")
         } else {
-            alert("something broke")
+            errorDialog("something broke")
         }
     })
 }

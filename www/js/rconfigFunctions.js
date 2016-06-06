@@ -42,3 +42,20 @@ $.fn.enterKey = function (fnc) {
         })
     })
 }
+
+function errorDialog(text) {
+    var dialog = bootbox.dialog({
+        size: 'small',
+        title: "Notice!",
+        backdrop: false,
+        message: text,
+        buttons: {
+            main: {
+                label: "close",
+                className: "btn",
+            }
+
+        }
+    });
+    return dialog;
+}

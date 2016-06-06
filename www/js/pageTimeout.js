@@ -3,28 +3,28 @@
  */
 // get the timeoutSetting value from ajax script and load to var
 var timeoutSetting = {};
-    $.ajax({
-    	url: "lib/ajaxHandlers/ajaxGetPageTimeout.php",
-    	async: false,
-    	dataType: 'json',
-    	success: function(data) {
-    		timeoutSetting = data;
-    	}
-    });
+$.ajax({
+    url: "lib/ajaxHandlers/ajaxGetPageTimeout.php",
+    async: false,
+    dataType: 'json',
+    success: function (data) {
+        timeoutSetting = data;
+    }
+});
 // if the timeout value is less than 120seconds then default the value to 120, as a minimum accepted timeout value
-if(timeoutSetting <= 120){ 
+if (timeoutSetting <= 120) {
     var timeoutSetting = 120;
 }
 var IDLE_TIMEOUT = timeoutSetting; //seconds
 var NOTICE_TIMEOUT = IDLE_TIMEOUT - 60; // set the notification time to 1 minute before idle timeout
 var _idleSecondsCounter = 0;
-document.onclick = function() {
+document.onclick = function () {
     _idleSecondsCounter = 0;
 };
-document.onmousemove = function() {
+document.onmousemove = function () {
     _idleSecondsCounter = 0;
 };
-document.onkeypress = function() {
+document.onkeypress = function () {
     _idleSecondsCounter = 0;
 };
 window.setInterval(CheckIdleTime, 1000);
@@ -36,23 +36,25 @@ function CheckIdleTime() {
         oPanel.innerHTML = (IDLE_TIMEOUT - _idleSecondsCounter) + "";
     if (_idleSecondsCounter >= NOTICE_TIMEOUT) {
         $("#dialog-confirm-logout").dialog({
-        // #dialog-confirm-logout is a div located in breadcrumb.inc.php
-        resizable: false,
-        height:120,
-        title: "Inactivity Notice",
-        open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog | ui).hide(); }, // hide close button in title
-        buttons: {
-          OK: function() {
-            $( this ).dialog( "close" );
-          }
-        }
-      });
+            // #dialog-confirm-logout is a div located in breadcrumb.inc.php
+            resizable: false,
+            height: 120,
+            title: "Inactivity Notice",
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+            }, // hide close button in title
+            buttons: {
+                OK: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
     }
     if (_idleSecondsCounter >= IDLE_TIMEOUT) {
         document.location.href = "lib/crud/userprocess.php";
     }
-}    
-        
-$(document).ready(function () {   
-   CheckIdleTime();   
+}
+
+$(document).ready(function () {
+    CheckIdleTime();
 });

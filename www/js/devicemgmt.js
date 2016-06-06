@@ -23,7 +23,7 @@ function openFile(filePath) {
             writeConsole(data.join('<br/>'), filePath);
         })
     } else {
-        alert('File not Selected!')
+        errorDialog('File not Selected!')
     }
 }
 

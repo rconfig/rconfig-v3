@@ -125,7 +125,7 @@ function openFile(filePath) {
             writeConsole(data.join('<br/>'), filePath);
         })
     } else {
-        alert('File not Selected!')
+        errorDialog('File not Selected!')
     }
 }
 
@@ -134,9 +134,9 @@ function deleteDebugFiles(filePath, ext) {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
         if (data.success == true) {
-            alert("Debug files deleted successfully")
+            errorDialog("Debug files deleted successfully")
         } else {
-            alert("Some files could not be deleted")
+            errorDialog("Some files could not be deleted")
         }
         window.location.reload()
     })
@@ -154,7 +154,7 @@ function timeZoneChange() {
             })
         })
     } else {
-        alert('Could not set timeZone')
+        errorDialog('Could not set timeZone')
     }
 }
 
@@ -171,7 +171,7 @@ function debugOnOff() {
             })
         })
     } else {
-        alert('Could not set debug')
+        errorDialog('Could not set debug')
     }
 }
 
@@ -201,7 +201,7 @@ function phpLoggingOnOff() {
             })
         })
     } else {
-        alert('Could not set debug')
+        errorDialog('Could not set debug')
     }
 }
 
@@ -211,7 +211,7 @@ function deviceToutGo() {
 
     if (deviceToutVal == null || deviceToutVal == '' || deviceToutVal == '0' || deviceToutVal == '00' || deviceToutVal == '000') {
         // if throw error
-        alert('Device Connection Timeout must be a value between 1-999')
+        errorDialog('Device Connection Timeout must be a value between 1-999')
     } else {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?deviceToutVal=" + deviceToutVal, function (data) {
@@ -225,7 +225,7 @@ function pageTimeoutGo() {
     var pageTimeoutVal = $('#pageTimeout').val();
 
     if (pageTimeoutVal == null || pageTimeoutVal == '' || pageTimeoutVal == '0' || pageTimeoutVal == '00' || pageTimeoutVal == '000' || pageTimeoutVal <= 119) {
-        alert('Device Connection Timeout must be a value between 120 - 999999')
+        errorDialog('Device Connection Timeout must be a value between 120 - 999999')
     } else {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?pageTimeoutVal=" + pageTimeoutVal, function (data) {
@@ -251,7 +251,7 @@ function purgeDevice() {
 
             if (data) {
                 var response = data.response
-                alert(response)
+                errorDialog(response)
             }
         });
     }
@@ -283,10 +283,10 @@ function smtpTest() {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSmtpTest.php", function (data) {
         if (data.success == true) {
-            alert("Email sent successfully")
+            errorDialog("Email sent successfully")
             $('#pleaseWait').slideUp('fast');
         } else {
-            alert("Email failed to send - check logs for errors")
+            errorDialog("Email failed to send - check logs for errors")
         }
         window.location.reload()
     })
@@ -328,6 +328,6 @@ function defaultCredsManualSet() {
             }
         });
     } else {
-        alert('Could not set default credentials setting when manually uploading & downloading configs')
+        errorDialog('Could not set default credentials setting when manually uploading & downloading configs')
     }
 }

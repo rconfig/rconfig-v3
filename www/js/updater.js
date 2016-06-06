@@ -12,7 +12,7 @@ function updateFn() {
     $.getJSON("lib/ajaxHandlers/ajaxInstallUpdate.php", function (data) {
 
         if (data.noUpdateFile) {
-            alert(data.noUpdateFile)
+            errorDialog(data.noUpdateFile)
             window.location.reload()
         } else {
             $('#pleaseWait').hide();

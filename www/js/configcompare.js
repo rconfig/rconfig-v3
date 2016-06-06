@@ -139,11 +139,11 @@ function compare() {
         if(firstpath && secondpath){
             $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + firstpath + "&path_b=" + secondpath + "&linepadding=" + linepadding);
         } else {
-            alert("Something went wrong! Could not retrieve configs for both devices")
+            errorDialog("Something went wrong! Could not retrieve configs for both devices")
         }
 
     } else {
-        alert("Please complete all fields!")
+        errorDialog("Please complete all fields!")
     }
 }
 

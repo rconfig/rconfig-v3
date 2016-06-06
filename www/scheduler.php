@@ -511,64 +511,6 @@
             <!-- End Main -->
             <!-- JS script Include -->
             <script type="text/JavaScript" src="js/scheduler.js"></script>
-            <!-- Modal  -->
-            <div id="taskDetails" style="display:none;">
-                <h2>Task Details</h2>
-                <hr/>
-                <p>
-                    <strong>Task ID: </strong><span id="taskIdView" name="taskIdView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Task Type: </strong><span id="taskTypeView" name="taskTypeView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Task Name: </strong><span id="taskNameView" name="taskNameView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Task Description: </strong><span id="taskDescView" name="taskDescView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Devices: </strong><span id="deviceNameView" name="deviceNameView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Created By: </strong><span id="addedByView" name="addedByView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Created Date: </strong><span id="dateAddedView" name="dateAddedView"></span>
-                </p>
-                <br/><br/><br/>
-                <h2>Schedule</h2>
-                <hr/>
-                <p>
-                    <strong>Minutes: </strong><span id="minutesView" name="minutesView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Hour: </strong><span id="hoursView" name="hoursView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Day of Month: </strong><span id="dayOfMonthView" name="dayOfMonthView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Month: </strong><span id="MonthView" name="MonthView"></span>
-                </p>
-                <br/>
-                <p>
-                    <strong>Day of Week: </strong><span id="dayOfWeekView" name="dayOfWeekView"></span>
-                </p>
-                <br/>
-                <br/><a href="#" class="simplemodal-close">Close</a>
-            </div>
-            <!-- Modal -->
-
         </div>
         <!-- Footer Include -->
         <?php include("includes/footer.inc.php"); ?>

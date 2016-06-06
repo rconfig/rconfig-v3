@@ -47,7 +47,7 @@ function delUser() {
             window.location.reload();
         }
     } else {
-        alert("Please select a User!")
+        errorDialog("Please select a User!")
     }
 }
 
@@ -69,12 +69,12 @@ function editUser() {
                     $("#ulevelid").val(data.userlevel);
                     $('input[name="editid"]').val(rowid)
                 } else {
-                    alert("Could not load data");
+                    errorDialog("Could not load data");
                 }
                 $(".show_hide").show();
             });
         });
     } else {
-        alert("Please select a User!")
+        errorDialog("Please select a User!")
     }
 }

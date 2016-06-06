@@ -59,6 +59,6 @@ function switchSnippet(id) {
             }
         });
     } else {
-        alert('Please select a snippet!')
+        errorDialog('Please select a snippet!')
     }
 }

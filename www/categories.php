@@ -71,21 +71,6 @@
             <div style="clear:both;">
             </div>
         </div>
-        <!--Alert Modals-->
-        
-        <div id="categorySelectAlert" class="modal hide">
-            <div class="modal-header">
-                <button data-dismiss="modal" class="close" type="button">X</button>
-                <h3>Notice!</h3>
-            </div>
-            <div class="modal-body">
-                <p>Please select a Category!</p>
-            </div>
-            <div class="modal-footer">
-                <a data-dismiss="modal" class="btn" href="#">OK!</a>
-                <!--<a data-dismiss="modal" class="btn" href="#">Cancel</a>-->
-            </div>
-        </div>
         <!-- End Main -->
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/categories.js"></script>

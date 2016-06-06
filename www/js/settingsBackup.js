@@ -51,10 +51,10 @@ function createBackup() {
     $.getJSON("lib/ajaxHandlers/ajaxBackupFull.php", function (data) {
 
         if (data.success == true) {
-            alert("Backup created successfully")
+            errorDialog("Backup created successfully")
             window.location.reload()
         } else {
-            alert("Could not create backup")
+            errorDialog("Could not create backup")
             window.location.reload()
         }
     })
@@ -67,10 +67,10 @@ function createBackupSyslog() {
     $.getJSON("lib/ajaxHandlers/ajaxBackupSyslog.php", function (data) {
 
         if (data.success == true) {
-            alert("Systems Logs archive created successfully")
+            errorDialog("Systems Logs archive created successfully")
             window.location.reload()
         } else {
-            alert("Could not create Systems Logs archive")
+            errorDialog("Could not create Systems Logs archive")
             window.location.reload()
         }
 
@@ -84,9 +84,9 @@ function deleteFiles(filePath, ext) {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
             if (data.success == true) {
-                alert("Archives deleted successfully")
+                errorDialog("Archives deleted successfully")
             } else {
-                alert("Some Archives could not be deleted")
+                errorDialog("Some Archives could not be deleted")
             }
             window.location.reload()
         })

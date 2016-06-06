@@ -47,6 +47,7 @@ function delCustProp() {
             window.location.reload();
         }
     } else {
-        alert("Please select a Custom Property!")
+        errorDialog("Please select a Custom Property!");
+
     }
 }

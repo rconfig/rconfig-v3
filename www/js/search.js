@@ -15,7 +15,7 @@ function search() {
 
     // validate searchTerm
     if (searchTerm == '' || searchTerm == ' ') { // check is not empty i.e. a node is actually selected
-        alert('Please enter a search term!')
+        errorDialog('Please enter a search term!')
         return;
     }
 
@@ -29,7 +29,7 @@ function search() {
     }).get();
 
     if (catId == '') {
-        alert('Category not selected!')
+        errorDialog('Category not selected!')
         return;
     }
     // change the command option to the correct filename format for the grep string/var
@@ -38,7 +38,7 @@ function search() {
         var catCommand = catCommand.replace(/\s/g, '')
         var catCommand = catCommand + '*' + ".txt";
     } else {
-        alert('Command not selected!')
+        errorDialog('Command not selected!')
         return;
     }
 
@@ -52,26 +52,15 @@ function search() {
 
     // check if noLines is not an INT
     if (isNaN(noLines)) {
-        alert('No. of Lines is not a Number')
+        errorDialog('No. of Lines is not a Number')
         return;
     }
 
     // if No. Lines has a value, then select for leading/trailing must be selected also or Error
     if (noLines > '0' && linesBeforeAfter == '') {
-        alert('Please select leading or trailing lines')
+        errorDialog('Please select leading or trailing lines')
         return;
     }
-
-
-    // get infrom from dynamic for fields, and create single tring to pass to searchCrud.php
-    // var result = [];
-    // for (var i = 0, l = optionalGrep.length; i < l; ++i) {
-    // if (optionalGrep[i] != '') { // add this as the dynmaic div template has a default value of '' and should not be returned
-    // result.push(" | grep " + grepSwitch[i] + " " + optionalGrep[i] + " ");
-    // }
-    // }
-    // var joinedGrepStr = result.join('');
-
     // ajax logic below
     if (searchTerm) {
         //retrieve vendor details to display on form from getRow GET variable
@@ -114,7 +103,7 @@ function search() {
 
         });
     } else {
-        alert("You did not enter a search term")
+        errorDialog("You did not enter a search term")
     }
 }
 
@@ -152,18 +141,6 @@ function changeType() {
         })
     }
 }
-
-// function optionalGrep() { // src'd from http://www.satya-weblog.com/2010/02/add-input-fields-dynamically-to-form-using-javascript.html
-// var div1 = document.createElement('div');
-
-// Get template data / input div
-// div1.innerHTML = document.getElementById('newInputField').innerHTML;
-
-// append to our form, so that template data  
-// become part of form  
-// document.getElementById('testDiv').appendChild(div1);
-
-// }
 
 function formReset() {
     document.getElementById("searchForm").reset();

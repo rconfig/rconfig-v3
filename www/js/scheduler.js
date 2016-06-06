@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    // Open div and display error per above PHP next to input field
-    // Check if 'message' GET is set in URL - if it is, display form and PHP error next to field
+// Open div and display error per above PHP next to input field
+// Check if 'message' GET is set in URL - if it is, display form and PHP error next to field
     if (location.href.match(/\error/)) { // check url for 'message'
         $('schedulerForm').show(); // show form (which will also display error msg in php after input field)
         $(".show_hide").show(); // show show_hide class 
@@ -12,42 +12,32 @@ $(document).ready(function () {
     $('.show_hide').click(function () { // show_hide function on click
         $(".schedulerForm").toggle(); //speed set to 1ms so that div does not render on side of page first
     });
-
     // disable 'mailErrorsOnly' chkbox by default
     document.getElementById('mailErrorsOnly').disabled = true;
-
     document.getElementById('reportTypeSlctDiv').style.display = 'none';
     document.getElementById('reportTypeSlct').disabled = true;
-
     document.getElementById('snippetSlctDiv').style.display = 'none';
     document.getElementById('snippetSlct').disabled = true;
-
     document.getElementById('mailErrorsOnlyDiv').style.display = 'none';
     document.getElementById('mailErrorsOnly').disabled = true;
-
     document.getElementById('deviceSelectRadioDiv').style.display = 'none';
     document.getElementById('catSelectRadioDiv').style.display = 'none';
     document.getElementById('selectRadio').disabled = true;
-
     document.getElementById('chooseCatDiv').style.display = 'none';
     document.getElementById('catId').disabled = true;
-
     document.getElementById('catCommandDiv').style.display = 'none';
     document.getElementById('catCommand').disabled = true;
-
 });
-
 // next script is for row highlighting and selection of table rows	
 $("#taskTbl tbody tr").click(function (e) {
-    // get the rowId below
+// get the rowId below
     var rowid = $(this).attr('setid');
-
     $("#taskTbl tbody tr").removeClass("selected");
     var $checkbox = $(this).find(':checkbox');
     $("#taskTbl :checkbox").not($checkbox).removeAttr("checked");
     if (e.target.type == "checkbox") {
 
-        // stop the bubbling to prevent firing the row's click event
+// stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
         $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
     } else {
@@ -55,7 +45,6 @@ $("#taskTbl tbody tr").click(function (e) {
         $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
     }
 });
-
 /* Next function is to allow selection of devices or categories only select lists */
 function deviceOrCatSelect() {
     chosen = ""
@@ -101,7 +90,7 @@ function delTask() {
             window.location.reload();
         }
     } else {
-        alert("Please select a task!")
+        errorDialog("Please select a Task!");
     }
 }
 
@@ -115,6 +104,9 @@ function getTask() {
         //retrieve task details to display on form from getRow GET variable
         $.getJSON("lib/crud/scheduler.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
+            var id = '';
+            var taskTypeView = '';
+            var taskNameView = '';
             $.each(data.rows, function (i, data) {
                 var id = data.id
                 var taskTypeView = data.taskType
@@ -122,11 +114,9 @@ function getTask() {
                 var taskDescView = data.taskDescription
                 var addedByView = data.addedBy
                 var dateAddedView = data.dateAdded
-
                 // get crontime from DB and split to array
                 var crontimeView = data.crontime
                 var n = crontimeView.split(" ");
-
                 if (n[0] == "*") {
                     var minutesView = "Every Minute"
                 } else {
@@ -161,48 +151,62 @@ function getTask() {
                     var taskTypeView = "Schedule Config Snippet"
                 }
                 if (taskNameView) {
-
-                    $("#taskDetails").modal({
-                        overlayClose: true,
-                        position: ['10%', ]
+                    bootbox.dialog({
+                        title: '<h3 class="h3">Scheduled task Details: ' + taskNameView + '</h3>',
+                        size: 'large',
+                        message: '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task ID: </strong><span id="taskIdView" name="taskIdView" style=\"float:left;\">' + id + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Type: </strong><span id="taskTypeView" name="taskTypeView" style=\"float:left;\" >' + taskTypeView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Name: </strong><span id="taskNameView" name="taskNameView" style=\"float:left;\">' + taskNameView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Task Description: </strong><span id="taskDescView" name="taskDescView" style=\"float:left;\">' + taskDescView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Added By: </strong><span id="addedByView" name="addedByView" style=\"float:left;\">' + addedByView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Created on: </strong><span id="dateAddedView" name="dateAddedView" style=\"float:left;\">' + dateAddedView + '</span></p><br/>' +
+                                '<p><h4 class="h4" style="width: 80%; float:left; text-align: left;">Schedule</h4></p><br />' +
+                                '<br /><hr>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Minutes: </strong><span id="minutesView" name="minutesView" style=\"float:left;\">' + minutesView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Hours: </strong><span id="hoursView" name="hoursView" style=\"float:left;\">' + hoursView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Day of Month: </strong><span id="dayOfMonthView" name="dayOfMonthView" style=\"float:left;\">' + dayOfMonthView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Month: </strong><span id="MonthView" name="MonthView" style=\"float:left;\">' + MonthView + '</span></p><br/>' +
+                                '<p><strong style=\"width: 200px; float: left; text-align: left;\">Day of Week: </strong><span id="dayOfWeekView" name="dayOfWeekView" style=\"float:left;\">' + dayOfWeekView + '</span></p><br/>',
+                        buttons: {
+                            main: {
+                                label: "close",
+                                className: "btn",
+//                                    callback: function() {
+//                                    Example.show("Primary button");
+//                            }
+                            }
+                        }
                     });
-
-                    $('#taskIdView').text(id)
-                    $('#taskTypeView').text(taskTypeView)
-                    $('#taskNameView').text(taskNameView)
-                    $('#taskDescView').text(taskDescView)
-                    $('#addedByView').text(addedByView)
-                    $('#dateAddedView').text(dateAddedView)
-                    $('#minutesView').text(minutesView)
-                    $('#hoursView').text(hoursView)
-                    $('#dayOfMonthView').text(dayOfMonthView)
-                    $('#MonthView').text(MonthView)
-                    $('#dayOfWeekView').text(dayOfWeekView)
-
                 } else {
-                    alert("Could not load data");
+                    bootbox.alert({
+                        size: 'small',
+                        title: "Notice!",
+                        backdrop: false,
+                        message: "Could not load data!"
+                    });
                 }
-                $(".show_hide").show(); // show show_hide class 
             });
-
             // get devices and list in deviceNameView DIV
-            $.each(data.devices, function (i, data) {
-                var deviceNameView = data.deviceName
-
-                if (deviceNameView) {
-
-                    $('#deviceNameView').append(deviceNameView + ", ")
-
-                } else {
-                    alert("Could not load data");
-                }
-                $(".show_hide").show(); // show show_hide class 
-            });
+//            $.each(data.devices, function (i, data) {
+//                var deviceNameView = data.deviceName
+//
+//                if (deviceNameView) {
+//                    $('#deviceNameView').append(deviceNameView + ", ")
+//                } else {
+//                    bootbox.alert("Could not load data!");
+//                }
+//                bootbox.alert("Please select a Task!");
+//            });
 
 
         });
     } else {
-        alert("Please select a task!")
+        bootbox.alert({
+            size: 'small',
+            title: "Notice!",
+            backdrop: false,
+            message: "Please select a Task!"
+        });
     }
 } // end getTask Function
 
@@ -219,20 +223,15 @@ function mailErrorsChkBox() {
 function displayDownloadElements() {
     document.getElementById("reportTypeSlct").disabled = true;
     document.getElementById("reportTypeSlctDiv").style.display = 'none';
-
     document.getElementById("snippetSlct").disabled = true;
     document.getElementById("snippetSlctDiv").style.display = 'none';
-
     document.getElementById('mailErrorsOnlyDiv').style.display = 'block';
     document.getElementById('mailErrorsOnly').disabled = false;
-
     document.getElementById('deviceSelectRadioDiv').style.display = 'block';
     document.getElementById('catSelectRadioDiv').style.display = 'block';
     document.getElementById('selectRadio').disabled = false;
-
     document.getElementById('chooseCatDiv').style.display = 'none';
     document.getElementById('catId').disabled = true;
-
     document.getElementById('catCommandDiv').style.display = 'none';
     document.getElementById('catCommand').disabled = true;
 }
@@ -240,20 +239,15 @@ function displayDownloadElements() {
 function displayReportElements() {
     document.getElementById("reportTypeSlct").disabled = false;
     document.getElementById("reportTypeSlctDiv").style.display = 'block';
-
     document.getElementById("snippetSlct").disabled = false;
     document.getElementById("snippetSlctDiv").style.display = 'none';
-
     document.getElementById('mailErrorsOnlyDiv').style.display = 'none';
     document.getElementById('mailErrorsOnly').disabled = true;
-
     document.getElementById('deviceSelectRadioDiv').style.display = 'none';
     document.getElementById('catSelectRadioDiv').style.display = 'none';
     document.getElementById('selectRadio').disabled = true;
-
     document.getElementById('chooseCatDiv').style.display = 'block';
     document.getElementById('catId').disabled = false;
-
     document.getElementById('catCommandDiv').style.display = 'block';
     document.getElementById('catCommand').disabled = false;
 }
@@ -261,17 +255,13 @@ function displayReportElements() {
 function displaySnippetElements() {
     document.getElementById("snippetSlct").disabled = false;
     document.getElementById("snippetSlctDiv").style.display = 'block';
-
     document.getElementById('reportTypeSlctDiv').style.display = 'none';
     document.getElementById('reportTypeSlct').disabled = true;
-
     document.getElementById('chooseCatDiv').style.display = 'none';
     document.getElementById('catId').disabled = true;
-
     document.getElementById('deviceSelectRadioDiv').style.display = 'block';
     document.getElementById('catSelectRadioDiv').style.display = 'block';
     document.getElementById('selectRadio').disabled = false;
-
     document.getElementById('catCommandDiv').style.display = 'none';
     document.getElementById('catCommand').disabled = true;
 }
@@ -319,13 +309,11 @@ function changeType() {
 function selectSample(cronValue) {
 
     var array = cronValue.split(' ');
-
     var minute = array[0];
     var hour = array[1];
     var day = array[2];
     var month = array[3];
     var weekday = array[4];
-
     if (array != '' || array != ' ' || array != null) {
 
         // foreach section below - 
@@ -380,10 +368,13 @@ function selectSample(cronValue) {
             default:
                 $('#weekdaySelect').val('--')
         }
-
-
     } else {
-        alert('cron details not found')
+        bootbox.alert({
+            size: 'small',
+            title: "Notice!",
+            backdrop: false,
+            message: "Cron details not found"
+        });
     }
 }
 
@@ -395,7 +386,11 @@ function selectOption(field, value) {
     if (value != '' || value != ' ' || value != null) {
         $('#' + field).val(value)
     } else {
-        alert('Details not found for field' + field)
+        bootbox.alert({
+            size: 'small',
+            title: "Notice!",
+            backdrop: false,
+            message: "Details not found for field" + field
+        });
     }
-
 }
