@@ -1,3 +1,11 @@
+Version 3.5.3
+9-Jun-2016
+Author: Stephen Stack
+
+        Fixed - Security issues in relation to multiple CSRF and file access on AJAX code
+
+------------------------------------------------------------------------------------
+
 Version 3.5.2
 29-May-2016
 Author: Stephen Stack
