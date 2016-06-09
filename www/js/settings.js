@@ -147,7 +147,7 @@ function deleteDebugFiles(filePath, ext) {
     });
 }
 
-function timeZoneChange() {
+function timeZoneChange() {    
     var timeZone = $('#timeZone').val();
     if (timeZone != '') {
         $.ajaxSetup({cache: false});

@@ -140,7 +140,3 @@
 2016-06-09 21:04:07 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.5 & Username:  (File: /lib/ajaxHandlers/ajaxSettingsProcess.php)
 2016-06-09 21:04:07 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.5 & Username:  (File: /lib/ajaxHandlers/ajaxSettingsProcess.php)
 2016-06-09 21:04:07 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.5 & Username:  (File: /lib/ajaxHandlers/ajaxSettingsProcess.php)
-2016-06-09 21:05:39 INFO Success: Added category to DB (File: /lib/crud/categories.crud.php)
-2016-06-09 21:05:44 INFO Success: Deleted category in DB (File: /lib/crud/categories.crud.php)
-2016-06-09 21:06:00 INFO Success: Added command asfsaf to DB (File: /lib/crud/commands.crud.php)
-2016-06-09 21:06:08 INFO Success: Deleted Command 175 in DB (File: /lib/crud/commands.crud.php)
