@@ -2,3 +2,15 @@
 2016-06-09 21:05:44 INFO Success: Deleted category in DB (File: /lib/crud/categories.crud.php)
 2016-06-09 21:06:00 INFO Success: Added command asfsaf to DB (File: /lib/crud/commands.crud.php)
 2016-06-09 21:06:08 INFO Success: Deleted Command 175 in DB (File: /lib/crud/commands.crud.php)
+2016-06-09 21:18:53 INFO Success: Added new Custom Property, afdgd to DB (File: /lib/crud/customProperties.crud.php)
+2016-06-09 21:18:56 INFO Success: Deleted Custom Property custom_afdgd in DB (File: /lib/crud/customProperties.crud.php)
+2016-06-09 21:19:02 INFO Success: Added command adfg to DB (File: /lib/crud/commands.crud.php)
+2016-06-09 21:19:06 INFO Success: Deleted Command 176 in DB (File: /lib/crud/commands.crud.php)
+2016-06-10 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-10 00:02:53 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-10 00:02:53 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-10 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-10 01:02:52 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-10 01:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-10 06:00:02 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-10 06:02:35 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
