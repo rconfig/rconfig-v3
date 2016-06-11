@@ -35,3 +35,11 @@
 2016-06-10 20:29:45 INFO Info: Start manual 31 day Config File Purge - GET DB IDs(File: /lib/ajaxHandlers/ajaxPurgeConfigs.php)
 2016-06-10 20:29:45 INFO Info: Start manual 31 day Config File Purge - GET DIRs (File: /lib/ajaxHandlers/ajaxPurgeConfigs.php)
 2016-06-10 20:29:45 INFO Info: Start manual 31 day Config File Purge - Delete DB Rows (File: /lib/ajaxHandlers/ajaxPurgeConfigs.php)
+2016-06-11 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-11 00:02:53 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 00:02:53 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-11 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-11 01:02:52 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 01:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-11 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-11 06:02:34 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-    $('.tooltip-right').tooltip({ placement: 'right' });
-    
+    $('.tooltip-right').tooltip({placement: 'right'});
+
     // hide datepickers until selected
     $('#firstdatepickerDiv').hide();
     $('#seconddatepickerDiv').hide();
@@ -38,9 +38,8 @@ function deviceinputAutoComplete(inputname) {
         async: false,
         minLength: 1,
         create: function (e) {
-        $(this).prev('.ui-helper-hidden-accessible').remove();
+            $(this).prev('.ui-helper-hidden-accessible').remove();
         },
-    
         select: function (event, ui) {
             $("input[name=" + inputname + "]").attr('id', ui.item.id);
             $("input[name=" + inputname + "]").val(ui.item.abbrev);
@@ -72,18 +71,17 @@ function cmdSelectPopulate(inputname, selectname) {
 
 // get dates for selected command
 function datepickerSetup(inputname, selectname, datepickerDivName, datepickername) {
-    $("#" + selectname + "").change(function () {
+    $("#" + selectname + "").on('change', function () {s
         firstId = $("input[name=" + inputname + "]").attr('id');
         command = $("#" + selectname + " option:selected").attr('value');
         command = command.replace(/\s/g, ''); // remove whitespace
         if (command != '') {
             $("#" + datepickerDivName + "").show();
             $.getJSON("lib/ajaxHandlers/ajaxCompareGetCmdDates.php?deviceId=" + firstId + "&command=" + command, function (data) {
-                //result to array
-                var second_array = new Array();
-                $.each(data, function (index, value) {
-                    second_array.push({name: value.name, index: value.index});
-                });
+
+                $("#" + datepickername + "").datepicker("destroy");
+                $("#" + datepickername + "").val('');
+
 
                 $("#" + datepickername + "").datepicker({
                     dateFormat: 'dd-mm-yy',
@@ -127,7 +125,7 @@ function compare() {
     // get dates
     var firstDate = $("#firstdatepickerSelect").val();
     var secondDate = $("#seconddatepickerSelect").val();
-        
+
     // Check is any vars are NOT empty, false, undefined or null etc..
     if (firstDeviceName && secondDeviceName && firstCommand && secondCommand && firstDate && secondDate) {
         // first get the actual paths for comparison
@@ -136,7 +134,7 @@ function compare() {
         // now remove forward slashes from json encoding beofer passing to GET
 //        var firstpath = firstpath.replace(/\//g, '');
 //        var secondpath = secondpath.replace(/\//g, '');
-        if(firstpath && secondpath){
+        if (firstpath && secondpath) {
             $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + firstpath + "&path_b=" + secondpath + "&linepadding=" + linepadding);
         } else {
             errorDialog("Something went wrong! Could not retrieve configs for both devices")
@@ -148,12 +146,12 @@ function compare() {
 }
 
 // function to getpaths for inputted data. Syncronous call
-function getPaths(deviceName, command, date){
-   var value= $.ajax({ 
-      url: "lib/ajaxHandlers/ajaxCompareGetPaths.php?deviceName=" + deviceName + "&command=" + command + "&date="+date, 
-      async: false
-   }).responseText;
-   return value;
+function getPaths(deviceName, command, date) {
+    var value = $.ajax({
+        url: "lib/ajaxHandlers/ajaxCompareGetPaths.php?deviceName=" + deviceName + "&command=" + command + "&date=" + date,
+        async: false
+    }).responseText;
+    return value;
 }
 
 function reloadPage() {

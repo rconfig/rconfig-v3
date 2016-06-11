@@ -24,7 +24,7 @@ if (!$session->logged_in) {
     $uniqueResults = array_unique($rows);
     $newDateFormatArray = array();
     foreach ($uniqueResults as $k => $v) {
-        $newDate = date("n-d-Y", strtotime($v));
+        $newDate = date("n-j-Y", strtotime($v));
         $newDateFormatArray[] = $newDate;
     }
     echo json_encode($newDateFormatArray);
