@@ -49,14 +49,13 @@ function createBackup() {
     $('#pleaseWait1').slideDown('fast');
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxBackupFull.php", function (data) {
-
         if (data.success == true) {
-            errorDialog("Backup created successfully")
-            window.location.reload()
-        } else {
-            errorDialog("Could not create backup")
-            window.location.reload()
-        }
+            BackupStatusPass
+            $('#pleaseWait1').hide();
+            $('#BackupStatusPass').show();            
+                    } else {
+            $('#pleaseWait1').hide();
+            $('#BackupStatusFail').show();        }
     })
 }
 
@@ -67,13 +66,12 @@ function createBackupSyslog() {
     $.getJSON("lib/ajaxHandlers/ajaxBackupSyslog.php", function (data) {
 
         if (data.success == true) {
-            errorDialog("Systems Logs archive created successfully")
-            window.location.reload()
+            $('#pleaseWait2').hide();
+            $('#syslogBackupStatusPass').show();
         } else {
-            errorDialog("Could not create Systems Logs archive")
-            window.location.reload()
+            $('#pleaseWait2').hide();
+            $('#syslogBackupStatusFail').show();
         }
-
     })
 }
 
@@ -93,7 +91,7 @@ function deleteFiles(filePath, ext) {
                     } else {
                         errorDialog("Some Archives could not be deleted")
                     }
-                    window.location.reload()
+                    window.location.reload();
                 })
             } else {
                 window.location.reload();

@@ -1,6 +1,8 @@
 <?php
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -10,16 +12,11 @@ if (!$session->logged_in) {
 } else {
 
 // will backup syslog files - called from settingsBackup.js 
-    include("../../../config/config.inc.php");
-    include("../../../config/functions.inc.php");
-    include("../../../classes/db2.class.php");
+//    include("../../../classes/db2.class.php");
 
     $db2 = new db2();
 // check and set timeZone to avoid PHP errors
-    $q = $db2->query("SELECT timeZone FROM settings");
-    $row = $db2->single();
-    $timeZone = $row['timeZone'];
-    date_default_timezone_set($timeZone);
+    getSetTimeZone();
     $today = date("Ymd");
 
     /**

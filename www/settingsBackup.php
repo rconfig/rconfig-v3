@@ -29,6 +29,8 @@
                         <button class="smlButton" id="deleteFilesbtn" onclick="deleteFiles('/home/rconfig/backups/', 'zip')">Delete Backups</button>
                         <div class="spacer"></div>
                         <span id="pleaseWait1" style="display:none">Please wait... <img  width="12" height="12" src='images/ajax_loader.gif' alt='Please wait... '/></span>
+                        <span id="BackupStatusPass" style="display:none; color:green;">Backup Successful</span>
+                        <span id="BackupStatusFail" style="display:none; color:red;">Backup Failed</span>
                     </div>
                 </fieldset>
 
@@ -49,6 +51,8 @@
                         <button class="smlButton" id="deleteFilesbtn" onclick="deleteFiles('/home/rconfig/backups/syslogs/', 'zip')">Delete  System Log Archives</button>
                         <div class="spacer"></div>
                         <span id="pleaseWait2" style="display:none">Please wait... <img  width="12" height="12" src='images/ajax_loader.gif' alt='Please wait... '/></span>
+                        <span id="syslogBackupStatusPass" style="display:none; color:green;">Log Backup Successful</span>
+                        <span id="syslogBackupStatusFail" style="display:none; color:red;">Log Backup Failed</span>
                     </div>
                 </fieldset>
                 <div style="clear:both;">
