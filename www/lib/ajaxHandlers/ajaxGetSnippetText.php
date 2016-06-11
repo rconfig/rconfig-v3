@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -12,7 +14,6 @@ if (!$session->logged_in) {
 // Get Snippet from DB based on Snippet ID
     session_start();
     require_once("../../../classes/db2.class.php");
-    require_once("../../../config/config.inc.php");
     $db2 = new db2();
     $id = $_GET['id'];
     $db2->query("SELECT snippet FROM snippets WHERE id = :id");

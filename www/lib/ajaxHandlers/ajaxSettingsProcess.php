@@ -1,41 +1,23 @@
-<?php 
-// Processor and method for general settings options
-class Process {
-    /* Class constructor */
-
-    public function __construct() {
-            /* User adjust debugging Option */
-            if (isset($_GET['debugOnOff'])) {
-                $this->procDebugOnOff();
-            } else if (isset($_GET['deviceToutVal'])) {
-                $this->procDeviceTimeout();
-            } else if (isset($_GET['pageTimeoutVal'])) {
-                $this->procPageTimeout();
-            } else if (isset($_GET['timeZoneChange'])) {
-                $this->procTimeZoneChange();
-            } else if (isset($_GET['getTimeZone'])) {
-                $this->getTimeZone();
-            } else if (isset($_GET['getDebugStatus'])) {
-                $this->getDebugStatus();
-            } else if (isset($_GET['phpLoggingOnOff'])) {
-                $this->phpLoggingOnOff();
-            } else if (isset($_GET['getPhpLoggingStatus'])) {
-                $this->getPhpLoggingStatus();
-            } else if (isset($_GET['defaultCredsManualSet'])) {
-                $this->procDefaultCredsManualSet();
-            } else if (isset($_GET['getDefaultCredsManualSet'])) {
-                $this->getDefaultCredsManualSet();
-            }
-    }
-
-// end process function
-
+<?php
+require_once("/home/rconfig/config/config.inc.php");
+require_once("/home/rconfig/config/functions.inc.php");
+require_once("/home/rconfig/classes/usersession.class.php");
+require_once("/home/rconfig/classes/ADLog.class.php");
+$log = ADLog::getInstance();
+if (!$session->logged_in) {
+    echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
+    $log->Warn("Security Issue: Some tried to access this file directly from IP: " . $_SERVER['REMOTE_ADDR'] . " & Username: " . $session->username . " (File: " . $_SERVER['PHP_SELF'] . ")");
+    // need to add authentication to this script
+    header("Location: " . $config_basedir . "login.php");
+} else {
+// SEE BOTTOM OF SCRIPT FOR CORE FUNCTIONALITY
+    
     /**
      * procDebugOnOff - Change the debug value in the settings table to 1 or 0 to turn
       device output debugging to on or off respectively
      */
     function procDebugOnOff() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -68,7 +50,7 @@ class Process {
       php logging to on or off respectively
      */
     function phpLoggingOnOff() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
 
@@ -101,7 +83,7 @@ class Process {
      * procDeviceTimeout - Change the device connection timeout value
      */
     function procDeviceTimeout() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -128,7 +110,7 @@ class Process {
      * procPageTimeout - Change the webpage timeout value
      */
     function procPageTimeout() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -155,7 +137,7 @@ class Process {
      * procTimeZoneChange - Change the server timezone
      */
     function procTimeZoneChange() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
 
@@ -185,7 +167,7 @@ class Process {
      * getDebugStatus - Change the device debug status
      */
     function getDebugStatus() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
 
@@ -212,7 +194,7 @@ class Process {
      * getTimeZoneStatus - Change the device connection timeout value
      */
     function getTimeZone() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
 
@@ -238,7 +220,7 @@ class Process {
      * procDeviceTimeout - Change the device connection timeout value
      */
     function getPhpLoggingStatus() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -264,7 +246,7 @@ class Process {
      * procDefaultCredsManualSet - Change the status for using the default credential set when manually uploading/downloading configs to/from devices
      */
     function procDefaultCredsManualSet() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -299,7 +281,7 @@ class Process {
      * getDefaultCredsManualSet - Get value set for using default credentials with manual uploads & downloads
      */
     function getDefaultCredsManualSet() {
-        session_start();
+        
         require_once("../../../classes/db2.class.php");
         require_once("../../../classes/ADLog.class.php");
         $db2 = new db2();
@@ -314,9 +296,27 @@ class Process {
             echo json_encode($response);
         }
     }
-
+    /* User adjust debugging Option */
+    if (isset($_GET['debugOnOff'])) {
+        procDebugOnOff();
+    } else if (isset($_GET['deviceToutVal'])) {
+        procDeviceTimeout();
+    } else if (isset($_GET['pageTimeoutVal'])) {
+        procPageTimeout();
+    } else if (isset($_GET['timeZoneChange'])) {
+        procTimeZoneChange();
+    } else if (isset($_GET['getTimeZone'])) {
+        getTimeZone();
+    } else if (isset($_GET['getDebugStatus'])) {
+        getDebugStatus();
+    } else if (isset($_GET['phpLoggingOnOff'])) {
+        phpLoggingOnOff();
+    } else if (isset($_GET['getPhpLoggingStatus'])) {
+        getPhpLoggingStatus();
+    } else if (isset($_GET['defaultCredsManualSet'])) {
+        procDefaultCredsManualSet();
+    } else if (isset($_GET['getDefaultCredsManualSet'])) {
+        getDefaultCredsManualSet();
+    }
+    
 }
-
-; //end Class
-/* Initialize process */
-$process = new Process;

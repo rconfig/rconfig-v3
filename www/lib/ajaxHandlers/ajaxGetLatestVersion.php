@@ -1,6 +1,6 @@
 <?php
-
 require_once("/home/rconfig/classes/usersession.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
@@ -10,8 +10,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // Check rconfig.com/downloads/version.txt for latest publish release
-    require('/home/rconfig/config/config.inc.php');
-    require('/home/rconfig/classes/ADLog.class.php');
 
     if (!$sock = @fsockopen('www.rconfig.com', 80, $num, $error, 5)) {
         // declare Logging Class

@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -14,7 +16,6 @@ if (!$session->logged_in) {
      *  does not take log file rotation into account, so the idea is that CRON taks care of archiveing. The logs files with .log
      *  in the DIR are todays only
      */
-    require_once("/home/rconfig/config/config.inc.php");
 
     $dirPath = $config_log_basedir; // from included config file
     $logType = $_GET['logType'];

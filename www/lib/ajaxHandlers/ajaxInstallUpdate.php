@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -9,10 +11,7 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    require_once("../../../classes/ADLog.class.php");
     require_once("../../../classes/updater.class.php");
-    require_once("../../../config/config.inc.php");
-    require_once("../../../config/functions.inc.php");
 
     /* Updater Steps 
      * 1. get latest version from rconfig.com

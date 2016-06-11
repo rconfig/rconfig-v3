@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -9,13 +11,10 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    require_once("../../../classes/ADLog.class.php");
-    require_once("../../../config/config.inc.php");
 
     $log = ADLog::getInstance();
 
     if (isset($_POST['upload'])) {
-        session_start();
         $errors = array();
 
         // validations	

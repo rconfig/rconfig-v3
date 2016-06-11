@@ -43,3 +43,19 @@
 2016-06-11 01:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
 2016-06-11 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
 2016-06-11 06:02:34 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:categories  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:compliancePolElem  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:compliancePolicies  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:complianceReports  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:configcommands  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:generatedConfigs  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:nodes  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:reportData  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:tasks  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:users  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:41:48 INFO Info: Deleted rows purged from Table:vendors  (File: /lib/ajaxHandlers/ajaxPurgeSqlData.php)
+2016-06-11 08:46:13 INFO Success: Added new Custom Property, asdasd to DB (File: /lib/crud/customProperties.crud.php)
+2016-06-11 08:46:28 INFO Success: Deleted Custom Property custom_asdasd in DB (File: /lib/crud/customProperties.crud.php)
+2016-06-11 08:46:31 INFO Success: Added new Custom Property, asdasd to DB (File: /lib/crud/customProperties.crud.php)
+2016-06-11 08:46:35 INFO Success: Deleted Custom Property custom_asdasd in DB (File: /lib/crud/customProperties.crud.php)
+2016-06-11 08:46:39 INFO Success: Added category to DB (File: /lib/crud/categories.crud.php)

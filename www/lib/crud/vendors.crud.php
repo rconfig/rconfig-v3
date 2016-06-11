@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -10,16 +12,13 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
     require_once("../../../classes/db2.class.php");
-    require_once("../../../classes/ADLog.class.php");
     require_once("../../../classes/imageResize.class.php");
-    require_once("../../../config/config.inc.php");
 
     $db2 = new db2();
     $log = ADLog::getInstance();
 
     /* Add Vendors Here */
     if (isset($_POST['add'])) {
-        session_start();
         $errors = array();
 
         if (!empty($_POST['vendorName'])) {

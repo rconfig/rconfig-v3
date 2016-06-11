@@ -1,6 +1,7 @@
 <?php
 require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
 
 function availableElems() {
     $db2 = new db2();

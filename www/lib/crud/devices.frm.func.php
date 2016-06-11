@@ -2,6 +2,8 @@
 
 require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 
 function vendorId($id = null) {
     // $id is set if from is reloaded with errors so that selected item is pre-populated after form reload

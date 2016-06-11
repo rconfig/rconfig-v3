@@ -16,8 +16,6 @@ if (!$session->logged_in) {
     error_reporting(0);
     session_start();
     require_once("../../../classes/db2.class.php");
-    require_once("../../../classes/ADLog.class.php");
-    require_once("../../../config/config.inc.php");
 
     $log = ADLog::getInstance();
 // set vars

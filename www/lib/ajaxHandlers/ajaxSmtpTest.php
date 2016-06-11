@@ -2,6 +2,8 @@
 
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
+require_once("/home/rconfig/config/functions.inc.php");
+
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -11,9 +13,7 @@ if (!$session->logged_in) {
 } else {
 // Send test mail from settings.php 'Test mail Server' button
     require_once("../../../classes/db2.class.php");
-    require_once("../../../classes/ADLog.class.php");
     require_once("../../../classes/phpmailer/class.phpmailer.php");
-    require_once("../../../config/config.inc.php");
     $log = ADLog::getInstance();
 
     $db2 = new db2();
