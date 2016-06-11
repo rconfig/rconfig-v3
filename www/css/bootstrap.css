@@ -675,7 +675,7 @@ button.close {
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 /*below added to reduce default modal size, for task Scheduler display*/
-  width: 800px;
+   width: auto;
 }
 .modal-backdrop {
   position: fixed;
