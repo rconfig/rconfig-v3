@@ -16,7 +16,7 @@ if (!$session->logged_in) {
 //php errors supressed on this pagre beacuse they should not interupt the JSON repsonse. 
 // i.e. if errors were made due to SQL errors etc.. JSOn would not be processed by JS on the SettingsDB.php page
     error_reporting(0);
-    session_start();
+    
     require_once("../../../classes/db2.class.php");
 
     $db2 = new db2();

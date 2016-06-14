@@ -59,3 +59,60 @@
 2016-06-11 08:46:31 INFO Success: Added new Custom Property, asdasd to DB (File: /lib/crud/customProperties.crud.php)
 2016-06-11 08:46:35 INFO Success: Deleted Custom Property custom_asdasd in DB (File: /lib/crud/customProperties.crud.php)
 2016-06-11 08:46:39 INFO Success: Added category to DB (File: /lib/crud/categories.crud.php)
+2016-06-11 10:56:50 INFO Success: Added new device, www.rconfig.com to DB (File: /lib/crud/devices.crud.php)
+2016-06-11 10:57:37 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:414844
+2016-06-11 10:57:59 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:709001
+2016-06-11 11:01:07 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 11:01:07 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-11 11:50:46 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:50:46 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:50:46 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:51:16 INFO Success: Deleted task 100102 in DB and CRONTAB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:52:09 INFO Success: Added Report to DB (File: /lib/crud/compliancereports.crud.php)
+2016-06-11 11:52:34 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:52:34 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 11:52:34 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-11 13:03:21 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 13 & Snippet ID: 6 
+2016-06-11 13:03:37 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 13:03:47 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 13 & Snippet ID: 6 
+2016-06-11 13:04:01 INFO Info:  Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 13:04:28 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 13 & Snippet ID: 6 
+2016-06-11 13:04:43 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-11 13:09:29 INFO Success: Edit device headend.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-06-11 13:11:10 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-06-11 13:11:41 INFO Success: Edit device headend.lab.Rconfig.com in DB successful (File: /lib/crud/devices.crud.php)
+2016-06-11 13:11:46 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 13 
+2016-06-12 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-12 00:05:57 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-12 00:05:57 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-12 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-12 01:05:58 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-12 01:05:58 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-12 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-12 06:04:25 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-12 08:26:16 INFO Success: Deleted task 342242 in DB and CRONTAB (File: /lib/crud/scheduler.crud.php)
+2016-06-12 08:36:24 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-12 08:36:24 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-12 08:36:24 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-12 08:46:06 INFO The /home/rconfig/lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:937868
+2016-06-12 08:51:45 INFO The /home/rconfig/lib/configCategoryScript.php script was run from a manual invocation on a shell with Task ID:937868
+2016-06-12 08:52:52 INFO The /lib/ajaxHandlers/ajaxConfigDevice.php script was run manually invoked with Router ID: 14 & Snippet ID: 6 
+2016-06-12 09:11:04 INFO Info: rConfig Report - NTP Routers Deployment Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-12 09:11:04 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-12 09:12:00 INFO Info: Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-13 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-13 00:06:34 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-13 00:06:34 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-13 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-13 01:06:40 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-13 01:06:40 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-13 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-13 06:15:12 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-14 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-14 00:06:22 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-14 00:06:22 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-14 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-14 01:06:34 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-14 01:06:34 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-14 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-14 06:15:11 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

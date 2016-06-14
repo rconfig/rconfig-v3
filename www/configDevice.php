@@ -33,7 +33,7 @@ $db2 = new db2();
                 <link rel="stylesheet" type="text/css" href="css/all-ie-only.css" />
         <![endif]-->
         <!-- jQuery -->
-        <script type="text/javascript" src="js/jquery/jquery-1.7.min.js"></script>
+        <script type="text/javascript" src="js/jquery/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="js/jquery/jquery.validate.min.js"></script>
         <!-- Custom JS -->
         <script type="text/javascript" src="js/rconfigFunctions.js"></script>

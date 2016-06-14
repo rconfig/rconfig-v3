@@ -197,19 +197,18 @@
                             <option value="1">On</option>
                         </select>
                         <div class="spacer"></div>
-                        <div id="debugNoticeDiv"></div>
-                        <div class="spacer"></div>
+
                         <div id="debugInfoDiv">
                             <div class="tableSummary">		
-
                                 <div id="debugLogFiles">
                                     <table class="tableSimple">
                                         <thead>
-                                            <tr>
                                                 <th>Debugging Logs</th>
-                                            </tr>
                                         </thead>
                                         <tbody>
+                                            <tr id="settingsDebugLogs">
+                                                <div id="logFileContent"></div>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <br/>

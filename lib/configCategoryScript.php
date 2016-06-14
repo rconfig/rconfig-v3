@@ -53,7 +53,7 @@ $taskname = $taskRow[0]['taskname'];
 $snipId = $taskRow[0]['snipId'];
 
 // create connection report file
-$reportFilename = 'conigSnippetReport' . $date . '.html';
+$reportFilename = 'configSnippetReport' . $date . '.html';
 $reportDirectory = 'configSnippetReports';
 $serverIp = getHostByName(getHostName()); // get server IP address for CLI scripts
 $report = new report($config_reports_basedir, $reportFilename, $reportDirectory, $serverIp);

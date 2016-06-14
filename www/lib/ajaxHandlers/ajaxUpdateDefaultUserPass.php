@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // used by settings.js to update the default username and password for NEW devices added to the database
-    session_start();
     require_once("../../../classes/db2.class.php");
     $defaultNodeUsername = $_REQUEST['defaultNodeUsername'];
     $defaultNodePassword = $_REQUEST['defaultNodePassword'];

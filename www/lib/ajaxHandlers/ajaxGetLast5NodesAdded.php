@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
     /* Gets last 5 added devices from devices tbl for dashboard.php */
-    session_start();
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $q = $db2->query("SELECT id, deviceName, deviceDateAdded, nodeAddedBy

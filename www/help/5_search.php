@@ -7,6 +7,10 @@
 <div id="mainContent">
     <div class="break"></div>
     <p>
+        See more information: <a href="http://www.rconfig.com/blog/64-rconfig-search-functionality">http://www.rconfig.com/blog/64-rconfig-search-functionality</a><br /><br />
+        
+    </p>
+    <p>
         Enter a 'Search term' to search a selection of files for given text. You wil choose the category and Command output you want to search. You can optional choose to search individual Devices.
     </p>
     <div class="break"></div>

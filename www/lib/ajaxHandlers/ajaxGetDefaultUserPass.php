@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // Gets default device username and password from DB
-    session_start();
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable FROM settings WHERE id = 1");

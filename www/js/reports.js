@@ -7,27 +7,27 @@ $(function () {
 });
 
 function outputReports(reportName) {
-    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/reports/" + reportName + "/&ext=html", function (data) {
 
         if ($.isEmptyObject(data) != true) {
             var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
-                var filename = obj.filename
-                var filepath = obj.filepath
+                var filename = obj.filename;
+                var filepath = obj.filepath;
 
-                var rowHTML = ['<tr class="">'];
-                rowHTML.push('<td><a href="lib/crud/downloadFile.php?download_file=' + filepath + '" rel="nofollow" title="click to view" alt="click to view">' + filename + '</td>');
+                var rowHTML = ['<div>'];
+                rowHTML.push('<p><a href="lib/crud/downloadFile.php?download_file=' + filepath + '" rel="nofollow" title="click to view" alt="click to view">' + filename + '</p>');
                 "onclick=javascript:openFile('[link]');"
-                rowHTML.push('</tr>');
-                html.push(rowHTML.join(''))
-            })
-            $('#' + reportName + ' tbody').html(html.join(''));
+                rowHTML.push('</div>');
+                html.push(rowHTML.join(''));
+            });
+            $('#' + reportName).html(html.join(''));
+            // pagination here: http://web.enavu.com/js/jquery/jpaginate-jquery-pagination-system-plugin/
+            $('#' + reportName).jPaginate({items: 10, next: '', previous: '', goto: reportName});
         } else {
-            $('#' + reportName + ' tbody').append('<tr><td><font color="red">Cannot display reports files or folder is empty</font></td></tr>');
+            $('#' + reportName).append('<tr><td><font color="red">Cannot display reports files or folder is empty</font></td></tr>');
         }
-    })
-
+    });
 }
 
 function deleteFiles(filePath, ext, id) {

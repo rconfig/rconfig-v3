@@ -135,6 +135,14 @@ table.tableSimple tbody{border: 1px solid #DBE0E2; color: #000;}
 table.tableSimple tr td{border: 1px solid #E3E7E8; background-color: #FCFCFC; font:12.5px arial,sans-serif; padding: 3px;} 
 table.tableSimple tbody tr:hover td {color: #339; background: #eff2ff; cursor:default;}	
 table.tableSimple tbody .selected{	color: #FF0505; background: #eff2ff;} 
+table.tableSimple tbody tr div p {border: 1px solid #E3E7E8; background-color: #FCFCFC; font:12.5px arial,sans-serif; padding: 3px; margin-bottom: 0px;}	
+table.tableSimple tbody tr div p:hover {color: #339; background: #eff2ff; cursor:default;}	
+
+.pagination {list-style:none; margin:0px; padding:0px;}  
+.pagination li{float:left; margin:3px;}  
+.pagination li a{   display:block; padding:3px 5px; color:#fff; background-color:#536281; text-decoration:none;}  
+.pagination li a.active {border:1px solid #000; color:#000; background-color:#fff;}  
+.pagination li a.inactive {background-color:#4F436C; color:#777; border:1px solid #ccc;}
 
 /* Specific Table Widths */	
 #content  #devicesTbl{

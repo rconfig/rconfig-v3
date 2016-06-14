@@ -27,7 +27,7 @@ include('/home/rconfig/config/config.inc.php');
         <link rel="stylesheet" type="text/css" href="css/help-style.css" />
         <link rel="stylesheet" type="text/css" href="css/nav.css" />
         <!-- jQuery -->
-        <script type="text/javascript" src="../js/jquery/jquery-1.7.min.js"></script>
+        <script type="text/javascript" src="../js/jquery/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="../js/jquery/jquery.validate.min.js"></script>
         <!-- jQuery UI -->
         <script type="text/javascript" src="../js/jquery/jquery.ui.core.js"></script>

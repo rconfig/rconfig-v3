@@ -1,9 +1,9 @@
 <?php
 // used in www\lib\ajaxHandlers\ajaxConfigDevice.php to config device for config snippets
 // requires - full path required
-require("/home/rconfig/classes/db2.class.php");
+//require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
-require("/home/rconfig/classes/ADLog.class.php");
+//require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
 require("/home/rconfig/classes/connection.class.php");
@@ -146,7 +146,7 @@ if (!empty($getNodes)) {
     $mail->Host = $smtpServerAddr; // sets the SMTP server
     $mail->Port = 25; // set the SMTP port for the GMAIL server
     $mail->SetFrom($smtpFromAddr, $smtpFromAddr);
-    $mail->Subject = "rConfig Snippet - Sucess: Connected to " . $device['deviceName'];
+    $mail->Subject = "rConfig Snippet - Success: Connected to " . $device['deviceName'];
     $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
     $mail->MsgHTML($body);
     $smtpRecipientAddresses = explode("; ", $smtpRecipientAddr);
@@ -154,9 +154,9 @@ if (!empty($getNodes)) {
         $mail->AddAddress($emailAddr);
     }
     if (!$mail->Send()) {
-        $log->Fatal('Fatal: ' . $title . ' Mailer Error (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ') ' . $mail->ErrorInfo);
+        $log->Fatal('Fatal: Mailer Error (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ') ' . $mail->ErrorInfo);
     } else {
-        $log->Info('Info: ' . $title . ' Email Report sent to :' . $smtpRecipientAddr . ' (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ')');
+        $log->Info('Info: Email Report sent to :' . $smtpRecipientAddr . ' (' . str_replace("@", "&#64;", $smtpRecipientAddr) . ')');
     }
 // Clear all addresses and attachments for next loop
     $mail->ClearAddresses();

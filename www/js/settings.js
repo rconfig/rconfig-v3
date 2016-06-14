@@ -1,4 +1,5 @@
 $(function () {
+    
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDebugStatus", function (data) {
         $('#debugNoticeDiv').html(data);
@@ -12,8 +13,9 @@ $(function () {
     $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDefaultCredsManualSet", function (dataCredSet) {
         $("#defaultCredsManualSet").val(dataCredSet);
     });
+    
+    
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/logs/debugging/&ext=txt", function (data) {
-
         if ($.isEmptyObject(data) != true) {
             var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
@@ -21,15 +23,17 @@ $(function () {
                 var filepath = obj.filepath;
                 var filesize = obj.filesize;
 
-                var rowHTML = ['<tr class="">'];
-                rowHTML.push('<td><a href="#noLink" onclick="javascript:openFile(\'' + filepath + '\');">' + filename + ' - ' + filesize + '</td>');
+                var rowHTML = ['<div>'];
+                rowHTML.push('<p><a href="#noLink" onclick="javascript:openFile(\'' + filepath + '\');">' + filename + ' - ' + filesize + '</p>');
                 "onclick=javascript:openFile('[link]');";
-                rowHTML.push('</tr>');
+                rowHTML.push('</div>');
                 html.push(rowHTML.join(''));
             });
-            $('#debugLogFiles tbody').html(html.join(''));
+            $('#settingsDebugLogs').html(html.join(''));
+            // pagination here: http://web.enavu.com/js/jquery/jpaginate-jquery-pagination-system-plugin/
+            $("#settingsDebugLogs").jPaginate({items: 10, next: '', previous: '',});
         } else {
-            $('#debugLogFiles tbody').append('<tr><td><font color="red">Turn on debugging to collect debug files</font></td></tr>');
+            $('#settingsDebugLogs').append('<tr><td><font color="red">Turn on debugging to collect debug files</font></td></tr>');
         }
     });
 
@@ -319,15 +323,6 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
             $('#updatedDefault').slideDown('fast');
         }
     });
-    $.ajaxSetup({cache: false});
-    $.getJSON('lib/ajaxHandlers/ajaxUpdateDefaultUserPassNode.php?defaultNodeUsername=' + defaultNodeUsername + '&defaultNodePassword=' + defaultNodePassword + '&defaultNodeEnable=' + defaultNodeEnable, function (data) {
-        if (data) {
-            var response = data;
-            document.getElementById('updatedDefault').innerHTML = response;
-            $('#updatedDefault').slideDown('fast');
-        }
-    });
-
 }
 
 function defaultCredsManualSet() {

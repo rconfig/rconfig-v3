@@ -3,7 +3,6 @@
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -26,5 +25,7 @@ if (!$session->logged_in) {
         $output['filesize'] = _format_bytes(filesize($file)); // dir needs writeable to be set
         array_push($return_arr, $output);
     }
+    // reversed so last file in dir is displayed first in the output
+    $return_arr = array_reverse($return_arr);
     echo json_encode($return_arr);
 }

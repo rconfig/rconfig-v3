@@ -16,13 +16,16 @@
                     <legend>Historical Reports</legend>
 
                     <br/>
-                    <div id="complianceReports">
+                    <div id="complianceReportsDiv">
                         <table class="tableSimple">
                             <thead>
                             <th>Compliance Reports</th>
                             </thead>
                             <tbody>
-                            </tbody>
+                                <tr id="complianceReports">
+                            <div id="complianceReportsOvervewFileContent"></div>
+                            </tr>
+                        </tbody>
                         </table>
                         <br/>
                         <button class="smlButton" id="deleteFilesbtn" onclick="deleteFiles('/home/rconfig/reports/complianceReports/', 'html', '2')">Delete Reports</button>

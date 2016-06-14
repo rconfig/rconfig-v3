@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // Get Snippet from DB based on Snippet ID
-    session_start();
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $id = $_GET['id'];

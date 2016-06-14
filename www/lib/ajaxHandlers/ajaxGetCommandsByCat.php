@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
     /* this will retrieve commands based on submitted CatId */
-    session_start();
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $catId = $_GET['catId'];

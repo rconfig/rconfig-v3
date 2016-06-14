@@ -92,3 +92,14 @@ function removeItem(message, url, errorMsg) {
     }
 }
 
+
+
+// workaround to avoid refactoring for remove of .live in jquery 1.9 or later
+// http://stackoverflow.com/questions/14354040/jquery-1-9-live-is-not-a-function
+jQuery.fn.extend({
+    live: function (event, callback) {
+       if (this.selector) {
+            jQuery(document).on(event, this.selector, callback);
+        }
+    }
+});

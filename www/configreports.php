@@ -14,7 +14,7 @@
                 <!-- Main Content Start-->
                 <fieldset id="tableFieldset" style="width:40%;">
                     <legend>Reports</legend>
-                    <div id="connectionReports">
+                    <div id="connectionReportsDiv">
                         <p>
                             Click on a report below to view it's contents
                         </p>
@@ -25,6 +25,9 @@
                             <th>Device Connectivity Reports</th>
                             </thead>
                             <tbody>
+                                <tr id="connectionReports">
+                            <div id="connectionReportsFileContent"></div>
+                            </tr>
                             </tbody>
                         </table>
                         <br/>
@@ -33,12 +36,15 @@
                     </div>
                     <br/>
                     <br/>
-                    <div id="compareReports">
+                    <div id="compareReportsDiv">
                         <table class="tableSimple">
                             <thead>
                             <th>Configuration Comparison Reports</th>
                             </thead>
                             <tbody>
+                                <tr id="compareReports">
+                            <div id="compareReportsFileContent"></div>
+                            </tr>
                             </tbody>
                         </table>
                         <br/>
@@ -47,12 +53,15 @@
                     </div>
                     <br/>
                     <br/>							
-                    <div id="configSnippetReports">
+                    <div id="configSnippetReportsDiv">
                         <table class="tableSimple">
                             <thead>
                             <th>Configuration Snippet Reports</th>
                             </thead>
                             <tbody>
+                                <tr id="configSnippetReports">
+                            <div id="logFileContent"></div>
+                            </tr>
                             </tbody>
                         </table>
                         <br/>

@@ -12,7 +12,6 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // Gets all Policies for a given Policy Report ID
-    session_start();
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $id = $_GET['id'];

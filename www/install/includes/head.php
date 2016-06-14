@@ -2,16 +2,14 @@
     <head>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <!-- jQuery -->
-        <script type="text/javascript" src="../js/jquery/jquery-1.7.min.js"></script>
+        <script type="text/javascript" src="../js/jquery/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="../js/jquery/jquery.validate.min.js"></script>
     </head>
     <body>
         <div id="container">
             <div id="top">
-
                 <h1><img src="img/Install48.png"/>rConfig Installation</h1>
             </div>
-
             <div id="leftnav">
                 <ul>
                     <li><a href="preinstall.php" <?php if (basename($_SERVER['SCRIPT_NAME']) == "preinstall.php") { echo 'class="selected"'; } ?> >Pre-installation Check</a></li>
