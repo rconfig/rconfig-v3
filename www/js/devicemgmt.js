@@ -74,3 +74,7 @@ function configDevice(rid) {
             toolbar=no');
     return false;
 }
+
+function editDevice(rid) {
+    window.location = 'devices.php?deviceid='+rid;
+}

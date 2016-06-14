@@ -86,6 +86,7 @@
                     </div>
                     <div id="#deviceActionsDiv">
                         <?php
+                        echo '<button id="hideAll" onclick="editDevice(\'' . $_GET['deviceId'] . '\')" tabindex="7" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Edit Device Properties">Edit Device</button>';
                         echo '<button id="hideAll" onclick="manualDownload(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Begin a manual download of configurations for this device">Manual Download</button>';
                         echo '<button id="hideAll" onclick="configDevice(\'' . $_GET['deviceId'] . '\')" tabindex="8" class="smlButton" style="margin-right:5px;margin-top:5px;" title="Run a configuration snippet on this device">Run Config Snippet</button>';
                         ?>

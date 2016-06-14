@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    if(getParameter('deviceid')) {
+        editDevice('deviceMgmtPage');
+    }
+    
     if (location.href.match(/\error/)) {
         $("#dialog-category-Switch-Error").hide();
         $('.mainformDiv').show();
@@ -58,29 +62,33 @@ $("#devicesTbl tbody tr").click(function (e) {
 // Next action when delDevice function is called from Delete button
 function delDevice() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Device?", 'lib/crud/devices.crud.php', "Please select a device!")
+    removeItem("Are you sure you want to remove this Device?", 'lib/crud/devices.crud.php', "Please select a device!");
 }
 
 
 // Next action when editDevice function is called from edit button
-function editDevice() {
+function editDevice(invoc) {
     $.ajaxSetup({cache: false});
-    var getRow = "getRow"
-    var rowid = $("input:checkbox[name=checkboxId]:checked").attr("id")
+    var getRow = "getRow";
+    if(getParameter('deviceid') && invoc === 'deviceMgmtPage') {
+        var rowid = getParameter('deviceid');
+    } else if (invoc === 'button'){
+        var rowid = $("input:checkbox[name=checkboxId]:checked").attr("id");
+    }
     if (rowid) {
         $.ajaxSetup({cache: false});
         //retrieve vendor details to display on form from getRow GET variable
         $.getJSON("lib/crud/devices.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
-                var deviceName = data.deviceName
+                var deviceName = data.deviceName;
                 if (deviceName) {
                     // open form if not opened
                     if ($('.mainformDiv').is(':hidden')) {
                         $('.mainformDiv').slideToggle();
                     }
                     //output data to fields
-                    $('input[name="deviceName"]').val(deviceName)
+                    $('input[name="deviceName"]').val(deviceName);
                     $('input[name="deviceName"]').focus(function (e) {
                         $(this).blur();
                         $(this).css({'background-color': '#DFD8D1'});

@@ -97,7 +97,7 @@ include("includes/head.inc.php");
                     <div id="toolbar">
                         <div id="toolbarButtons">
                             <button class="show_hide">Add Device</button>
-                            <button onclick="editDevice()">Edit Device</button>
+                            <button onclick="editDevice('button')">Edit Device</button>
                             <button onclick="delDevice()">Remove Device</button>
                             <!-- set below to let scripts know that the from is in edit mode - set in editDevice() -->
                             <input type="hidden" id="editModeOn" name="editModeOn" value="">

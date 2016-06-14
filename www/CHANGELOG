@@ -1,7 +1,8 @@
-Version 3.5.3
-9-Jun-2016
+Version 3.5.4
+14-Jun-2016
 Author: Stephen Stack
 
+        Added - Device Edit button from devicemgmt page
         Fixed - All identified Security issues in relation to multiple CSRF and file access on AJAX code
 
 ------------------------------------------------------------------------------------
