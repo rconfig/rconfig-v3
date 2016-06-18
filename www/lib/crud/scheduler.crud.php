@@ -359,7 +359,8 @@ if (!$session->logged_in) {
             ));
         }
         echo $response;
-    } /* end 'delete' if */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+    } /* end 'delete' if */ 
+    elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
         $id = $_GET['id'];
         $db2->query("SELECT * FROM tasks WHERE status = 1 AND id = :id");
         $db2->bind(':id', $id);
@@ -374,6 +375,18 @@ if (!$session->logged_in) {
         $devices = array();
         foreach ($devicesTaskQResult as $rowDev) {
             array_push($devices, $rowDev);
+        }
+        // assumption is, if its blank, when the task was created we selected specific devices and not a full category
+        // then we set the catOrDevices value to 1, meaning we have a list of devices to show and not a category
+        if($items[0]['catId']){ 
+            if (count(unserialize($items[0]['catId'])) > 1) {
+                $cats = implode(",", unserialize($items[0]['catId']));
+            } else {
+                $cats = unserialize($items[0]['catId']);
+            }
+            $db2->query("SELECT categoryName FROM categories WHERE id IN (". $cats .")");
+            $catTaskQResult = $db2->resultsetCols();       
+            $result['categoryName'] = $catTaskQResult;
         }
         $result["rows"] = $items;
         $result["devices"] = $devices;

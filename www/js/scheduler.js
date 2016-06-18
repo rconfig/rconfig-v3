@@ -100,6 +100,7 @@ function getTask() {
             });
 
             //loop through all items in the JSON array  
+            var categoryNames = data.categoryName
             var id = '';
             var taskTypeView = '';
             var taskNameView = '';
@@ -148,35 +149,70 @@ function getTask() {
                 }
                 // display modal if taskNameView is NOT undefined or NULL
                 if (taskNameView) {
-                    bootbox.dialog({
-                        title: '<h3 class="h3">Scheduled task details:</h3>',
-                        size: 'large',
-                        message: '' +
-                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Task Details</h4><br />' +
-                                '<hr>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task ID: </span><span id="taskIdView" name="taskIdView" style=\"float:left; font-size:12px;\">' + id + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Type: </span><span id="taskTypeView" name="taskTypeView" style=\"float: left; font-size:12px;\" >' + taskTypeView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Name: </span><span id="taskNameView" name="taskNameView" style=\"float: left; font-size:12px;\">' + taskNameView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Description: </span><span id="taskDescView" name="taskDescView" style=\"float: left; font-size:12px;\">' + taskDescView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Added By: </span><span id="addedByView" name="addedByView" style=\"float: left; font-size:12px;\">' + addedByView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Created on: </span><span id="dateAddedView" name="dateAddedView" style=\"float: left; font-size:12px;\">' + dateAddedView + '</span></p><br/>' +
-                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Schedule</h4><br />' +
-                                '<hr>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Minutes: </span><span id="minutesView" name="minutesView" style=\"float: left; font-size:12px;\">' + minutesView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Hours: </span><span id="hoursView" name="hoursView" style=\"float: left; font-size:12px;\">' + hoursView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Month: </span><span id="dayOfMonthView" name="dayOfMonthView" style=\"float: left; font-size:12px;\">' + dayOfMonthView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Month: </span><span id="MonthView" name="MonthView" style=\"float: left; font-size:12px;\">' + MonthView + '</span></p><br/>' +
-                                '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Week: </span><span id="dayOfWeekView" name="dayOfWeekView" style=\"float: left; font-size:12px;\">' + dayOfWeekView + '</span></p><br/>' +
-                                '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Devices</h4><br />' +
-                                '<hr>' +
-                                '<div id="taskDetailsDiv" style="text-align: left;">' + devicesStr + '</div>',
-                        buttons: {
-                            main: {
-                                label: "close",
-                                className: "btn",
+                    // check if one or many categories are returned and display the categories, else this is a devices selection task and we will display the devices
+                    if (categoryNames) {
+                        var categoryNamesAsString = categoryNames.join(', '); // convert to string with spaces
+                        bootbox.dialog({
+                            title: '<h3 class="h3">Scheduled task details:</h3>',
+                            size: 'large',
+                            message: '' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Task Details</h4><br />' +
+                                    '<hr>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task ID: </span><span id="taskIdView" name="taskIdView" style=\"float:left; font-size:12px;\">' + id + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Type: </span><span id="taskTypeView" name="taskTypeView" style=\"float: left; font-size:12px;\" >' + taskTypeView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Name: </span><span id="taskNameView" name="taskNameView" style=\"float: left; font-size:12px;\">' + taskNameView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Description: </span><span id="taskDescView" name="taskDescView" style=\"float: left; font-size:12px;\">' + taskDescView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Added By: </span><span id="addedByView" name="addedByView" style=\"float: left; font-size:12px;\">' + addedByView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Created on: </span><span id="dateAddedView" name="dateAddedView" style=\"float: left; font-size:12px;\">' + dateAddedView + '</span></p><br/>' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Schedule</h4><br />' +
+                                    '<hr>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Minutes: </span><span id="minutesView" name="minutesView" style=\"float: left; font-size:12px;\">' + minutesView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Hours: </span><span id="hoursView" name="hoursView" style=\"float: left; font-size:12px;\">' + hoursView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Month: </span><span id="dayOfMonthView" name="dayOfMonthView" style=\"float: left; font-size:12px;\">' + dayOfMonthView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Month: </span><span id="MonthView" name="MonthView" style=\"float: left; font-size:12px;\">' + MonthView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Week: </span><span id="dayOfWeekView" name="dayOfWeekView" style=\"float: left; font-size:12px;\">' + dayOfWeekView + '</span></p><br/>' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Categories</h4><br />' +
+                                    '<hr>' +
+                                    '<div id="taskDetailsDiv" style="text-align: left;"><span style=\"font-size:12px;\">' + categoryNamesAsString + '</span></div>',
+                            buttons: {
+                                main: {
+                                    label: "close",
+                                    className: "btn",
+                                }
                             }
-                        }
-                    });
+                        });
+                    } // end categorieNames Check
+                    else { // list individual devices
+                        bootbox.dialog({
+                            title: '<h3 class="h3">Scheduled task details:</h3>',
+                            size: 'large',
+                            message: '' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Task Details</h4><br />' +
+                                    '<hr>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task ID: </span><span id="taskIdView" name="taskIdView" style=\"float:left; font-size:12px;\">' + id + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Type: </span><span id="taskTypeView" name="taskTypeView" style=\"float: left; font-size:12px;\" >' + taskTypeView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Name: </span><span id="taskNameView" name="taskNameView" style=\"float: left; font-size:12px;\">' + taskNameView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Task Description: </span><span id="taskDescView" name="taskDescView" style=\"float: left; font-size:12px;\">' + taskDescView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Added By: </span><span id="addedByView" name="addedByView" style=\"float: left; font-size:12px;\">' + addedByView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Created on: </span><span id="dateAddedView" name="dateAddedView" style=\"float: left; font-size:12px;\">' + dateAddedView + '</span></p><br/>' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Schedule</h4><br />' +
+                                    '<hr>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Minutes: </span><span id="minutesView" name="minutesView" style=\"float: left; font-size:12px;\">' + minutesView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Hours: </span><span id="hoursView" name="hoursView" style=\"float: left; font-size:12px;\">' + hoursView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Month: </span><span id="dayOfMonthView" name="dayOfMonthView" style=\"float: left; font-size:12px;\">' + dayOfMonthView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Month: </span><span id="MonthView" name="MonthView" style=\"float: left; font-size:12px;\">' + MonthView + '</span></p><br/>' +
+                                    '<p><span style=\"width: 200px; float: left; text-align: left; font-weight: bold; font-size:12px;\">Day of Week: </span><span id="dayOfWeekView" name="dayOfWeekView" style=\"float: left; font-size:12px;\">' + dayOfWeekView + '</span></p><br/>' +
+                                    '<h4 class="h4" style="width: 100%; float: left; text-align: left; ">Devices</h4><br />' +
+                                    '<hr>' +
+                                    '<div id="taskDetailsDiv" style="text-align: left;"><span style=\"font-size:12px;\">' + devicesStr + '</span></div>',
+                            buttons: {
+                                main: {
+                                    label: "close",
+                                    className: "btn",
+                                }
+                            }
+                        });
+                    }
                 } else {
                     bootbox.alert({
                         size: 'small',
