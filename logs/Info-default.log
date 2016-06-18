@@ -165,3 +165,4 @@
 2016-06-18 12:09:33 INFO Success: Deleted task 646284 in DB and CRONTAB (File: /lib/crud/scheduler.crud.php)
 2016-06-18 12:09:47 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
 2016-06-18 12:09:47 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-06-18 22:59:49 INFO Success: Deleted category in DB (File: /lib/crud/categories.crud.php)

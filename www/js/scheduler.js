@@ -28,23 +28,10 @@ $(document).ready(function () {
     document.getElementById('catCommandDiv').style.display = 'none';
     document.getElementById('catCommand').disabled = true;
 });
-// next script is for row highlighting and selection of table rows	
-$("#taskTbl tbody tr").click(function (e) {
-// get the rowId below
-    var rowid = $(this).attr('setid');
-    $("#taskTbl tbody tr").removeClass("selected");
-    var $checkbox = $(this).find(':checkbox');
-    $("#taskTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
 
-// stop the bubbling to prevent firing the row's click event
-        e.stopPropagation();
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    } else {
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    }
-});
+// single row selector from rconfigFunctions.js
+tblRowSelector('taskTbl');
+
 /* Next function is to allow selection of devices or categories only select lists */
 function deviceOrCatSelect() {
     chosen = ""

@@ -52,7 +52,7 @@ $i = 0; # row counter  to enable alternate row coloring
         /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
         echo '<tr class="row' . ($i++ % 2) . '">';
         ?>
-    <td align="center"><input type="checkbox" id="<?php echo $id; ?>"/></td>
+    <td align="center"><input type="checkbox" name="tablecheckbox" id="<?php echo $id; ?>"/></td>
     <td align="left"><?php echo $rows['id'] ?></td>
     <td align="left"><?php echo $rows['taskname'] ?></td>
     <td align="left"><?php echo $rows['taskDescription'] ?></td>

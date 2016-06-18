@@ -42,22 +42,8 @@ function clearSearch() {
     window.location = "devices.php"
 }
 
-$("#devicesTbl tbody tr").click(function (e) {
-    // get the rowId below
-    var rowid = $(this).attr('setid');
-
-    $("#devicesTbl tbody tr").removeClass("selected");
-    var $checkbox = $(this).find(':checkbox');
-    $("#devicesTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
-
-        e.stopPropagation();
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    } else {
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    }
-});
+// single row selector from rconfigFunctions.js
+tblRowSelector('devicesTbl');
 
 // Next action when delDevice function is called from Delete button
 function delDevice() {

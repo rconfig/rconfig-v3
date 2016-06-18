@@ -49,7 +49,7 @@ $i = 0;
         /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
         echo '<tr class="row' . ($i++ % 2) . '">';
         ?>
-    <td align="center"><input type="checkbox" id="<?php echo $id; ?>"/></td>
+    <td align="center"><input type="checkbox" name="tablecheckbox" id="<?php echo $id; ?>"/></td>
     <td align="left"><?php echo $categoryName; ?></td>
     </tr>
 <?php endforeach; ?>

@@ -29,7 +29,6 @@ function openHelp() {
 
 }
 
-
 // enter key function
 // http://stackoverflow.com/questions/979662/how-to-detect-pressing-enter-on-keyboard-using-jquery
 $.fn.enterKey = function (fnc) {
@@ -98,7 +97,7 @@ function removeItem(message, url, errorMsg) {
 // http://stackoverflow.com/questions/14354040/jquery-1-9-live-is-not-a-function
 jQuery.fn.extend({
     live: function (event, callback) {
-       if (this.selector) {
+        if (this.selector) {
             jQuery(document).on(event, this.selector, callback);
         }
     }
@@ -106,14 +105,34 @@ jQuery.fn.extend({
 
 // get url parameters
 function getParameter(paramName) {
-  var searchString = window.location.search.substring(1),
-      i, val, params = searchString.split("&");
+    var searchString = window.location.search.substring(1),
+            i, val, params = searchString.split("&");
 
-  for (i=0;i<params.length;i++) {
-    val = params[i].split("=");
-    if (val[0] == paramName) {
-      return val[1];
+    for (i = 0; i < params.length; i++) {
+        val = params[i].split("=");
+        if (val[0] == paramName) {
+            return val[1];
+        }
     }
-  }
-  return null;
+    return null;
+}
+
+// single row selector function for tables
+function tblRowSelector(tableName) {
+    return $("#" + tableName).on('click', 'tr', function () {
+        var checkbox = $(this).find(':checkbox');
+        var rowid = checkbox.attr('id');
+        var row = $(this);
+        if (!row.hasClass('selected')) {
+            row.addClass('selected')       //add class to clicked row
+                    .siblings()                //get the other rows
+                    .removeClass('selected');  //remove their classes
+        }
+        // clear all check boxes
+        $('input[name=tablecheckbox]').each(function () {
+            this.checked = false;
+        });
+        // select single box only
+        checkbox.prop('checked', true);
+    });
 }

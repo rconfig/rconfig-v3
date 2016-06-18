@@ -12,21 +12,8 @@ $(document).ready(function () {
 
 });
 
-$("#userAddTbl tbody tr").click(function (e) {
-    var rowid = $(this).attr('setid');
-
-    $("#userAddTbl tbody tr").removeClass("selected");
-    var $checkbox = $(this).find(':checkbox');
-    $("#userAddTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
-
-        e.stopPropagation();
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    } else {
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    }
-});
+// single row selector from rconfigFunctions.js
+tblRowSelector('userAddTbl');
 
 function delUser() {
     // remove Item Function located at rconfigFunctions.js
