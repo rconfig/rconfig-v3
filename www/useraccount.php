@@ -49,7 +49,7 @@
         }
         ?>
                 <?php echo $form->error("username"); ?>
-                <form action="lib/crud/userprocess.php" method="POST">
+                <form action="lib/crud/userprocess.php" method="POST"  style="margin-left:50px;">
                     <input type="hidden" name="editid" value="<?php echo $session->userid; ?>">
                     <input type="hidden" name="username" value="<?php echo $session->username; ?>">
                     <input type="hidden" name="ulevelid" value="<?php echo $session->userlevel; ?>">

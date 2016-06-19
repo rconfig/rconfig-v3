@@ -19,7 +19,7 @@
         <p>A new password will be generated for you and sent to the email address
             associated with your account, all you have to do is enter your
             username.<br><br></p>
-        <form action="lib/crud/userprocess.php" method="POST">
+        <form action="lib/crud/userprocess.php" method="POST" style="margin-left:50px;">
             <div class="spacer"></div>
             <label style="font-size:0.9em">Username:
                 <div class="spacer"></div>
