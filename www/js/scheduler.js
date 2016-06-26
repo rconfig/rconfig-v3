@@ -75,15 +75,12 @@ function getTask() {
 
             // get devices and list in deviceNameView DIV
             var devicesStr = '';
+
             $.each(data.devices, function (i, data) {
                 var deviceName = data.deviceName;
-
                 if (deviceName) {
                     devicesStr += deviceName + ', ';
-                } else {
-                    bootbox.alert("Could not load data!");
-                }
-                bootbox.alert("Please select a Task!");
+                } 
                 return devicesStr;
             });
 
@@ -287,8 +284,9 @@ function changeType() {
     catCommandDiv.style.display = taskTypeVal === '3' ? 'none' : 'block'; // however, if the 'config snippet' task type is selected. Hide the Commands Div
     catCommandSel.disabled = taskTypeVal === '3' ? true : false; // however, if the 'config snippet' task type is selected. Disable the Commands Select
 
-    if (taskTypeVal === 2) { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
-        if (catId !== '') { // if catId is not equal to '' i.e. catId is selected then carry on
+    if (taskTypeVal === '2') { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
+        if (catId) { // if catId is not equal to '' i.e. catId is selected then carry on
+
             $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
                 var command = '';
@@ -300,7 +298,7 @@ function changeType() {
             });
         }
 
-        if (catId !== '') { // if catId is not equal to '' i.e. catId is selected then carry on
+        if (catId) { // if catId is not equal to '' i.e. catId is selected then carry on
             $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
                 var options = '';

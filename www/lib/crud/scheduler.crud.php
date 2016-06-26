@@ -379,11 +379,11 @@ if (!$session->logged_in) {
         // assumption is, if its blank, when the task was created we selected specific devices and not a full category
         // then we set the catOrDevices value to 1, meaning we have a list of devices to show and not a category
         if($items[0]['catId']){ 
-            if (count(unserialize($items[0]['catId'])) > 1) {
+            if (count(unserialize($items[0]['catId'])) >= 1 && is_array(unserialize($items[0]['catId']))) {
                 $cats = implode(",", unserialize($items[0]['catId']));
             } else {
-                $cats = unserialize($items[0]['catId']);
-            }
+                $cats = unserialize($items[0]['catId']); // if an array wasn't passed, its a single string item unserialised from DB
+            } 
             $db2->query("SELECT categoryName FROM categories WHERE id IN (". $cats .")");
             $catTaskQResult = $db2->resultsetCols();       
             $result['categoryName'] = $catTaskQResult;

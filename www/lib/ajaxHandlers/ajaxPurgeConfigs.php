@@ -12,9 +12,7 @@ if (!$session->logged_in) {
 } else {
 // loaded from www\js\configoverview.js. 
 // php errors supressed on this page because they should not interrupt the JSON response. 
-//i.e. if errors were made due to SQL errors etc.. JSON would not be processed by JS on the SettingsDB.php page
-    error_reporting(0);
-    
+//i.e. if errors were made due to SQL errors etc.. JSON would not be processed by JS on the SettingsDB.php page    
     require_once("../../../classes/db2.class.php");
 
     $log = ADLog::getInstance();
@@ -27,9 +25,9 @@ if (!$session->logged_in) {
     $db2->query("SELECT id FROM configs WHERE DATE_SUB(CURDATE(),INTERVAL " . $purgeDays . " DAY) >= configDate");
     $getIDs = $db2->resultset();
     $getIDs = flatten($getIDs);
-        
 // logging below
     if ($getIDs) {
+
         $log->Info("Info: Start manual " . $purgeDays . " day Config File Purge - GET DB IDs(File: " . $_SERVER['PHP_SELF'] . ")");
     } else {
         $response['response'] = "ERROR: executing query $getIDs";
@@ -46,10 +44,8 @@ if (!$session->logged_in) {
 
 // physically remove directories
         foreach ($getDirRes as $row) {
-            foreach ($row as $k => $v) {
-                echo $v;
-                exec('rm -fr ' . $v);
-            }
+                echo $row;
+                exec('rm -fr ' . $row);
         }
 // delete all empty Dirs under /home/rconfig/data/ for completeness
         exec('find /home/rconfig/data/. -type d -empty -delete');

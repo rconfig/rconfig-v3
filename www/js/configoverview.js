@@ -1,5 +1,5 @@
 $(function () {
-    var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
+    var ajax_load = "<img src='images/ajax_loader.gif' alt='loading...' />";
     // call getLog function on page load  from rconfigFunctions.js		
     getLog(10);
     // this function Gets the log field output and displays in the div - more to be done here
