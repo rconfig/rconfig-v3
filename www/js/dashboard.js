@@ -1,9 +1,9 @@
 $(function () {
-
+    $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxGetrConfigNotice.php", function (data) {
         var noticeJson = JSON.parse(data)
         //http://codeseven.github.io/toastr/demo.html
-        toastr.info(noticeJson.notice, noticeJson.date + ' - ' + noticeJson.title, {"closeButton": true,"timeOut": "5000"});
+        toastr.info(noticeJson.notice, noticeJson.date + ' - ' + noticeJson.title, {"closeButton": true, "timeOut": "5000"});
     });
 
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";

@@ -145,3 +145,5 @@
 2016-06-11 08:33:02 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.5 & Username: Guest (File: /lib/ajaxHandlers/ajaxSettingsProcess.php)
 2016-06-11 10:16:50 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /lib/ajaxHandlers/ajaxGetLatestVersion.php)
 2016-06-11 10:56:43 WARN Failure: deviceAccessMethodId input is incorrect (File: /lib/crud/devices.crud.php)
+2016-06-26 05:47:58 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 05:48:55 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)

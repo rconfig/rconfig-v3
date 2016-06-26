@@ -9933,3 +9933,5 @@
 2016-06-26 01:03:09 CONN Failure: Unable to connect to www.rconfig.com - 81.17.241.230 when running taskID 709001 - in  Error:(File: /home/rconfig/lib/showCmdScript.php)
 2016-06-26 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
 2016-06-26 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-26 05:47:58 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 05:48:55 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
