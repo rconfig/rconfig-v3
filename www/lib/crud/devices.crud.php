@@ -127,6 +127,7 @@ if (!$session->logged_in) {
         } else {
             $errors['catId'] = "Category field cannot be empty";
             $log->Warn("Failure: Category field did not pass numeric value i.e. catId OR awas empty (File: " . $_SERVER['PHP_SELF'] . ")");
+            $catId = '';
         }
 
         if (isset($_POST['username'])) {
@@ -142,7 +143,13 @@ if (!$session->logged_in) {
         $taskIdColumns = '';
         $taskValue = '';
         foreach ($resultCatSelect as $taskRow) {
-            if (!empty($taskRow['catId']) && in_array($catId, unserialize($taskRow['catId']))) {
+            if (!empty($taskRow['catId'])) {
+                $catIdArray = unserialize($taskRow['catId']);
+                if(gettype($catIdArray) == 'string'){ // if value return is a string and not an array, convert it
+                    $catIdArray = explode(',', $catIdArray);
+                }
+            }
+            if (!empty($taskRow['catId']) && is_array($taskRow) && in_array($catId, $catIdArray)) {
                 $taskIdColumns .= "taskId" . $taskRow['id'] . ", ";
                 $taskValue .= "'1',";
             }

@@ -111,7 +111,7 @@ include("includes/head.inc.php");
                             <div id="left">
                                 <legend>Device Details</legend>
                                 <label for="deviceName"><font color="red">*</font> Device Name:</label>
-                                <input name="deviceName" id="deviceName" placeholder="Device Name" tabindex='1' style="width:150px;" value="<?php if (isset($deviceName)) echo $deviceName; ?>">
+                                <input name="deviceName" id="deviceName" placeholder="Device Name" tabindex='1' style="width:150px;" value="<?php if (isset($deviceName)) echo $deviceName; ?>" class="tooltip-right" data-original-title="You cannot edit a Device Name after it has been created" title="You cannot edit a Device Name after it has been created" alt="You cannot edit a Device Name after it has been created">
                                 <div class="spacer"></div>
                                 <?php
                                 if (isset($errors['deviceName'])) {

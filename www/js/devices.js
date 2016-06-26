@@ -3,6 +3,13 @@ $(document).ready(function () {
         editDevice('deviceMgmtPage');
     }
 
+    // tooltip for editing a devices name
+    $("#deviceName").click(function () {
+        if ($("#deviceName").val() !== '') {
+            $('.tooltip-right').tooltip({placement: 'right'});
+        }
+    });
+
     if (location.href.match(/\error/)) {
         $("#dialog-category-Switch-Error").hide();
         $('.mainformDiv').show();
@@ -59,7 +66,7 @@ function editDevice(invoc) {
     if (getParameter('deviceid') && invoc === 'deviceMgmtPage') {
         var rowid = getParameter('deviceid');
     } else if (invoc === 'button') {
-        var rowid = $("input:checkbox[name=checkboxId]:checked").attr("id");
+        var rowid = $('[name="tablecheckbox"]:checkbox:checked').attr("id");
     }
     if (rowid) {
         $.ajaxSetup({cache: false});
@@ -101,7 +108,7 @@ function editDevice(invoc) {
                     $('input[name="editModeOn"]').val(1) // used to populate id input so that edit script will insert
 
                     // check if data has any 'custom_' keys
-                    for(var key in data) {
+                    for (var key in data) {
                         // check string contains 'custom_' https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String/indexOf
                         if (key.indexOf('custom_') !== -1) {
                             if (data[key] !== null) {
