@@ -1,4 +1,11 @@
 $(function () {
+
+    $.getJSON("lib/ajaxHandlers/ajaxGetrConfigNotice.php", function (data) {
+        var noticeJson = JSON.parse(data)
+        //http://codeseven.github.io/toastr/demo.html
+        toastr.info(noticeJson.notice, noticeJson.date + ' - ' + noticeJson.title, {"closeButton": true,"timeOut": "5000"});
+    });
+
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
 
 // check if install directory is still present and show an error on the dashboard if it is

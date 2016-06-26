@@ -35,6 +35,7 @@ if (!$session->logged_in) {
         <link rel="stylesheet" type="text/css" href="css/jqueryNotification/jquery_notification.css" />
         <link rel="stylesheet" type="text/css" href="css/jqueryui/jquery.ui.datepicker.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/toastr/toastr.min.css" />
         <!-- file Tree CSS -->
         <link rel="stylesheet" type="text/css" href="css/filetreecss/default.css" />
         <!--[if lt IE 9]>
@@ -50,6 +51,7 @@ if (!$session->logged_in) {
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
         <script type="text/javascript" src="js/pagination/pagination.min.js" ></script>
         <script type="text/javascript" src="js/pageTimeout.js" ></script>
+        <script type="text/javascript" src="js/toastr/toastr.min.js" ></script>       
         <!-- Custom JS -->
         <script type="text/javascript" src="js/rconfigFunctions.js"></script>
     </head>
