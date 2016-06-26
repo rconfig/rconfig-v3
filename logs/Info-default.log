@@ -174,3 +174,60 @@
 2016-06-19 01:03:09 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
 2016-06-19 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
 2016-06-19 06:02:51 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-20 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-20 00:03:09 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-20 00:03:09 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-20 01:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-20 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-20 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-20 06:00:02 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-20 06:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-21 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-21 00:03:20 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-21 00:03:20 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-21 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-21 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-21 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-21 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-21 06:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-22 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-22 00:03:09 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-22 00:03:09 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-22 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-22 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-22 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-22 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-22 06:02:51 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-23 00:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-23 00:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-23 00:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-23 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-23 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-23 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-23 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-23 06:02:51 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-24 00:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-24 00:00:02 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:937868
+2016-06-24 00:02:52 INFO Info: rConfig Report - NTP Routers Deployment Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-24 00:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-24 00:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-24 00:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-24 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-24 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-24 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-24 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-24 06:02:51 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-25 00:00:02 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-25 00:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-25 00:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-25 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-25 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-25 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-25 06:00:01 INFO The /home/rconfig/lib/configCategoryScript.php script was run from crontab ID:694865
+2016-06-25 06:02:52 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-26 00:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-26 00:03:09 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-26 00:03:09 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively
+2016-06-26 01:00:01 INFO The /home/rconfig/lib/showCmdScript.php script was run from crontab ID:709001
+2016-06-26 01:03:10 INFO Info: rConfig Report - Download All Routers Configs Email Report sent to :stephen@rconfig.com (stephen&#64;rconfig.com)
+2016-06-26 01:03:10 INFO The owner permisions for directory /home/rconfig/data/ were reset to owner apache because script was run interactively

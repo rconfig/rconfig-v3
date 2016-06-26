@@ -427,31 +427,6 @@ padding: 3px 15px;
 
 /* Compare Class Styling */
 
-
-/* simpleModal Styling */
-#simplemodal-overlay {
-	background-color:#EDEDED;
-}
-#simplemodal-container {
-	background-color:#333; 
-	border:8px solid #444; 
-	padding:12px;
-	color:#FFF;
-	width:400px; 
-	height:auto !important;
-}
-#simplemodal-container h2 {
-	color:#FFF;
-}
-#simplemodal-container p {
-	display: inline-block;
-	margin-bottom:3px;
-	margin-top:3px;
-}
-#simplemodal-container .simplemodal-close {
-	color:red;
-}
-
 /* Style update notification pop-up */
 #updateNotice {
 	

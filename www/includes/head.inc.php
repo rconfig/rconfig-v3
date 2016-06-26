@@ -46,7 +46,6 @@ if (!$session->logged_in) {
         <!-- jQuery UI -->
         <script type="text/javascript" src="js/jquery/jquery-ui.js"></script>
         <script type="text/javascript" src="js/filetree/php_file_tree.js" ></script>
-        <script type="text/javascript" src="js/simpleModal/jquery.simplemodal.1.4.2.min.js" ></script>
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
         <script type="text/javascript" src="js/pagination/pagination.min.js" ></script>

@@ -18,7 +18,7 @@
             <div id="content"> <!-- Main Content Start-->
                 <div id="dashboardLeft">
                     <div id="browserRequirements">
-                        <h2 id="_h">Your web browser is out if date!</h2>
+                        <h2 id="_h">Your web browser is out of date!</h2>
                         <p id="_p">To get the best possible experience using our website we recommend that you upgrade to a newer version or other web browser. A list of the most popular web browsers can be found below.</p>
                         <div class="spacer"></div><br/>
                         <p id="_p">Just click on the icons to get to the download page</p>
