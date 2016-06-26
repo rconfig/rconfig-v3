@@ -12,8 +12,8 @@ function updateFn() {
     $.getJSON("lib/ajaxHandlers/ajaxInstallUpdate.php", function (data) {
 
         if (data.noUpdateFile) {
-            errorDialog(data.noUpdateFile)
-            window.location.reload()
+            errorDialog(data.noUpdateFile);
+            window.location.reload();
         } else {
             $('#pleaseWait').hide();
             jQuery.each(data, function (i, val) {

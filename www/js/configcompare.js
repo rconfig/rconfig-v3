@@ -60,7 +60,7 @@ function cmdSelectPopulate(inputname, selectname) {
             //Add the input items back in
             var html = '';
             var len = data.length;
-            html = '<option value="">-- Select a command--</option>'
+            html = '<option value="">-- Select a command--</option>';
             for (var i = 0; i < len; i++) {
                 html += '<option value="' + data[i].value + '">' + data[i].value + '</option>';
             }
@@ -71,11 +71,11 @@ function cmdSelectPopulate(inputname, selectname) {
 
 // get dates for selected command
 function datepickerSetup(inputname, selectname, datepickerDivName, datepickername) {
-    $("#" + selectname + "").on('change', function () {s
+    $("#" + selectname + "").on('change', function () {
         firstId = $("input[name=" + inputname + "]").attr('id');
         command = $("#" + selectname + " option:selected").attr('value');
         command = command.replace(/\s/g, ''); // remove whitespace
-        if (command != '') {
+        if (command !== '') {
             $("#" + datepickerDivName + "").show();
             $.getJSON("lib/ajaxHandlers/ajaxCompareGetCmdDates.php?deviceId=" + firstId + "&command=" + command, function (data) {
 
@@ -92,7 +92,7 @@ function datepickerSetup(inputname, selectname, datepickerDivName, datepickernam
                     var day = date.getDate();
                     var year = date.getFullYear();
                     for (i = 0; i < data.length; i++) {
-                        if ($.inArray((month + 1) + '-' + day + '-' + year, data) != -1) {
+                        if ($.inArray((month + 1) + '-' + day + '-' + year, data) !== -1) {
                             return [true, 'ui-state-active'];
                         }
                     }
@@ -108,8 +108,8 @@ function datepickerSetup(inputname, selectname, datepickerDivName, datepickernam
 function compare() {
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
     var linepadding = $('#linepadding').val();
-    if (linepadding == '') {
-        linepadding = 'null'
+    if (linepadding === '') {
+        linepadding = 'null';
     }
 
     // get device names
@@ -137,11 +137,11 @@ function compare() {
         if (firstpath && secondpath) {
             $('#resultsDiv').load("lib/crud/configcompare.crud.php?path_a=" + firstpath + "&path_b=" + secondpath + "&linepadding=" + linepadding);
         } else {
-            errorDialog("Something went wrong! Could not retrieve configs for both devices")
+            errorDialog("Something went wrong! Could not retrieve configs for both devices");
         }
 
     } else {
-        errorDialog("Please complete all fields!")
+        errorDialog("Please complete all fields!");
     }
 }
 
@@ -155,6 +155,6 @@ function getPaths(deviceName, command, date) {
 }
 
 function reloadPage() {
-    window.location.reload(true) // true to reload with out POSTBACK warning in browser
+    window.location.reload(true); // true to reload with out POSTBACK warning in browser
 }
 

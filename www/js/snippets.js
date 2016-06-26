@@ -26,7 +26,7 @@ $("#snippetTbl tbody tr").click(function (e) {
     $("#snippetTbl tbody tr").removeClass("selected");
     var $checkbox = $(this).find(':checkbox');
     $("#snippetTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
+    if (e.target.type === "checkbox") {
 
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
@@ -39,29 +39,29 @@ $("#snippetTbl tbody tr").click(function (e) {
 
 function delSnippet() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Snippet?", 'lib/crud/snippets.crud.php', "Please select a Snippet to delete!")
+    removeItem("Are you sure you want to remove this Snippet?", 'lib/crud/snippets.crud.php', "Please select a Snippet to delete!");
 }
 
 function editSnippet() {
 
-    var getRow = "getRow"
-    var rowid = $("input:checkbox:checked").attr("id")
+    var getRow = "getRow";
+    var rowid = $("input:checkbox:checked").attr("id");
     if (rowid) {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/crud/snippets.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
-                var snippetName = data.snippetName
-                var snippetDesc = data.snippetDesc
-                var snippet = data.snippet
+                var snippetName = data.snippetName;
+                var snippetDesc = data.snippetDesc;
+                var snippet = data.snippet;
                 if (snippetName) {
                     if ($('.mainformDiv').is(':hidden')) {
                         $('.mainformDiv').slideToggle();
                     }
-                    $('input[name="snippetName"]').val(snippetName)
-                    $('input[name="snippetDesc"]').val(snippetDesc)
-                    $('textarea[name="snippet"]').val(snippet)
-                    $('input[name="editid"]').val(rowid) // used to populate id input so that edit script will insert
+                    $('input[name="snippetName"]').val(snippetName);
+                    $('input[name="snippetDesc"]').val(snippetDesc);
+                    $('textarea[name="snippet"]').val(snippet);
+                    $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                 } else {
                     errorDialog("Could not load data");
                 }
@@ -69,11 +69,11 @@ function editSnippet() {
             });
         });
     } else {
-        errorDialog("Please select a Snippet to edit!")
+        errorDialog("Please select a Snippet to edit!");
     }
 }
 
 // default back to no GETs or POSTS when click i.e. default devices page
 function clearSearch() {
-    window.location = "snippets.php"
+    window.location = "snippets.php";
 }

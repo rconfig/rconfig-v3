@@ -147,3 +147,8 @@
 2016-06-11 10:56:43 WARN Failure: deviceAccessMethodId input is incorrect (File: /lib/crud/devices.crud.php)
 2016-06-26 05:47:58 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
 2016-06-26 05:48:55 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 06:01:33 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 06:05:03 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 06:17:22 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-26 12:43:36 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.2 & Username: Guest (File: /dashboard.php)
+2016-06-26 13:04:11 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.2 & Username: Guest (File: /dashboard.php)

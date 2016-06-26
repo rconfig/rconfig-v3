@@ -1,15 +1,15 @@
 $(function () {
-    outputReports('connectionReports')
-    outputReports('compareReports')
-    outputReports('complianceReports')
-    outputReports('configSnippetReports')
+    outputReports('connectionReports');
+    outputReports('compareReports');
+    outputReports('complianceReports');
+    outputReports('configSnippetReports');
 
 });
 
 function outputReports(reportName) {
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/reports/" + reportName + "/&ext=html", function (data) {
 
-        if ($.isEmptyObject(data) != true) {
+        if ($.isEmptyObject(data) !== true) {
             var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var filename = obj.filename;
@@ -17,7 +17,7 @@ function outputReports(reportName) {
 
                 var rowHTML = ['<div>'];
                 rowHTML.push('<p><a href="lib/crud/downloadFile.php?download_file=' + filepath + '" rel="nofollow" title="click to view" alt="click to view">' + filename + '</p>');
-                "onclick=javascript:openFile('[link]');"
+                "onclick=javascript:openFile('[link]');";
                 rowHTML.push('</div>');
                 html.push(rowHTML.join(''));
             });
@@ -34,11 +34,11 @@ function deleteFiles(filePath, ext, id) {
     $('#pleaseWait' + id).slideDown('fast');
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
-        if (data.success == true) {
-            errorDialog("Reports deleted successfully")
+        if (data.success === true) {
+            errorDialog("Reports deleted successfully");
         } else {
-            errorDialog("Some Reports could not be deleted")
+            errorDialog("Some Reports could not be deleted");
         }
-        window.location.reload()
-    })
+        window.location.reload();
+    });
 }

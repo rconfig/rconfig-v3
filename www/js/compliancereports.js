@@ -29,7 +29,7 @@ $("#reportsTbl tbody tr").click(function (e) {
     $("#reportsTbl tbody tr").removeClass("selected");
     var $checkbox = $(this).find(':checkbox');
     $("#reportsTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
+    if (e.target.type === "checkbox") {
 
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
@@ -42,35 +42,35 @@ $("#reportsTbl tbody tr").click(function (e) {
 
 function delReport() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Report?", 'lib/crud/compliancereports.crud.php', "Please select a Report to delete!")
+    removeItem("Are you sure you want to remove this Report?", 'lib/crud/compliancereports.crud.php', "Please select a Report to delete!");
 }
 
 function editReport() {
 
-    var getRow = "getRow"
-    var rowid = $("input:checkbox:checked").attr("id")
+    var getRow = "getRow";
+    var rowid = $("input:checkbox:checked").attr("id");
     if (rowid) {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/crud/compliancereports.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
-                var reportsName = data.reportsName
-                var reportsDesc = data.reportsDesc
+                var reportsName = data.reportsName;
+                var reportsDesc = data.reportsDesc;
                 if (reportsName) {
                     if ($('.mainformDiv').is(':hidden')) {
                         $('.mainformDiv').slideToggle();
                     }
-                    $('input[name="reportsName"]').val(reportsName)
-                    $('input[name="reportsDesc"]').val(reportsDesc)
-                    $.ajaxSetup({ cache: false });
+                    $('input[name="reportsName"]').val(reportsName);
+                    $('input[name="reportsDesc"]').val(reportsDesc);
+                    $.ajaxSetup({cache: false});
                     // populate the selected box with this Report IDs elements
                     $.getJSON("lib/ajaxHandlers/ajaxGetPolicyPolicies.php?id=" + rowid, function (data) {
-                        selectedOptions = data
+                        selectedOptions = data;
                         $('#selectedPoliciesSel')[0].options.length = 0; // clear the box of existing values
                         $("#selectedPoliciesSel").append(selectedOptions); // append the html
                     });
 
-                    $('input[name="editid"]').val(rowid) // used to populate id input so that edit script will insert
+                    $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                 } else {
                     errorDialog("Could not load data");
                 }
@@ -78,7 +78,7 @@ function editReport() {
             });
         });
     } else {
-        errorDialog("Please select a Report to edit!")
+        errorDialog("Please select a Report to edit!");
     }
 }
 
@@ -90,7 +90,7 @@ function SelectMoveRows(SS1, SS2)
     // Move rows from SS1 to SS2 from bottom to top
     for (i = SS1.options.length - 1; i >= 0; i--)
     {
-        if (SS1.options[i].selected == true)
+        if (SS1.options[i].selected === true)
         {
             SelID = SS1.options[i].value;
             SelText = SS1.options[i].text;
@@ -126,5 +126,5 @@ function SelectSort(SelList)
 
 // default back to no GETs or POSTS when click i.e. default devices page
 function clearSearch() {
-    window.location = "compliancereports.php"
+    window.location = "compliancereports.php";
 }

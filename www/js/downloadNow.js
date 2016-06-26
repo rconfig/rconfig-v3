@@ -1,6 +1,6 @@
 $(window).load(function () {
     $('#noticeBoard').hide();
-    var rid = location.search.split('rid=')[1]
+    var rid = location.search.split('rid=')[1];
     runDownloadScript(rid);
 });
 

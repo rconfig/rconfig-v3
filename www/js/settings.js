@@ -1,5 +1,7 @@
 $(function () {
-    
+    /* global top */
+    /* global bootbox */
+    /* global answer */
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?getDebugStatus", function (data) {
         $('#debugNoticeDiv').html(data);
@@ -16,7 +18,7 @@ $(function () {
     
     
     $.getJSON("lib/ajaxHandlers/ajaxReadDirtoArr.php?path=/home/rconfig/logs/debugging/&ext=txt", function (data) {
-        if ($.isEmptyObject(data) != true) {
+        if ($.isEmptyObject(data) !== true) {
             var html = [];
             $.each(data, function (key, obj) { // example: http://jsfiddle.net/Xu7c4/13/
                 var filename = obj.filename;
@@ -31,7 +33,7 @@ $(function () {
             });
             $('#settingsDebugLogs').html(html.join(''));
             // pagination here: http://web.enavu.com/js/jquery/jpaginate-jquery-pagination-system-plugin/
-            $("#settingsDebugLogs").jPaginate({items: 10, next: '', previous: '',});
+            $("#settingsDebugLogs").jPaginate({items: 10, next: '', previous: ''});
         } else {
             $('#settingsDebugLogs').append('<tr><td><font color="red">Turn on debugging to collect debug files</font></td></tr>');
         }
@@ -50,7 +52,7 @@ $(function () {
                 $('input[name="smtpServerAddr"]').val(smtpServerAddr);
                 $('input[name="smtpFromAddr"]').val(obj.smtpFromAddr);
                 $("#smtpRecipientAddr").val(obj.smtpRecipientAddr);
-                if (obj.smtpAuth == "1") {
+                if (obj.smtpAuth === "1") {
                     $('#smtpAuth').attr('checked', 'checked');
                     $('#authDiv').show();
                     $('input[name="smtpAuthUser"]').val(obj.smtpAuthUser);
@@ -87,38 +89,38 @@ $(function () {
         $.ajaxSetup({cache: false});
 // LDAP Server text box
         $('#ldapServer').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#ldapServerGo').click();
         });
 //Page Timeout text box
         $('#pageTimeout').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#pageTimeoutGo').click();
         });
 //Connection Timeout text box
         $('#deviceTout').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#deviceToutGo').click();
         });
 //Default Credentials text boxes (all 3)
 //Default Node Username text box
         $('#defaultNodeUsername').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#updateDefaultPass').click();
         });
 //Default Node Password text box
         $('#defaultNodePassword').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#updateDefaultPass').click();
         });
 //Default Node Enable Mode Password text box
         $('#defaultNodeEnable').keypress(function (e) {
-            if (e.keyCode == 13)
+            if (e.keyCode === 13)
                 ;
             $('#updateDefaultPass').click();
         });
@@ -142,7 +144,7 @@ function openFile(filePath) {
 function deleteDebugFiles(filePath, ext) {
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxDeleteAllLoggingFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
-        if (data.success == true) {
+        if (data.success === true) {
             errorDialog("Debug files deleted successfully");
         } else {
             errorDialog("Some files could not be deleted");
@@ -153,7 +155,7 @@ function deleteDebugFiles(filePath, ext) {
 
 function timeZoneChange() {    
     var timeZone = $('#timeZone').val();
-    if (timeZone != '') {
+    if (timeZone !== '') {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?timeZoneChange=" + timeZone, function (data) {
 
@@ -169,7 +171,7 @@ function timeZoneChange() {
 
 function debugOnOff() {
     var debugOnOff = $('#debugOnOff').val();
-    if (debugOnOff != '') {
+    if (debugOnOff !== '') {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?debugOnOff=" + debugOnOff, function (data) {
             $.ajaxSetup({cache: false});
@@ -186,7 +188,7 @@ function debugOnOff() {
 
 function showPasswords() {
     var checkBoxStatus = document.getElementById('passwordChkBox').checked;
-    if (checkBoxStatus == true) {
+    if (checkBoxStatus === true) {
         $('#defaultNodePassword').get(0).type = 'text';
         $('#defaultNodeEnable').get(0).type = 'text';
     } else {
@@ -199,7 +201,7 @@ function showPasswords() {
 function phpLoggingOnOff() {
     var phpLoggingOnOff = $('#phpLoggingOnOff').val();
 
-    if (phpLoggingOnOff != '') {
+    if (phpLoggingOnOff !== '') {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?phpLoggingOnOff=" + phpLoggingOnOff, function (data) {
             $.ajaxSetup({cache: false});
@@ -215,7 +217,7 @@ function phpLoggingOnOff() {
 
 function deviceToutGo() {
     var deviceToutVal = $('#deviceTout').val();
-    if (deviceToutVal == null || deviceToutVal == '' || deviceToutVal == '0' || deviceToutVal == '00' || deviceToutVal == '000') {
+    if (deviceToutVal === null || deviceToutVal === '' || deviceToutVal === '0' || deviceToutVal === '00' || deviceToutVal === '000') {
         // if throw error
         errorDialog('Device Connection Timeout must be a value between 1-999');
     } else {
@@ -230,7 +232,7 @@ function deviceToutGo() {
 function pageTimeoutGo() {
     var pageTimeoutVal = $('#pageTimeout').val();
 
-    if (pageTimeoutVal == null || pageTimeoutVal == '' || pageTimeoutVal == '0' || pageTimeoutVal == '00' || pageTimeoutVal == '000' || pageTimeoutVal <= 119) {
+    if (pageTimeoutVal === null || pageTimeoutVal === '' || pageTimeoutVal === '0' || pageTimeoutVal === '00' || pageTimeoutVal === '000' || pageTimeoutVal <= 119) {
         errorDialog('Device Connection Timeout must be a value between 120 - 999999');
     } else {
         $.ajaxSetup({cache: false});
@@ -301,7 +303,7 @@ function smtpTest() {
     $('#pleaseWait').slideDown('fast');
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxSmtpTest.php", function (data) {
-        if (data.success == true) {
+        if (data.success === true) {
             errorDialog("Email sent successfully");
             $('#pleaseWait').slideUp('fast');
         } else {
@@ -328,7 +330,7 @@ function updateDefaultPass(defaultNodeUsername, defaultNodePassword, defaultNode
 function defaultCredsManualSet() {
     var defaultCredsManualSet = $('#defaultCredsManualSet').val();
 
-    if (defaultCredsManualSet != '') {
+    if (defaultCredsManualSet !== '') {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxSettingsProcess.php?defaultCredsManualSet=" + defaultCredsManualSet, function (data) {
             if (data) {

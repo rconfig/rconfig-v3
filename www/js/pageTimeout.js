@@ -1,11 +1,11 @@
-/* 
+/* global bootbox
  * Here is a simple script that handles mousemove and keypress events. If the time expires throw and alert, then after 1 monute logout the user.
  */
 // get the timeoutSetting value from ajax script and load to var
 var timeoutSetting = {};
 $.ajax({
     url: "lib/ajaxHandlers/ajaxGetPageTimeout.php",
-    async: false,
+    async: true,
     dataType: 'json',
     success: function (data) {
         timeoutSetting = data;

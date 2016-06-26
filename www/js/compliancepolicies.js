@@ -29,7 +29,7 @@ $("#policyTbl tbody tr").click(function (e) {
     $("#policyTbl tbody tr").removeClass("selected");
     var $checkbox = $(this).find(':checkbox');
     $("#policyTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type == "checkbox") {
+    if (e.target.type === "checkbox") {
 
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
@@ -42,36 +42,36 @@ $("#policyTbl tbody tr").click(function (e) {
 
 function delPolicy() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Policy?", 'lib/crud/compliancepolicies.crud.php', "Please select a Policy to delete!")
+    removeItem("Are you sure you want to remove this Policy?", 'lib/crud/compliancepolicies.crud.php', "Please select a Policy to delete!");
 }
 
 function editPolicy() {
 
-    var getRow = "getRow"
-    var rowid = $("input:checkbox:checked").attr("id")
+    var getRow = "getRow";
+    var rowid = $("input:checkbox:checked").attr("id");
     if (rowid) {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/crud/compliancepolicies.crud.php?id=" + rowid + "&getRow=" + getRow, function (data) {
             //loop through all items in the JSON array  
             $.each(data.rows, function (i, data) {
-                var policyName = data.policyName
-                var policyDesc = data.policyDesc
+                var policyName = data.policyName;
+                var policyDesc = data.policyDesc;
                 if (policyName) {
                     if ($('.mainformDiv').is(':hidden')) {
                         $('.mainformDiv').slideToggle();
                     }
-                    $('input[name="policyName"]').val(policyName)
-                    $('input[name="policyDesc"]').val(policyDesc)
+                    $('input[name="policyName"]').val(policyName);
+                    $('input[name="policyDesc"]').val(policyDesc);
 
                     // populate the selected box with this policy IDs elements
                     $.ajaxSetup({cache: false});
                     $.getJSON("lib/ajaxHandlers/ajaxGetPolicyElems.php?id=" + rowid, function (data) {
-                        selectedOptions = data
+                        selectedOptions = data;
                         $('#selectedElemsSel')[0].options.length = 0; // clear the box of existing values
                         $("#selectedElemsSel").append(selectedOptions); // append the html
                     });
 
-                    $('input[name="editid"]').val(rowid) // used to populate id input so that edit script will insert
+                    $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                 } else {
                     errorDialog("Could not load data");
                 }
@@ -79,7 +79,7 @@ function editPolicy() {
             });
         });
     } else {
-        errorDialog("Please select a Policy to edit!")
+        errorDialog("Please select a Policy to edit!");
     }
 }
 
@@ -91,7 +91,7 @@ function SelectMoveRows(SS1, SS2)
     // Move rows from SS1 to SS2 from bottom to top
     for (i = SS1.options.length - 1; i >= 0; i--)
     {
-        if (SS1.options[i].selected == true)
+        if (SS1.options[i].selected === true)
         {
             SelID = SS1.options[i].value;
             SelText = SS1.options[i].text;
@@ -128,5 +128,5 @@ function SelectSort(SelList)
 
 // default back to no GETs or POSTS when click i.e. default devices page
 function clearSearch() {
-    window.location = "compliancepolicies.php"
+    window.location = "compliancepolicies.php";
 }

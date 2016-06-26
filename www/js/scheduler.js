@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    /* global bootbox */
 // Open div and display error per above PHP next to input field
 // Check if 'message' GET is set in URL - if it is, display form and PHP error next to field
     if (location.href.match(/\error/)) { // check url for 'message'
@@ -34,19 +35,19 @@ tblRowSelector('taskTbl');
 
 /* Next function is to allow selection of devices or categories only select lists */
 function deviceOrCatSelect() {
-    chosen = ""
-    len = document.taskForm.selectRadio.length
+    chosen = "";
+    len = document.taskForm.selectRadio.length;
 
     for (i = 0; i < len; i++) { // get values from selectRadio selection
         if (document.taskForm.selectRadio[i].checked) {
-            chosen = document.taskForm.selectRadio[i].value
+            chosen = document.taskForm.selectRadio[i].value;
         }
     }
-    if (chosen == "deviceSelectRadio") { // if value = "deviceSelectRadio"
+    if (chosen === "deviceSelectRadio") { // if value = "deviceSelectRadio"
         document.taskForm.deviceSelect.disabled = false; //disable 'disabled' attr for 'deviceSelect' selection list
         document.taskForm.catSelect.disabled = true; //enable 'disabled' attr for 'catSelect' selection list
         document.getElementById("catSelect").selectedIndex = -1; // disable any selections made in the 'catSelect' selection list
-    } else if (chosen == "catSelectRadio") { // if value = "catSelectRadio"
+    } else if (chosen === "catSelectRadio") { // if value = "catSelectRadio"
         document.taskForm.catSelect.disabled = false; //disable 'disabled' attr for 'catSelect' selection list
         document.taskForm.deviceSelect.disabled = true; //enable 'disabled' attr for 'deviceSelect' selection list
         document.getElementById("deviceSelect").selectedIndex = -1; // disable any selections made in the 'deviceSelect' selection list
@@ -59,14 +60,14 @@ function deviceOrCatSelect() {
 // Next action when delTask function is called from Delete button
 function delTask() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Task?", 'lib/crud/scheduler.crud.php', "Please select a Task!")
+    removeItem("Are you sure you want to remove this Task?", 'lib/crud/scheduler.crud.php', "Please select a Task!");
 }
 
 
 // Next action when getTask function is called from edit button
 function getTask() {
-    var getRow = "getRow"
-    var rowid = $("input:checkbox:checked").attr("id")
+    var getRow = "getRow";
+    var rowid = $("input:checkbox:checked").attr("id");
     if (rowid) {
         $.ajaxSetup({cache: false});
         //retrieve task details to display on form from getRow GET variable
@@ -75,64 +76,64 @@ function getTask() {
             // get devices and list in deviceNameView DIV
             var devicesStr = '';
             $.each(data.devices, function (i, data) {
-                var deviceName = data.deviceName
+                var deviceName = data.deviceName;
 
                 if (deviceName) {
                     devicesStr += deviceName + ', ';
                 } else {
                     bootbox.alert("Could not load data!");
                 }
-                return devicesStr;
                 bootbox.alert("Please select a Task!");
+                return devicesStr;
             });
 
             //loop through all items in the JSON array  
-            var categoryNames = data.categoryName
+            var categoryNames = data.categoryName;
             var id = '';
             var taskTypeView = '';
             var taskNameView = '';
             $.each(data.rows, function (i, data) {
-                var id = data.id
-                var taskTypeView = data.taskType
-                var taskNameView = data.taskname
-                var taskDescView = data.taskDescription
-                var addedByView = data.addedBy
-                var dateAddedView = data.dateAdded
+                var id = data.id;
+                var taskTypeView = data.taskType;
+                var taskNameView = data.taskname;
+                var taskDescView = data.taskDescription;
+                var addedByView = data.addedBy;
+                var dateAddedView = data.dateAdded;
                 // get crontime from DB and split to array
-                var crontimeView = data.crontime
+                var crontimeView = data.crontime;
                 var n = crontimeView.split(" ");
-                if (n[0] == "*") {
-                    var minutesView = "Every Minute"
+                if (n[0] === "*") {
+                    var minutesView = "Every Minute";
                 } else {
-                    var minutesView = n[0]
+                    var minutesView = n[0];
                 }
-                if (n[1] == "*") {
-                    var hoursView = "Every Hour"
+                if (n[1] === "*") {
+                    var hoursView = "Every Hour";
                 } else {
-                    var hoursView = n[1] + "hrs"
+                    var hoursView = n[1] + "hrs";
                 }
-                if (n[2] == "*") {
-                    var dayOfMonthView = "Every Day of the Month"
+                if (n[2] === "*") {
+                    var dayOfMonthView = "Every Day of the Month";
                 } else {
-                    var dayOfMonthView = n[2]
+                    var dayOfMonthView = n[2];
                 }
-                if (n[3] == "*") {
-                    var MonthView = "Every Month"
+                if (n[3] === "*") {
+                    var MonthView = "Every Month";
                 } else {
-                    var MonthView = n[3]
+                    var MonthView = n[3];
                 }
-                if (n[4] == "*") {
-                    var dayOfWeekView = "Every Day"
+                if (n[4] === "*") {
+                    var dayOfWeekView = "Every Day";
                 } else {
-                    var dayOfWeekView = n[4]
+                    var dayOfWeekView = n[4];
                 }
 
-                if (taskTypeView == "1") {
-                    var taskTypeView = "Download Configurations"
-                } else if (taskTypeView == "2") {
-                    var taskTypeView = "Run Report"
-                } else if (taskTypeView == "3") {
-                    var taskTypeView = "Schedule Config Snippet"
+                if (taskTypeView === "1") {
+                    var taskTypeView = "Download Configurations";
+                } else if (taskTypeView === "2") {
+                    var taskTypeView = "Run Report";
+                } else if (taskTypeView === "3") {
+                    var taskTypeView = "Schedule Config Snippet";
                 }
                 // display modal if taskNameView is NOT undefined or NULL
                 if (taskNameView) {
@@ -164,7 +165,7 @@ function getTask() {
                             buttons: {
                                 main: {
                                     label: "close",
-                                    className: "btn",
+                                    className: "btn"
                                 }
                             }
                         });
@@ -195,7 +196,7 @@ function getTask() {
                             buttons: {
                                 main: {
                                     label: "close",
-                                    className: "btn",
+                                    className: "btn"
                                 }
                             }
                         });
@@ -221,7 +222,7 @@ function getTask() {
 } // end getTask Function
 
 function mailErrorsChkBox() {
-    var mailConnectionReportChkBox = document.getElementById('mailConnectionReport')
+    var mailConnectionReportChkBox = document.getElementById('mailConnectionReport');
     if (mailConnectionReportChkBox.checked)
         document.getElementById('mailErrorsOnly').disabled = false;
     else
@@ -280,14 +281,14 @@ function changeType() {
     var catCommandSel = document.getElementById('catCommand');
     var catIdSelect = document.getElementById('catId');
     var catId = $('#catId').val();
-    var taskTypeVal = $('#taskType').val()
+    var taskTypeVal = $('#taskType').val();
 
-    catCommandDiv.style.display = catIdSelect.selectedIndex != '' ? 'block' : 'none'; // check that anything other than '' for the catIdSelect is selected and display commands dropdown
+    catCommandDiv.style.display = catIdSelect.selectedIndex !== '' ? 'block' : 'none'; // check that anything other than '' for the catIdSelect is selected and display commands dropdown
     catCommandDiv.style.display = taskTypeVal === '3' ? 'none' : 'block'; // however, if the 'config snippet' task type is selected. Hide the Commands Div
     catCommandSel.disabled = taskTypeVal === '3' ? true : false; // however, if the 'config snippet' task type is selected. Disable the Commands Select
 
-    if (taskTypeVal == 2) { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
-        if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+    if (taskTypeVal === 2) { // if taskType is Config Compare Report, then run next code to update various selects after selecting a category - this is not relevant for snippet cat select
+        if (catId !== '') { // if catId is not equal to '' i.e. catId is selected then carry on
             $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetCommandsByCat.php?catId=" + catId, function (data) {
                 var command = '';
@@ -296,10 +297,10 @@ function changeType() {
                     command += '<option value="' + data[i].command + '">' + data[i].command + '</option>'; // need to specify command as value for option as this is what will populate the grep
                 }
                 $("select#catCommand").html(command);
-            })
+            });
         }
 
-        if (catId != '') { // if catId is not equal to '' i.e. catId is selected then carry on
+        if (catId !== '') { // if catId is not equal to '' i.e. catId is selected then carry on
             $.ajaxSetup({cache: false});
             $.getJSON("lib/ajaxHandlers/ajaxGetNodesByCat.php?catId=" + catId, function (data) {
                 var options = '';
@@ -308,7 +309,7 @@ function changeType() {
                     options += '<option value="' + data[i].deviceName + '">' + data[i].deviceName + '</option>'; // need to specify deviceName as value for option as this is what will populate the grep
                 }
                 $("select#nodeId").html(options);
-            })
+            });
         }
     } // end if taskType
 }
@@ -322,59 +323,59 @@ function selectSample(cronValue) {
     var day = array[2];
     var month = array[3];
     var weekday = array[4];
-    if (array != '' || array != ' ' || array != null) {
+    if (array !== '' || array !== ' ' || array !== null) {
 
         // foreach section below - 
         // update the relevant field with the cron value
         // switch for the value, and update the relevant fields select for the output text related i.e. */5 = '*/5 every 5 minutes'
-        $('#minute').val(minute)
+        $('#minute').val(minute);
         switch (minute)
         {
             case minute:
-                $('#minuteSelect').val(minute)
+                $('#minuteSelect').val(minute);
                 break;
             default:
-                $('#minuteSelect').val('--')
+                $('#minuteSelect').val('--');
         }
 
-        $('#hour').val(hour)
+        $('#hour').val(hour);
         switch (hour)
         {
             case hour:
-                $('#hourSelect').val(hour)
+                $('#hourSelect').val(hour);
                 break;
             default:
-                $('#hourSelect').val('--')
+                $('#hourSelect').val('--');
         }
 
-        $('#day').val(day)
+        $('#day').val(day);
         switch (day)
         {
             case day:
-                $('#daySelect').val(day)
+                $('#daySelect').val(day);
                 break;
             default:
-                $('#daySelect').val('--')
+                $('#daySelect').val('--');
         }
 
-        $('#month').val(month)
+        $('#month').val(month);
         switch (month)
         {
             case month:
-                $('#monthSelect').val(month)
+                $('#monthSelect').val(month);
                 break;
             default:
-                $('#monthSelect').val('--')
+                $('#monthSelect').val('--');
         }
 
-        $('#weekday').val(weekday)
+        $('#weekday').val(weekday);
         switch (weekday)
         {
             case weekday:
-                $('#weekdaySelect').val(weekday)
+                $('#weekdaySelect').val(weekday);
                 break;
             default:
-                $('#weekdaySelect').val('--')
+                $('#weekdaySelect').val('--');
         }
     } else {
         bootbox.alert({
@@ -389,10 +390,10 @@ function selectSample(cronValue) {
 // function to add option value to relevant field
 function selectOption(field, value) {
 // chnage sample selction back to default
-    $('#sampleOptions').val('--')
+    $('#sampleOptions').val('--');
 
-    if (value != '' || value != ' ' || value != null) {
-        $('#' + field).val(value)
+    if (value !== '' || value !== ' ' || value !== null) {
+        $('#' + field).val(value);
     } else {
         bootbox.alert({
             size: 'small',

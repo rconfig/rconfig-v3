@@ -16,5 +16,5 @@ tblRowSelector('customPropTbl');
 
 function delCustProp() {
     // remove Item Function located at rconfigFunctions.js
-    removeItem("Are you sure you want to remove this Custom Property, and all data for this property?", 'lib/crud/customProperties.crud.php', "Please select a Custom Property!")
+    removeItem("Are you sure you want to remove this Custom Property, and all data for this property?", 'lib/crud/customProperties.crud.php', "Please select a Custom Property!");
 }

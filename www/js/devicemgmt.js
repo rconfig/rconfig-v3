@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    /* global deviceIpAddr */
+    /* global connPort */
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
     $("#throbber").show();
 
@@ -21,9 +22,9 @@ function openFile(filePath) {
         $.ajaxSetup({cache: false});
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             writeConsole(data.join('<br/>'), filePath);
-        })
+        });
     } else {
-        errorDialog('File not Selected!')
+        errorDialog('File not Selected!');
     }
 }
 
