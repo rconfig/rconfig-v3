@@ -19015,3 +19015,6 @@
 2016-06-30 12:49:57 CONN Success: Show Command 'show ip ospf nei' for device 'Site1R1.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
 2016-06-30 12:49:57 CONN Success: Show Command 'show ip bgp nei' for device 'Site1R1.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
 2016-06-30 12:49:57 CONN Success: Show Command 'show ip bgp' for device 'Site1R1.lab.Rconfig.com' successful (File: /lib/ajaxHandlers/ajaxDownloadNow.php)
+2016-06-30 12:58:44 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-30 12:59:47 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
+2016-06-30 13:00:17 WARN Security Issue: Some tried to access this file directly from IP: 192.168.1.21 & Username: Guest (File: /dashboard.php)
