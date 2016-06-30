@@ -16,23 +16,8 @@ $(document).ready(function () {
 
 });
 
-// next script is for row highlighting and selection of table rows	
-$("#polElemTbl tbody tr").click(function (e) {
-    var rowid = $(this).attr('setid');
-
-    $("#polElemTbl tbody tr").removeClass("selected");
-    var $checkbox = $(this).find(':checkbox');
-    $("#polElemTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type === "checkbox") {
-
-        // stop the bubbling to prevent firing the row's click event
-        e.stopPropagation();
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    } else {
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    }
-});
+// single row selector from rconfigFunctions.js
+tblRowSelector('polElemTbl');
 
 function delPolElem() {
     // remove Item Function located at rconfigFunctions.js

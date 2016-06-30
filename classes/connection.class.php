@@ -94,7 +94,7 @@ class Connection {
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
 
-                echo "Error: Authentication Failed for $this->_hostname\n";
+//                echo "Error: Authentication Failed for $this->_hostname\n";
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             } else {
@@ -105,7 +105,7 @@ class Connection {
                 $this->_prompt = '#';
                 $this->_readTo($this->_prompt);
                 if (strpos($this->_data, $this->_prompt) == false) {
-                    echo "Error: Authentication Failed for enable mode for $this->_hostname\n";
+//                    echo "Error: Authentication Failed for enable mode for $this->_hostname\n";
                     $log->Conn("Error: Authentication Failed for enable mode for  enable mode for or $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                     return false;
                 }
@@ -120,7 +120,7 @@ class Connection {
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
 
-                echo "Error: Authentication Failed for $this->_hostname\n";
+//                echo "Error: Authentication Failed for $this->_hostname\n";
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             }
@@ -150,7 +150,7 @@ class Connection {
 
         // Updated this failure string to include the above error case as it does manifest here
         if (!$ssh->login($this->_username, $this->_password)) {
-            echo "Error: Authentication Failed or unable to connect to " . $this->_hostname . "\n";
+//            echo "Error: Authentication Failed or unable to connect to " . $this->_hostname . "\n";
             $log->Conn("Error: Authentication Failed or unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             return false;
         }

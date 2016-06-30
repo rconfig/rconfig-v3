@@ -117,7 +117,7 @@ $i = 0; # row counter  to enable alternate row coloring
         $policyDesc = $rows['policyDesc'];
         /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
         echo '<tr class="row' . ($i++ % 2) . '">';
-        echo '<td align="center"><input type="checkbox" id="' . $id . '"></td>';
+        echo '<td align="center"><input type="checkbox"  name="tablecheckbox" id="' . $id . '"></td>';
         echo '<td align="left">' . $policyName . '</td>';
         echo '<td align="left">' . $policyDesc . '</td>';
         echo '</tr>';

@@ -162,7 +162,7 @@
                         // check if logged in user is admin and display next lines
                         if ($session->isAdmin()) {
                             ?>
-                            <label class="labelwide">Manual upload/download credentials
+<!--                            <label class="labelwide">Manual upload/download credentials
                                 <span class="smallwide">Globally force users to use their credentials for manual config downloads and config snippet uploads</span>
                             </label>
                             <select id="defaultCredsManualSet" name="defaultCredsManualSet" onChange="defaultCredsManualSet()">
@@ -174,7 +174,7 @@
                             <span id="updatedDefaultCredsManualSet" style="display:none; color:green;">Updated!</span>
                             <div class="spacer"></div>
                             <br />
-                            <hr />
+                            <hr />-->
                             <?php
                         } // End check if logged in user is admin
                         ?>

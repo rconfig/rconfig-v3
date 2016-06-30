@@ -60,7 +60,7 @@
                             </thead>
                             <tbody>
                                 <tr id="configSnippetReports">
-                            <div id="logFileContent"></div>
+                            <div id="configSnippetReportsContent"></div>
                             </tr>
                             </tbody>
                         </table>

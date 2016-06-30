@@ -102,28 +102,28 @@ if (!empty($getNodes)) {
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
         $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
-        $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid;
+        $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid . ". See Connection logs for details";
         $connSuccessText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for Router ID " . $rid;
         // if connection is telnet, connect to device function
         if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
             if ($conn->connectTelnet() === false) {
                 $log->Conn($connFailureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
-                $jsonArray['failTelnetConnMsg'] = $text;
+                $jsonArray['failTelnetConnMsg'] = $connFailureText;
                 echo json_encode($jsonArray);
-                continue; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
+                exit; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
             }
 
             $jsonArray['telnetConnMsg'] = $connSuccessText . '<br /><br />';
             $log->Conn($connSuccessText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
         } // end if device access method
 
-        $i = 0; // set i to prevent php notices	
+        $i = -1; // set i to prevent php notices & becuase the $commands array will always have a start key at 0	
         // loop over commands for given device
-        while ($commands) {
+        foreach ($commands as $cmd) {
             $i++;
-
             // Set VARs
-            $command = $commands[$i];
+//echo $i. " - "  . $cmd ."; "; //for testing
+            $command = $cmd;
             $prompt = $device['devicePrompt'];
 
             if (!$command || !$prompt) {

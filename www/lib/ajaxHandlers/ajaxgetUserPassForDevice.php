@@ -11,9 +11,13 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    ob_start(); // begin collecting output
-    $passedRid = $_GET['rid'];
-    include($config_app_basedir . 'lib/downloadNowScript.php');
-    $result = ob_get_clean(); // retrieve output from downloadNowScript.php, stop buffering
-    echo $result;
+// Gets default device username and password from DB
+    require_once("../../../classes/db2.class.php");
+    $rid = $_GET['rid'];
+    $db2 = new db2();
+    $db2->query("SELECT deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword FROM nodes WHERE id = :rid");
+    $db2->bind(':rid', $rid);
+//$db2->debugDumpParams();
+    $rows = $db2->resultset();
+    echo json_encode($rows);
 }

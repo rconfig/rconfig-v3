@@ -22,23 +22,8 @@ $('#reportsAddForm').submit(function () {
     $("#selectedPoliciesSel option").prop('selected', true);
 });
 
-// next script is for row highlighting and selection of table rows	
-$("#reportsTbl tbody tr").click(function (e) {
-    var rowid = $(this).attr('setid');
-
-    $("#reportsTbl tbody tr").removeClass("selected");
-    var $checkbox = $(this).find(':checkbox');
-    $("#reportsTbl :checkbox").not($checkbox).removeAttr("checked");
-    if (e.target.type === "checkbox") {
-
-        // stop the bubbling to prevent firing the row's click event
-        e.stopPropagation();
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    } else {
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
-        $(this).filter(':has(:checkbox)').toggleClass('selected', $checkbox.attr('checked'));
-    }
-});
+// single row selector from rconfigFunctions.js
+tblRowSelector('reportsTbl');
 
 function delReport() {
     // remove Item Function located at rconfigFunctions.js

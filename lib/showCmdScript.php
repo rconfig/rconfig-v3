@@ -144,10 +144,10 @@ if (!empty($getNodes)) {
 
         $i = -1; // set i to prevent php notices & becuase the $commands array will always have a start key at 0	
         // loop over commands for given device
-        while ($commands) {
+        foreach ($commands as $cmd) {
             $i++;
             // Set VARs
-            $command = $commands[$i];
+            $command = $cmd;
             $prompt = $device['devicePrompt'];
 
             if (!$command || !$prompt) {

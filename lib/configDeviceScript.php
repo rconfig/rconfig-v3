@@ -89,9 +89,9 @@ if (!empty($getNodes)) {
         if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
             if ($conn->connectTelnet() === false) {
                 $log->Conn($connFailureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
-                $jsonArray['failTelnetConnMsg'] = $text;
+                $jsonArray['failTelnetConnMsg'] = $connFailureText;
                 echo json_encode($jsonArray);
-                continue; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
+                exit; // continue; probably not needed now per device connection check at start of foreach loop - failsafe?
             }
             $jsonArray['telnetConnMsg'] = $connSuccessText . '<br /><br />';
             $log->Conn($connSuccessText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file

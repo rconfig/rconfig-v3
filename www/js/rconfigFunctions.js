@@ -35,7 +35,7 @@ $.fn.enterKey = function (fnc) {
     return this.each(function () {
         $(this).keypress(function (ev) {
             var keycode = (ev.keyCode ? ev.keyCode : ev.which);
-            if (keycode === '13') {
+            if (keycode == '13') {
                 fnc.call(this, ev);
             }
         });
@@ -118,6 +118,7 @@ function getParameter(paramName) {
 
 // single row selector function for tables
 function tblRowSelector(tableName) {
+    console.log('click')
     return $("#" + tableName).on('click', 'tr', function () {
         var checkbox = $(this).find(':checkbox');
         var rowid = checkbox.attr('id');
