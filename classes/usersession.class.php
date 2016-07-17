@@ -32,7 +32,7 @@ class Session {
      */
     /* Class constructor */
 
-    function Session() {
+    public function __construct() {
         $this->time = time();
         $this->startSession();
     }

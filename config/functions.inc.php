@@ -33,7 +33,9 @@ function getSetTimeZone() {
     $q = $db2->query("SELECT timeZone FROM settings");
     $row = $db2->single();
     $timeZone = $row['timeZone'];
-    return date_default_timezone_set($timeZone);
+    if($timeZone){
+        return date_default_timezone_set($timeZone);
+    }
 }
 
 /**

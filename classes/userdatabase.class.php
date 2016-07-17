@@ -21,7 +21,7 @@ class MySQLDB {
 
     /* Class constructor */
 
-    function MySQLDB() {
+    public function __construct() {
         /* Make connection to database */
         require_once("/home/rconfig/classes/db2.class.php");
         $this->connection = new db2();

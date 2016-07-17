@@ -14,6 +14,8 @@ $log = ADLog::getInstance();
 if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 }
+$host = gethostname();
+$ip = $_SERVER['SERVER_ADDR'];
 ?>
 <!DOCTYPE html>
 <html>

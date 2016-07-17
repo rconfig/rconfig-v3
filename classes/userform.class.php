@@ -18,7 +18,7 @@ class Form {
 
     /* Class constructor */
 
-    function Form() {
+    public function __construct() {
         /**
          * Get form value and error arrays, used when there
          * is an error with a user-submitted form.

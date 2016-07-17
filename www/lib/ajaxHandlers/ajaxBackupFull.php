@@ -12,6 +12,7 @@ if (!$session->logged_in) {
 } else {
 
 // get & set timezone from functions.inc.php
+    
     getSetTimeZone();
     $today = date("Ymd");
 
