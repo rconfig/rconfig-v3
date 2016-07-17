@@ -30,7 +30,7 @@ if ($db2) {
             $dbWriteTest = 1;
         }
     }
-    if ($dbWriteTest = 1) {
+    if ($dbWriteTest == 1) {
         $array['dbWriteMsg'] = '<strong><font class="Good">Pass</strong></font><br/>';
     } else {
         $array['dbWriteMsg'] = '<strong><font class="Bad">Could not write to Database</strong></font><br/>';

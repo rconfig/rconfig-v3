@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL ^ E_NOTICE);
+
 // various DB checks during the install process
 if(isset($_GET['server'])){$server = $_GET['server'];}
 if(isset($_GET['port'])){$port = $_GET['port'];}
@@ -48,21 +51,27 @@ if(isset($dbName)){
     //Create a new PDO instance
     try {
         $conn = new PDO($dsn, $dbUsername, $dbPassword, $options);
+		$stmt = $conn->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$dbName."'");
+		$db_selected = $stmt->fetchColumn();
+
     }
     // Catch any errors
     catch (PDOException $e) {
         $sqlError = $e->getMessage();
+
     }    
-    $stmt = $conn->query("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '".$dbName."'");
-    $db_selected = $stmt->fetchColumn();
-    if ($db_selected == 1) {
-        $array['dbTest'] = '<strong><font class="bad">Fail - Database already installed</strong></font>';
-    } elseif ($db_selected == 0) {
-            $array['dbTest'] = '<strong><font class="good">Pass - '.$dbName.' not in use</strong></font>';
-        }
+
+	if ($db_selected == 1) {
+		$array['dbTest'] = '<strong><font class="bad">Fail - Database already installed</strong></font>';
+	} elseif ($db_selected == 0) {
+		$array['dbTest'] = '<strong><font class="good">Pass - '.$dbName.' not in use</strong></font>';
+	}
+   
 } else {
     $array['dbTest'] = '<strong><font class="bad">Fail - Database Name was not entered</strong></font>';
 }
-
+if($sqlError && $e->getCode() != '1049') {// here we expect the Count query above to fail, as a zero value should be returned. But we still want other errors to appear if needed. 
+	$array['dbTest'] = '<strong><font class="bad">Fail - '.$sqlError.'</strong></font>';	
+}
 $conn = null;
 echo json_encode($array);
