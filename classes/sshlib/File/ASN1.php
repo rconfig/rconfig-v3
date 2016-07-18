@@ -138,7 +138,7 @@ class File_ASN1_Element {
      * @return File_ASN1_Element
      * @access public
      */
-    function File_ASN1_Element($encoded)
+    public function __construct($encoded)
     {
         $this->element = $encoded;
     }

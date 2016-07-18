@@ -1,3 +1,12 @@
+Version 3.6.1
+18-Jun-2016
+Author: Stephen Stack
+
+        Fixed - Depreacted error for same constructor/class name for SSH libraries
+        Fixed - Errors if incorrect password for DB installer are incorrect
+
+------------------------------------------------------------------------------------
+
 Version 3.6.0
 30-Jun-2016
 Author: Stephen Stack

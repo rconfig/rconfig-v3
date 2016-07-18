@@ -435,7 +435,7 @@ class Crypt_RSA {
      * @return Crypt_RSA
      * @access public
      */
-    function Crypt_RSA()
+    public function __construct()
     {
         if ( !defined('CRYPT_RSA_MODE') ) {
             switch (true) {

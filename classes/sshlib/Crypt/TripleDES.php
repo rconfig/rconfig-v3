@@ -246,7 +246,7 @@ class Crypt_TripleDES {
      * @return Crypt_TripleDES
      * @access public
      */
-    function Crypt_TripleDES($mode = CRYPT_DES_MODE_CBC)
+    public function __construct($mode = CRYPT_DES_MODE_CBC)
     {
         if ( !defined('CRYPT_DES_MODE') ) {
             switch (true) {
