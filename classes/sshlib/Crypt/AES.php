@@ -132,6 +132,7 @@ define('CRYPT_AES_MODE_MCRYPT', 2);
  * @package Crypt_AES
  */
 class Crypt_AES extends Crypt_Rijndael {
+    
     /**
      * mcrypt resource for encryption
      *
@@ -243,7 +244,15 @@ class Crypt_AES extends Crypt_Rijndael {
             parent::Crypt_Rijndael($this->mode);
         }
     }
-
+    
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_AES()
+    {
+        self::__construct();
+    }
+    
     /**
      * Dummy function
      *

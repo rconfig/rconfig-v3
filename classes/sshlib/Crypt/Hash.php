@@ -161,6 +161,14 @@ class Crypt_Hash {
 
         $this->setHash($hash);
     }
+    
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_Hash()
+    {
+        self::__construct();
+    }    
 
     /**
      * Sets the key for HMACs

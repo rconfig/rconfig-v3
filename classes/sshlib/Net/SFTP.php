@@ -348,6 +348,15 @@ class Net_SFTP extends Net_SSH2 {
         );
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Net_SFTP()
+    {
+        self::__construct();
+    }
+    
+    
     /**
      * Login
      *

@@ -346,6 +346,14 @@ class Crypt_DES {
         }
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_DES()
+    {
+        self::__construct();
+    }
+    
     /**
      * Sets the key.
      *

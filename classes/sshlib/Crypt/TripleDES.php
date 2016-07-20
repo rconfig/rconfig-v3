@@ -327,6 +327,14 @@ class Crypt_TripleDES {
         }
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_TripleDES()
+    {
+        self::__construct();
+    }    
+    
     /**
      * Sets the key.
      *

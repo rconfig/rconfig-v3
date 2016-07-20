@@ -219,6 +219,14 @@ class File_ANSI {
         $this->setDimensions(80, 24);
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function File_ANSI()
+    {
+        self::__construct();
+    }
+    
     /**
      * Set terminal width and height
      *

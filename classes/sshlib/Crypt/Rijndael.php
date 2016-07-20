@@ -520,6 +520,15 @@ class Crypt_Rijndael {
         }
     }
 
+    
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_Rijndael()
+    {
+        self::__construct();
+    }    
+    
     /**
      * Sets the key.
      *

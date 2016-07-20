@@ -872,6 +872,15 @@ class Net_SSH2 {
         $this->bitmap = NET_SSH2_MASK_CONSTRUCTOR;
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Net_SSH2()
+    {
+        self::__construct();
+    }
+
+
     /**
      * Key Exchange
      *

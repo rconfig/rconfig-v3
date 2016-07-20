@@ -195,6 +195,14 @@ class Crypt_RC4 {
         }
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Crypt_RC4()
+    {
+        self::__construct();
+    }
+    
     /**
      * Sets the key.
      *

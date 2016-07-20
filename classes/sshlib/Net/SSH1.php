@@ -621,6 +621,14 @@ class Net_SSH1 {
         $this->bitmap = NET_SSH1_MASK_CONSTRUCTOR;
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function Net_SSH1()
+    {
+        self::__construct();
+    }    
+    
     /**
      * Login
      *

@@ -393,6 +393,5 @@ class Connection {
 
 // _send
 }
-
 // Telnet Class
 // trailing PHP tag omitted to prevent accidental whitespace

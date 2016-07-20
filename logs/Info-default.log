@@ -1,1 +1,19 @@
 
+2016-07-18 21:07:01 INFO Success: Added new vendor, HP to DB (File: /lib/crud/vendors.crud.php)
+2016-07-18 21:09:51 INFO Success: Added new device, HPSwitch to DB (File: /lib/crud/devices.crud.php)
+2016-07-18 21:10:37 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 1 
+2016-07-18 21:10:53 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 1 
+2016-07-18 21:15:06 INFO The /lib/ajaxHandlers/ajaxDownloadNow.php script was run manually invoked with Router ID: 1 
+2016-07-18 21:26:46 INFO Success: Created /home/rconfig/cronfeed/cronfeed.txt file (File: /lib/crud/scheduler.crud.php)
+2016-07-18 21:26:46 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-07-18 21:26:46 INFO Success: Added task Column to nodes table to DB (File: /lib/crud/scheduler.crud.php)
+2016-07-18 21:26:46 INFO Success: Added Task to DB (File: /lib/crud/scheduler.crud.php)
+2016-07-18 21:27:15 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:27:59 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:29:47 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:33:38 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:33:58 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:34:22 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:34:33 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-18 21:34:43 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205
+2016-07-20 19:55:54 INFO The /home/rconfig/lib/showCmdScript.php script was run from a manual invocation on a shell with Task ID:797205

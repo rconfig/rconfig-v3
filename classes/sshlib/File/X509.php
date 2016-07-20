@@ -1177,6 +1177,14 @@ class File_X509 {
         );
     }
 
+    /*
+     * Function to maintain compatibility with old class references below after changing to __construct
+     */    
+    public function File_X509()
+    {
+        self::__construct();
+    }    
+    
     /**
      * Load X.509 certificate
      *
