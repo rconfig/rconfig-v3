@@ -59,11 +59,6 @@ CREATE TABLE IF NOT EXISTS `cmdCatTbl` (
 -- Dumping data for table DATABASE_NAME.cmdCatTbl: ~15 rows (approximately)
 /*!40000 ALTER TABLE `cmdCatTbl` DISABLE KEYS */;
 INSERT INTO `cmdCatTbl` (`configCmdId`, `nodeCatId`) VALUES
-	(160, 1),
-	(160, 2),
-	(160, 4),
-	(160, 5),
-	(160, 8),
 	(161, 1),
 	(161, 2),
 	(161, 4),

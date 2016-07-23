@@ -1,11 +1,3 @@
-Version 3.6.1
-18-Jun-2016
-Author: Stephen Stack
-
-        Fixed - Depreacted error for same constructor/class name for SSH libraries
-        Fixed - Errors if incorrect password for DB installer are incorrect
-
-------------------------------------------------------------------------------------
 
 Version 3.6.0
 30-Jun-2016
@@ -13,6 +5,7 @@ Author: Stephen Stack
 
         Fixed - Undefined Offset error when downloading configs via scheduled task or manually
         Fixed - Errors displayed if incorrect credentials passed for device on manual download
+        Fixed - Error 'CONN Command or Prompt Empty' - due to invalid entries in `cmdCatTbl` table - rconfig.sql installer
 
 ------------------------------------------------------------------------------------
 Version 3.5.4
