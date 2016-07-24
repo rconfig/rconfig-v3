@@ -1,7 +1,8 @@
 Version 3.6.0
 30-Jun-2016
 Author: Stephen Stack
-
+        
+        Fixed - fixed install/rconfig.sql for customprop view, if multiple rconfig DBs exists, custom props display php errors
         Fixed - Undefined Offset error when downloading configs via scheduled task or manually
         Fixed - Errors displayed if incorrect credentials passed for device on manual download
         Fixed - Error 'CONN Command or Prompt Empty' - due to invalid entries in `cmdCatTbl` table - rconfig.sql installer

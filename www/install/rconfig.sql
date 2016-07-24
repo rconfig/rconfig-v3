@@ -147,14 +147,11 @@ CREATE TABLE IF NOT EXISTS `configs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-
-
 -- Dumping structure for view DATABASE_NAME.customProperties
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `customProperties` (
 	`customProperty` VARCHAR(64) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci'
 ) ENGINE=MyISAM;
-
 
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Creating temporary table to overcome VIEW dependency errors
@@ -176,7 +173,6 @@ INSERT INTO `devicesaccessmethod` (`id`, `devicesAccessMethod`) VALUES
 	(1, 'Telnet'),
 	(3, 'SSHv2');
 /*!40000 ALTER TABLE `devicesaccessmethod` ENABLE KEYS */;
-
 
 -- Dumping structure for table DATABASE_NAME.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
