@@ -339,11 +339,10 @@ INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `customProperties`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customProperties` AS 
-SELECT column_name AS customProperty
-FROM information_schema.columns
-WHERE table_name = 'nodes'
-AND column_name LIKE'%custom%';
-
+SELECT COLUMN_NAME  AS `customProperty` FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_SCHEMA = 'DATABASE_NAME' 
+AND TABLE_NAME = 'nodes'
+AND `COLUMN_NAME` like '%custom%';
 
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Removing temporary table and create final VIEW structure
