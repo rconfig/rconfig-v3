@@ -1,3 +1,10 @@
+Version 3.6.1
+24-July-2016
+Author: Stephen Stack
+
+        Fixed - fixed upload of vendor images to images/vendors dir
+
+------------------------------------------------------------------------------------
 Version 3.6.0
 30-Jun-2016
 Author: Stephen Stack
