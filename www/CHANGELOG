@@ -1,7 +1,8 @@
 Version 3.6.1
-24-July-2016
+26-July-2016
 Author: Stephen Stack
 
+        Fixed - bug where scheduling a Compliance Report task would fail with a 500 error
         Fixed - fixed upload of vendor images to images/vendors dir
 
 ------------------------------------------------------------------------------------
