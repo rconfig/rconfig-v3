@@ -50,7 +50,7 @@ try {
     die();
 }
 
-if ($dbCreated = 1) {
+if ($dbCreated == 1) {
     // rewrite the 'DATABASE_NAME' tag from the SQL file into memory
     $templateFile = file_get_contents($dbFile);
     $templateFile = str_replace('DATABASE_NAME', $dbName, $templateFile);
