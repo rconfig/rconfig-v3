@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
 -- Dumping data for table DATABASE_NAME.vendors: ~3 rows (approximately)
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
 INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
-	(1, 'Cisco', ' images/vendor/cisco.jpg', 1);
+	(1, 'Cisco', 'images/vendor/cisco.jpg', 1);
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 
 -- Dumping structure for view DATABASE_NAME.customProperties
