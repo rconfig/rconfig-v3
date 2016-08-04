@@ -3,7 +3,7 @@
 -- Written By:               	 rConfig Design Team
 -- Server OS:                    Linux / Centos
 -- Developed on:               	 5.5.17 - MySQL Community Server (GPL) by Remi
--- Date/time:                    2012-09-06 12:21:47
+-- Date/time:                    2016-06-06 12:21:47
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
