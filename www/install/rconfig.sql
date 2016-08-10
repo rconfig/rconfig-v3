@@ -334,18 +334,18 @@ INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
 -- Dumping structure for view DATABASE_NAME.customProperties
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `customProperties`;
-CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `customProperties` AS
-SELECT COLUMN_NAME  AS `customProperty` FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = 'DATABASE_NAME'
-AND TABLE_NAME = 'nodes'
+CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `customProperties` AS 
+SELECT COLUMN_NAME  AS `customProperty` FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_SCHEMA = 'DATABASE_NAME' 
+AND TABLE_NAME = 'nodes' 
 AND `COLUMN_NAME` like '%custom%';
 
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `devicemodelview`;
-CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `devicemodelview` AS
-SELECT DISTINCT `nodes`.`model` AS `model`
-FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL')
+CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `devicemodelview` AS 
+SELECT DISTINCT `nodes`.`model` AS `model` 
+FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL') 
 AND (`nodes`.`model` <> ''));
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
