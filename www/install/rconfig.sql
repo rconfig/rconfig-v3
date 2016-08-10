@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dumping data for table DATABASE_NAME.settings: ~1 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `useDefaultCredsManualSet`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`, `timeZone`, `ldapServer`, `pageTimeout`) VALUES
-	(1, 1, '/home/rconfig/data/', '', '', '', 0, 1, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '0000-00-00 00:00:00', '', '0', 600);
+	(1, 1, '/home/rconfig/data/', '', '', '', 0, 1, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '1980-01-01 00:00:00', '', '0', 600);
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
@@ -334,18 +334,18 @@ INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
 -- Dumping structure for view DATABASE_NAME.customProperties
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `customProperties`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customProperties` AS 
-SELECT COLUMN_NAME  AS `customProperty` FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_SCHEMA = 'DATABASE_NAME' 
+CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `customProperties` AS
+SELECT COLUMN_NAME  AS `customProperty` FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = 'DATABASE_NAME'
 AND TABLE_NAME = 'nodes'
 AND `COLUMN_NAME` like '%custom%';
 
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `devicemodelview`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `devicemodelview` AS 
-SELECT DISTINCT `nodes`.`model` AS `model` 
-FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL') 
+CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `devicemodelview` AS
+SELECT DISTINCT `nodes`.`model` AS `model`
+FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL')
 AND (`nodes`.`model` <> ''));
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
