@@ -2,6 +2,7 @@ Version 3.6.1
 26-July-2016
 Author: Stephen Stack
 
+        Fixed - Bug#9 (GitHub) run rconfig.sql without requiring ALLOW_ZEROS and SUPER
         Fixed - bug where scheduling a Compliance Report task would fail with a 500 error
         Fixed - fixed upload of vendor images to images/vendors dir
 
