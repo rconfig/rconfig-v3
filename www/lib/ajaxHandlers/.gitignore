@@ -1,4 +1,4 @@
 # Ignore everything in this directory
-/publicIp.txt
+publicIp.txt
 # Except this file
 !.gitignore
