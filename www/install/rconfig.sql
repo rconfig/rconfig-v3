@@ -3,7 +3,7 @@
 -- Written By:               	 rConfig Design Team
 -- Server OS:                    Linux / Centos
 -- Developed on:               	 5.5.17 - MySQL Community Server (GPL) by Remi
--- Date/time:                    2012-09-06 12:21:47
+-- Date/time:                    2016-06-06 12:21:47
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
 -- Dumping data for table DATABASE_NAME.vendors: ~3 rows (approximately)
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
 INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
-	(1, 'Cisco', ' images/vendor/cisco.jpg', 1);
+	(1, 'Cisco', 'images/vendor/cisco.jpg', 1);
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 
 -- Dumping structure for view DATABASE_NAME.customProperties
