@@ -59,8 +59,7 @@ if (!$session->logged_in) {
      * add all.zip files (array from above readdir) in /home/tmp to zip and create zip in /home/backups
      * below is a private function in functions file
      */
-    createZip($file_names, $fullBackupFile, true);
-
+    folderBackup($config_temp_dir,$fullBackupFile);
     /**
      * delete all .zip files in /home/rconfig/tmp
      */

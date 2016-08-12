@@ -3,7 +3,7 @@
 
 /**
  * Session.php
- * 
+ *
  * The Session class is meant to simplify the task of keeping
  * track of logged in users and also guests.
  *
@@ -38,9 +38,9 @@ class Session {
     }
 
     /**
-     * startSession - Performs all the actions necessary to 
+     * startSession - Performs all the actions necessary to
      * initialize this session object. Tries to determine if the
-     * the user has logged in already, and sets the variables 
+     * the user has logged in already, and sets the variables
      * accordingly. Also takes advantage of this page load to
      * update the active visitors tables.
      */
@@ -75,15 +75,17 @@ class Session {
             $this->referrer = "/";
         }
 
-        /* Set current url */
-        $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
+        /* Set current url if not an ajax call */
+        if (preg_match('/ajax/', $_SERVER['PHP_SELF']) == 0) {
+          $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
+        }
     }
 
     /**
      * checkLogin - Checks if the user has already previously
      * logged in, and a session with the user has already been
      * established. Also checks to see if user has been remembered.
-     * If so, the database is queried to make sure of the user's 
+     * If so, the database is queried to make sure of the user's
      * authenticity. Returns true if the user has logged in.
      */
     function checkLogin() {
