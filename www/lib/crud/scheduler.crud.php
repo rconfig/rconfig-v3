@@ -33,14 +33,14 @@ if (!$session->logged_in) {
 
         // validate taskName & escape field
         if (!empty($_POST['taskName']) && is_string($_POST['taskName'])) {
-            $taskType = $_POST['taskName'];
+            $taskName = $_POST['taskName'];
         } else {
             $errors['taskName'] = "Task Name cannot be empty";
         }
 
         // validate taskDesc & escape field
         if (!empty($_POST['taskDesc']) && is_string($_POST['taskDesc'])) {
-            $taskType = $_POST['taskDesc'];
+            $taskDesc = $_POST['taskDesc'];
         } else {
             $errors['taskDesc'] = "Task Description cannot be empty";
         }

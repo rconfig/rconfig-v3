@@ -1,5 +1,4 @@
 <?php
-
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 require_once("/home/rconfig/config/functions.inc.php");
@@ -11,9 +10,7 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-
     require_once("../../../classes/db2.class.php");
-
     $db2 = new db2();
     $log = ADLog::getInstance();
 
@@ -23,7 +20,7 @@ if (!$session->logged_in) {
      */
 
     /* begin delete check */
-    if (isset($_POST['delete'])) {
+    if (isset($_POST['del'])) {
 
         if (ctype_digit($_POST['id'])) {
             $id = $_POST['id'];
