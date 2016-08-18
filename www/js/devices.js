@@ -103,7 +103,6 @@ function editDevice(invoc) {
                     $('input[name="deviceEnablePassword"]').val(data.deviceEnablePassword);
                     $('input[name="connPort"]').val(data.connPort);
                     $("#accessMeth").val(data.accessMeth);
-                    $("#profile").val(data.profile);
                     $("#catId").val(data.catId);
                     $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                     $('input[name="editModeOn"]').val(1) // used to populate id input so that edit script will insert
