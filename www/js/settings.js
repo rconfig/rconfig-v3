@@ -76,8 +76,11 @@ $(function () {
     });
 
     // show/hide SMTP auth details based on checkbox
+    
+    
     $('#smtpAuth').live('change', function () {
-        if ($(this).attr("checked")) {
+        var smtpCheckBoxStatus = document.getElementById('smtpAuth').checked;
+        if (smtpCheckBoxStatus === true) {
             $('#authDiv').show();
         } else {
             $('#authDiv').hide();
