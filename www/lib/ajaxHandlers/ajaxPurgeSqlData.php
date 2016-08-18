@@ -43,5 +43,10 @@ if (!$session->logged_in) {
             $log->Fatal("Fatal: Delete rows from Table:" . $tbl . " (File: " . $_SERVER['PHP_SELF'] . ")");
         }
     }
+    
+    // add a pruge for all .old files in the /home/rconfig/classes/connnectionProfiles Dirs
+    array_map('unlink', glob("/home/rconfig/classes/connectionProfiles/telnet/*.old", GLOB_BRACE));
+    array_map('unlink', glob("/home/rconfig/classes/connectionProfiles/ssh/*.old", GLOB_BRACE));
+    
     echo json_encode($response);
 }

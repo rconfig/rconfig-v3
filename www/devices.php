@@ -162,7 +162,21 @@ if (isset($errors['deviceModel'])) {
     echo "<span class=\"error\">" . $errors['deviceModel'] . "</span>";
 }
 ?>
+             
+                                <label>Profile:</label>
+                                <select name="profile" id="profile" tabindex="10"  style="width:155px;">
+                                <?php
+                                /* func is from devices.frm.func.php */
+                                    profileSelect();
+                                ?>
+                                </select>
+                                <div class="spacer"></div>
 
+<?php
+if (isset($errors['profile'])) {
+    echo "<span class=\"error\">" . $errors['profile'] . "</span>";
+}
+?>
                             </div>
                             <div id="right">
                                 <legend>Other Details</legend>

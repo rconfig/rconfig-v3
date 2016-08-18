@@ -4,6 +4,34 @@ require_once("../classes/db2.class.php");
 require_once("../classes/ADLog.class.php");
 require_once("/home/rconfig/config/functions.inc.php");
 
+function myFilter($string) {
+  return strpos($string, '.old') === false;
+}
+
+function profileSelect() {
+    // load profile files from /home/rconfig/classes/connectionProfiles/ into option select for devices page
+    $sshdir = '/home/rconfig/classes/connectionProfiles/ssh';
+    $telnetdir = '/home/rconfig/classes/connectionProfiles/telnet';
+    $ssh_scanned_directory = array_values(array_diff(scandir($sshdir), array('..', '.')));
+    $ssh_scanned_directory = array_filter($ssh_scanned_directory, 'myFilter'); // remove .old files from view
+    $telnet_scanned_directory = array_values(array_diff(scandir($telnetdir), array('..', '.')));
+    $telnet_scanned_directory = array_filter($telnet_scanned_directory, 'myFilter'); // remove .old files from view
+    echo "<option value=\"\">Select a profile</option>";
+    if ($ssh_scanned_directory) {
+        echo "<option value=\"\">--- SSH Profiles ---</option>";
+
+        foreach ($ssh_scanned_directory as $sshK => $sshV) {
+            echo "<option value=\"connectionProfiles/ssh/" . $sshV . "\">" . $sshV . "</option>";
+        }
+
+        if ($telnet_scanned_directory) {
+            echo "<option value=\"\">--- Telnet Profiles ---</option>";
+            foreach ($telnet_scanned_directory as $telnetK => $telnetV) {
+                echo "<option value=\"connectionProfiles/telnet/" . $telnetV . "\">" . $telnetV . "</option>";
+            }
+        }
+    }
+}
 
 function vendorId($id = null) {
     // $id is set if from is reloaded with errors so that selected item is pre-populated after form reload

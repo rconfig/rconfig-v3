@@ -1,16 +1,32 @@
 <?php
+
 // requires - full path required
 require("/home/rconfig/classes/db2.class.php");
 require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
-require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
 require("/home/rconfig/classes/connection.class.php");
 require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
 require("/home/rconfig/classes/reportTemplate.class.php");
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
+
+require("/home/rconfig/classes/sshlib/Crypt/Base.php");
+require("/home/rconfig/classes/sshlib/Crypt/Rijndael.php");
+require("/home/rconfig/classes/sshlib/Net/SSH2.php");
+require("/home/rconfig/classes/sshlib/Crypt/AES.php");
+require("/home/rconfig/classes/sshlib/Crypt/Blowfish.php");
+require("/home/rconfig/classes/sshlib/Crypt/DES.php");
+require("/home/rconfig/classes/sshlib/Crypt/Hash.php");
+require("/home/rconfig/classes/sshlib/Crypt/RC2.php");
+require("/home/rconfig/classes/sshlib/Crypt/RC4.php");
+require("/home/rconfig/classes/sshlib/Crypt/RSA.php");
+require("/home/rconfig/classes/sshlib/Crypt/Random.php");
+require("/home/rconfig/classes/sshlib/Crypt/TripleDES.php");
+require("/home/rconfig/classes/sshlib/Crypt/Twofish.php");
+require("/home/rconfig/classes/sshlib/Math/BigInteger.php");
+
 // declare DB Class
 $db2 = new db2();
 //setup backend scripts Class
@@ -43,7 +59,6 @@ extract($backendScripts->debugOnOff($db2, $argv));
 $debug = new debug($debugPath);
 // check how the script was run and log the info
 extract($backendScripts->invokationCheck($log, $tid, php_sapi_name(), $_SERVER['TERM'], $_SERVER['PHP_SELF']));
-echo $alert;
 
 // get mailConnectionReport Status from tasks table and send email
 $db2->query("SELECT taskname, mailConnectionReport, mailErrorsOnly FROM tasks WHERE status = '1' AND id = :tid");
@@ -66,7 +81,7 @@ $connResult = $db2->resultset();
 $timeout = $connResult[0]['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort, profile
                 FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodes = $db2->resultset();
 
@@ -79,8 +94,10 @@ if (!empty($getNodes)) {
     // start looping over every device returned 
     foreach ($devices as $device) {
         // debugging check and action
-        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+
+        if ($debugOnOff === '1' || $cliDebugOutput == true) {
             $debug->debug($device);
+            define('NET_SSH2_LOGGING', 3); // turn this on for debugging
         }
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
@@ -105,7 +122,7 @@ if (!empty($getNodes)) {
         $db2->bind(':nodeCatId', $device['nodeCatId']);
         $catNameRow = $db2->resultset();
         $catName = $catNameRow[0];
-        
+
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
             $text = "Failure: There are no commands configured for category " . $catName . " when running taskID " . $tid;
@@ -157,7 +174,7 @@ if (!empty($getNodes)) {
             }
 
             // debugging check & write to file
-            if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+            if ($debugOnOff === '1' || $cliDebugOutput == true) {
                 $debug->debug($command);
             }
 
@@ -168,7 +185,15 @@ if (!empty($getNodes)) {
             if ($device['deviceAccessMethodId'] == '1') { // telnet
                 $showCmd = $conn->showCmdTelnet($command, $prompt, $cliDebugOutput);
             } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
-                $showCmd = $conn->connectSSH($command, $prompt);
+                
+                // set $profile if returned from DB, else use default profile
+                if ($device['profile']) {
+                    $profile = $device['profile'];
+                } else {
+                    $profile = 'connectionProfiles/ssh/default.php';
+                }
+                
+                $showCmd = $conn->connectSSH($command, $prompt, $profile);
 
                 // if false returned, log failure
                 if ($showCmd == false) {
@@ -177,7 +202,6 @@ if (!empty($getNodes)) {
                     $log->Conn($sshFailureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
                     $report->eachData($device['deviceName'], $connStatusFail, $sshFailureText); // log to report
                 } else {
-
                     $sshConnectedText = "Success: Connected via SSH to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for command (" . $command . ") for taskID " . $tid;
                     echo $sshConnectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
                     $log->Conn($sshConnectedText . " - in (File: " . $_SERVER['PHP_SELF'] . ")"); // log to file
@@ -190,7 +214,7 @@ if (!empty($getNodes)) {
             }
 
             // debugging check & write to file
-            if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+            if ($debugOnOff === '1' || $cliDebugOutput == true) {
                 $debug->debug($showCmd);
             }
 
@@ -218,7 +242,7 @@ if (!empty($getNodes)) {
             //check for last command iteration...
             // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
             // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
-            if ($i == $cmdNumRows-1) { 
+            if ($i == $cmdNumRows - 1) {
                 if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
                     $conn->close('40'); // close telnet connection - ssh already closed at this point
                     break;

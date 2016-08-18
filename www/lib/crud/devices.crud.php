@@ -71,6 +71,14 @@ if (!$session->logged_in) {
             $log->Warn("Failure: Device Model cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
         }
 
+        // validate deviceModel field
+        if (!empty($_POST['profile'])) {
+            $profile = $_POST['profile'];
+        } else {
+            $errors['profile'] = "Profile cannot be empty";
+            $log->Warn("Failure: Profile cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
+        }
+        
         // validate defaultCreds check boxes
         if (isset($_POST['defaultCreds'])) {
             $defaultCreds = '1';
@@ -193,6 +201,9 @@ if (!$session->logged_in) {
             if (isset($deviceModel)) {
                 $_SESSION['deviceModel'] = $deviceModel;
             }
+            if (isset($profile)) {
+                $_SESSION['profile'] = $profile;
+            }
             if (isset($defaultCreds)) {
                 $_SESSION['defaultCreds'] = $defaultCreds;
             }
@@ -291,6 +302,7 @@ if (!$session->logged_in) {
             deviceAccessMethodId,
             connPort,
             model,
+            profile,
             vendorId,
             nodeCatId,
             nodeAddedBy,
@@ -311,6 +323,7 @@ if (!$session->logged_in) {
                 :deviceAccessMethodId,
                 :connPort,
                 :deviceModel,
+                :profile,
                 :vendorId,
                 :catId,
                 :username,
@@ -329,6 +342,7 @@ if (!$session->logged_in) {
                 $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
                 $db2->bind(':connPort', $connPort);
                 $db2->bind(':deviceModel', $deviceModel);
+                $db2->bind(':profile', $profile);
                 $db2->bind(':vendorId', $vendorId);
                 $db2->bind(':catId', $catId);
                 $db2->bind(':username', $username);
@@ -392,6 +406,7 @@ if (!$session->logged_in) {
                             deviceAccessMethodId = :deviceAccessMethodId,
                             connPort = :connPort, 
                             model = :deviceModel, 
+                            profile = :profile, 
                             vendorId = :vendorId, 
                             nodeCatId = :catId, 
                             defaultCreds = :defaultCreds,
@@ -409,6 +424,7 @@ if (!$session->logged_in) {
                 $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
                 $db2->bind(':connPort', $connPort);
                 $db2->bind(':deviceModel', $deviceModel);
+                $db2->bind(':profile', $profile);
                 $db2->bind(':vendorId', $vendorId);
                 $db2->bind(':catId', $catId);
                 $db2->bind(':defaultCreds', $defaultCreds);
@@ -486,6 +502,7 @@ if (!$session->logged_in) {
                     n.devicePrompt,
                     v.id vendorId,
                     n.model,
+                    n.profile,
                     n.defaultCreds,
                     n.deviceUsername,
                     n.devicePassword,
@@ -493,7 +510,8 @@ if (!$session->logged_in) {
                     n.deviceEnablePassword,
                     n.termLength,
                     a.id accessMeth,
-                    n. connPort,
+                    n.connPort,
+                    n.profile,
                     " . $customProp_string . "
                     cat.id catId
 		FROM nodes n
