@@ -80,8 +80,12 @@ class Connection {
         stream_set_timeout($this->_connection, $this->_timeout);
 
         $this->_readTo(':');
+<<<<<<< HEAD
         if (substr($this->_data, -9) == 'Username:' || substr($this->_data, -9) == 'username:' || substr($this->_data, -21) == 'FortiGate-VM64 login:') { // lowercase username for Cisco ACS5 implementations
 //            echo 'test';
+=======
+        if (substr($this->_data, -9) == 'Username:' || substr($this->_data, -9) == 'username:') { // lowercase username for Cisco ACS5 implementations
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
             $this->_send($this->_username);
             $this->_readTo(':');
         }
@@ -95,6 +99,10 @@ class Connection {
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
 
+<<<<<<< HEAD
+=======
+//                echo "Error: Authentication Failed for $this->_hostname\n";
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             } else {
@@ -105,6 +113,10 @@ class Connection {
                 $this->_prompt = '#';
                 $this->_readTo($this->_prompt);
                 if (strpos($this->_data, $this->_prompt) == false) {
+<<<<<<< HEAD
+=======
+//                    echo "Error: Authentication Failed for enable mode for $this->_hostname\n";
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
                     $log->Conn("Error: Authentication Failed for enable mode for  enable mode for or $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                     return false;
                 }
@@ -118,6 +130,10 @@ class Connection {
             $this->_readTo($this->_prompt);
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
 //                echo "Error: Authentication Failed for $this->_hostname\n";
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
@@ -128,7 +144,11 @@ class Connection {
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
+<<<<<<< HEAD
     public function connectSSH($command, $prompt, $profile) {
+=======
+    public function connectSSH($command, $prompt) {
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
 
         $log = ADLog::getInstance();
 
@@ -137,7 +157,14 @@ class Connection {
             $this->_port = 22;
         }
 
+<<<<<<< HEAD
         if (!$ssh = new \phpseclib\Net\SSH2($this->_hostname, $this->_port, $this->_timeout)) {
+=======
+        // This does not seem to be processed when unable to connect to the address
+        // Modifying SSH2.php to return false did not work
+        // Will need to use custom error handler to explicitly handle this explicitly
+        if (!$ssh = new Net_SSH2($this->_hostname, $this->_port, $this->_timeout)) {
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
             echo "Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . "\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             return false;
@@ -151,9 +178,40 @@ class Connection {
         }
 
         $output = '';
+<<<<<<< HEAD
         
         include $profile;
         
+=======
+
+        if ($this->_enableMode === 'on') {
+            // $ssh->write("\n"); // 1st linebreak after above prompt check
+            $ssh->read('/.*>/', NET_SSH2_READ_REGEX); // read out to '>'
+            $ssh->write("enable\n");
+            $ssh->read('/.*:/', NET_SSH2_READ_REGEX);
+            $ssh->write($this->_enableModePassword . "\n");
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("terminal pager 0\n");
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("terminal length 0\n");
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write($command . "\n");
+            $output = $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("\n"); // to line break after command output
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+        } else {
+            // $ssh->write("\n"); // 1st linebreak after above prompt check		
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("terminal pager 0\n"); //set in case device is ASA
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("terminal length 0\n"); //set in case device is ASA
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write($command . "\n");
+            $output = $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->write("\n"); // to line break after command output
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+        }
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
         $ssh->disconnect();
         $result = array();
         $this->_data = explode("\r\n", $output);
@@ -176,7 +234,11 @@ class Connection {
 
         $log = ADLog::getInstance();
 
+<<<<<<< HEAD
         if (!$ssh = new \phpseclib\Net\SSH2($this->_hostname, 22, $this->_timeout)) {
+=======
+        if (!$ssh = new Net_SSH2($this->_hostname, 22, $this->_timeout)) {
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
             $output = "Failure: Unable to connect to $this->_hostname\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             return false;
@@ -190,6 +252,7 @@ class Connection {
         $output = '';
         if ($this->_enableMode === 'on') {
             // $ssh->write("\n"); // 1st linebreak after above prompt check
+<<<<<<< HEAD
             $ssh->read('/.*>/', 'NET_SSH2_READ_REGEX'); // read out to '>'
             $ssh->write("enable\n");
             $ssh->read('/.*:/', 'NET_SSH2_READ_REGEX');
@@ -210,6 +273,28 @@ class Connection {
             }
             $ssh->write("\n"); // to line break after command output
             $ssh->read('/' . $prompt . '/', 'NET_SSH2_READ_REGEX');
+=======
+            $ssh->read('/.*>/', NET_SSH2_READ_REGEX); // read out to '>'
+            $ssh->write("enable\n");
+            $ssh->read('/.*:/', NET_SSH2_READ_REGEX);
+            $ssh->write($this->_enableModePassword . "\n");
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            foreach ($snippetArr as $key => $command) {
+                $ssh->write($command . "\n");
+                $output .= $ssh->read('/.*#/', NET_SSH2_READ_REGEX); // read out to '#'
+            }
+            $ssh->write("\n"); // to line break after command output
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+        } else {
+            // $ssh->write("\n"); // 1st linebreak after above prompt check		
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            foreach ($snippetArr as $key => $command) {
+                $ssh->write($command . "\n");
+                $output .= $ssh->read('/.*#/', NET_SSH2_READ_REGEX); // read out to '#' because the prompt will change depending on the deployed config
+            }
+            $ssh->write("\n"); // to line break after command output
+            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+>>>>>>> 8ef92c9be261ba14bf1446102672c898602bb96c
         }
         $ssh->disconnect();
         return $output;

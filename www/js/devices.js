@@ -173,9 +173,9 @@ function getDefaultUserPass(cb) {
 
 function updatePort(value) {
     var connPortInput = document.getElementById("connPort");
-    if (value === 3) {
+    if (value == 3) {
         connPortInput.value = "22";
-    } else if (value === 1) {
+    } else if (value == 1) {
         connPortInput.value = "23";
     }
 }
