@@ -256,7 +256,7 @@ if (isset($errors['Fail'])) {
                             <input type="checkbox" id="smtpAuth" name="smtpAuth" value="1">
                             <div class="spacer"></div>
 
-                            <div  id="authDiv" style="display:none;">
+                            <div id="authDiv" style="display:none;">
                                 <label>Username:</label>
                                 <input type="text" id="smtpAuthUser" name="smtpAuthUser" size="40" placeholder="username">
                                 <label>Password:</label>

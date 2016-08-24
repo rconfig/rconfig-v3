@@ -1,7 +1,9 @@
-Version 3.6.1
-8-Aug-2016
+Version 3.6.7
+18-Aug-2016
 Author: Stephen Stack
 
+        Fixed - Connection ports not updating automatically when selecting ssh/telnet in devices.php
+        Fixed - SMTP Auth checkbox not display credentials boxes
         Fixed - Fixed full backup failure issue
         Fixed - Issue where users cannot be deleted
         Fixed - Bug#9 (GitHub) run rconfig.sql without requiring ALLOW_ZEROS and SUPER

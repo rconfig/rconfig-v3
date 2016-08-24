@@ -96,7 +96,7 @@ if (!empty($resultNodesRes)) {
         // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 
-        if ($status === "<font color=red>Unavailable</font>") {
+        if (preg_match("/Unavailable/", $status) === 1) {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
             $report->eachComplianceDataRowDeviceName($device['deviceName'], $connStatusFail, $text); // log to report
             echo $text . " - getHostStatus() Error:(File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
