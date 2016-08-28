@@ -42,7 +42,7 @@ function delProfile() {
         title: "Notice!",
         callback: function (result) {
             if (result) {
-//                removeItem("Are you sure you want to remove this Profile?", 'lib/crud/profiles.crud.php', "Please select a Profile!");
+                removeItem("Are you sure you want to remove this Profile?", 'lib/crud/profiles.crud.php', "Please select a Profile!");
             } else {
                 window.location.reload();
             }
