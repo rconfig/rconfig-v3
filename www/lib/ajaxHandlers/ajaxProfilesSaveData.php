@@ -10,20 +10,20 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    $fileContent = strip_tags($_POST['content'], '<br>');
+    
+    $fileContent = $_POST['data'];
     $savePath = $_POST['filepath'];
     file_put_contents($savePath,$fileContent);
 //    confirm and send data back
     $readAfterWrite = file_get_contents($savePath, true);
     
     if($readAfterWrite == $fileContent) {
-//        $response = json_encode(array('success' => true));
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-
+        $response = json_encode(array('success' => true));
+//        header('Location: ' . $_SERVER['HTTP_REFERER']);
     } else {
         $response = json_encode(array('failure' => true));
             $log->Warn("Connection profile write Issue");
         echo $response;
     }
-//    echo $response;
+    echo $response;
 }  // end session check

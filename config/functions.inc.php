@@ -214,19 +214,29 @@ function get_cpu_type() {
 }
 
 /**
- * @desc Ping given IP address and return result
- * @url http://php.net/manual/en/function.socket-create.php
- * @param input IP of host, and timeout count
+ * @desc Connect to given IP address and port and return result
+ * See user notes in http://php.net/manual/en/function.socket-close.php
+ * @param input IP of host, and TCP port
  * @return output
  */
+
 function getHostStatus($host, $port) {
-    $status = array("Unavailable", "Online");
-    $fp = @fsockopen($host, $port, $errno, $errstr, 2);
-    if ($fp) {
-        return "<font color=\"green\">" . $status[1] . "</font>";
-    } else {
-        return "<font color=\"red\">" . $status[0] . "</font>";
-    }
+
+    	$status = array("Unavailable", "Online");
+        $arrOpt = array('l_onoff' => 1, 'l_linger' => 0);
+
+        $Socket = socket_create(AF_INET , SOCK_STREAM , SOL_TCP);
+        $conn = socket_connect($Socket , $host ,  $port);
+
+        if ($conn) {
+            socket_set_block($Socket);
+            socket_set_option($Socket, SOL_SOCKET, SO_LINGER, $arrOpt);
+            socket_close($Socket);
+	    $xstatus = "<font color=\"green\">" . $status[1] . "</font>";
+        } else {
+	    $xstatus = "<font color=\"red\">" . $status[0] . "</font>";
+	}
+	return $xstatus;
 }
 
 // array_search with partial matches and optional search by key

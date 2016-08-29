@@ -575,3 +575,8 @@ span.inactive {
     background-position: 2px 3px;
     text-indent:17px;
 }
+
+#codeContent {
+    /** Setting height is also important, otherwise editor wont showup**/
+    height: 500px;
+}
