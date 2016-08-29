@@ -65,10 +65,10 @@ if (!empty($getNodes)) {
     }
 
     foreach ($devices as $device) { // iterate over each device - in this scripts case, there will only be a single device
-        // ok, verification of host reachability based on fsockopen to host port i.e. 22 or 23. If fails, continue to next foreach iteration		
+        // ok, verification of host reachability based on socket connection to port i.e. 22 or 23. If fails, continue to next foreach iteration
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 
-        if ($status === "<font color=red>Unavailable</font>") {
+        if (preg_match("/Unavailable/", $status) === 1) {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running Router ID " . $rid;
             $jsonArray['connFailMsg'] = $text;
             $log->Conn($text . " - getHostStatus() Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
