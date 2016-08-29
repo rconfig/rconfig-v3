@@ -1,3 +1,12 @@
+Version 3.6.8
+28-Aug-2016
+Author: Jose Diaz
+        Fixed - Check getHostStatus results ($status) in lib/showCmdScript.php
+        Fixed - Check getHostStatus results ($status) in lib/downloadNowScript.php
+        Fixed - Check getHostStatus results ($status) in lib/configCategoryScript.php
+        Fixed - Check getHostStatus results ($status) in lib/configDeviceScript.php
+        Fixed - Reimplement getHostStatus() function using sockets API instead of fsockopen() to reduce Connection Refused errors 
+
 Version 3.6.7
 18-Aug-2016
 Author: Stephen Stack
