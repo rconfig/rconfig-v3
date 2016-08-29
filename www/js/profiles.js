@@ -12,20 +12,6 @@ $(document).ready(function () {
 
     $("#profileDetailsFieldset").hide();
 
-    // tinymce config
-    tinymce.init({
-        selector: 'textarea',
-        force_p_newlines: false,
-        force_br_newlines: true,
-        convert_newlines_to_brs: false,
-        remove_linebreaks: true,
-        forced_root_block: 'pre',
-        menubar: false,
-        statusbar: false,
-        plugins: "save autoresize",
-        toolbar: "save"
-    });
-
 });
 
 // single row selector from rconfigFunctions.js
@@ -102,16 +88,18 @@ function hideAll() {
 
 // Open File by ajax
 function openFile(filePath) {
+    // clear out old editor instance if already created
+    var editor = ace.edit("codeContent");
+    editor.destroy();
     var filename = filePath.replace(/^.*[\\\/]/, '')
     $("#profileDetailsFieldset").show();
     $("#filename").text(filename);
     $("#filepath").val(filePath);
-
 // get filename meta data from DB to populate the about section
     $.getJSON("lib/ajaxHandlers/ajaxGetProfilesFileData.php?filePath=" + filePath, function (data) {
         //loop through all items in the JSON array  
         $.each(data, function (i, data) {
-            console.log(data.profileName);
+//            console.log(data.profileName);
             var profileName = data.profileName;
             var profileDescription = data.profileDescription;
             var deviceAccessMethodId = data.deviceAccessMethodId;
@@ -135,15 +123,39 @@ function openFile(filePath) {
         var html = '';
         $.getJSON("lib/ajaxHandlers/ajaxGetFileByPath.php?path=" + filePath, function (data) {
             $.each(data, function (key, value) {
-                html += value + "<br />"; // add break as tinymce will add new lines 
+                html += value; // add break as tinymce will add new lines 
             });
-            tinyMCE.activeEditor.setContent(html);
+            $('#codeContent').text(html);
+            var editor = ace.edit("codeContent");
+            editor.setTheme("ace/theme/dreamweaver");
+            editor.getSession().setMode("ace/mode/php");
+            editor.setOptions({
+                fontSize: "11pt"
+            });
         });
     } else {
         errorDialog('File not Selected!');
     }
 }
 
+function save_editor_content() {
+    var editor = ace.edit("codeContent");
+    var filepath = $('#filepath').val();
+    var strData = editor.getValue();
+
+    $.ajax({
+        url: 'lib/ajaxHandlers/ajaxProfilesSaveData.php',
+        type: 'post',
+        dataType: 'json',
+        data: {data: strData, filepath: filepath},
+        success: function (data) {
+            errorDialog('Profile Updated Sucessfully!');
+        },
+        error: function (data) {
+            errorDialog('Uh! Something went wrong. Could not update the profile file');
+        }
+    });
+}
 
 function showDevices(el) {
     var rowid = el.getAttribute('id');

@@ -191,10 +191,9 @@
                             </div>
                         </div>
                     </div>
-                    <form id="tinmceForm" method="post" action="lib/ajaxHandlers/ajaxProfilesSaveData.php">
-                        <textarea name="content">rConfig could not find any content to load!</textarea>
+                        <div id="codeContent"></div>
                         <input type="hidden" id="filepath" name="filepath" value="">
-                    </form>
+                        <input id="clickMe" type="button" value="Save Edits" onclick="save_editor_content()" />
                 </fieldset>
             </div>
             <!-- End Content -->
@@ -204,7 +203,7 @@
         <!-- End Main -->
         <!-- JS script Include -->
         <script type="text/JavaScript" src="js/profiles.js"></script>
-        <script type="text/JavaScript" src="js/tinymce/tinymce.min.js"></script>
+        <script src="https://ace.c9.io/build/src/ace.js" type="text/javascript" charset="utf-8"></script>
         <!-- Footer Include -->
         <?php include("includes/footer.inc.php"); ?>
     </div>

@@ -153,6 +153,9 @@ class Connection {
         $output = '';
         
         include $profile;
+        echo '<pre>';
+        var_dump($profile);
+        die();
         
         $ssh->disconnect();
         $result = array();
