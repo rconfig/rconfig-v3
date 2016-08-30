@@ -1,4 +1,4 @@
 <?php
 // TELNET Default profile
-// Do Not edit
+// Not in use at this time
 ?>

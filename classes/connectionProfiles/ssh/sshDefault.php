@@ -7,8 +7,6 @@ if ($this->_enableMode === 'on') {
 	$ssh->read('/' . $prompt . '/', 'NET_SSH2_READ_REGEX'); 
 	$ssh->write("terminal pager 0\n"); 
 	$ssh->read('/' . $prompt . '/', 'NET_SSH2_READ_REGEX'); 
-	$ssh->write("terminal length 0\n"); 
-	$ssh->read('/' . $prompt . '/', 'NET_SSH2_READ_REGEX'); 
 	$ssh->write($command . "\n"); 
 	$output = $ssh->read('/' . $prompt . '/', 'NET_SSH2_READ_REGEX'); 
 	$ssh->write("\n"); // to line break after command output 
