@@ -498,7 +498,7 @@ DROP TABLE IF EXISTS `profiles`;
 INSERT INTO `profiles` (`id`, `profileName`, `profileDescription`, `profileLocation`, `deviceAccessMethodId`, `vendorId`, `profileDateAdded`, `profileAddedBy`, `profileLastEditBy`, `profileLastEdit`, `status`) VALUES
 	(1, 'TelnetDefault', 'Telnet Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/telnet/telnetDefault.php', 1, 1, '2016-08-17', 'admin', NULL, NULL, 1),
 	(2, 'sshDefault', 'ssh Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/ssh/sshDefault.php', 3, 1, '2016-08-17', 'admin', NULL, NULL, 1),
-	(3, 'HPSSHSwitch', 'HP SSH Switch Profile', '/home/rconfig/classes/connectionProfiles/ssh/hpSwitch.php', 3, 47, '2016-08-17', 'admin', NULL, NULL, 1),
+	(3, 'HPSSHSwitch', 'HP SSH Switch Profile', '/home/rconfig/classes/connectionProfiles/ssh/hpSwitch.php', 3, 47, '2016-08-17', 'admin', NULL, NULL, 1);
 /*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
 -- Dumping data for table rconfig35.menuPages: 24 rows
