@@ -1,3 +1,8 @@
+Version 3.6.9
+30-Aug-2016
+Author: Jose Diaz
+        Fixed - Make task e-mail reports display properly with different e-mail client programs, specially Outlook.
+
 Version 3.6.8
 28-Aug-2016
 Author: Jose Diaz
