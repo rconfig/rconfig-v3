@@ -130,25 +130,35 @@ $compareTableCss
         <h1><span id="title">$title</span></h1>
     </div>
      <div id="content">
-        <div style="float: left;" id="summDiv">
-            <b>Report Name:</b><br/>
-            <b>Report Date:</b><br/>
-            <b>ScriptName:</b><br/>
-            <b>Task ID:</b><br/>
-            <b>Task Start Time:</b><br/>
-            <b>Task End Time:</b><br/>
-            <b>Task Run Time:</b><br/>
-        </div>
-        <div style="float: left;" id="summDiv">
-            $reportName<br/>
-            $this->reportDate<br/>
-            $scriptName<br/>
-            $taskid<br/>
-            $taskStartTime<br/>
-            <taskEndTime><br/>
-            <taskRunTime><br/>
-        </div>
-        <div style="float: right;"  id="summDiv"><img src="$logo" alt="rConfig" title="rConfig"></div>
+        <table id="theader" summary="Report Metadata"> 
+          <tr>
+            <td>
+	      <div style="float: left; font-weight: bold" id="leftinf">
+                Report Name:<br/>
+                Report Date:<br/>
+                ScriptName:<br/>
+                Task ID:<br/>
+                Task Start Time:<br/>
+                Task End Time:<br/>
+                Task Run Time:<br/>
+              </div>
+            </td>
+            <td> 
+              <div style="float: left;" id="rightinf">
+                $reportName<br/>
+                $this->reportDate<br/>
+                $scriptName<br/>
+                $taskid<br/>
+                $taskStartTime<br/>
+                <taskEndTime><br/>
+                <taskRunTime><br/>
+              </div>
+            </td>
+            <td>
+              <div style="float: right;"  id="summDiv"><img src="$logo" alt="rConfig" title="rConfig" /></div>
+	    </td>
+          </tr>
+	</table>
         <div style="clear:both"> </div>
         <hr/>
 EOF;
@@ -312,7 +322,7 @@ EOF;
 	 </div>
 	 <div style="clear:both;"></div>
 		 <div id="footer">
-			   &copy rConfig	
+			   &copy; rConfig	
 	     </div>   
 	</div>
 </body>
