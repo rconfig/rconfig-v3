@@ -1,5 +1,17 @@
-CREATE DATABASE IF NOT EXISTS `DATABASE_NAME` /*!40100 DEFAULT CHARACTER SET latin1 */;
+-- --------------------------------------------------------
+-- Database:                     rConfig Database Template
+-- Written By:               	 rConfig Design Team
+-- Server OS:                    Linux / Centos
+-- Developed on:               	 5.5.17 - MySQL Community Server (GPL) by Remi
+-- Date/time:                    2016-06-06 12:21:47
+-- --------------------------------------------------------
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+
+-- Dumping database structure for DATABASE_NAME
+CREATE DATABASE IF NOT EXISTS `DATABASE_NAME` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `DATABASE_NAME`;
 
 
@@ -10,19 +22,12 @@ CREATE TABLE IF NOT EXISTS `active_guests` (
   PRIMARY KEY (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 -- Dumping structure for table DATABASE_NAME.active_users
 CREATE TABLE IF NOT EXISTS `active_users` (
   `username` varchar(30) NOT NULL,
   `timestamp` int(11) unsigned NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.categories
@@ -63,12 +68,8 @@ INSERT INTO `cmdCatTbl` (`configCmdId`, `nodeCatId`) VALUES
 	(163, 2),
 	(164, 1),
 	(164, 2),
-
-
-
 	(165, 2);
 /*!40000 ALTER TABLE `cmdCatTbl` ENABLE KEYS */;
-
 
 -- Dumping structure for table DATABASE_NAME.compliancePolElem
 CREATE TABLE IF NOT EXISTS `compliancePolElem` (
@@ -81,24 +82,11 @@ CREATE TABLE IF NOT EXISTS `compliancePolElem` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-
-
-
-
-
-
-
 -- Dumping structure for table DATABASE_NAME.compliancePolElemTbl
 CREATE TABLE IF NOT EXISTS `compliancePolElemTbl` (
   `polId` int(10) DEFAULT NULL,
   `elemId` int(10) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.compliancePolicies
@@ -111,23 +99,11 @@ CREATE TABLE IF NOT EXISTS `compliancePolicies` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
-
-
-
-
-
-
 -- Dumping structure for table DATABASE_NAME.complianceReportPolTbl
 CREATE TABLE IF NOT EXISTS `complianceReportPolTbl` (
   `reportId` int(10) DEFAULT NULL,
   `polId` int(10) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 ROW_FORMAT=FIXED;
-
-
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.complianceReports
@@ -138,12 +114,6 @@ CREATE TABLE IF NOT EXISTS `complianceReports` (
   `status` int(10) DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.configcommands
@@ -162,11 +132,7 @@ INSERT INTO `configcommands` (`id`, `command`, `status`) VALUES
 	(163, 'show cdp neigh', 1),
 	(164, 'show ip access-list', 1),
 	(165, 'show ip route', 1);
-
-
-
 /*!40000 ALTER TABLE `configcommands` ENABLE KEYS */;
-
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
@@ -181,54 +147,11 @@ CREATE TABLE IF NOT EXISTS `configs` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- Dumping structure for view DATABASE_NAME.customProperties
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `customProperties` (
 	`customProperty` VARCHAR(64) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci'
 ) ENGINE=MyISAM;
-
 
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Creating temporary table to overcome VIEW dependency errors
@@ -251,14 +174,9 @@ INSERT INTO `devicesaccessmethod` (`id`, `devicesAccessMethod`) VALUES
 	(3, 'SSHv2');
 /*!40000 ALTER TABLE `devicesaccessmethod` ENABLE KEYS */;
 
-
-
 -- Dumping structure for table DATABASE_NAME.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-
-
-
   `deviceName` varchar(255) DEFAULT NULL,
   `deviceUsername` varchar(255) DEFAULT NULL,
   `devicePassword` varchar(255) DEFAULT NULL,
@@ -283,52 +201,8 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `profile`  varchar(255) DEFAULT NULL,
   `status` int(10) DEFAULT '1',
    `custom_Location` varchar(255) DEFAULT NULL COMMENT 'Custom Property - Location',
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.reportData
@@ -341,10 +215,6 @@ CREATE TABLE IF NOT EXISTS `reportData` (
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
-
-
-
-
 
 
 -- Dumping structure for table DATABASE_NAME.settings
@@ -381,6 +251,7 @@ INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsernam
 	(1, 1, '/home/rconfig/data/', '', '', '', 0, 1, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '1980-01-01 00:00:00', '', '0', 600);
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+
 -- Dumping structure for table rconfigdev1.snippets
 CREATE TABLE IF NOT EXISTS `snippets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -410,6 +281,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 -- Dumping structure for table DATABASE_NAME.userlevels
 CREATE TABLE IF NOT EXISTS `userlevels` (
   `id` int(10) NOT NULL,
@@ -423,6 +295,7 @@ INSERT INTO `userlevels` (`id`, `userlevel`) VALUES
 	(1, 'User'),
 	(9, 'Administrator');
 /*!40000 ALTER TABLE `userlevels` ENABLE KEYS */;
+
 
 -- Dumping structure for table DATABASE_NAME.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -441,8 +314,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `userid`, `userlevel`, `email`, `timestamp`, `status`) VALUES
 	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '6c97424dc92f14ae78f8cc13cd08308d', 9, 'admin@domain.com', 1346920339, 1);
-
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
+
 -- Dumping structure for table DATABASE_NAME.vendors
 CREATE TABLE IF NOT EXISTS `vendors` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -456,8 +330,8 @@ CREATE TABLE IF NOT EXISTS `vendors` (
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
 INSERT INTO `vendors` (`id`, `vendorName`, `vendorLogo`, `status`) VALUES
 	(1, 'Cisco', 'images/vendor/cisco.jpg', 1);
-
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
+
 -- Dumping structure for view DATABASE_NAME.customProperties
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `customProperties`;
@@ -470,7 +344,6 @@ AND `COLUMN_NAME` like '%custom%';
 -- Dumping structure for view DATABASE_NAME.devicemodelview
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `devicemodelview`;
-
 CREATE ALGORITHM=UNDEFINED DEFINER=CURRENT_USER SQL SECURITY DEFINER VIEW `devicemodelview` AS 
 SELECT DISTINCT `nodes`.`model` AS `model` 
 FROM `nodes` WHERE ((`nodes`.`model` <> 'NULL') 
@@ -478,7 +351,34 @@ AND (`nodes`.`model` <> ''));
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
--- Dumping structure for table DATABASE_NAME.menuPages
+-- Dumping structure for table DATABASE_NAME.profiles
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profileName` varchar(255) NOT NULL DEFAULT '0',
+  `profileDescription` varchar(255) DEFAULT NULL,
+  `profileLocation` varchar(255) DEFAULT '0',
+  `deviceAccessMethodId` int(11) NOT NULL DEFAULT '0' COMMENT 'refer to devicesAccessMethod 1 for telnet and 3 for ssh',
+  `vendorId` int(11) NOT NULL DEFAULT '0',
+  `profileDateAdded` date DEFAULT NULL,
+  `profileAddedBy` varchar(50) DEFAULT NULL,
+  `profileLastEditBy` varchar(50) DEFAULT NULL,
+  `profileLastEdit` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table rconfig5786.profiles: ~13 rows (approximately)
+/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
+INSERT INTO `profiles` (`id`, `profileName`, `profileDescription`, `profileLocation`, `deviceAccessMethodId`, `vendorId`, `profileDateAdded`, `profileAddedBy`, `profileLastEditBy`, `profileLastEdit`, `status`) VALUES
+	(1, 'TelnetDefault', 'Telnet Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/telnet/telnetDefault.php', 1, 1, '2016-08-17', 'admin', NULL, NULL, 1),
+	(2, 'sshDefault', 'ssh Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/ssh/sshDefault.php', 3, 1, '2016-08-17', 'admin', NULL, NULL, 1),
+	(3, 'HPSSHSwitch', 'HP SSH Switch Profile', '/home/rconfig/classes/connectionProfiles/ssh/hpSwitch.php', 3, 47, '2016-08-17', 'admin', NULL, NULL, 1);
+/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+-- Dumping structure for table rconfig35.menuPages
 DROP TABLE IF EXISTS `menuPages`;
 CREATE TABLE IF NOT EXISTS `menuPages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -491,15 +391,6 @@ CREATE TABLE IF NOT EXISTS `menuPages` (
   `menuSortId` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
-
--- Dumping structure for table DATABASE_NAME.profiles
-DROP TABLE IF EXISTS `profiles`;
-/*!40000 ALTER TABLE `profiles` DISABLE KEYS */;
-INSERT INTO `profiles` (`id`, `profileName`, `profileDescription`, `profileLocation`, `deviceAccessMethodId`, `vendorId`, `profileDateAdded`, `profileAddedBy`, `profileLastEditBy`, `profileLastEdit`, `status`) VALUES
-	(1, 'TelnetDefault', 'Telnet Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/telnet/telnetDefault.php', 1, 1, '2016-08-17', 'admin', NULL, NULL, 1),
-	(2, 'sshDefault', 'ssh Default Profile - DO NOT REMOVE', '/home/rconfig/classes/connectionProfiles/ssh/sshDefault.php', 3, 1, '2016-08-17', 'admin', NULL, NULL, 1),
-	(3, 'HPSSHSwitch', 'HP SSH Switch Profile', '/home/rconfig/classes/connectionProfiles/ssh/hpSwitch.php', 3, 47, '2016-08-17', 'admin', NULL, NULL, 1);
-/*!40000 ALTER TABLE `profiles` ENABLE KEYS */;
 
 -- Dumping data for table rconfig35.menuPages: 24 rows
 DELETE FROM `menuPages`;
@@ -528,7 +419,7 @@ INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, 
 	(21, 'scheduler.php', 'Scheduled Tasks', 'Manage Scheduled Tasks on this page', 'Scheduled Tasks', '1', 21, 3),
 	(22, 'useradmin.php', 'Settings > Users Management', 'Manage User details on this page', 'Users (Admin)', '0', 20, 0),
 	(23, 'settingsBackup.php', 'Settings > Backup', 'Backup rConfig on this page', 'System Backup(Admin)', '0', 20, 0),
-	(24, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0);
+	(24, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0),
 	(25, 'profiles.php', 'Devices > Profiles', 'Custom Device Connection Profiles', 'Connection Profiles', '0', 4, 0);
 /*!40000 ALTER TABLE `menuPages` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
