@@ -61,7 +61,7 @@ if (!$session->logged_in) {
             }
             if (!empty($_FILES["profileFile"]["name"])) {
 
-                if ($_FILES["profileFile"]["type"] == "application/octet-stream" && $_FILES["profileFile"]["size"] < 20000) {
+                if (($_FILES["profileFile"]["type"] == "application/octet-stream" || $_FILES["profileFile"]["type"] == "text/plain") && $_FILES["profileFile"]["size"] < 20000) {
                     
                     if ($_FILES["profileFile"]["error"] > 0) {
            
