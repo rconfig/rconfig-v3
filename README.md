@@ -25,7 +25,8 @@ Apache 2.2.15 or higher
 Browser IE7+, Firefox3.5+, Chrome11+, Safari3+, Opera 9.4+
 See installation guide for more details
 
-======================= LICENSE ===============================
+LICENSE
+---
 
 rConfig is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
