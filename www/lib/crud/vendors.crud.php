@@ -38,13 +38,17 @@ if (!$session->logged_in) {
             }
 
             if (!empty($_FILES["vendorLogo"]["name"])) {
-                if ((($_FILES["vendorLogo"]["type"] == "image/gif") || ($_FILES["vendorLogo"]["type"] == "image/jpeg") || ($_FILES["vendorLogo"]["type"] == "image/pjpeg")) && ($_FILES["vendorLogo"]["size"] < 20000)) {
+                if ((($_FILES["vendorLogo"]["type"] == "image/gif") 
+                        || ($_FILES["vendorLogo"]["type"] == "image/jpeg") 
+                        || ($_FILES["vendorLogo"]["type"] == "image/pjpeg"))
+                        || ($_FILES["vendorLogo"]["type"] == "image/png")
+                        && ($_FILES["vendorLogo"]["size"] < 20000)) {
                     if ($_FILES["vendorLogo"]["error"] > 0) {
                         $errors['fileError'] = "File Error Return Code: " . $_FILES["vendorLogo"]["error"];
                         $log->Warn("File Error Return Code: " . $_FILES["vendorLogo"]["error"] . " (File: " . $_SERVER['PHP_SELF'] . ")");
                     } else {
                         $filename = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
-                        $location = $config_web_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
+                        $location = "images/vendor/" . $_FILES["vendorLogo"]["name"];
                         if (file_exists($location)) {
                             $log->Warn("Failure: " . $_FILES["vendorLogo"]["name"] . " already exists (File: " . $_SERVER['PHP_SELF'] . ")");
                         } else {
