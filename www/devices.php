@@ -78,6 +78,7 @@ include("includes/head.inc.php");
                     $connPort = $_SESSION['connPort'];
                     unset($_SESSION['connPort']);
                 }
+				
                 /* "Do NOT unset the whole $_SESSION with unset($_SESSION) as this will disable the registering of session variables through the $_SESSION superglobal." */
                 $_SESSION['errors'] = array();
                 ?>
@@ -259,7 +260,7 @@ if (isset($errors['deviceAccessMethodId'])) {
 }
 ?> <br/>    
                                 <label for="connPort">Connection Port:</label>
-                                <input name="connPort" id="connPort" title="TCP Port Number for connection" size="10" maxlength="5" value="23" tabindex='11' style="width:40px;" value="<?php if (isset($connPort)) echo $connPort; ?>">
+                                <input name="connPort" id="connPort" title="TCP Port Number for connection" size="10" maxlength="5" tabindex='11' style="width:40px;" value="<?php if (isset($connPort)) {echo $connPort;} else {echo '23';}?>">
                                 <div style="float:left;">
                                     <img id="helpIcon" src="images/helpIcon16.png" style="margin-top:5px;margin-left:5px;" alt="Please select your TCP port number for the access method i.e. telnet = 23" title="Please select your TCP port number for the access method i.e. telnet = 23"/>
                                 </div>

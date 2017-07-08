@@ -4,6 +4,7 @@ Author: Stephen Stack
 
         Added - New online help files and removed old help files
         Fixed - Images bug where images would not upload correctly
+        Fixed - issue where connport on devices page would reset to 23 if saving form and required field not completed
 
 ------------------------------------------------------------------------------------
 
