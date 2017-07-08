@@ -14,7 +14,7 @@ if (!$session->logged_in) {
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $term = $_GET['term'];
-    $db2->query("SELECT id, deviceName AS value FROM nodes WHERE deviceName LIKE :term");
+    $db2->query("SELECT id, deviceName AS value FROM nodes WHERE deviceName LIKE :term AND status = 1");
     $db2->bind(':term', '%' . $term . '%'); //bind here and create wildcard search term here also
     $rows = $db2->resultset();
     echo json_encode($rows);
