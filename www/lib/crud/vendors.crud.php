@@ -36,7 +36,7 @@ if (!$session->logged_in) {
             } else {
                 $vendorName = $_POST['vendorName'];
             }
-
+// var_dump($_FILES);die();
             if (!empty($_FILES["vendorLogo"]["name"])) {
                 if ((($_FILES["vendorLogo"]["type"] == "image/gif") 
                         || ($_FILES["vendorLogo"]["type"] == "image/jpeg") 
@@ -49,11 +49,18 @@ if (!$session->logged_in) {
                         $log->Warn("File Error Return Code: " . $_FILES["vendorLogo"]["error"] . " (File: " . $_SERVER['PHP_SELF'] . ")");
                     } else {
                         $filename = $config_basedir . "images/vendor/" . $_FILES["vendorLogo"]["name"];
-                        $location = "images/vendor/" . $_FILES["vendorLogo"]["name"];
+                        $location = $config_app_basedir  . "www/images/vendor/" . $_FILES["vendorLogo"]["name"];
                         if (file_exists($location)) {
                             $log->Warn("Failure: " . $_FILES["vendorLogo"]["name"] . " already exists (File: " . $_SERVER['PHP_SELF'] . ")");
                         } else {
-                            move_uploaded_file($_FILES['vendorLogo']['tmp_name'], $location);
+							if (!copy($_FILES['vendorLogo']['tmp_name'], $location)) {
+								$errors['fileInvalid'] = "Upload Failed";
+								$log->Warn("Failure: Invalid File(File: " . $_SERVER['PHP_SELF'] . ")");
+								$_SESSION['errors'] = $errors;
+								session_write_close();
+								header("Location: " . $config_basedir . "vendors.php?error");
+								exit();
+							}
                             // *** 1) Initialize / load image  
                             $resizeObj = new resize($location);
                             // *** 2) Resize image (options: exact, portrait, landscape, auto, crop)  

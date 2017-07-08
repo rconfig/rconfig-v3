@@ -49,7 +49,7 @@ $i = 0; # row counter  to enable alternate row coloring
         echo '<tr class="row' . ($i++ % 2) . '">';
         ?>
     <td align="center"><input type="checkbox" name="tablecheckbox" id="<?php echo $id; ?>"/></td>
-    <td align="center"><img src="<?php echo $rows['vendorLogo']; ?>" /></td>
+    <td align="center"><img style="background-color:red;" src="<?php echo $rows['vendorLogo']; ?>" /></td>
 
     <td ><?php echo $rows['vendorName'] ?></td>
     </tr>
