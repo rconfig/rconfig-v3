@@ -40,6 +40,7 @@ if (!$session->logged_in) {
             if (!empty($_FILES["vendorLogo"]["name"])) {
                 if ((($_FILES["vendorLogo"]["type"] == "image/gif") 
                         || ($_FILES["vendorLogo"]["type"] == "image/jpeg") 
+                        || ($_FILES["vendorLogo"]["type"] == "image/jpg") 
                         || ($_FILES["vendorLogo"]["type"] == "image/pjpeg"))
                         || ($_FILES["vendorLogo"]["type"] == "image/png")
                         && ($_FILES["vendorLogo"]["size"] < 20000)) {
