@@ -13,18 +13,18 @@ function writeConsole(content, filePath) {
 
 function openHelp() {
 
-    window.open('help/index.php',
+    window.open('https://www.rconfig.com/help',
             'rConfig - Documentation',
             'width=, \
-			   height=800, \
-			   width=1000, \
-			   directories=no, \
-			   location=no, \
-			   menubar=no, \
-			   resizable=no, \
-			   scrollbars=0, \
-			   status=no, \
-			   toolbar=no');
+            height=800, \
+            width=1000, \
+            directories=no, \
+            location=no, \
+            menubar=no, \
+            resizable=no, \
+            scrollbars=0, \
+            status=no, \
+            toolbar=no');
     return false;
 
 }

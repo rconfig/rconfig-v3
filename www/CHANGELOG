@@ -1,7 +1,22 @@
+Version 3.7.5
+8-July-2017
+Author: Stephen Stack
+
+        Added - New online help files and removed old help files
+        Added - Updated masthead for new rConfig Logo
+        Fixed - Images bug where images would not upload correctly
+        Fixed - issue where connport on devices page would reset to 23 if saving form and required field not completed
+        Fixed - deleted device showing up twice in compare device selection
+        Fixed - fixed page hangs for connection checks if device not avaiilable on devicemgmt pages. bug#36
+
+------------------------------------------------------------------------------------
+
 Version 3.6.9
 30-Aug-2016
 Author: Jose Diaz
         Fixed - Make task e-mail reports display properly with different e-mail client programs, specially Outlook.
+
+------------------------------------------------------------------------------------
 
 Version 3.6.8
 28-Aug-2016
@@ -11,6 +26,8 @@ Author: Jose Diaz
         Fixed - Check getHostStatus results ($status) in lib/configCategoryScript.php
         Fixed - Check getHostStatus results ($status) in lib/configDeviceScript.php
         Fixed - Reimplement getHostStatus() function using sockets API instead of fsockopen() to reduce Connection Refused errors 
+
+------------------------------------------------------------------------------------
 
 Version 3.6.7
 18-Aug-2016

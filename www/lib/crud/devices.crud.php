@@ -173,7 +173,6 @@ if (!$session->logged_in) {
             $errors['connPort'] = "connPort input is incorrect";
             $log->Warn("Failure: connPort input is incorrect (File: " . $_SERVER['PHP_SELF'] . ")");
         }
-
         /* No validation on Custom_ Fields */
 
         // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open 
@@ -220,7 +219,6 @@ if (!$session->logged_in) {
             if (isset($connPort)) {
                 $_SESSION['connPort'] = $connPort;
             }
-
             $_SESSION['errors'] = $errors;
             session_write_close();
             header("Location: " . $config_basedir . "devices.php?error");
