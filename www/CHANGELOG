@@ -1,4 +1,4 @@
-Version 3.7.3
+Version 3.7.4
 8-july-2017
 Author: Stephen Stack
 
@@ -6,6 +6,7 @@ Author: Stephen Stack
         Fixed - Images bug where images would not upload correctly
         Fixed - issue where connport on devices page would reset to 23 if saving form and required field not completed
         Fixed - deleted device showing up twice in compare device selection
+        Fixed - fixed page hangs for connection checks if device not avaiilable on devicemgmt pages. bug#36
 
 ------------------------------------------------------------------------------------
 

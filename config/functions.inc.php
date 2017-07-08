@@ -220,24 +220,50 @@ function get_cpu_type() {
  * @return output
  */
 
-function getHostStatus($host, $port) {
+ 
+function getHostStatus($host, $port, $timeout = 3) { 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+        # this works whether $host is a hostname or IP 
+        $ip = ""; 
+        if( !preg_match('/^\d+\.\d+\.\d+\.\d+$/', $host) ) { 
+            $ip = gethostbyname($host); 
+            if ($ip == $host) { 
+				$status = "Error Connecting Socket: Unknown host"; 
+                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
+            } 
+        } else $ip = $host; 
 
-    	$status = array("Unavailable", "Online");
-        $arrOpt = array('l_onoff' => 1, 'l_linger' => 0);
+        if (!($socket= @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) { 
+            $status = "Error Creating Socket: ".socket_strerror(socket_last_error()); 
+                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
+        } 
 
-        $Socket = socket_create(AF_INET , SOCK_STREAM , SOL_TCP);
-        $conn = socket_connect($Socket , $host ,  $port);
+        socket_set_nonblock($socket); 
 
-        if ($conn) {
-            socket_set_block($Socket);
-            socket_set_option($Socket, SOL_SOCKET, SO_LINGER, $arrOpt);
-            socket_close($Socket);
-	    $xstatus = "<font color=\"green\">" . $status[1] . "</font>";
-        } else {
-	    $xstatus = "<font color=\"red\">" . $status[0] . "</font>";
-	}
-	return $xstatus;
-}
+        $error = NULL; 
+        $attempts = 0; 
+        $timeout *= 1000;  // adjust because we sleeping in 1 millisecond increments 
+        $connected; 
+        while (!($connected = @socket_connect($socket, $host, $port+0)) && $attempts++ < $timeout) { 
+            $error = socket_last_error(); 
+            if ($error != SOCKET_EINPROGRESS && $error != SOCKET_EALREADY) { 
+                $status = "Error Connecting Socket: ".socket_strerror($error); 
+                socket_close($socket); 
+                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
+            } 
+            usleep(1000); 
+        } 
+
+        if (!$connected) { 
+            $status = "Error Connecting Socket: Connect Timed Out After $timeout seconds. ".socket_strerror(socket_last_error()); 
+            socket_close($socket); 
+            return "<font color=\"red\">Unavailable: " . $status . "</font>";  
+        } 
+        socket_set_block($socket); 
+        return "<font color=\"green\"> Online </font>";      
+}  
+
 
 // array_search with partial matches and optional search by key
 function array_find($needle, $haystack, $search_keys = false) {
