@@ -1,6 +1,6 @@
-#rough layout for yaml file__
-connection timeout?__
-port number/ connection type__
+#rough layout for yaml file <br />
+connection timeout? <br />
+port number/ connection type <br />
 headers not set for original class, maybe need option to add for devices such as Cisco WLC
 prompt _(enable or non-enable mode) (regex??)_
 username prompt
