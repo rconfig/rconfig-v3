@@ -71,13 +71,8 @@ $db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername,
                 FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodes = $db2->resultset();
 
-
-
 $device['template'] = '/home/rconfig/www/templates/test.yml';
 $templateparams = Spyc::YAMLLoad($device['template']);
-var_dump($templateparams);
-
-
 
 
 if (!empty($getNodes)) {
@@ -190,8 +185,9 @@ if (!empty($getNodes)) {
             $fullpath = $file->createFile($command);
 
             // check for connection type i.e. telnet SSHv1 SSHv2 & run the command on the device
-            if ($device['deviceAccessMethodId'] == '1') { // telnet
-                $showCmd = $conn->showCmdTelnet($command, $prompt, $cliDebugOutput);
+        if ($templateparams['basics']['protocol'] == 'telnet') {
+                $showCmd = $conn->showCmdTelnet($command, $cliDebugOutput);
+
             } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
                 $showCmd = $conn->connectSSH($command, $prompt);
 

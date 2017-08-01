@@ -121,10 +121,13 @@ class Connection {
                     return false;
                 }
                 // enable paging if set
+                $this->_readTo($this->_prompt);
                 if($this->_paging === true){
-                   $this->_readTo($this->_prompt);
                    $this->_send($this->_pagingCmd); 
+                   sleep(1);
+                   $this->_readTo($this->_prompt);
                 }
+                
             }
         } else {
             /* NEED TO TEST ENABLE AND NON_ENABLE MODE WITHOUT PAGING ENABLED ALSO> CHECK OUT THE _readto CODE FOR THE --More-- PROMPT */
@@ -269,10 +272,10 @@ class Connection {
      * @param  string        $prompt The device exec mode prompt
      * @return array|boolean On success returns an array, false on failure.
      */
-    public function showCmdTelnet($cmd, $prompt, $cliDebugOutput = false) {
+    public function showCmdTelnet($cmd, $cliDebugOutput = false) {
 
+        $this->_readTo($this->_prompt, $cliDebugOutput);
         $this->_send($cmd);
-        $this->_prompt = $prompt;
         $this->_readTo($this->_prompt, $cliDebugOutput);
 
         $result = array();
