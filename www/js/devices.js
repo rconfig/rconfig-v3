@@ -102,7 +102,7 @@ function editDevice(invoc) {
                     }
                     $('input[name="deviceEnablePassword"]').val(data.deviceEnablePassword);
                     $('input[name="connPort"]').val(data.connPort);
-                    $("#accessMeth").val(data.accessMeth);
+                    $("#connectionTemplate").val(data.storedTemplate);
                     $("#catId").val(data.catId);
                     $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                     $('input[name="editModeOn"]').val(1) // used to populate id input so that edit script will insert
@@ -167,15 +167,6 @@ function getDefaultUserPass(cb) {
             });
         });
 
-    }
-}
-
-function updatePort(value) {
-    var connPortInput = document.getElementById("connPort");
-    if (value == 3) {
-        connPortInput.value = "22";
-    } else if (value == 1) {
-        connPortInput.value = "23";
     }
 }
 

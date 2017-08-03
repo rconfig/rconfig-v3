@@ -38,6 +38,8 @@ $ip = $_SERVER['SERVER_ADDR'];
         <link rel="stylesheet" type="text/css" href="css/jqueryui/jquery.ui.datepicker.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="css/toastr/toastr.min.css" />
+        <link rel="stylesheet" type="text/css" href="js/codemirror/lib/codemirror.css" />
+
         <!-- file Tree CSS -->
         <link rel="stylesheet" type="text/css" href="css/filetreecss/default.css" />
         <!--[if lt IE 9]>

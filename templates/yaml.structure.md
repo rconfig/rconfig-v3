@@ -20,3 +20,12 @@ logout command? i.e. quit, exit, loggoff
 Cisco IOS 
 Mikrotek 
 Brocade 
+
+
+NOTE: 
+added new deviceEnablePrompt field to DB. Make sure and add to build
+clean up nodes table of unused fields for new installs mainly
+Device Connection Templates Page
+    May need to re-install menuPages table
+Add Templates Table
+clean up templates folder for packaging

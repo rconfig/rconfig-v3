@@ -17,7 +17,7 @@ class nav {
     // get all submenu items from DB based on current page parentID (this output can also be a topLevel page as those entries must have the parentId fields set to themselves in the DB)
     private function getAllSubMenuItems($config_page){
         $db2 = new db2();
-        $db2->query("SELECT topLevel, menuName, pageName FROM menuPages WHERE parentId = (SELECT parentId FROM menuPages WHERE pageName = :config_page) "); // get top level menu items
+        $db2->query("SELECT topLevel, menuName, pageName FROM menuPages WHERE parentId = (SELECT parentId FROM menuPages WHERE pageName = :config_page) ORDER BY id "); // get top level menu items
         $db2->bind(':config_page', $config_page);
         $subMenuResult = $db2->resultset();
         return $subMenuResult;

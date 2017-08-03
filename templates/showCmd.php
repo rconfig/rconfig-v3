@@ -67,11 +67,11 @@ $connResult = $db2->resultset();
 $timeout = $connResult[0]['deviceConnectionTimout'];
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+$db2->query("SELECT id, deviceName,  deviceIpAddr, deviceEnablePrompt, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
                 FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodes = $db2->resultset();
 
-$device['template'] = '/home/rconfig/www/templates/test.yml';
+$device['template'] = '/home/rconfig/www/templates/router.yml';
 $templateparams = Spyc::YAMLLoad($device['template']);
 
 
@@ -89,7 +89,6 @@ if (!empty($getNodes)) {
         }
         // ok, verification of host reachability based on socket connection to port i.e. 22 or 23. If fails, continue to next foreach iteration
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
-
         if (preg_match("/Unavailable/", $status) === 1) {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
             $report->eachData($device['deviceName'], $connStatusFail, $text); // log to report
@@ -128,21 +127,23 @@ if (!empty($getNodes)) {
                 $device['deviceUsername'], 
                 $device['devicePassword'], 
                 $device['deviceEnablePassword'], 
-                $templateparams['basics']['port'], 
-                $templateparams['basics']['timeout'],
+                $templateparams['connect']['port'], 
+                $templateparams['connect']['timeout'],
                 $templateparams['auth']['username'], 
                 $templateparams['auth']['password'],
                 $templateparams['auth']['enable'],
                 $templateparams['auth']['enableCmd'],
-                $templateparams['auth']['enablePrompt'],
+                $device['deviceEnablePrompt'],
                 $templateparams['auth']['enablePassPrmpt'],
-                $templateparams['auth']['prompt'],
+                $device['devicePrompt'],
                 $templateparams['config']['paging'],
-                $templateparams['config']['pagingCmd']
+                $templateparams['config']['pagingCmd'],
+                $templateparams['config']['pagerPrompt'],
+                $templateparams['config']['pagerPromptCmd']
                 );
 
         // if connection is telnet, connect to device function
-        if ($templateparams['basics']['protocol'] == 'telnet') {
+        if ($templateparams['connect']['protocol'] == 'telnet') {
             $failureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
             $connectedText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for taskID " . $tid;
 
@@ -185,7 +186,7 @@ if (!empty($getNodes)) {
             $fullpath = $file->createFile($command);
 
             // check for connection type i.e. telnet SSHv1 SSHv2 & run the command on the device
-        if ($templateparams['basics']['protocol'] == 'telnet') {
+        if ($templateparams['connect']['protocol'] == 'telnet') {
                 $showCmd = $conn->showCmdTelnet($command, $cliDebugOutput);
 
             } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
@@ -240,8 +241,8 @@ if (!empty($getNodes)) {
             // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
             // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
             if ($i == $cmdNumRows-1) { 
-                if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
-                    $conn->close('40'); // close telnet connection - ssh already closed at this point
+                if ($templateparams['connect']['protocol'] == 'telnet') {
+                    $conn->closeTelnet($templateparams['config']['resetPagingCmd'], $templateparams['config']['saveConfig'], $templateparams['config']['exitCmd']); // close telnet connection - ssh already closed at this point
                     break;
                 }
             }

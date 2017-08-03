@@ -19,6 +19,7 @@ $config_syslogBackup_basedir = "/home/rconfig/backups/syslogs/";
 $config_webLogs_basedir = "/home/rconfig/logs/wwwlogs/";
 $config_phpLogs_basedir = "/home/rconfig/logs/phpLog/";
 $config_reports_basedir = "/home/rconfig/reports/";
+$config_templates_basedir = "/home/rconfig/templates/";
 $config_temp_dir = "/home/rconfig/tmp/";
 $config_page = basename($_SERVER['SCRIPT_NAME']);
 $logdir = '../logs/';

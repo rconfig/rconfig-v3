@@ -120,6 +120,7 @@ function getParameter(paramName) {
 function tblRowSelector(tableName) {
     console.log('click')
     return $("#" + tableName).on('click', 'tr', function () {
+        console.log(tableName)
         var checkbox = $(this).find(':checkbox');
         var rowid = checkbox.attr('id');
         var row = $(this);

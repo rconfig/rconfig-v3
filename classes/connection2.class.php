@@ -38,14 +38,15 @@ class Connection {
      * @param  integer $timeout  Connection timeout (seconds)
      * @return object  Telnet object
      */
-    public function __construct($hostname, $username = "", $password, $enableModePassword, $connPort, $timeout = 60, $userPrmpt, $passPrmpt, $enable, 
+    public function __construct($hostname, $username = "", $password, 
+            $enableModePassword, $connPort, $timeout = 60, 
+            $userPrmpt, $passPrmpt, $enable, 
             $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt,
-            $paging, $pagingCmd) {
+            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd) {
         $this->_hostname = $hostname;
         $this->_username = $username;
         $this->_password = $password;
         $this->_timeout = $timeout;
-                                            //$this->_enableMode = $enableMode;
         $this->_enableModePassword = $enableModePassword;
         $this->_port = $connPort;
         $this->_userPrmpt = $userPrmpt;
@@ -57,6 +58,8 @@ class Connection {
         $this->_prompt = $prompt;
         $this->_paging = $paging;
         $this->_pagingCmd = $pagingCmd;
+        $this->_pagerPrompt = $pagerPrompt;
+        $this->_pagerPromptCmd = $pagerPromptCmd;
         $this->_use_usleep = 0; // change to 1 for faster execution
         // don't change to 1 on Windows servers unless you have PHP 5
         $this->_sleeptime = 125000;
@@ -95,7 +98,6 @@ class Connection {
         } else {
             $userPrmpterrorText = 'Something is wrong with the username prompt';
             $log->Conn("Failure: ".$userPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
-
         } 
         
         if (strpos($this->_data, $this->_passPrmpt) !== false) { // check password prompts
@@ -127,27 +129,109 @@ class Connection {
                    sleep(1);
                    $this->_readTo($this->_prompt);
                 }
-                
             }
         } else {
             /* NEED TO TEST ENABLE AND NON_ENABLE MODE WITHOUT PAGING ENABLED ALSO> CHECK OUT THE _readto CODE FOR THE --More-- PROMPT */
             /* NEXT LINES TO BE UPDATED. NEED TO TEST NON_ENABLE MODE */
-                                    $this->_prompt = '#';
-                                    $this->_readTo($this->_prompt);
-                                    if (strpos($this->_data, $this->_prompt) === false) {
-                                        fclose($this->_connection);
-                                        $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
-                                        return false;
-                                    }
-            // enable paging if set
-            if($this->_paging === true){
-               $this->_readTo($this->_prompt);
-               $this->_send($this->_pagingCmd); 
+            $this->_readTo($this->_prompt);
+            if (strpos($this->_data, $this->_prompt) === false) {
+                fclose($this->_connection);
+                $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
+                return false;
             }
-            
+            // enable paging if set
+            $this->_readTo($this->_prompt);
+            if($this->_paging === true){
+               $this->_send($this->_pagingCmd); 
+               sleep(1);
+               $this->_readTo($this->_prompt);
+            }
         }
     }
 
+    /**
+     * Read from socket until $prompt
+     * @param string $prompt Single character or string
+     */
+    private function _readTo($prompt, $cliDebugOutput = false) {
+        if (!$this->_connection) {
+            throw new Exception("Telnet connection closed");
+        }
+        // clear the buffer 
+        $this->_clearBuffer();
+
+        while (($c = fgetc($this->_connection)) !== false) {
+
+            $this->_data .= $c;
+//                                                                        var_dump($this->_data);
+            if ($cliDebugOutput == true) {
+                echo $c;
+            }
+            // we've encountered the prompt. send TELNET_OK
+            if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
+                return self::TELNET_OK;
+                // break;
+            }
+            
+            // if device pager prompt, send defined string to continue manually paging
+            if ((substr($this->_data, strlen($this->_data) - strlen($this->_pagerPrompt))) == $this->_pagerPrompt) {
+               $this->_send($this->_pagerPromptCmd); 
+            }
+
+            // Remove --More-- and backspace and whitespace from output so that it does not copy to text files
+            $this->_data = str_replace($this->_pagerPrompt, "", $this->_data);
+            $this->_data = str_replace(chr(8), "", $this->_data);
+            $this->_data = str_replace('     ', "", $this->_data);
+            // Set $_data as false if previous command failed.
+            if (strpos($this->_data, '% Invalid input detected') !== false) {
+                $this->_data = false;
+            }
+        } // while
+    }    
+    
+    /**
+     * Issue a command to the device
+     */
+    private function _send($command) {
+        fputs($this->_connection, $command . "\r\n");
+    }    
+    
+    /**
+     * 
+     * Close an active telnet connection and reset the term len if set
+     */
+    public function closeTelnet($resetPagingCmd, $saveConfig, $exitCmd) {
+        if ($this->_connection) {
+            if(!empty($resetPagingCmd)){
+                $this->_readTo($this->_prompt);
+                $this->_send($resetPagingCmd); 
+                $this->_readTo($this->_prompt);
+            }
+            if(!empty($saveConfig)){
+                $this->_readTo($this->_prompt);
+                $this->_send($saveConfig); 
+                $this->_readTo($this->_prompt);
+            }
+            $this->_send($exitCmd);
+            fclose($this->_connection);    
+
+        } else {
+            echo "Telnet connection already closed";
+            throw new Exception("Telnet connection closed");
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
@@ -325,26 +409,7 @@ class Connection {
         }
     }
 
-    
-                    /**
-                     * 
-                     * NOT USED????
-                     * 
-                     * Close an active connection for a FWSM/ASA and set term len value on the way out of the device
-                     */
-                    public function close($termLen) {
-                        sleep(1);
-                        $this->termLen($termLen); // set term pager $termLen for ASAs
-                        $this->_send('quit');
-                        fclose($this->_connection);
-                    }
 
-    /**
-     * Issue a command to the device
-     */
-    private function _send($command) {
-        fputs($this->_connection, $command . "\r\n");
-    }
 
 
     /**
@@ -354,64 +419,6 @@ class Connection {
      */
     private function _clearBuffer() {
         $this->_data = '';
-    }
-
-    /**
-     * Read from socket until $prompt
-     * @param string $prompt Single character or string
-     */
-    private function _readTo($prompt, $cliDebugOutput = false) {
-        if (!$this->_connection) {
-            throw new Exception("Telnet connection closed");
-        }
-        // clear the buffer 
-        $this->_clearBuffer();
-
-        while (($c = fgetc($this->_connection)) !== false) {
-
-            $this->_data .= $c;
-//                                                                        var_dump($this->_data);
-            if ($cliDebugOutput == true) {
-                echo $c;
-            }
-            // we've encountered the prompt. send TELNET_OK
-            if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
-                return self::TELNET_OK;
-                // break;
-            }
-            // if ($c == $char[0]) break; // old code
-            if ($c == '-') {
-                // Continue at --More-- prompt
-                if (substr($this->_data, -8) == '--More--')
-                    fputs($this->_connection, ' ');
-            }
-
-            // Remove --More-- and backspace and whitespace from output so that it does not copy to text files
-            $this->_data = str_replace('--More--', "", $this->_data);
-            $this->_data = str_replace(chr(8), "", $this->_data);
-            $this->_data = str_replace('     ', "", $this->_data);
-            // Set $_data as false if previous command failed.
-            if (strpos($this->_data, '% Invalid input detected') !== false) {
-                $this->_data = false;
-            }
-        } // while
-    }
-
-    /*
-     * send termLen value to console for ASAs only	
-     */
-
-    public function termLen($value) {
-        $result = false;
-        // if ($this->_prompt == '#') {
-        $this->_send('terminal pager ' . $value);
-        // }
-        if ($this->_data !== false) {
-            $this->_prompt = '#';
-            $result = true;
-        }
-        $this->_readTo($this->_prompt);
-        return $result;
     }
 
 }

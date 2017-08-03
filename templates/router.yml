@@ -3,16 +3,16 @@
     ## Remember to update permissions for the templates folder after uploading new template files.
         ## run 'chown -R apache /home/rconfig' on your rconfig server CLI
     ## all items below that contain free text should be contained within quotation marks " "
-
-basics:
+main:
+  name: "Cisco IOS - 1"
+  desc: "Cisco IOS - enable - telnet"
+connect:
   # connection timeout in seconds
   timeout: 5
   # type either telnet or ssh - must be in lowercase
   protocol: telnet
   # type port number for connection protocol choose from 1 - 65535
   port: 23
-  # set telnet headers on/ off - UNUSED
-  #headers: off
 auth:
   # Set username name prompt. Must be in quotes
   username: "Username:"
@@ -24,28 +24,18 @@ auth:
   enableCmd: "enable"
   # set enable mode password prompt. Must be in quotes
   enablePassPrmpt: "Password:"
-  # set enable mode prompt
-  enablePrompt: "router>"
-  # Set device prompt must be in quotes. Ideally should be 
-  # exact CLI prompt after authentication is complete i.e. router#
-  prompt: "router#"
-  # set if prompt is using regex, such as wildcards etc... - on/off
-  regex: on  
 config:
     # Disable config scrolling/ paging command. on/off
-    paging: on
-    # Disable config scrolling/ paging command. Must place command in quotations
+    paging: off
+    # Disable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
     pagingCmd: "terminal length 0"
+    # re-enable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
+    resetPagingCmd: "terminal length 40"
     # Set pager prompt. Must place command in quotations
     pagerPrompt: "--More--"
     # Set pager prompt key-stroke. Must place command in quotations
-    pagerPrompt: " "
+    pagerPromptCmd: " "
+    # Save configuration command. Leave blank, or set as required. Must be in quotes
+    saveConfig: "wr mem"
     # Set exit command. Must place command in quotations
     exitCmd: "quit"
-    
-    
-unusedcommands:
-    - "command 1"
-    - "show run"
-    - "show power"
-    - "cisco is the best"
