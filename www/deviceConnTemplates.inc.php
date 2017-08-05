@@ -20,7 +20,7 @@ echo "<span class=\"\">" . $pages->display_jump_menu() . $pages->display_items_p
 echo "<div class=\"spacer\" style=\"padding-bottom:3px;\"></div>";
 
 /* GET all vendor records from DB */
-$db2->query("SELECT `id`, `fileName`, `name`, `desc`, dateAdded, addedby FROM templates WHERE status = 1 $pages->limit");
+$db2->query("SELECT `id`, `fileName`, `name`, `desc`, dateAdded, dateLastEdit, addedby FROM templates WHERE status = 1 $pages->limit");
 $queryResult = $db2->resultset();
 // push rows to $items array
 $items = array();
@@ -39,7 +39,7 @@ $i = 0; # row counter  to enable alternate row coloring
     <th align="left">Template Filename</th>
     <th align="left">Template Name</th>
     <th align="left">Template Description</th>
-    <th align="left">Date Added</th>
+    <th align="left">Date</th>
     <th align="left">Created  By</th>
 </thead>
 <tbody>
@@ -48,7 +48,13 @@ $i = 0; # row counter  to enable alternate row coloring
     foreach ($result['rows'] as $rows):
         $id = $rows['id'];
         /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
-        echo '<tr class="row' . ($i++ % 2) . '">';
+        echo '<tr  id="'.$id.'" class="row' . ($i++ % 2) . '">';
+        // check fr which date is most recent
+        if(!empty($rows['dateLastEdit']) &&  $rows['dateLastEdit'] > $rows['dateAdded']){
+            $date = $rows['dateLastEdit'];
+        } else {
+            $date = $rows['dateAdded'];
+        }
         ?>
     <td><a href="javascript:void(0);" onclick="editTemplate(<?php echo $id; ?>);"><?php echo $rows['fileName'] ?></a></td>
     <td ><?php echo $rows['name'] ?></td>

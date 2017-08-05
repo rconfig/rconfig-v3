@@ -34,7 +34,7 @@
                     ?>
                     <div id="toolbar">
                         <button onclick="createTemplate()">Create Template</button>
-                        <button onclick="delTemplate()">Delete Template</button>
+                        <button onclick="deleteTemplate()">Delete Template</button>
                     </div>
 
                     <div id="table">
@@ -45,27 +45,25 @@
                     </div>
                     </div>  <!-- pane1 -->
                     <div id="pane2" style="width: 80%; align: left; padding: 20px;">
-                        
+                        <span id="createEditNotice" class="warning" style="display: none;">&ensp;</span><br /><br />
                         <textarea id="code" name="code" style=" height:800px; display: none;">
-                           <?php 
-                                $baseTemplate = file_get_contents($config_templates_basedir.'base/base_template.yml');
-                                echo $baseTemplate;
-                           ?>
+
                         </textarea>
                     <div id="toolbar2" style="display: none;">
                         <label for="fileName" title="you may add, or not add the .yml extension - spaces and unusal chars not allowed except '-' and '_'"><font color="red">*</font> File Name:</label>
                             <input name="fileName" id="fileName" style="margin:10px;">
                             <div class="spacer"></div>
-                            <?php
-// echo error message if is sent back in GET from CRUD
-                            if (isset($errors['fileName'])) {
-                                echo "<span class=\"error\">" . $errors['fileName'] . "</span>";
-                            }
-                            ?>
-
                             <button onclick="saveCreate()">Save</button>
                             <button onclick="cancelCreate()">Cancel</button>
                     </div>
+                    <div id="toolbar3" style="display: none;">
+                        <input type="hidden" id="editID" value="">
+                        <label for="fileName" title="you may add, or not add the .yml extension - spaces and unusal chars not allowed except '-' and '_'"><font color="red">*</font> File Name:</label>
+                            <input name="fileName" id="fileName" style="margin:10px;">
+                            <div class="spacer"></div>
+                            <button onclick="saveEdit()">Edit</button>
+                            <button onclick="cancelCreate()">Cancel</button>
+                    </div>                        
                     </div> <!-- pane2 -->                    
                     </div>
                 </fieldset>
