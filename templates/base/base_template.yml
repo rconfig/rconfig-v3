@@ -5,8 +5,8 @@
     ## all items below that contain free text should be contained within quotation marks " "
 
 main:
-  name: "Cisco IOS - 2"
-  desc: "Cisco IOS - no enable - telnet"
+  name: "Name of Template"
+  desc: "Long Description of Template"
 connect:
   # connection timeout in seconds
   timeout: 5
@@ -15,7 +15,7 @@ connect:
   # type port number for connection protocol choose from 1 - 65535
   port: 23
 auth:
-  # Set username name prompt. Must be in quotes
+  # Set username name prompt. Must be in quotes. If left blank, username will not be sent.
   username: "Username:"
   # Set password name prompt. Must be in quotes
   password: "Password:"

@@ -82,45 +82,30 @@ if (!$session->logged_in) {
         if (!empty($_POST['deviceUsername']) && is_string($_POST['deviceUsername'])) {
             $deviceUsername = $_POST['deviceUsername'];
         } else {
-            $errors['deviceUsername'] = "Username cannot be empty";
-            $log->Warn("Failure: Username field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
+            $deviceUsername = '';
         }
 
         // validate devicePassword field
         if (!empty($_POST['devicePassword']) && is_string($_POST['devicePassword'])) {
             $devicePassword = $_POST['devicePassword'];
         } else {
-            $errors['devicePassword'] = "Password cannot be empty";
-            $log->Warn("Failure: Password field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
+            $devicePassword = '';
         }
-
-        // validate devicePassConf field
-        if (!empty($_POST['devicePassConf']) && is_string($_POST['devicePassConf'])) {
-            if ($_POST['devicePassConf'] !== $_POST['devicePassword']) {
-                $errors['devicePassConf'] = "Passwords to not match";
-                $log->Warn("Failure: Passwords to not match (File: " . $_SERVER['PHP_SELF'] . ")");
-            } else {
-                $devicePassConf = $_POST['devicePassConf'];
-            }
+        // validate devicePassword field
+        if (!empty($_POST['deviceEnablePassword ']) && is_string($_POST['deviceEnablePassword '])) {
+            $deviceEnablePassword = $_POST['deviceEnablePassword'];
         } else {
-            $errors['devicePassword'] = "Confirm Password field cannot be empty";
-            $log->Warn("Failure: Confirm Password field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
-        }
-
-        // if 'deviceEnableMode' is checked - deviceEnablePassword field must be populated
-        if (isset($_POST['deviceEnableMode'])) {
-            if ($_POST['deviceEnableMode'] == 'on' && empty($_POST['deviceEnablePassword'])) {
-                $errors['deviceEnableMode'] = "Enable mode checked but password was not entered";
-                $log->Warn("Failure: Enable mode checked but password was not entered (File: " . $_SERVER['PHP_SELF'] . ")");
-            } else {
-                $deviceEnableMode = $_POST['deviceEnableMode'];
-                $deviceEnablePassword = $_POST['deviceEnablePassword'];
-            }
-        } else {
-            $deviceEnableMode = 'off';
             $deviceEnablePassword = '';
         }
 
+        // validate vendorId field
+        if (!empty($_POST['templateId']) && ctype_digit($_POST['templateId'])) {
+            $templateId = $_POST['templateId'];
+        } else {
+            $errors['templateId'] = "Template field cannot be empty";
+            $log->Warn("Failure: Template Field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
+        }
+        
         // validate catId field
         if (ctype_digit($_POST['catId'])) {
             $catId = $_POST['catId'];
@@ -155,26 +140,6 @@ if (!$session->logged_in) {
             }
         }
 
-        // add query variables
-        $taskIdColumns = rtrim($taskIdColumns, ","); // format values for Query 
-        $taskValue = rtrim($taskValue, ","); // remove trailing comma for building the SQL query
-        // validate deviceAccessMethodId field
-        if (ctype_digit($_POST['deviceAccessMethodId'])) {
-            $deviceAccessMethodId = $_POST['deviceAccessMethodId'];
-        } else {
-            $errors['deviceAccessMethodId'] = "You must select telnet or SSH";
-            $log->Warn("Failure: deviceAccessMethodId input is incorrect (File: " . $_SERVER['PHP_SELF'] . ")");
-        }
-
-        // validate connPort field
-        if (ctype_digit($_POST['connPort'])) {
-            $connPort = $_POST['connPort'];
-        } else {
-            $errors['connPort'] = "connPort input is incorrect";
-            $log->Warn("Failure: connPort input is incorrect (File: " . $_SERVER['PHP_SELF'] . ")");
-        }
-        /* No validation on Custom_ Fields */
-
         // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open 
         if (!empty($errors)) {
             if (isset($deviceName)) {
@@ -201,23 +166,11 @@ if (!$session->logged_in) {
             if (isset($devicePassword)) {
                 $_SESSION['devicePassword'] = $devicePassword;
             }
-            if (isset($devicePassConf)) {
-                $_SESSION['devicePassConf'] = $devicePassConf;
-            }
-            if (isset($deviceEnableMode)) {
-                $_SESSION['deviceEnableMode'] = $deviceEnableMode;
-            }
             if (isset($deviceEnablePassword)) {
                 $_SESSION['deviceEnablePassword'] = $deviceEnablePassword;
             }
             if (isset($catId)) {
                 $_SESSION['catId'] = $catId;
-            }
-            if (isset($deviceAccessMethodId)) {
-                $_SESSION['deviceAccessMethodId'] = $deviceAccessMethodId;
-            }
-            if (isset($connPort)) {
-                $_SESSION['connPort'] = $connPort;
             }
             $_SESSION['errors'] = $errors;
             session_write_close();
@@ -284,10 +237,8 @@ if (!$session->logged_in) {
             devicePrompt,
             deviceUsername,
             devicePassword,
-            deviceEnableMode,
             deviceEnablePassword,
-            deviceAccessMethodId,
-            connPort,
+            templateId,
             model,
             vendorId,
             nodeCatId,
@@ -304,10 +255,8 @@ if (!$session->logged_in) {
                 :devicePrompt,
                 :deviceUsername,
                 :devicePassword,
-                :deviceEnableMode,
                 :deviceEnablePassword,
-                :deviceAccessMethodId,
-                :connPort,
+                :templateId,
                 :deviceModel,
                 :vendorId,
                 :catId,
@@ -322,16 +271,14 @@ if (!$session->logged_in) {
                 $db2->bind(':devicePrompt', $devicePrompt);
                 $db2->bind(':deviceUsername', $deviceUsername);
                 $db2->bind(':devicePassword', $devicePassword);
-                $db2->bind(':deviceEnableMode', $deviceEnableMode);
                 $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
-                $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
-                $db2->bind(':connPort', $connPort);
+                $db2->bind(':templateId', $templateId);
                 $db2->bind(':deviceModel', $deviceModel);
                 $db2->bind(':vendorId', $vendorId);
                 $db2->bind(':catId', $catId);
                 $db2->bind(':username', $username);
                 $db2->bind(':defaultCreds', $defaultCreds);
-                $db2->debugDumpParams();
+//                $db2->debugDumpParams();
                 $queryResult = $db2->execute();
                 if ($queryResult) {
                     $errors['Success'] = "Added new device " . $deviceName . " to Database";
@@ -385,10 +332,8 @@ if (!$session->logged_in) {
                             devicePrompt = :devicePrompt,
                             deviceUsername = :deviceUsername, 
                             devicePassword = :devicePassword, 
-                            deviceEnableMode = :deviceEnableMode, 
                             deviceEnablePassword = :deviceEnablePassword, 
-                            deviceAccessMethodId = :deviceAccessMethodId,
-                            connPort = :connPort, 
+                            templateId = :templateId, 
                             model = :deviceModel, 
                             vendorId = :vendorId, 
                             nodeCatId = :catId, 
@@ -402,10 +347,7 @@ if (!$session->logged_in) {
                 $db2->bind(':devicePrompt', $devicePrompt);
                 $db2->bind(':deviceUsername', $deviceUsername);
                 $db2->bind(':devicePassword', $devicePassword);
-                $db2->bind(':deviceEnableMode', $deviceEnableMode);
-                $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
-                $db2->bind(':deviceAccessMethodId', $deviceAccessMethodId);
-                $db2->bind(':connPort', $connPort);
+                $db2->bind(':templateId', $templateId);
                 $db2->bind(':deviceModel', $deviceModel);
                 $db2->bind(':vendorId', $vendorId);
                 $db2->bind(':catId', $catId);
@@ -487,11 +429,8 @@ if (!$session->logged_in) {
                     n.defaultCreds,
                     n.deviceUsername,
                     n.devicePassword,
-                    n.deviceEnableMode,
                     n.deviceEnablePassword,
-                    n.termLength,
-                    a.id accessMeth,
-                    n. connPort,
+                    n.templateId,
                     " . $customProp_string . "
                     cat.id catId
 		FROM nodes n

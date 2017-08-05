@@ -161,7 +161,10 @@ function deleteTemplate(){
 
 }
 
-
 function cancelCreate(){
     window.location.href = "deviceConnTemplates.php";
+}
+
+function backupTemplate(){
+    window.location.href = "settingsBackup.php";
 }

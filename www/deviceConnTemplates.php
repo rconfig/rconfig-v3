@@ -35,6 +35,7 @@
                     <div id="toolbar">
                         <button onclick="createTemplate()">Create Template</button>
                         <button onclick="deleteTemplate()">Delete Template</button>
+                        <button onclick="backupTemplate()">Backup Templates</button>
                     </div>
 
                     <div id="table">
