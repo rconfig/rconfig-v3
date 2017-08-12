@@ -5,6 +5,7 @@ require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
+
 require("/home/rconfig/classes/connection2.class.php");
 require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
@@ -20,6 +21,7 @@ $backendScripts = new backendScripts($db2);
 $backendScripts->getTime();
 // declare Logging Class
 $log = ADLog::getInstance();
+$log->logDir = $config_app_basedir . "logs/";
 $log->logDir = $config_app_basedir . "logs/";
 // script startTime and use extract to convert keys into variables for the script
 extract($backendScripts->startTime());
@@ -39,6 +41,7 @@ if (isset($argv[2]) && $argv[2] == 'true') {
 } else {
     $argv = false;
 }
+
 // turn on/off debugging based on $agrv
 extract($backendScripts->debugOnOff($db2, $argv));
 $debug = new debug($debugPath);
@@ -142,7 +145,8 @@ if (!empty($getNodes)) {
                 $templateparams['config']['paging'],
                 $templateparams['config']['pagingCmd'],
                 $templateparams['config']['pagerPrompt'],
-                $templateparams['config']['pagerPromptCmd']
+                $templateparams['config']['pagerPromptCmd'],
+                $templateparams['config']['resetPagingCmd']
                 );
 
         // if connection is telnet, connect to device function
@@ -192,8 +196,9 @@ if (!empty($getNodes)) {
         if ($templateparams['connect']['protocol'] == 'telnet') {
                 $showCmd = $conn->showCmdTelnet($command, $cliDebugOutput);
 
-            } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
-                $showCmd = $conn->connectSSH($command, $prompt);
+            } elseif ($templateparams['connect']['protocol'] == 'ssh') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
+                
+                $showCmd = $conn->connectSSH($command, $prompt, $debugOnOff);
 
                 // if false returned, log failure
                 if ($showCmd == false) {

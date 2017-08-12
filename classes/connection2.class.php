@@ -42,7 +42,7 @@ class Connection {
             $enableModePassword, $connPort, $timeout = 60, 
             $userPrmpt, $passPrmpt, $enable, 
             $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt,
-            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd) {
+            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd) {
         $this->_hostname = $hostname;
         $this->_username = $username;
         $this->_password = $password;
@@ -60,6 +60,7 @@ class Connection {
         $this->_pagingCmd = $pagingCmd;
         $this->_pagerPrompt = $pagerPrompt;
         $this->_pagerPromptCmd = $pagerPromptCmd;
+        $this->_resetPagingCmd = $resetPagingCmd;
         $this->_use_usleep = 0; // change to 1 for faster execution
         // don't change to 1 on Windows servers unless you have PHP 5
         $this->_sleeptime = 125000;
@@ -235,61 +236,69 @@ class Connection {
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
-    public function connectSSH($command, $prompt) {
+    public function connectSSH($command, $prompt, $debugOnOff) {
 
         $log = ADLog::getInstance();
-
+        // debugging check - real time output on CLI
+        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+            define('NET_SSH2_LOGGING', NET_SSH2_LOG_REALTIME);
+        }
+        
         // Ensure port is set to a valid number.  If not, use default
         if ($this->_port == null || $this->_port <= 0 || $this->_port > 65535) {
             $this->_port = 22;
         }
-
-        // This does not seem to be processed when unable to connect to the address
-        // Modifying SSH2.php to return false did not work
-        // Will need to use custom error handler to explicitly handle this explicitly
+// ADDIN CHECK FOR SSH 1 CONNECTIONS $ssh->getServerIdentification();
+        
         if (!$ssh = new Net_SSH2($this->_hostname, $this->_port, $this->_timeout)) {
             echo "Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . "\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
+            $ssh->disconnect();
             return false;
         }
 
-        // Updated this failure string to include the above error case as it does manifest here
         if (!$ssh->login($this->_username, $this->_password)) {
-//            echo "Error: Authentication Failed or unable to connect to " . $this->_hostname . "\n";
+//          
+            echo "Error: Authentication Failed or unable to connect to " . $this->_hostname . "\n";
             $log->Conn("Error: Authentication Failed or unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
+            $ssh->disconnect();
             return false;
         }
 
         $output = '';
-
-        if ($this->_enableMode === true) {
-            // $ssh->write("\n"); // 1st linebreak after above prompt check
-            $ssh->read('/.*>/', NET_SSH2_READ_REGEX); // read out to '>'
-            $ssh->write("enable\n");
-            $ssh->read('/.*:/', NET_SSH2_READ_REGEX);
+        if ($this->_enable === true) {
+            $ssh->write($this->_enableCmd . "\n");
+            $ssh->read($this->_enablePassPrmpt);
             $ssh->write($this->_enableModePassword . "\n");
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            $ssh->write("terminal pager 0\n");
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            $ssh->write("terminal length 0\n");
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->read($this->_prompt);
+            if($this->_paging === true){
+               $ssh->write($this->_pagingCmd . "\n"); 
+            }
+            $ssh->read($this->_prompt);
             $ssh->write($command . "\n");
-            $output = $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->read($this->_prompt);
         } else {
-            // $ssh->write("\n"); // 1st linebreak after above prompt check		
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            $ssh->write("terminal pager 0\n"); //set in case device is ASA
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            $ssh->write("terminal length 0\n"); //set in case device is ASA
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->read($this->_prompt);
+            if($this->_paging === true){
+               $this->write($this->_pagingCmd . "\n"); 
+               sleep(1);
+               $this->read($this->_prompt);
+            }
+           echo $ssh->read($this->_prompt);
             $ssh->write($command . "\n");
-            $output = $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->read($this->_prompt);
         }
-        $ssh->disconnect();
+        // reset paging if paging is set
+        if($this->_paging === true){
+            $ssh->write($this->_resetPagingCmd . "\n"); 
+            sleep(1);
+            $ssh->read($this->_prompt);
+        }
+        $ssh->disconnect(); // Chnage this
         $result = array();
         $this->_data = explode("\r\n", $output);
         array_shift($this->_data);

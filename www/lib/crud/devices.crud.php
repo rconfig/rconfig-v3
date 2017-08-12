@@ -231,41 +231,42 @@ if (!$session->logged_in) {
             }
             /* Begin DB query. This will either be an Insert if $_POST ID is not set - or an edit/Update if ID is set in POST */
             if (empty($_POST['editid'])) {
+
                 $db2->query("INSERT INTO nodes
-            (deviceName, 
-            deviceIpAddr,
-            devicePrompt,
-            deviceUsername,
-            devicePassword,
-            deviceEnablePassword,
-            templateId,
-            model,
-            vendorId,
-            nodeCatId,
-            nodeAddedBy,
-            defaultCreds,
-            " . $dynamicTblsBlk . "
-            " . $taskIdColumns . "
-            deviceDateAdded,
-            status
-            )
-            VALUES 
-                (:deviceName,
-                :deviceIpAddr,
-                :devicePrompt,
-                :deviceUsername,
-                :devicePassword,
-                :deviceEnablePassword,
-                :templateId,
-                :deviceModel,
-                :vendorId,
-                :catId,
-                :username,
-                :defaultCreds,
-                $dynamicValuesBlk
-                $taskValue
-                CURDATE(),
-                '1')");
+                (deviceName, 
+                deviceIpAddr,
+                devicePrompt,
+                deviceUsername,
+                devicePassword,
+                deviceEnablePassword,
+                templateId,
+                model,
+                vendorId,
+                nodeCatId,
+                nodeAddedBy,
+                defaultCreds,
+                " . $dynamicTblsBlk . "
+                " . $taskIdColumns . "
+                deviceDateAdded,
+                status
+                )
+                VALUES 
+                    (:deviceName,
+                    :deviceIpAddr,
+                    :devicePrompt,
+                    :deviceUsername,
+                    :devicePassword,
+                    :deviceEnablePassword,
+                    :templateId,
+                    :deviceModel,
+                    :vendorId,
+                    :catId,
+                    :username,
+                    :defaultCreds,
+                    $dynamicValuesBlk
+                    $taskValue
+                    CURDATE(),
+                    '1')");
                 $db2->bind(':deviceName', $deviceName);
                 $db2->bind(':deviceIpAddr', $deviceIpAddr);
                 $db2->bind(':devicePrompt', $devicePrompt);
@@ -278,7 +279,6 @@ if (!$session->logged_in) {
                 $db2->bind(':catId', $catId);
                 $db2->bind(':username', $username);
                 $db2->bind(':defaultCreds', $defaultCreds);
-//                $db2->debugDumpParams();
                 $queryResult = $db2->execute();
                 if ($queryResult) {
                     $errors['Success'] = "Added new device " . $deviceName . " to Database";
@@ -326,6 +326,8 @@ if (!$session->logged_in) {
                 if ($taskIdColumnList != '') {
                     $taskIdColumnList = $taskIdColumnList . ',';
                 }
+                echo '<pre>';
+                echo 'test';
                 $db2->query("UPDATE nodes SET 
                             deviceName = :deviceName,
                             deviceIpAddr = :deviceIpAddr,
@@ -347,12 +349,14 @@ if (!$session->logged_in) {
                 $db2->bind(':devicePrompt', $devicePrompt);
                 $db2->bind(':deviceUsername', $deviceUsername);
                 $db2->bind(':devicePassword', $devicePassword);
+                $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
                 $db2->bind(':templateId', $templateId);
                 $db2->bind(':deviceModel', $deviceModel);
                 $db2->bind(':vendorId', $vendorId);
                 $db2->bind(':catId', $catId);
                 $db2->bind(':defaultCreds', $defaultCreds);
                 $db2->bind(':id', $id);
+                $db2->debugDumpParams();
                 $queryResult = $db2->execute();
                 if ($queryResult) {
                     $errors['Success'] = "Edit device " . $deviceName . " successful";
