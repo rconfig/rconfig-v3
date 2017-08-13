@@ -21,17 +21,19 @@ Mikrotek
 Brocade 
 
 -remove mandatory user/pass fields
--remove confrim field
+-remove confirm field
 -remove enable checkbox
 -remove access method & port
 add enable mode prompt field
 fix default user/pass tick box
+defaultEnablePassword not saving on add edit
+deviceEnablePrompt field to DB. Make sure and add to webform
 
 -Check backups backup templates
 -add backup button to templates
 -updated favicon.ico
-defaultEnablePassword not saving on add edit
-deviceEnablePrompt field to DB. Make sure and add to webform
+- debug notice div on settings page not working
+
 
 NOTES: 
 nodes - added new deviceEnablePrompt field to DB. Make sure and add to webform

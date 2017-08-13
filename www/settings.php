@@ -197,7 +197,7 @@
                             <option value="1">On</option>
                         </select>
                         <div class="spacer"></div>
-
+                        <div id="debugNoticeDiv"></div>
                         <div id="debugInfoDiv">
                             <div class="tableSummary">		
                                 <div id="debugLogFiles">
