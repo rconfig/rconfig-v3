@@ -20,8 +20,9 @@ that when eventually ready to release, I may move this to a full blown V4. But r
 First things first... __ Do not install the beta for production use, and DO NOT upgrade your existing installation of rConfig with this beta version__. Be patient!!!
 
 #### Installation
-The beta installations is going to be very similar to how you would install rConfig today. Except we need to tweak a little after our initial script launch do we get 
-the beta version installed.
+The beta installation is going to be very similar to how you would install rConfig today - with a twist.
+1. Visit https://www.rconfig.com/rconfig-support/guides/61-rconfig-3-5-installation-guide and complete a v3.5 installation per the instructions. 
+2. 
 
 Upgrades will be identical to existing process. Except you cannot download the file from the rconfig.com until i post it, and will notify its exact URL on the private slack channel.
 
@@ -33,11 +34,40 @@ Please review 3.8updates.md in the root directory of rConfig3.8 beta... I was us
 I will now move over to the github issues board to log and track issues for the beta duration - slack, integration with github is inplace and you should get notifications of
 commits, issues etc...
 
-Please read all of the 3.8updates.md file as there are some notes at the end as to some unfinished work.
+
 
 #### Testing
+I've fixed and updated quite a bit in this beta release. But the two main items to be tested are;
+* Templates for device connections
+* Device Password encryption
+
+Generally, most other functionality of rConfig should work the same, such as adding devices, creating schedules and so on. You should create your own test plan based on your 
+every day use of rConfig and feedback positive or negative results. 
+
+    ##### Device Templates
+    I hope this is pretty self explanatory. But to get you started here are some pointers;
+    1. Go to 'Devices' Menu and 'Connection Templates' menu. You will see four default templates for Cisco based devices. Study these templates. Know their names. 
+    2. Head over and add a new device. Choose the device template you need to use for the connection to the device. Such as SSH with enable mode etc...
+    3. Create a new schedule to download the devices config commands (manual downloads not work for 3.8.0 beta launch)
+    4. Go to this KB article and follow it to invoke a manual download using the schedule ID you just created
+    5. Test and repeat. Feedback to slack channel. 
+    
+I suggest starting with Cisco devices, or devices you were already using in 3.7.5 before creating new templates and experimenting. 
+
+I've created a new repo to store community created templates for devices. When you get working templates for new devices and vendors please submit here https://github.com/rconfig/rConfig-templates
 
 
+    ##### Password Encryption
+    The password encryption feature works in the beta, but we need to be a little careful. You enable password encrypted by editing the config/config.inc.php file directly. I plan to make 
+    this more friendly in upcoming releases. 
+    
+    insert two secrets betwen the quotation marks in the following lines
+    
+        define('KEY', '');
+        define('IV', '');
+    
+        
+    
 
 #### Feedback and bugs
 Slack, github issues board
@@ -49,6 +79,7 @@ Specifics
 
 
 
-
+#### URLs
+https://github.com/rconfig/rConfig-templates
 
 
