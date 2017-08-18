@@ -20,8 +20,8 @@ if (!$session->logged_in) {
         // validations	
         //Setting the timeout properly without messing with ini values: 
         $ctx = stream_context_create(array('http' => array('timeout' => 5)));
-        $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
-        $expectedFileName = 'rconfig-' . $latestVer . '.zip';
+        $latestVer = file_get_contents("http://www.rconfig.com/downloads/versionbeta.txt", 0, $ctx);
+        $expectedFileName = 'rconfig-' . $latestVer . '-beta.zip';
 
         if ($_FILES['updateFile']['name'] === $expectedFileName) {
             if ($_FILES["updateFile"]["error"] > 0) {
