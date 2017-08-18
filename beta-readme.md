@@ -23,13 +23,13 @@ First things first... __Do not install the beta for production use, and DO NOT u
 The beta installation is going to be very similar to how you would install rConfig today - with a twist.
 1. Visit https://www.rconfig.com/rconfig-support/guides/61-rconfig-3-5-installation-guide and complete a v3.5 installation per the instructions. 
 2. Run the following commands to download and install rConfig 3.8beta
-
+```
     curl -O http://www.rconfig.com/downloads/rconfig-3.8.0-beta.zip -A "Mozilla"
     mv rconfig rconfig.3.7.5.bak
     unzip rconfig-3.8.0-beta.zip
     mkdir rconfig/tmp
     chown -R apache /home/rconfig
-
+```
 Open http://YourHostOrIpAddress/install/ and begin the installation process.
 
 Upgrades will be identical to existing process. Except you cannot download the file from the rconfig.com until I post it, and will notify its exact URL on the private slack channel.
