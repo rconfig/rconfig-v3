@@ -1,26 +1,27 @@
 # rConfig connection template - DO NOT EDIT DIRECTLY
 ## Notes: 
     ## Remember to update permissions for the templates folder after uploading new template files.
-        ## run 'chown -R apache /home/rconfig' on your rconfig server CLI
+    ## run 'chown -R apache /home/rconfig' on your rconfig server CLI
     ## all items below that contain free text should be contained within quotation marks " "
+    ## For new community submitted templates visit: https://github.com/rconfig/rConfig-templates
 
 main:
-  name: "Cisco IOS - SSH"
-  desc: "Cisco IOS SSH based connection with enable mode"
+  name: "Cisco IOS - TELNET - No Enable"
+  desc: "Cisco IOS TELNET based connection without enable mode"
 connect:
   # connection timeout in seconds
   timeout: 60
   # type either telnet or ssh - must be in lowercase
-  protocol: ssh
+  protocol: telnet
   # type port number for connection protocol choose from 1 - 65535
-  port: 22
+  port: 23
 auth:
   # Set username name prompt. Must be in quotes. If left blank, username will not be sent.
   username: "Username:"
   # Set password name prompt. Must be in quotes
   password: "Password:"
   # Set enable mode on or off
-  enable: on
+  enable: off
   # set enable mode command. Must be in quotes
   enableCmd: "enable"
   # set enable mode password prompt. Must be in quotes

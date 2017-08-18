@@ -6,11 +6,11 @@
     ## For new community submitted templates visit: https://github.com/rconfig/rConfig-templates
 
 main:
-  name: "Name of Template"
-  desc: "Long Description of Template"
+  name: "Cisco IOS - TELNET - Enable"
+  desc: "Cisco IOS TELNET based connection with enable mode"
 connect:
   # connection timeout in seconds
-  timeout: 5
+  timeout: 60
   # type either telnet or ssh - must be in lowercase
   protocol: telnet
   # type port number for connection protocol choose from 1 - 65535
@@ -21,14 +21,14 @@ auth:
   # Set password name prompt. Must be in quotes
   password: "Password:"
   # Set enable mode on or off
-  enable: off
+  enable: on
   # set enable mode command. Must be in quotes
   enableCmd: "enable"
   # set enable mode password prompt. Must be in quotes
   enablePassPrmpt: "Password:"
 config:
     # Disable config scrolling/ paging command. on/off
-    paging: off
+    paging: on
     # Disable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
     pagingCmd: "terminal length 0"
     # re-enable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
