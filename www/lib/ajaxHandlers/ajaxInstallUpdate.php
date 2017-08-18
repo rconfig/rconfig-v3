@@ -34,8 +34,8 @@ if (!$session->logged_in) {
 //Setting the timeout properly without messing with ini values: 
     $ctx = stream_context_create(array('http' => array('timeout' => 5)));
 // here we assume we can already connect to net as ../www/updater.php will not allow us to proceed to this point i.e. no error check
-    $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
-    $updateFileName = 'rconfig-' . $latestVer . '.zip';
+    $latestVer = file_get_contents("http://www.rconfig.com/downloads/versionbeta.txt", 0, $ctx);
+    $updateFileName = 'rconfig-' . $latestVer . '-beta.zip';
 
     $updateFile = $config_temp_dir . $updateFileName;
 //extracted files path

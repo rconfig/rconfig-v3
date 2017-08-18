@@ -3,7 +3,7 @@
     <div id="headwrap">
         <div id="header">
             <div id="title"><h1>rConfig - Configuration Management</h1></div>
-            <div id="logo"><img src="images/logos/rconfig72.png" alt="rConfigLogo" title="rConfigLogo"></img></div>
+            <div id="logo"><img src="images/logos/rConfig_red_trnsprnt_1_64px.png" alt="rConfigLogo" title="rConfigLogo"></img></div>
         </div>
     </div>
     <div id="mainwrap">
@@ -65,7 +65,7 @@
                 <div class="spacer"></div>
             </div><!-- End Login Content -->
             <div id="loginMainLogo">
-                <img src="images/logos/rconfig128.png" alt="rConfigLogo" title="rConfigLogo"></img>
+                <img src="images/logos/social_logo.png" alt="rConfigLogo" title="rConfigLogo" height="196" width="196"></img>
             </div>
             <div style="clear:both;"></div>
         </div><!-- End Main -->

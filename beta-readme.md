@@ -23,14 +23,17 @@ First things first... __ Do not install the beta for production use, and DO NOT 
 The beta installations is going to be very similar to how you would install rConfig today. Except we need to tweak a little after our initial script launch do we get 
 the beta version installed.
 
+Upgrades will be identical to existing process. Except you cannot download the file from the rconfig.com until i post it, and will notify its exact URL on the private slack channel.
 
 
-
+You need to manually set your keys for password encryption in the config/config.inc.php file. Fi you do not set a key, the passwords for new devices will be saved in plan text in the DB
 
 #### Build Notes
 Please review 3.8updates.md in the root directory of rConfig3.8 beta... I was using this as a running task list for the duration of the beta build. Any items prefixed with a dash '-' are completed items.
 I will now move over to the github issues board to log and track issues for the beta duration - slack, integration with github is inplace and you should get notifications of
 commits, issues etc...
+
+Please read all of the 3.8updates.md file as there are some notes at the end as to some unfinished work.
 
 #### Testing
 

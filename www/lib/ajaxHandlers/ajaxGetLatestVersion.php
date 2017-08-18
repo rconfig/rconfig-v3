@@ -29,7 +29,7 @@ if (!$session->logged_in) {
         ));
 
         $currentVer = $config_version;
-        $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
+        $latestVer = file_get_contents("http://www.rconfig.com/downloads/versionbeta.txt", 0, $ctx);
         // default is failure i.e. version online is NTO higher than installed version
         $response = json_encode(array(
             'failure' => true
