@@ -1,4 +1,4 @@
-# rConfig 3.8/4 readme
+# rConfig 3.8beta readme
 
 ### Introduction
 The rConfig community has been asking for a long time for multi-vendor support. It's here. I've created a template based connection feature that allows you to specific different 
@@ -20,17 +20,26 @@ that when eventually ready to release, I may move this to a full blown V4. But r
 First things first... __ Do not install the beta for production use, and DO NOT upgrade your existing installation of rConfig with this beta version__. Be patient!!!
 
 #### Installation
+The beta installations is going to be very similar to how you would install rConfig today. Except we need to tweak a little after our initial script launch do we get 
+the beta version installed.
 
 
 
+
+
+#### Build Notes
+Please review 3.8updates.md in the root directory of rConfig3.8 beta... I was using this as a running task list for the duration of the beta build. Any items prefixed with a dash '-' are completed items.
+I will now move over to the github issues board to log and track issues for the beta duration - slack, integration with github is inplace and you should get notifications of
+commits, issues etc...
 
 #### Testing
 
 
 
 #### Feedback and bugs
-
-
+Slack, github issues board
+Time delay
+Specifics
 
 
 #### Templates
