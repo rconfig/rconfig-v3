@@ -160,35 +160,18 @@ CREATE TABLE `devicemodelview` (
 ) ENGINE=MyISAM;
 
 
--- Dumping structure for table DATABASE_NAME.devicesaccessmethod
-CREATE TABLE IF NOT EXISTS `devicesaccessmethod` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `devicesAccessMethod` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- Dumping data for table DATABASE_NAME.devicesaccessmethod: ~2 rows (approximately)
-/*!40000 ALTER TABLE `devicesaccessmethod` DISABLE KEYS */;
-INSERT INTO `devicesaccessmethod` (`id`, `devicesAccessMethod`) VALUES
-	(1, 'Telnet'),
-	(3, 'SSHv2');
-/*!40000 ALTER TABLE `devicesaccessmethod` ENABLE KEYS */;
-
 -- Dumping structure for table DATABASE_NAME.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `deviceName` varchar(255) DEFAULT NULL,
   `deviceUsername` varchar(255) DEFAULT NULL,
   `devicePassword` varchar(255) DEFAULT NULL,
-  `deviceEnableMode` varchar(255) DEFAULT NULL,
   `deviceEnablePassword` varchar(255) DEFAULT NULL,
-  `deviceAccessMethodId` varchar(100) DEFAULT NULL,
   `deviceIpAddr` varchar(255) DEFAULT NULL,
   `devicePrompt` varchar(255) DEFAULT NULL,
   `nodeCatId` int(10) DEFAULT NULL,
   `vendorId` varchar(255) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
-  `termLength` int(2) DEFAULT NULL,
   `nodeVersion` varchar(255) DEFAULT NULL,
   `nodeAddedBy` varchar(255) DEFAULT '-',
   `defaultCreds` int(1) DEFAULT NULL,

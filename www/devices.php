@@ -34,6 +34,10 @@ include("includes/head.inc.php");
                     $devicePrompt = $_SESSION['devicePrompt'];
                     unset($_SESSION['devicePrompt']);
                 }
+                if (isset($_SESSION['deviceEnablePrompt'])) {
+                    $deviceEnablePrompt = $_SESSION['deviceEnablePrompt'];
+                    unset($_SESSION['deviceEnablePrompt']);
+                }
                 if (isset($_SESSION['vendorId'])) {
                     $vendorId = $_SESSION['vendorId'];
                     unset($_SESSION['vendorId']);
@@ -113,17 +117,25 @@ include("includes/head.inc.php");
                                     echo "<span class=\"error\">" . $errors['deviceIpAddr'] . "</span>";
                                 }
                                 ?> <br/>
-
-                                <label><font color="red">*</font> Prompt:</label>
-                                <input name="devicePrompt" id="devicePrompt" placeholder="router#" tabindex='2' style="width:150px;" value="<?php if (isset($devicePrompt)) echo $devicePrompt; ?>">
+ <label><font color="red">*</font> Enable Prompt:</label>
+                                <input name="deviceEnablePrompt" id="deviceEnablePrompt" placeholder="router>" tabindex='2' style="width:150px;" value="<?php if (isset($deviceEnablePrompt)) echo $deviceEnablePrompt; ?>">
+                                <div class="spacer"></div>
+<?php
+if (isset($errors['deviceEnablePrompt'])) {
+    echo "<span class=\"error\">" . $errors['deviceEnablePrompt'] . "</span>";
+}
+?> <br/>
+                                <label><font color="red">*</font> Main Prompt:</label>
+                                <input name="devicePrompt" id="devicePrompt" placeholder="router#" tabindex='3' style="width:150px;" value="<?php if (isset($devicePrompt)) echo $devicePrompt; ?>">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['devicePrompt'])) {
     echo "<span class=\"error\">" . $errors['devicePrompt'] . "</span>";
 }
 ?> <br/>
+                               
                                 <label><font color="red">*</font> Vendor:</label>
-                                <select name="vendorId" id="vendorId" tabindex='3' style="width:155px;">
+                                <select name="vendorId" id="vendorId" tabindex='4' style="width:155px;">
                                     <?php
                                     if (isset($vendorId)) {
                                         vendorId($vendorId);
@@ -140,7 +152,7 @@ if (isset($errors['devicePrompt'])) {
                                 }
                                 ?> 
                                 <label><font color="red">*</font>Model:</label>
-                                <input name="deviceModel" id="deviceModel" placeholder="Model" tabindex='4' style="width:150px;" value="<?php if (isset($deviceModel)) echo $deviceModel; ?>">
+                                <input name="deviceModel" id="deviceModel" placeholder="Model" tabindex='5' style="width:150px;" value="<?php if (isset($deviceModel)) echo $deviceModel; ?>">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['deviceModel'])) {
@@ -151,8 +163,8 @@ if (isset($errors['deviceModel'])) {
                             </div>
                             <div id="right">
                                 <legend>Other Details</legend>
-                                <label>Category:</label>
-                                <select name="catId" id="catId" style="width:155px;" tabindex='5' value="<?php if (isset($catId)) echo $catId; ?>" onchange="changeCatAlert(document.getElementById('editModeOn').value)">
+                                <label><font color="red">*</font> Category:</label>
+                                <select name="catId" id="catId" style="width:155px;" tabindex='6' value="<?php if (isset($catId)) echo $catId; ?>" onchange="changeCatAlert(document.getElementById('editModeOn').value)">
                                 <?php
                                 if (isset($catId)) {
                                     categories($catId);
@@ -184,7 +196,7 @@ if (isset($errors['catId'])) {
                                 <br />
 
                                 <label>Username:</label>
-                                <input name="deviceUsername" id="deviceUsername" placeholder="username" tabindex='6' style="width:150px;" value="<?php if (isset($deviceUsername)) echo $deviceUsername; ?>" autocomplete="off">
+                                <input name="deviceUsername" id="deviceUsername" placeholder="username" tabindex='7' style="width:150px;" value="<?php if (isset($deviceUsername)) echo $deviceUsername; ?>" autocomplete="off">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['deviceUsername'])) {
@@ -194,7 +206,7 @@ if (isset($errors['deviceUsername'])) {
                                 <br/>
 
                                 <label>Password:</label>
-                                <input type="password" name="devicePassword" id="devicePassword" placeholder="password" tabindex='6'  style="width:150px;" value="<?php if (isset($devicePassword)) echo $devicePassword; ?>" autocomplete="off">
+                                <input type="password" name="devicePassword" id="devicePassword" placeholder="password" tabindex='8'  style="width:150px;" value="<?php if (isset($devicePassword)) echo $devicePassword; ?>" autocomplete="off">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['devicePassword'])) {
@@ -213,7 +225,7 @@ if (isset($errors['devicePassword'])) {
 
                                     
                                 <label><font color="red">*</font> Template:</label>
-                                <select name="templateId" id="templateId" tabindex='3' style="width:155px;">
+                                <select name="templateId" id="templateId" tabindex='10' style="width:155px;">
                                     <?php
                                     if (isset($templateId)) {
                                         templateId($templateId);

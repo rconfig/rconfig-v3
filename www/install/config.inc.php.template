@@ -26,6 +26,7 @@ $logdir = '../logs/';
 
 /* DEFINES Below*/
 define('WEB_DIR', '/home/rconfig/www');
+define('KEY', '');
 
 /* DATABASE DEFINES */
 define('DB_HOST', '_DATABASEHOST');

@@ -87,7 +87,12 @@ if (!empty($getNodes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
-        
+        // decrypt PWs if key is set
+        if(KEY != '') {
+            $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+            $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+        }
+
         // get template
         $db2->query("SELECT fileName FROM templates WHERE id = " . $device['templateId']);
         $getTemplate = $db2->resultsetCols();
@@ -124,15 +129,15 @@ if (!empty($getNodes)) {
             $log->Conn($text . " - Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
             continue;
         }
-
+        
         // declare file Class based on catName and DeviceName
         $file = new file($catName['categoryName'], $device['deviceName'], $config_data_basedir);
 
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
         $conn = new Connection($device['deviceIpAddr'], 
                 $device['deviceUsername'], 
-                $device['devicePassword'], 
-                $device['deviceEnablePassword'], 
+                $devicePassword, 
+                $deviceEnablePassword, 
                 $templateparams['connect']['port'], 
                 $templateparams['connect']['timeout'],
                 $templateparams['auth']['username'], 

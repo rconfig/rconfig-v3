@@ -62,7 +62,7 @@ foreach ($policyResult as $row) {
 }
 // Get active nodes for a given task ID
 // Query to retireve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName, deviceIpAddr, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
+$db2->query("SELECT id, deviceName FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $getNodesSql = $db2->resultset();
 if (!empty($getNodesSql)) {
     // push rows to $devices array

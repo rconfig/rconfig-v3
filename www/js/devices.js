@@ -88,6 +88,7 @@ function editDevice(invoc) {
                     });
                     $('input[name="deviceIpAddr"]').val(data.deviceIpAddr);
                     $('input[name="devicePrompt"]').val(data.devicePrompt);
+                    $('input[name="deviceEnablePrompt"]').val(data.deviceEnablePrompt);
                     $("#vendorId").val(data.vendorId);
                     $('input[name="deviceModel"]').val(data.model);
                     if (data.defaultCreds === "1") {
@@ -144,6 +145,9 @@ function getDefaultUserPass(cb) {
         $.ajaxSetup({cache: false});
         $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
             $.each(data, function (i, item) {
+                if(item.defaultNodeUsername == '' || item.defaultNodePassword == '') {
+                    errorDialog("Default credentials not configured in settings page!");
+                }
                 $('#deviceUsername').val(item.defaultNodeUsername);
                 $('#devicePassword').val(item.defaultNodePassword);
                 $('#deviceEnablePassword').val(item.defaultNodeEnable);

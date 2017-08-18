@@ -3,7 +3,6 @@
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 require_once("/home/rconfig/config/functions.inc.php");
-
 $log = ADLog::getInstance();
 if (!$session->logged_in) {
     echo 'Don\'t bother trying to hack me!!!!!<br /> This hack attempt has been logged';
@@ -54,6 +53,13 @@ if (!$session->logged_in) {
             $errors['devicePrompt'] = "Device Prompt cannot be empty";
             $log->Warn("Failure: Device Prompt cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
         }
+        // validate deviceEnablePrompt field
+        if (!empty($_POST['deviceEnablePrompt'])) {
+            $deviceEnablePrompt = str_replace(' ', '', $_POST['deviceEnablePrompt']);
+        } else {
+            $errors['deviceEnablePrompt'] = "Device Enable Prompt cannot be empty";
+            $log->Warn("Failure: Device Enable Prompt cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
+        }
 
         // validate vendorId field
         if (!empty($_POST['vendorId']) && ctype_digit($_POST['vendorId'])) {
@@ -87,13 +93,19 @@ if (!$session->logged_in) {
 
         // validate devicePassword field
         if (!empty($_POST['devicePassword']) && is_string($_POST['devicePassword'])) {
-            $devicePassword = $_POST['devicePassword'];
+            $devicePassword = encrypt_decrypt('encrypt', $_POST['devicePassword']);
+            if($devicePassword === false) { 
+                $devicePassword = $_POST['devicePassword'];
+            }
         } else {
             $devicePassword = '';
         }
         // validate devicePassword field
-        if (!empty($_POST['deviceEnablePassword ']) && is_string($_POST['deviceEnablePassword '])) {
-            $deviceEnablePassword = $_POST['deviceEnablePassword'];
+        if (!empty($_POST['deviceEnablePassword']) && is_string($_POST['deviceEnablePassword'])) {
+            $deviceEnablePassword = encrypt_decrypt('encrypt', $_POST['deviceEnablePassword']);
+            if($deviceEnablePassword === false) { 
+                $deviceEnablePassword = $_POST['deviceEnablePassword'];
+            }
         } else {
             $deviceEnablePassword = '';
         }
@@ -150,6 +162,9 @@ if (!$session->logged_in) {
             }
             if (isset($devicePrompt)) {
                 $_SESSION['devicePrompt'] = $devicePrompt;
+            }
+            if (isset($deviceEnablePrompt)) {
+                $_SESSION['deviceEnablePrompt'] = $deviceEnablePrompt;
             }
             if (isset($vendorId)) {
                 $_SESSION['vendorId'] = $vendorId;
@@ -225,7 +240,7 @@ if (!$session->logged_in) {
 //            $taskIdColumns = $taskIdColumns . ",";
             }
             if (!empty($taskValue)) {
-                $taskValue = $taskValue . ",";
+                $taskValue = $taskValue;
             } else {
                 $taskValue = '';
             }
@@ -236,6 +251,7 @@ if (!$session->logged_in) {
                 (deviceName, 
                 deviceIpAddr,
                 devicePrompt,
+                deviceEnablePrompt,
                 deviceUsername,
                 devicePassword,
                 deviceEnablePassword,
@@ -254,6 +270,7 @@ if (!$session->logged_in) {
                     (:deviceName,
                     :deviceIpAddr,
                     :devicePrompt,
+                    :deviceEnablePrompt,
                     :deviceUsername,
                     :devicePassword,
                     :deviceEnablePassword,
@@ -267,9 +284,11 @@ if (!$session->logged_in) {
                     $taskValue
                     CURDATE(),
                     '1')");
+                var_dump($taskValue);
                 $db2->bind(':deviceName', $deviceName);
                 $db2->bind(':deviceIpAddr', $deviceIpAddr);
                 $db2->bind(':devicePrompt', $devicePrompt);
+                $db2->bind(':deviceEnablePrompt', $deviceEnablePrompt);
                 $db2->bind(':deviceUsername', $deviceUsername);
                 $db2->bind(':devicePassword', $devicePassword);
                 $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
@@ -332,6 +351,7 @@ if (!$session->logged_in) {
                             deviceName = :deviceName,
                             deviceIpAddr = :deviceIpAddr,
                             devicePrompt = :devicePrompt,
+                            deviceEnablePrompt = :deviceEnablePrompt,
                             deviceUsername = :deviceUsername, 
                             devicePassword = :devicePassword, 
                             deviceEnablePassword = :deviceEnablePassword, 
@@ -347,6 +367,7 @@ if (!$session->logged_in) {
                 $db2->bind(':deviceName', $deviceName);
                 $db2->bind(':deviceIpAddr', $deviceIpAddr);
                 $db2->bind(':devicePrompt', $devicePrompt);
+                $db2->bind(':deviceEnablePrompt', $deviceEnablePrompt);
                 $db2->bind(':deviceUsername', $deviceUsername);
                 $db2->bind(':devicePassword', $devicePassword);
                 $db2->bind(':deviceEnablePassword', $deviceEnablePassword);
@@ -399,7 +420,9 @@ if (!$session->logged_in) {
             ));
         }
         echo $response;
-    } /* end 'delete' if */ elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
+    } /* end 'delete' if */ 
+    // retirve device details for edit
+    elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
         if (ctype_digit($_GET['id'])) {
             $id = $_GET['id'];
@@ -411,7 +434,6 @@ if (!$session->logged_in) {
             header("Location: " . $config_basedir . "devices.php?error");
             exit();
         }
-
 
         /* first get custom fieldnames  and impode to create part of final SQL query */
         $db2->query("SELECT customProperty FROM customProperties");
@@ -428,19 +450,17 @@ if (!$session->logged_in) {
                     n.deviceName,
                     n.deviceIpAddr,
                     n.devicePrompt,
+                    n.deviceEnablePrompt,
                     v.id vendorId,
                     n.model,
                     n.defaultCreds,
                     n.deviceUsername,
-                    n.devicePassword,
-                    n.deviceEnablePassword,
                     n.templateId,
                     " . $customProp_string . "
                     cat.id catId
 		FROM nodes n
 		LEFT OUTER JOIN vendors v ON n.vendorId = v.id
 		LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
-		LEFT OUTER JOIN devicesaccessmethod a ON n.deviceAccessMethodId = a.id
 		LEFT OUTER JOIN categories cat ON n.nodeCatId = cat.id
 		WHERE n.status = 1
 		AND n.id = :id");

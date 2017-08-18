@@ -75,7 +75,12 @@ if (!empty($getNodes)) {
             echo json_encode($jsonArray);
             continue;
         }
-
+        // decrypt PWs if key is set
+        if(KEY != '') {
+            $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+            $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+        }
+        
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
         $db2->query("SELECT cmd.command 
                         FROM cmdCatTbl AS cct
@@ -101,7 +106,12 @@ if (!empty($getNodes)) {
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
-        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
+        $conn = new Connection($device['deviceIpAddr'], 
+                $device['deviceUsername'], 
+                $devicePassword, 
+                $device['deviceEnableMode'], 
+                $deviceEnablePassword, 
+                $device['connPort'], $timeout);
         $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid . ". See Connection logs for details";
         $connSuccessText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for Router ID " . $rid;
         // if connection is telnet, connect to device function
