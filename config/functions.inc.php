@@ -504,7 +504,7 @@ function encrypt_decrypt($action, $string) {
 
         $encrypt_method = "AES-256-CBC";
         $secret_key = KEY;
-        $secret_iv = 'This is my secret iv';
+        $secret_iv = IV;
 
         // hash
         $key = hash('sha256', $secret_key);
