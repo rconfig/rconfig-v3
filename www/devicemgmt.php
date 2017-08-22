@@ -26,7 +26,6 @@
 			FROM nodes n 
                         LEFT OUTER JOIN vendors v ON n.vendorId = v.id
                         LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
-			LEFT OUTER JOIN devicesaccessmethod a ON n.deviceAccessMethodId = a.id
 			LEFT OUTER JOIN categories cat ON n.nodeCatId = cat.id
 			WHERE n.status = 1 AND n.id = :id ");
                 $db2->bind('id', $_GET['deviceId']);
@@ -40,9 +39,7 @@
                 $deviceIpAddr = $items['deviceIpAddr'];
                 $connPort = $items['connPort'];
                 $vendorName = $items['vendorName'];
-                $model = $items['model'];
-                $deviceAccessMethodId = $items['deviceAccessMethodId'];
-                $categoryName = $items['categoryName'];
+                $model = $items['model'];                $categoryName = $items['categoryName'];
                 ?>
                 <a name="top"></a> 
                 <fieldset id="dashboardFieldset" style="width:35%; min-height:147px; float:left;">
@@ -68,12 +65,8 @@
                             <tr>
                                 <td><b>Category:</b></td>
                                 <td class="infoCell"><?php echo $categoryName; ?></td>
-                            </tr>
-                            <tr>
-                                <td><b>Connection Type:</b></td>
-                                <td class="infoCell"><?php 
-                                echo ($deviceAccessMethodId == 1 ? 'Telnet' : 'SSH') ?></td>
-                            </tr>
+                            </tr
+
                             <tr>
                                 <td><b>Status:</b></td>
                                 <td class="infoCell">
