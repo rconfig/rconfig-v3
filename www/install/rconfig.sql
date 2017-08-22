@@ -169,7 +169,9 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `deviceEnablePassword` varchar(255) DEFAULT NULL,
   `deviceIpAddr` varchar(255) DEFAULT NULL,
   `devicePrompt` varchar(255) DEFAULT NULL,
+  `deviceEnablePrompt` varchar(255) DEFAULT NULL,
   `nodeCatId` int(10) DEFAULT NULL,
+  `templateId` int(10) DEFAULT NULL,
   `vendorId` varchar(255) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
   `nodeVersion` varchar(255) DEFAULT NULL,
@@ -406,3 +408,4 @@ INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
