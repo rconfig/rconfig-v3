@@ -91,6 +91,9 @@ if (!empty($getNodes)) {
         if(KEY != '') {
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
             $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+        } else {
+            $devicePassword = $device['devicePassword'];
+            $deviceEnablePassword = $device['deviceEnablePassword'];
         }
 
         // get template
