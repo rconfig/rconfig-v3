@@ -1,4 +1,5 @@
 <?php require("../classes/db2.class.php"); ?>
+<?php require("../classes/spyc.class.php"); ?>
 <?php include("includes/head.inc.php"); ?>
 <body>
     <!-- Headwrap Include -->    
@@ -22,7 +23,7 @@
                 <?php
                 /* Instantiate DB Class */
                 $db2 = new db2();
-                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.connPort, v.vendorName vendorName, n.model, cat.categoryName categoryName
+                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.templateId, v.vendorName, n.model, cat.categoryName categoryName
 			FROM nodes n 
                         LEFT OUTER JOIN vendors v ON n.vendorId = v.id
                         LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
@@ -34,12 +35,18 @@
                 foreach ($resultSelect as $row) {
                     $items = $row;
                 }
+                // get connPort from template
+                $db2->query("SELECT fileName FROM templates WHERE id = " . $items['templateId']);
+                $getTemplate = $db2->resultsetCols();
+                $templateparams = Spyc::YAMLLoad($getTemplate[0]);    
+
                 // set VARs
                 $deviceName = $items['deviceName'];
                 $deviceIpAddr = $items['deviceIpAddr'];
-                $connPort = $items['connPort'];
+                $connPort = $templateparams['connect']['port'];
                 $vendorName = $items['vendorName'];
-                $model = $items['model'];                $categoryName = $items['categoryName'];
+                $model = $items['model'];                
+                $categoryName = $items['categoryName'];
                 ?>
                 <a name="top"></a> 
                 <fieldset id="dashboardFieldset" style="width:35%; min-height:147px; float:left;">
@@ -65,8 +72,14 @@
                             <tr>
                                 <td><b>Category:</b></td>
                                 <td class="infoCell"><?php echo $categoryName; ?></td>
-                            </tr
-
+                            </tr>
+                            <tr>
+                                <td><b>Connection Type:</b></td>
+                                <td class="infoCell">
+                                <?php 
+                                echo $templateparams['connect']['protocol'] . '/' . $templateparams['connect']['port'];
+                                ?></td>
+                            </tr>
                             <tr>
                                 <td><b>Status:</b></td>
                                 <td class="infoCell">

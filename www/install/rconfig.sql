@@ -182,7 +182,6 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `defaultEnablePassword` varchar(255) DEFAULT NULL,
   `deviceDateAdded` date DEFAULT NULL,
   `deviceLastUpdated` date DEFAULT NULL,
-  `connPort` int(2) DEFAULT NULL,
   `status` int(10) DEFAULT '1',
    `custom_Location` varchar(255) DEFAULT NULL COMMENT 'Custom Property - Location',
   PRIMARY KEY (`id`)
