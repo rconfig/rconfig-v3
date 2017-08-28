@@ -247,9 +247,7 @@ class Connection {
         // Ensure port is set to a valid number.  If not, use default
         if ($this->_port == null || $this->_port <= 0 || $this->_port > 65535) {
             $this->_port = 22;
-        }
-// ADDIN CHECK FOR SSH 1 CONNECTIONS $ssh->getServerIdentification();
-        
+        }        
         if (!$ssh = new Net_SSH2($this->_hostname, $this->_port, $this->_timeout)) {
             echo "Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . "\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
@@ -282,9 +280,9 @@ class Connection {
         } else {
             $ssh->read($this->_prompt);
             if($this->_paging === true){
-               $this->write($this->_pagingCmd . "\n"); 
+               $ssh->write($this->_pagingCmd . "\n"); 
                sleep(1);
-               $this->read($this->_prompt);
+               $ssh->read($this->_prompt);
             }
            echo $ssh->read($this->_prompt);
             $ssh->write($command . "\n");

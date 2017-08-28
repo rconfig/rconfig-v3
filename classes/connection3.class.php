@@ -55,7 +55,7 @@ class Connection {
         $this->_enableCmd = $enableCmd;
         $this->_enablePrompt = $enablePrompt;
         $this->_enablePassPrmpt = $enablePassPrmpt;
-		$this->_enableModeUsername = 'enableUsernameHere';
+        $this->_enableModeUsername = 'enableUsernameHere';
         $this->_prompt = $prompt;
         $this->_paging = $paging;
         $this->_pagingCmd = $pagingCmd;
@@ -118,9 +118,9 @@ class Connection {
             } else {
                 $this->_send($this->_enableCmd);
                 $this->_readTo($this->_enablePassPrmpt);
-				if($this->_enableModeUsername != ''){
-					//check for username for enable mode and input if true
-					$this->_send($this->_enableModeUsername); 
+                if($this->_enableModeUsername != ''){
+                        //check for username for enable mode and input if true
+                        $this->_send($this->_enableModeUsername); 
                    sleep(1);
                    $this->_readTo($this->_enablePassPrmpt);
                 }
