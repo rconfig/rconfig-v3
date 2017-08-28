@@ -222,16 +222,7 @@ class Connection {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
     
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
@@ -284,7 +275,6 @@ class Connection {
                sleep(1);
                $ssh->read($this->_prompt);
             }
-           echo $ssh->read($this->_prompt);
             $ssh->write($command . "\n");
             $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output

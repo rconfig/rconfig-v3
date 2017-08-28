@@ -229,17 +229,6 @@ class Connection {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
@@ -289,11 +278,10 @@ class Connection {
         } else {
             $ssh->read($this->_prompt);
             if($this->_paging === true){
-               $this->write($this->_pagingCmd . "\n"); 
+               $ssh->write($this->_pagingCmd . "\n"); 
                sleep(1);
-               $this->read($this->_prompt);
+               $ssh->read($this->_prompt);
             }
-           echo $ssh->read($this->_prompt);
             $ssh->write($command . "\n");
             $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output
@@ -424,9 +412,6 @@ class Connection {
             sleep(1);
         }
     }
-
-
-
 
     /**
      * Clears internal command buffer
