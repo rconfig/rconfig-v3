@@ -117,7 +117,7 @@ include("includes/head.inc.php");
                                     echo "<span class=\"error\">" . $errors['deviceIpAddr'] . "</span>";
                                 }
                                 ?> <br/>
- <label><font color="red">*</font> Enable Prompt:</label>
+ <label> Enable Prompt:</label>
                                 <input name="deviceEnablePrompt" id="deviceEnablePrompt" placeholder="router>" tabindex='2' style="width:150px;" value="<?php if (isset($deviceEnablePrompt)) echo $deviceEnablePrompt; ?>">
                                 <div class="spacer"></div>
 <?php

@@ -54,12 +54,7 @@ if (!$session->logged_in) {
             $log->Warn("Failure: Device Prompt cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
         }
         // validate deviceEnablePrompt field
-        if (!empty($_POST['deviceEnablePrompt'])) {
-            $deviceEnablePrompt = str_replace(' ', '', $_POST['deviceEnablePrompt']);
-        } else {
-            $errors['deviceEnablePrompt'] = "Device Enable Prompt cannot be empty";
-            $log->Warn("Failure: Device Enable Prompt cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
-        }
+        $deviceEnablePrompt = str_replace(' ', '', $_POST['deviceEnablePrompt']);
 
         // validate vendorId field
         if (!empty($_POST['vendorId']) && ctype_digit($_POST['vendorId'])) {
