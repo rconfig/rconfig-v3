@@ -5,7 +5,6 @@ require("/home/rconfig/classes/backendScripts.class.php");
 require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
-
 require("/home/rconfig/classes/connection2.class.php");
 require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");

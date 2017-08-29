@@ -40,7 +40,7 @@
                                 'http' => array(
                                     'timeout' => 5)
                             ));
-                            $latestVer = file_get_contents("http://www.rconfig.com/downloads/versionbeta.txt", 0, $ctx);
+                            $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
                             ?>
                             <p><strong>Update version: </strong><?php echo $latestVer; ?></p>	
                             <div class="spacer">
