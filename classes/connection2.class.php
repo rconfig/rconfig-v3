@@ -42,7 +42,8 @@ class Connection {
             $enableModePassword, $connPort, $timeout = 60, 
             $userPrmpt, $passPrmpt, $enable, 
             $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt,
-            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd) {
+            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd,
+            $hpAnyKeyStatus, $hpAnyKeyPrmpt) {
         $this->_hostname = $hostname;
         $this->_username = $username;
         $this->_password = $password;
@@ -61,6 +62,8 @@ class Connection {
         $this->_pagerPrompt = $pagerPrompt;
         $this->_pagerPromptCmd = $pagerPromptCmd;
         $this->_resetPagingCmd = $resetPagingCmd;
+        $this->_hpAnyKeyStatus = $hpAnyKeyStatus;
+        $this->_hpAnyKeyPrmpt = $hpAnyKeyPrmpt;
         $this->_use_usleep = 0; // change to 1 for faster execution
         // don't change to 1 on Windows servers unless you have PHP 5
         $this->_sleeptime = 125000;
@@ -256,6 +259,7 @@ class Connection {
 
         $output = '';
         if ($this->_enable === true) {
+
             $ssh->write($this->_enableCmd . "\n");
             $ssh->read($this->_enablePassPrmpt);
             $ssh->write($this->_enableModePassword . "\n");
@@ -269,6 +273,13 @@ class Connection {
             $ssh->write("\n"); // to line break after command output
             $ssh->read($this->_prompt);
         } else {
+            /* for HP devices, may add this to template in future if moe like it */
+            
+            if($this->_hpAnyKeyStatus === true){
+               $ssh->read($this->_hpAnyKeyPrmpt);
+               $ssh->write("\n");
+            }            
+            
             $ssh->read($this->_prompt);
             if($this->_paging === true){
                $ssh->write($this->_pagingCmd . "\n"); 

@@ -125,7 +125,7 @@ if (!empty($getNodes)) {
         
         // check if there are any commands for this devices category, and if not, error and break the loop for this iteration
         if ($cmdNumRows == 0) {
-            $text = "Failure: There are no commands configured for category " . $catName . " when running taskID " . $tid;
+            $text = "Failure: There are no commands configured for category " . $catName['categoryName'] . " when running taskID " . $tid;
             $report->eachData($device['deviceName'], $connStatusFail, $text); // log to report
             echo $text . " - Error:(File: " . $_SERVER['PHP_SELF'] . ")\n"; // log to console
             $log->Conn($text . " - Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
@@ -153,7 +153,9 @@ if (!empty($getNodes)) {
                 $templateparams['config']['pagingCmd'],
                 $templateparams['config']['pagerPrompt'],
                 $templateparams['config']['pagerPromptCmd'],
-                $templateparams['config']['resetPagingCmd']
+                $templateparams['config']['resetPagingCmd'],
+                $templateparams['auth']['hpAnyKeyStatus'],
+                $templateparams['auth']['hpAnyKeyPrmpt']
                 );
 
         // if connection is telnet, connect to device function
