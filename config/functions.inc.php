@@ -522,3 +522,23 @@ function encrypt_decrypt($action, $string) {
     }
     return $output;
 }
+
+
+function passwordEncryptionCheck(){
+    require_once("../classes/db2.class.php");
+    $db2 = new db2();
+    $db2->query("SELECT passwordEncryption FROM settings");
+    $result = $db2->resultset();
+    $encrptionStatus = $result[0]['passwordEncryption'];
+    if($encrptionStatus == 0){
+        $notice = "<font color='red'>Password encryption disabled</font>"
+                . "<div class='spacer'></div>"
+                . "<button class='smlButton' id='pwencryption' onclick='pwencryption()'>Enable Encryption</button>";
+    } elseif($encrptionStatus == 1){
+        $notice = "<font color='green'>Password encryption enabled</font>";
+    } else {
+        $notice = "<font color='orange'>Something wrong with password encryption</font>";
+    }
+    return $notice;
+        
+}

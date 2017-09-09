@@ -244,8 +244,73 @@ function pageTimeoutGo() {
             $('#pageTimeOutUpdated').slideDown('fast');
         });
     }
-} // end deviceToutGo()
-//
+} // end deviceToutGo
+
+
+function pwencryption(){
+        bootbox.confirm({
+        message: "Are you sure you want to enable device password encryption in the database? ",
+        backdrop: false,
+        size: 'small',
+        title: "Warning!",
+        callback: function (result) {
+            if (result == true) {
+                        bootbox.confirm({
+                            message: "Have you backedup rConfig? If not, you need to before you proceed. <br/><br/><a href='settingsBackup.php'>Click Here!</a>",
+                            backdrop: false,
+                            size: 'small',
+                            title: "Warning!",
+                                buttons: {
+                                    confirm: {
+                                       label: "I've already backed up!",
+                                    },
+                                    cancel: {
+                                       label: "Cancel",
+                                    },
+                            },    
+                            callback: function (result) {
+                                if (result == true) {
+                                        bootbox.prompt("Enter your encryption key?", 
+                                            function(result){ 
+                                                /* your callback code */ 
+                                                bootbox.confirm({
+                                                    message: "If you click 'Encrypt', every device password in your DB will be encrypted. If you passwords are already encrypted, this process will encrypt already encrypted passwords. Are you sure you want to proceed?",
+                                                    backdrop: false,
+                                                    size: 'small',
+                                                    title: "Warning!",
+                                                    buttons: {
+                                                        confirm: {
+                                                           label: "Encrypt!",
+                                                        },
+                                                        cancel: {
+                                                           label: "Cancel",
+                                                        },
+                                                   },    
+                                                    callback: function (result) { 
+                                                        alert('yes')
+                                                    }
+                                                })
+                                            })
+                                } else {
+                                   bootbox.alert({ 
+                                       message: '<div class="text-center"><i color="red" class="fa fa-exclamation-triangle"></i> Please backup before you proceed. It\'s important!</div>' ,
+                                        backdrop: false,
+                                        size: 'small',
+                                        title: "Warning!",
+                                   }) 
+                                    
+                                }
+                            }
+                        });
+            }
+        }
+    });
+}
+
+
+
+
+
 // function to open new window based on content passed to the function
 function writeConsole(content, filePath) {
     top.consoleRef = window.open('', 'myconsole', 'width=750,height=600' + ',menubar=0' + ',toolbar=0' + ',status=0' + ',scrollbars=1' + ',resizable=1');
