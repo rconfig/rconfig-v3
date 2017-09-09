@@ -36,14 +36,19 @@
                     $items = $row;
                 }
                 // get connPort from template
-                $db2->query("SELECT fileName FROM templates WHERE id = " . $items['templateId']);
+                $db2->query("SELECT fileName FROM templates WHERE id = " . $items['templateId'] . " AND status = 1");
                 $getTemplate = $db2->resultsetCols();
-                $templateparams = Spyc::YAMLLoad($getTemplate[0]);    
-
+                if(count($getTemplate) === 0){ // check if template ID is valid and active
+                    $connPort = "";
+                    $connectionTypeText = "<font color='red'>Template not configured for this device!</font>";
+                } else {
+                    $templateparams = Spyc::YAMLLoad($getTemplate[0]);    
+                    $connPort = $templateparams['connect']['port'];
+                    $connectionTypeText = $templateparams['connect']['protocol'] . '/' . $templateparams['connect']['port'];
+                }
                 // set VARs
                 $deviceName = $items['deviceName'];
                 $deviceIpAddr = $items['deviceIpAddr'];
-                $connPort = $templateparams['connect']['port'];
                 $vendorName = $items['vendorName'];
                 $model = $items['model'];                
                 $categoryName = $items['categoryName'];
@@ -77,7 +82,7 @@
                                 <td><b>Connection Type:</b></td>
                                 <td class="infoCell">
                                 <?php 
-                                echo $templateparams['connect']['protocol'] . '/' . $templateparams['connect']['port'];
+                                echo  $connectionTypeText;
                                 ?></td>
                             </tr>
                             <tr>

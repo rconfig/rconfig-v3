@@ -46,7 +46,7 @@ function templateId($id = null) {
     $db2 = new db2();
     $log = ADLog::getInstance();
     //Extract Nodes accessMethod for select list below
-    $db2->query("SELECT * FROM templates");
+    $db2->query("SELECT * FROM templates WHERE status = 1");
     $result = $db2->resultset();
     $num_rows = $db2->rowCount();
     if (!$result || ($num_rows < 0)) {
