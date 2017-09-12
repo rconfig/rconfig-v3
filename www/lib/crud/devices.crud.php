@@ -85,22 +85,21 @@ if (!$session->logged_in) {
         } else {
             $deviceUsername = '';
         }
-
+        
+        // check if PW encryption enabled
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 1){
+           $encryptionEnabled = true; 
+        }
         // validate devicePassword field
         if (!empty($_POST['devicePassword']) && is_string($_POST['devicePassword'])) {
-            $devicePassword = encrypt_decrypt('encrypt', $_POST['devicePassword']);
-            if($devicePassword === false) { 
-                $devicePassword = $_POST['devicePassword'];
-            }
+            if($encryptionEnabled == true){ $devicePassword = encrypt_decrypt('encrypt', $_POST['devicePassword']); } else { $devicePassword = $_POST['devicePassword']; }
         } else {
             $devicePassword = '';
         }
         // validate devicePassword field
         if (!empty($_POST['deviceEnablePassword']) && is_string($_POST['deviceEnablePassword'])) {
-            $deviceEnablePassword = encrypt_decrypt('encrypt', $_POST['deviceEnablePassword']);
-            if($deviceEnablePassword === false) { 
-                $deviceEnablePassword = $_POST['deviceEnablePassword'];
-            }
+            if($encryptionEnabled == true){ $deviceEnablePassword = encrypt_decrypt('encrypt', $_POST['deviceEnablePassword']); } else { $deviceEnablePassword = $_POST['deviceEnablePassword']; }
         } else {
             $deviceEnablePassword = '';
         }
