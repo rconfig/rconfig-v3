@@ -69,8 +69,8 @@ this more friendly in upcoming releases.
     
 Insert two secrets between the quotation marks in the following lines in the config file
     
-    define('KEY', '');
-    define('IV', '');
+    define('SECRETKEY', '');
+    define('SECRETIV', '');
 
 For now, when these values are blank, password encryption is disabled. When you insert text of any kind, it is enabled. I've kept this initial deployment of this feature lean
 so I can get early feedback before I mature it with more advanced features and management.

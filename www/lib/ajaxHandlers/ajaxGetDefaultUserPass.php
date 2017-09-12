@@ -18,7 +18,7 @@ if (!$session->logged_in) {
     
     $rows = $db2->resultset();
         //decrypt PWs if key is set
-        if(KEY != '') {
+        if(SECRETKEY != '') {
             $rows[0]['defaultNodePassword'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodePassword']);
             $rows[0]['defaultNodeEnable'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodeEnable']);
         }

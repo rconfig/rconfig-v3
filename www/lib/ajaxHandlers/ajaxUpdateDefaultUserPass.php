@@ -16,7 +16,7 @@ if (!$session->logged_in) {
         $defaultNodeUsername = $_REQUEST['defaultNodeUsername'];
 
         //decrypt PWs if key is set
-        if(KEY != '') {
+        if(SECRETKEY != '') {
             $defaultNodePassword = encrypt_decrypt('encrypt', $_REQUEST['defaultNodePassword']);
             $defaultNodeEnable   = encrypt_decrypt('encrypt', $_REQUEST['defaultNodeEnable']);
         } else {    

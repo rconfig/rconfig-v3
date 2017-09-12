@@ -248,66 +248,115 @@ function pageTimeoutGo() {
 
 
 function pwencryption(){
+    // general settings
+    var boxsize = 'large';
+    var boxTitle = "Device Password Encryption Wizard";
         bootbox.confirm({
         message: "Are you sure you want to enable device password encryption in the database? ",
         backdrop: false,
-        size: 'small',
-        title: "Warning!",
+        size: boxsize,
+        title: boxTitle,
+        buttons: {
+            confirm: {
+               label: "Yes",
+            },
+            cancel: {
+               label: "No",
+            },
+        },
         callback: function (result) {
             if (result == true) {
-                        bootbox.confirm({
-                            message: "Have you backedup rConfig? If not, you need to before you proceed. <br/><br/><a href='settingsBackup.php'>Click Here!</a>",
-                            backdrop: false,
-                            size: 'small',
-                            title: "Warning!",
-                                buttons: {
-                                    confirm: {
-                                       label: "I've already backed up!",
-                                    },
-                                    cancel: {
-                                       label: "Cancel",
-                                    },
-                            },    
-                            callback: function (result) {
-                                if (result == true) {
-                                        bootbox.prompt("Enter your encryption key?", 
-                                            function(result){ 
-                                                /* your callback code */ 
-                                                bootbox.confirm({
-                                                    message: "If you click 'Encrypt', every device password in your DB will be encrypted. If you passwords are already encrypted, this process will encrypt already encrypted passwords. Are you sure you want to proceed?",
-                                                    backdrop: false,
-                                                    size: 'small',
-                                                    title: "Warning!",
-                                                    buttons: {
-                                                        confirm: {
-                                                           label: "Encrypt!",
-                                                        },
-                                                        cancel: {
-                                                           label: "Cancel",
-                                                        },
-                                                   },    
-                                                    callback: function (result) { 
-                                                        alert('yes')
-                                                    }
-                                                })
-                                            })
-                                } else {
-                                   bootbox.alert({ 
-                                       message: '<div class="text-center"><i color="red" class="fa fa-exclamation-triangle"></i> Please backup before you proceed. It\'s important!</div>' ,
-                                        backdrop: false,
-                                        size: 'small',
-                                        title: "Warning!",
-                                   }) 
-                                    
-                                }
-                            }
-                        });
+                bootbox.confirm({
+                    message: "<img src='images/yellow-warning-sign_16.jpg'/> Have you backedup rConfig? If not, you need to before you proceed. <br/><br/><a href='settingsBackup.php'>Click here to run a backup!</a>",
+                    backdrop: false,
+                    size: boxsize,
+                    title: boxTitle,
+                        buttons: {
+                            confirm: {
+                               label: "I've already backed up!",
+                            },
+                            cancel: {
+                               label: "I have not backed up!",
+                            },
+                    },    
+                    callback: function (result) {
+                        if (result == true) {
+                                bootbox.prompt({
+                                title: "Enter your encryption key",
+                                inputType: 'password',
+                                    callback: function (result) {
+                                        var secret = result;
+                                        /* your callback code */ 
+                                        bootbox.confirm({
+                                            message: "If you click 'Encrypt', every device password in your DB will be encrypted. If you passwords are already encrypted, this process will encrypt already encrypted passwords. Are you sure you want to proceed?",
+                                            backdrop: false,
+                                            size: boxsize,
+                                            title: boxTitle,
+                                            buttons: {
+                                                confirm: {
+                                                   label: "Encrypt!",
+                                                },
+                                                cancel: {
+                                                   label: "Cancel",
+                                                },
+                                           },    
+                                            callback: function (result) { 
+                                                if (result == true) {
+                                                    bootbox.dialog({ message: '<div class="text-center"><img src="images/ajax_loader2.gif"/> Encrypting...</div>' })
+                                                    encryptPasswords(secret);
+                                                }
+                                            }
+                                        })
+                                    }
+                                })
+                        } else {
+                           bootbox.alert({ 
+                               message: '<div class="text-center"><img src="images/yellow-warning-sign_16.jpg"/> Please backup before you proceed. It\'s important!</div>' ,
+                                backdrop: false,
+                                size: boxsize,
+                                title: boxTitle,
+                           }) 
+
+                        }
+                    }
+                });
             }
         }
     });
 }
 
-
+function encryptPasswords(secret){
+    $.ajaxSetup({cache: false});
+    $.ajax({
+        type: "POST",
+        url: "lib/ajaxHandlers/ajaxEncryptPasswords.php",
+        data: "secret=" + secret,
+        dataType: 'json',
+            success: function(data){
+                bootbox.hideAll();
+                bootbox.alert({ 
+                    message: '<div class="text-center"><img src="images/tick_32.png"/> X devices passwords enrcypted in the database</div>' ,
+                    backdrop: false,
+                    size: 'large',
+                    title: 'Device Password Encryption Wizard',
+                 });
+                 location.reload();
+            },
+            error:function(req, status, err){
+                console.log( 'something went wrong', status, err );
+                bootbox.hideAll();
+                bootbox.alert({ 
+                    message: '<div class="text-center"><img src="images/redCross.png"/> Something went wrong with the encryption process.</div>' ,
+                    backdrop: false,
+                    size: 'large',
+                    title: 'Device Password Encryption Wizard',
+                 });          
+            }   
+    });
+    
+    
+    
+}
 
 
 

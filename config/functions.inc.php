@@ -500,11 +500,11 @@ function flatten(array $array) {
 function encrypt_decrypt($action, $string) {
     $output = false;
     // if key is blank, then store PWs nativley
-    if(KEY != ''){
+    if(SECRETKEY != ''){
 
         $encrypt_method = "AES-256-CBC";
-        $secret_key = KEY;
-        $secret_iv = IV;
+        $secret_key = SECRETKEY;
+        $secret_iv = SECRETIV;
 
         // hash
         $key = hash('sha256', $secret_key);

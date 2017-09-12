@@ -76,7 +76,7 @@ if (!empty($getNodes)) {
             continue;
         }
         // decrypt PWs if key is set
-        if(KEY != '') {
+        if(SECRETKEY != '') {
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
             $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
         }
