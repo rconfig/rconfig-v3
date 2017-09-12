@@ -48,7 +48,7 @@ if (!$session->logged_in) {
 
         // validate devicePrompt field
         if (!empty($_POST['devicePrompt'])) {
-            $devicePrompt = str_replace(' ', '', $_POST['devicePrompt']);
+            $devicePrompt = $_POST['devicePrompt'];
         } else {
             $errors['devicePrompt'] = "Device Prompt cannot be empty";
             $log->Warn("Failure: Device Prompt cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
