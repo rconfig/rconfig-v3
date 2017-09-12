@@ -94,10 +94,14 @@ if (!empty($resultNodesRes)) {
             $debug->debug($device);
         }
         // decrypt PWs if key is set
-        if(SECRETKEY != '') {
+        // check if encryption already set in DB
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 0){
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
             $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
-        }
+        }        
+        
+        
         // ok, verification of host reachability based on socket connection to port i.e. 22 or 23. If fails, continue to next foreach iteration
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 

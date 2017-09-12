@@ -76,10 +76,15 @@ if (!empty($getNodes)) {
             continue;
         }
         // decrypt PWs if key is set
-        if(SECRETKEY != '') {
-            $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
-            $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
-        }
+        // check if encryption already set in DB
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 1){
+                $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+                $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+            } else {
+                $devicePassword = $device['devicePassword'];
+                $deviceEnablePassword = $device['deviceEnablePassword'];
+            }
         
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
         $db2->query("SELECT cmd.command 

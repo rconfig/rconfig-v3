@@ -17,11 +17,11 @@ if (!$session->logged_in) {
     $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable FROM settings WHERE id = 1");
     
     $rows = $db2->resultset();
-        //decrypt PWs if key is set
-        if(SECRETKEY != '') {
+     //decrypt PWs if key is set
+    $db2->query("SELECT passwordEncryption from settings");
+    if($db2->resultsetCols()[0] == 0){
             $rows[0]['defaultNodePassword'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodePassword']);
             $rows[0]['defaultNodeEnable'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodeEnable']);
-        }
-
+        }             
     echo json_encode($rows);
 }

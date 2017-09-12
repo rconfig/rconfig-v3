@@ -86,15 +86,17 @@ if (!empty($getNodes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
-        // decrypt PWs if key is set
-        if(SECRETKEY != '') {
+    // decrypt PWs if key is set
+    // check if encryption already set in DB
+    $db2->query("SELECT passwordEncryption from settings");
+    if($db2->resultsetCols()[0] == 1){
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
             $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
         } else {
             $devicePassword = $device['devicePassword'];
             $deviceEnablePassword = $device['deviceEnablePassword'];
         }
-
+        
         // get template
         $db2->query("SELECT fileName FROM templates WHERE id = " . $device['templateId']);
         $getTemplate = $db2->resultsetCols();
