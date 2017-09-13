@@ -88,21 +88,16 @@ function editDevice(invoc) {
                     });
                     $('input[name="deviceIpAddr"]').val(data.deviceIpAddr);
                     $('input[name="devicePrompt"]').val(data.devicePrompt);
+                    $('input[name="deviceEnablePrompt"]').val(data.deviceEnablePrompt);
                     $("#vendorId").val(data.vendorId);
                     $('input[name="deviceModel"]').val(data.model);
-                    $('input[name="termLength"]').val(data.termLength);
                     if (data.defaultCreds === "1") {
                         $('#defaultCreds').attr('checked', 'checked');
                     }
                     $('input[name="deviceUsername"]').val(data.deviceUsername);
                     $('input[name="devicePassword"]').val(data.devicePassword);
-                    $('input[name="devicePassConf"]').val(data.devicePassword);
-                    if (data.deviceEnableMode === "on") {
-                        $('#deviceEnableMode').attr('checked', 'checked');
-                    }
                     $('input[name="deviceEnablePassword"]').val(data.deviceEnablePassword);
-                    $('input[name="connPort"]').val(data.connPort);
-                    $("#accessMeth").val(data.accessMeth);
+                    $('#templateId').val(data.templateId);
                     $("#catId").val(data.catId);
                     $('input[name="editid"]').val(rowid); // used to populate id input so that edit script will insert
                     $('input[name="editModeOn"]').val(1) // used to populate id input so that edit script will insert
@@ -150,9 +145,11 @@ function getDefaultUserPass(cb) {
         $.ajaxSetup({cache: false});
         $.getJSON('lib/ajaxHandlers/ajaxGetDefaultUserPass.php', function (data) {
             $.each(data, function (i, item) {
+                if(item.defaultNodeUsername == '' || item.defaultNodePassword == '') {
+                    errorDialog("Default credentials not configured in settings page!");
+                }
                 $('#deviceUsername').val(item.defaultNodeUsername);
                 $('#devicePassword').val(item.defaultNodePassword);
-                $('#devicePassConf').val(item.defaultNodePassword);
                 $('#deviceEnablePassword').val(item.defaultNodeEnable);
             });
         });
@@ -162,20 +159,10 @@ function getDefaultUserPass(cb) {
             $.each(data, function (i, item) {
                 $('#deviceUsername').val("");
                 $('#devicePassword').val("");
-                $('#devicePassConf').val("");
                 $('#deviceEnablePassword').val("");
             });
         });
 
-    }
-}
-
-function updatePort(value) {
-    var connPortInput = document.getElementById("connPort");
-    if (value == 3) {
-        connPortInput.value = "22";
-    } else if (value == 1) {
-        connPortInput.value = "23";
     }
 }
 

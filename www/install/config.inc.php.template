@@ -10,7 +10,7 @@ if (php_sapi_name() != 'cli') {
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";
 $config_author = "Stephen Stack";
-$config_version = "3.7.5";
+$config_version = "3.8.0";
 $config_app_basedir = "/home/rconfig/";
 $config_log_basedir = "/home/rconfig/logs/";
 $config_data_basedir = "/home/rconfig/data/";
@@ -19,12 +19,15 @@ $config_syslogBackup_basedir = "/home/rconfig/backups/syslogs/";
 $config_webLogs_basedir = "/home/rconfig/logs/wwwlogs/";
 $config_phpLogs_basedir = "/home/rconfig/logs/phpLog/";
 $config_reports_basedir = "/home/rconfig/reports/";
+$config_templates_basedir = "/home/rconfig/templates/";
 $config_temp_dir = "/home/rconfig/tmp/";
 $config_page = basename($_SERVER['SCRIPT_NAME']);
 $logdir = '../logs/';
 
 /* DEFINES Below*/
 define('WEB_DIR', '/home/rconfig/www');
+define('SECRETKEY', '');
+define('SECRETIV', '');
 
 /* DATABASE DEFINES */
 define('DB_HOST', '_DATABASEHOST');

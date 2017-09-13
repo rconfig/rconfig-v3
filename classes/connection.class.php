@@ -1,5 +1,4 @@
 <?php
-
 /**
  * rConfig Connection class
  * 
@@ -11,10 +10,10 @@
  * @package   rConfigConnectionClass
  * @originalauthor    Ray Soucy <rps@soucy.org>
  * @modifiedauthor    Stephen Stack <www.rconfig.com>
- * @version   1.0.0
+ * @version   1.5.0
  * @link      http://www.rconfig.com/
- * @license   http://www.rconfig.com/  
  */
+
 class Connection {
 
     private $_hostname;
@@ -54,8 +53,8 @@ class Connection {
         // below are headers that telnet requires for proper session setup - google 'fsockopen php telnet' for more info
         // and per here http://www.phpfreaks.com/forums/index.php?topic=201740.0
         // Not currenty used in this version of the class
-        $this->_header1 = chr(0xFF) . chr(0xFB) . chr(0x1F) . chr(0xFF) . chr(0xFB) . chr(0x20) . chr(0xFF) . chr(0xFB) . chr(0x18) . chr(0xFF) . chr(0xFB) . chr(0x27) . chr(0xFF) . chr(0xFD) . chr(0x01) . chr(0xFF) . chr(0xFB) . chr(0x03) . chr(0xFF) . chr(0xFD) . chr(0x03) . chr(0xFF) . chr(0xFC) . chr(0x23) . chr(0xFF) . chr(0xFC) . chr(0x24) . chr(0xFF) . chr(0xFA) . chr(0x1F) . chr(0x00) . chr(0x50) . chr(0x00) . chr(0x18) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x20) . chr(0x00) . chr(0x33) . chr(0x38) . chr(0x34) . chr(0x30) . chr(0x30) . chr(0x2C) . chr(0x33) . chr(0x38) . chr(0x34) . chr(0x30) . chr(0x30) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x27) . chr(0x00) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x18) . chr(0x00) . chr(0x58) . chr(0x54) . chr(0x45) . chr(0x52) . chr(0x4D) . chr(0xFF) . chr(0xF0);
-        $this->_header2 = chr(0xFF) . chr(0xFC) . chr(0x01) . chr(0xFF) . chr(0xFC) . chr(0x22) . chr(0xFF) . chr(0xFE) . chr(0x05) . chr(0xFF) . chr(0xFC) . chr(0x21);
+//        $this->_header1 = chr(0xFF) . chr(0xFB) . chr(0x1F) . chr(0xFF) . chr(0xFB) . chr(0x20) . chr(0xFF) . chr(0xFB) . chr(0x18) . chr(0xFF) . chr(0xFB) . chr(0x27) . chr(0xFF) . chr(0xFD) . chr(0x01) . chr(0xFF) . chr(0xFB) . chr(0x03) . chr(0xFF) . chr(0xFD) . chr(0x03) . chr(0xFF) . chr(0xFC) . chr(0x23) . chr(0xFF) . chr(0xFC) . chr(0x24) . chr(0xFF) . chr(0xFA) . chr(0x1F) . chr(0x00) . chr(0x50) . chr(0x00) . chr(0x18) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x20) . chr(0x00) . chr(0x33) . chr(0x38) . chr(0x34) . chr(0x30) . chr(0x30) . chr(0x2C) . chr(0x33) . chr(0x38) . chr(0x34) . chr(0x30) . chr(0x30) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x27) . chr(0x00) . chr(0xFF) . chr(0xF0) . chr(0xFF) . chr(0xFA) . chr(0x18) . chr(0x00) . chr(0x58) . chr(0x54) . chr(0x45) . chr(0x52) . chr(0x4D) . chr(0xFF) . chr(0xF0);
+//        $this->_header2 = chr(0xFF) . chr(0xFC) . chr(0x01) . chr(0xFF) . chr(0xFC) . chr(0x22) . chr(0xFF) . chr(0xFE) . chr(0x05) . chr(0xFF) . chr(0xFC) . chr(0x21);
     }
 
     /**
@@ -94,7 +93,6 @@ class Connection {
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
 
-//                echo "Error: Authentication Failed for $this->_hostname\n";
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             } else {
@@ -105,7 +103,6 @@ class Connection {
                 $this->_prompt = '#';
                 $this->_readTo($this->_prompt);
                 if (strpos($this->_data, $this->_prompt) == false) {
-//                    echo "Error: Authentication Failed for enable mode for $this->_hostname\n";
                     $log->Conn("Error: Authentication Failed for enable mode for  enable mode for or $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                     return false;
                 }
@@ -119,8 +116,6 @@ class Connection {
             $this->_readTo($this->_prompt);
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
-
-//                echo "Error: Authentication Failed for $this->_hostname\n";
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             }
@@ -265,7 +260,7 @@ class Connection {
             foreach ($this->_data as $line) {
                 $line = explode("\r\n", $line);
                 array_push($result, $line[0]);
-            } // foreach
+            } 
         }
         $this->_data = $result;
         return $this->_data;
@@ -297,10 +292,11 @@ class Connection {
     }
 
     private function _sleep() {
-        if ($this->_use_usleep)
+        if ($this->_use_usleep){
             usleep($this->_sleeptime);
-        else
+        } else {
             sleep(1);
+        }
     }
 
     /**
@@ -313,8 +309,6 @@ class Connection {
         fclose($this->_connection);
     }
 
-// close
-
     /**
      * Issue a command to the device
      */
@@ -322,7 +316,6 @@ class Connection {
         fputs($this->_connection, $command . "\r\n");
     }
 
-// _send
 
     /**
      * Clears internal command buffer
@@ -391,7 +384,4 @@ class Connection {
         return $result;
     }
 
-// _send
 }
-// Telnet Class
-// trailing PHP tag omitted to prevent accidental whitespace

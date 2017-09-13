@@ -93,6 +93,15 @@ if (!empty($resultNodesRes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
+        // decrypt PWs if key is set
+        // check if encryption already set in DB
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 0){
+            $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+            $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+        }        
+        
+        
         // ok, verification of host reachability based on socket connection to port i.e. 22 or 23. If fails, continue to next foreach iteration
         $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
 
@@ -111,7 +120,7 @@ if (!empty($resultNodesRes)) {
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
-        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
+        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $devicePassword, $device['deviceEnableMode'], $deviceEnablePassword, $device['connPort'], $timeout);
         $failureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running taskID " . $tid;
         $connectedText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for taskID " . $tid;
         // Set VARs

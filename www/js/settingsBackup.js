@@ -55,11 +55,16 @@ function createBackup() {
             BackupStatusPass
             $('#pleaseWait1').hide();
             $('#BackupStatusPass').show();
+            $('#refreshBackupDiv').show();
         } else {
             $('#pleaseWait1').hide();
             $('#BackupStatusFail').show();
         }
     });
+}
+
+function refreshBackupDiv(){
+    window.location.reload();
 }
 
 // Open File by ajax
@@ -71,11 +76,16 @@ function createBackupSyslog() {
         if (data.success === true) {
             $('#pleaseWait2').hide();
             $('#syslogBackupStatusPass').show();
+            $('#refreshLogDiv').show();
         } else {
             $('#pleaseWait2').hide();
             $('#syslogBackupStatusFail').show();
         }
     });
+}
+
+function refreshLogDiv(){
+    window.location.reload();
 }
 
 function deleteFiles(filePath, ext) {

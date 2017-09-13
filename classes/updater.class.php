@@ -58,7 +58,7 @@ class updater {
     }
 
     /**
-     * Updayes tmp config file with current install version
+     * Updates tmp config file with current install version
      *
      * @param latestVer 
      * @param destinationConfigFile 
@@ -78,6 +78,26 @@ class updater {
         file_put_contents($destinationConfigFile, $lines);
     }
 
+    
+    /**
+     * Updates tmp config file with secret keys
+     *
+     * @param latestVer 
+     * @param destinationConfigFile 
+     */
+    public function updateSecretKey($latestVer, $destinationConfigFile) {
+        $lines = file($destinationConfigFile);
+        foreach ($lines as $k => $v) {
+            if (strpos($v, 'SECRETKEY') !== false) {
+                $lines[$k] = "define('SECRETKEY', '".$_POST['secret']."');" . PHP_EOL;
+            }
+            if (strpos($v, 'SECRETIV') !== false) {
+                $lines[$k] = "define('SECRETIV', '".$_POST['secret']."');" . PHP_EOL;
+            }            
+        }
+        file_put_contents($destinationConfigFile, $lines);
+    }    
+    
     /**
      * Copy tmp app dirs to prod rConfig folder
      *

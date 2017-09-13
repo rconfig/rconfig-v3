@@ -92,7 +92,6 @@ function urlsearch($string) {
     }
 }
 
-//urlsearch function
 
 /**
  * regexpMatch function used to compare inputted string against anither string 
@@ -106,7 +105,6 @@ function regexpMatch($string, $line) {
     }
 }
 
-//urlsearch function
 
 /**
  * Delete the $value Character(s) of a String with PHP
@@ -483,4 +481,64 @@ function flatten(array $array) {
         $return[] = $a;
     });
     return $return;
+}
+
+/**
+ * simple method to encrypt or decrypt a plain text string
+ * initialization vector(IV) has to be the same when encrypting and decrypting
+ * PHP 5.4.9 ( check your PHP version for function definition changes )
+ *
+ * this is a beginners template for simple encryption decryption
+ * before using this in production environments, please read about encryption
+ * use at your own risk
+ *
+ * @param string $action: can be 'encrypt' or 'decrypt'
+ * @param string $string: string to encrypt or decrypt
+ *
+ * @return string
+ */
+function encrypt_decrypt($action, $string) {
+    $output = false;
+    // if key is blank, then store PWs nativley
+    if(SECRETKEY != ''){
+
+        $encrypt_method = "AES-256-CBC";
+        $secret_key = SECRETKEY;
+        $secret_iv = SECRETIV;
+
+        // hash
+        $key = hash('sha256', $secret_key);
+
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+        if( $action == 'encrypt' ) {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        }
+        else if( $action == 'decrypt' ){
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+    }
+    return $output;
+}
+
+
+function passwordEncryptionCheck(){
+    require_once("../classes/db2.class.php");
+    $db2 = new db2();
+    $db2->query("SELECT passwordEncryption FROM settings");
+    $result = $db2->resultset();
+    $encrptionStatus = $result[0]['passwordEncryption'];
+    if($encrptionStatus == 0){
+        $notice = "<font color='red'>Password encryption disabled</font>"
+                . "<div class='spacer'></div>"
+                . "<button class='smlButton' id='pwencryption' onclick='pwencryption()'>Enable Encryption</button>";
+    } elseif($encrptionStatus == 1){
+        $notice = "<font color='green'>Password encryption enabled</font>";
+    } else {
+        $notice = "<font color='orange'>Something wrong with password encryption</font>";
+    }
+    return $notice;
+        
 }
