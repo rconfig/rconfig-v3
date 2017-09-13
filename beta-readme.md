@@ -61,24 +61,12 @@ I hope this is pretty self explanatory. But to get you started here are some poi
 I suggest starting with Cisco devices, or devices you were already using in 3.7.5 before creating new templates and experimenting. 
 
 I've created a new repo to store community created templates for devices. When you get working templates for new devices and vendors please submit here https://github.com/rconfig/rConfig-templates
-
+Currently, we have HP, Fortinet, Dell and Cisco templates tested and working in the repo. The Beta, will only ship with Cisco templates, you need to add others yourself manually.
 
 ##### Password Encryption
-The password encryption feature works in the beta, but we need to be a little careful. You enable password encrypted by editing the config/config.inc.php file directly. I plan to make 
-this more friendly in upcoming releases. 
-    
-Insert two secrets between the quotation marks in the following lines in the config file
-    
-    define('SECRETKEY', '');
-    define('SECRETIV', '');
-
-For now, when these values are blank, password encryption is disabled. When you insert text of any kind, it is enabled. I've kept this initial deployment of this feature lean
-so I can get early feedback before I mature it with more advanced features and management.
-
-When you enable this feature, you should secure safeguard and backup your keys. Without them you will not be able to recover your passwords for devices. Also, you cannot
-mix and match cleartext and encrypted passwords. its one or the others. If you have already added devices, you will need to update their password through the device edit page
-to encrypt their passwords. 
-
+I have updated the Password encryption function from previous beta releases. You can now implement Password encryption through the settings page. Please read and follow the instructions
+carefully. Once you have enabled PW encryption, check the DB for encrypted passwords, and check again as you add and edit devices. Please also verify it is working by carrying out test downloads
+on devices.
 
 #### Feedback and bugs
 Slack by invite, github issues board for 3.8dev tags only
