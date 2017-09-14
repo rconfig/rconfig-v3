@@ -70,7 +70,7 @@ $timeout = $timeoutResult[0]['deviceConnectionTimout'];
 
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName, deviceIpAddr, devicePrompt, deviceUsername,devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort 
+$db2->query("SELECT id, deviceName, deviceIpAddr, devicePrompt, deviceUsername,devicePassword, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort 
 		FROM nodes WHERE taskId" . $tid . " = 1 AND status = 1");
 $resultNodesRes = $db2->resultset();
 if (!empty($resultNodesRes)) {
