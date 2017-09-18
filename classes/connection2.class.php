@@ -10,7 +10,7 @@
  * @package   rConfigConnectionClass
  * @originalauthor    Ray Soucy <rps@soucy.org>
  * @modifiedauthor    Stephen Stack <www.rconfig.com>
- * @version   1.5.0
+ * @version   2.0
  * @link      http://www.rconfig.com/
  */
 
@@ -41,8 +41,8 @@ class Connection {
     public function __construct($hostname, $username = "", $password, 
             $enableModePassword, $connPort, $timeout = 60, 
             $userPrmpt, $passPrmpt, $enable, 
-            $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt,
-            $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd,
+            $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt, 
+            $linebreak, $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd,
             $hpAnyKeyStatus, $hpAnyKeyPrmpt) {
         $this->_hostname = $hostname;
         $this->_username = $username;
@@ -57,6 +57,7 @@ class Connection {
         $this->_enablePrompt = $enablePrompt;
         $this->_enablePassPrmpt = $enablePassPrmpt;
         $this->_prompt = $prompt;
+        $this->_linebreak = $linebreak;
         $this->_paging = $paging;
         $this->_pagingCmd = $pagingCmd;
         $this->_pagerPrompt = $pagerPrompt;
@@ -268,7 +269,8 @@ class Connection {
                $ssh->write($this->_pagingCmd . "\n"); 
             }
             $ssh->read($this->_prompt);
-            $ssh->write($command . "\n");
+            if($this->_linebreak == 'n'){$ssh->write($command . "\n");}
+            if($this->_linebreak == 'r'){$ssh->write($command . "\r");}
             $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output
             $ssh->read($this->_prompt);
@@ -279,21 +281,23 @@ class Connection {
                $ssh->read($this->_hpAnyKeyPrmpt);
                $ssh->write("\n");
             }            
-            
             $ssh->read($this->_prompt);
             if($this->_paging === true){
                $ssh->write($this->_pagingCmd . "\n"); 
                sleep(1);
                $ssh->read($this->_prompt);
             }
-            $ssh->write($command . "\n");
+            if($this->_linebreak == 'n'){$ssh->write($command . "\n");}
+            if($this->_linebreak == 'r'){$ssh->write($command . "\r");}
             $output = $ssh->read($this->_prompt);
-            $ssh->write("\n"); // to line break after command output
+            if($this->_linebreak == 'n'){$ssh->write("\n");}
+            if($this->_linebreak == 'r'){$ssh->write("\r");}
             $ssh->read($this->_prompt);
         }
         // reset paging if paging is set
         if($this->_paging === true){
-            $ssh->write($this->_resetPagingCmd . "\n"); 
+            if($this->_linebreak == 'n'){$ssh->write($this->_resetPagingCmd . "\n"); }
+            if($this->_linebreak == 'r'){$ssh->write($this->_resetPagingCmd . "\n"); }
             sleep(1);
             $ssh->read($this->_prompt);
         }

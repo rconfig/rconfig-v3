@@ -151,6 +151,7 @@ if (!empty($getNodes)) {
                 $device['deviceEnablePrompt'],
                 $templateparams['auth']['enablePassPrmpt'],
                 $device['devicePrompt'],
+                $templateparams['config']['linebreak'],
                 $templateparams['config']['paging'],
                 $templateparams['config']['pagingCmd'],
                 $templateparams['config']['pagerPrompt'],
