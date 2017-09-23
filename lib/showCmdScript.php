@@ -88,8 +88,8 @@ if (!empty($getNodes)) {
         }
     // decrypt PWs if key is set
     // check if encryption already set in DB
-    $db2->query("SELECT passwordEncryption from settings");
-    if($db2->resultsetCols()[0] == 1){
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 1){
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
             $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
         } else {

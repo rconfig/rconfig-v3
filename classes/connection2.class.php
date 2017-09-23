@@ -136,8 +136,7 @@ class Connection {
                 }
             }
         } else {
-            /* NEED TO TEST ENABLE AND NON_ENABLE MODE WITHOUT PAGING ENABLED ALSO> CHECK OUT THE _readto CODE FOR THE --More-- PROMPT */
-            /* NEXT LINES TO BE UPDATED. NEED TO TEST NON_ENABLE MODE */
+            
             $this->_readTo($this->_prompt);
             if (strpos($this->_data, $this->_prompt) === false) {
                 fclose($this->_connection);
@@ -168,7 +167,7 @@ class Connection {
         while (($c = fgetc($this->_connection)) !== false) {
 
             $this->_data .= $c;
-//                                                                        var_dump($this->_data);
+            // var_dump($this->_data);
             if ($cliDebugOutput == true) {
                 echo $c;
             }
@@ -231,7 +230,7 @@ class Connection {
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
-    public function connectSSH($command, $prompt, $debugOnOff) {
+    public function connectSSH($command, $prompt, $debugOnOff = 0) {
 
         $log = ADLog::getInstance();
         // debugging check - real time output on CLI
@@ -369,7 +368,6 @@ class Connection {
      * @return array|boolean On success returns an array, false on failure.
      */
     public function showCmdTelnet($cmd, $cliDebugOutput = false) {
-
         $this->_readTo($this->_prompt, $cliDebugOutput);
         $this->_send($cmd);
         $this->_readTo($this->_prompt, $cliDebugOutput);
