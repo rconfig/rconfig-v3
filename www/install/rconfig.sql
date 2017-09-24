@@ -64,6 +64,7 @@ INSERT INTO `cmdCatTbl` (`configCmdId`, `nodeCatId`) VALUES
 	(161, 4),
 	(161, 5),
 	(161, 8),
+	(162, 2),
 	(163, 1),
 	(163, 2),
 	(164, 1),
