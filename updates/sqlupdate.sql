@@ -2,9 +2,8 @@
 ALTER TABLE settings
 ADD COLUMN `pageTimeout` int(1) NOT NULL DEFAULT '600' COMMENT 'Page Timeout Value';
 ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption';
-INSERT INTO `settings` (`pageTimeout`, `passwordEncryption`) VALUES
-	(600, 0);
-
+INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VALUES
+	(0, 600, 0);
 
 ALTER TABLE configs
 ADD COLUMN `configTime` time DEFAULT NULL AFTER configDate;
@@ -53,9 +52,6 @@ INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, 
 	(25, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0),
 	(6, 'deviceConnTemplates.php', 'Devices > Device Connection Templates', 'Manage devices connection templates on this page', 'Connection Templates', '0', 4, 0);
 /*!40000 ALTER TABLE `menuPages` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
 
 -- Dumping structure for table DATABASE_NAME.templates
@@ -71,7 +67,6 @@ CREATE TABLE IF NOT EXISTS `templates` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table DATABASE_NAME.templates: ~2 rows (approximately)
 /*!40000 ALTER TABLE `templates` DISABLE KEYS */;
 INSERT INTO `templates` (`id`, `fileName`, `name`, `desc`, `dateAdded`, `addedby`, `dateLastEdit`, `status`) VALUES
 	(1, '/home/rconfig/templates/ios-telnet-noenable.yml', 'Cisco IOS - TELNET - No Enable', 'Cisco IOS TELNET based connection without enable mode', '2017-08-18', 'admin', NULL, 1),
@@ -79,7 +74,3 @@ INSERT INTO `templates` (`id`, `fileName`, `name`, `desc`, `dateAdded`, `addedby
 	(3, '/home/rconfig/templates/ios-ssh-noenable.yml', 'Cisco IOS - SSH - No Enable', 'Cisco IOS SSH based connection without enable mode', '2017-08-18', 'admin', NULL, 1),
 	(4, '/home/rconfig/templates/ios-ssh-enable.yml', 'Cisco IOS - SSH - Enable', 'Cisco IOS SSH based connection with enable mode', '2017-08-18', 'admin', NULL, 1);
 /*!40000 ALTER TABLE `templates` ENABLE KEYS */;
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
