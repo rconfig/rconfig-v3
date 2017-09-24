@@ -267,7 +267,7 @@ function pwencryption(){
         callback: function (result) {
             if (result == true) {
                 bootbox.confirm({
-                    message: "<img src='images/yellow-warning-sign_16.jpg'/> Have you backedup rConfig? If not, you need to before you proceed. <br/><br/><a href='settingsBackup.php'>Click here to run a backup!</a>",
+                    message: "<img src='images/yellow-warning-sign_16.jpg'/> Have you backed up rConfig? If not, you need to before you proceed. <br/><br/><a href='settingsBackup.php'>Click here to run a backup!</a>",
                     backdrop: false,
                     size: boxsize,
                     title: boxTitle,
