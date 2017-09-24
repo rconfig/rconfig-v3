@@ -1,5 +1,4 @@
 <?php
-
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 require_once("/home/rconfig/config/functions.inc.php");
@@ -15,7 +14,7 @@ if (!$session->logged_in) {
     require_once("../../../classes/db2.class.php");
     $rid = $_GET['rid'];
     $db2 = new db2();
-    $db2->query("SELECT deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword FROM nodes WHERE id = :rid");
+    $db2->query("SELECT deviceUsername, devicePassword, deviceEnablePassword FROM nodes WHERE id = :rid");
     $db2->bind(':rid', $rid);
 //$db2->debugDumpParams();
     $rows = $db2->resultset();

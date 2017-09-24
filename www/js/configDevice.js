@@ -3,17 +3,14 @@ $(window).load(function () {
     var rid = location.search.split('rid=')[1];
 
     // get creds from DB based on rid
-    $.ajaxSetup({cache: false});
-    $.getJSON("lib/ajaxHandlers/ajaxgetUserPassForDevice.php?rid=" + rid, function (data) {
-        $.each(data, function (i, data) {
-            deviceUsername = data.deviceUsername;
-            devicePassword = data.devicePassword;
-            deviceEnableMode = data.deviceEnableMode;
-            deviceEnablePassword = data.deviceUsername;
-        });
-    });
-
-
+//    $.ajaxSetup({cache: false});
+//    $.getJSON("lib/ajaxHandlers/ajaxgetUserPassForDevice.php?rid=" + rid, function (data) {
+//        $.each(data, function (i, data) {
+//            deviceUsername = data.deviceUsername;
+//            devicePassword = data.devicePassword;
+//            deviceEnablePassword = data.deviceUsername;
+//        });
+//    });
 });
 
 function pageLoadFunctions() {
@@ -28,15 +25,10 @@ function startConfigurationScript(rid) {
     $('#loading').show();
     var e = document.getElementById("snippetSelect");
     var snippetId = e.options[e.selectedIndex].value;
-//    var username = location.search.split('username=')[1];
-//    var password = location.search.split('password=')[1];
-    if ((deviceUsername === null || deviceUsername.length === 0) && (deviceUsername === null || deviceUsername.length === 0)) {
-        bootbox.alert('No credentials found');
-    }
 
     $.ajax({
         async: false, // prevent an async call
-        url: 'lib/ajaxHandlers/ajaxConfigDevice.php?rid=' + rid + '&snipId=' + snippetId + '&username=' + deviceUsername + '&password=' + devicePassword,
+        url: 'lib/ajaxHandlers/ajaxConfigDevice.php?rid=' + rid + '&snipId=' + snippetId,
         data: {},
         dataType: "json",
         complete: function () {

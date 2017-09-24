@@ -300,7 +300,7 @@ class Connection {
             sleep(1);
             $ssh->read($this->_prompt);
         }
-        $ssh->disconnect(); // Chnage this
+        $ssh->disconnect(); 
         $result = array();
         $this->_data = explode("\r\n", $output);
         array_shift($this->_data);
@@ -334,30 +334,52 @@ class Connection {
             return false;
         }
         $output = '';
-        if ($this->_enableMode === true) {
-            // $ssh->write("\n"); // 1st linebreak after above prompt check
-            $ssh->read('/.*>/', NET_SSH2_READ_REGEX); // read out to '>'
-            $ssh->write("enable\n");
-            $ssh->read('/.*:/', NET_SSH2_READ_REGEX);
+			if ($this->_enable === true) {
+            $ssh->write($this->_enableCmd . "\n");
+            $ssh->read($this->_enablePassPrmpt);
             $ssh->write($this->_enableModePassword . "\n");
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            foreach ($snippetArr as $key => $command) {
-                $ssh->write($command . "\n");
-                $output .= $ssh->read('/.*#/', NET_SSH2_READ_REGEX); // read out to '#'
+            $ssh->read($this->_prompt);
+            if($this->_paging === true){
+               $ssh->write($this->_pagingCmd . "\n"); 
             }
+            $ssh->read($this->_prompt);
+			foreach ($snippetArr as $key => $command) {
+				if($this->_linebreak == 'n'){$ssh->write($command . "\n");}
+				if($this->_linebreak == 'r'){$ssh->write($command . "\r");}
+			}
+            $output = $ssh->read($this->_prompt);
             $ssh->write("\n"); // to line break after command output
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+            $ssh->read($this->_prompt);
         } else {
-            // $ssh->write("\n"); // 1st linebreak after above prompt check		
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
-            foreach ($snippetArr as $key => $command) {
-                $ssh->write($command . "\n");
-                $output .= $ssh->read('/.*#/', NET_SSH2_READ_REGEX); // read out to '#' because the prompt will change depending on the deployed config
+            /* for HP devices, may add this to template in future if moe like it */
+            
+            if($this->_hpAnyKeyStatus === true){
+               $ssh->read($this->_hpAnyKeyPrmpt);
+               $ssh->write("\n");
+            }            
+            $ssh->read($this->_prompt);
+            if($this->_paging === true){
+               $ssh->write($this->_pagingCmd . "\n"); 
+               sleep(1);
+               $ssh->read($this->_prompt);
             }
-            $ssh->write("\n"); // to line break after command output
-            $ssh->read('/' . $prompt . '/', NET_SSH2_READ_REGEX);
+			foreach ($snippetArr as $key => $command) {
+				if($this->_linebreak == 'n'){$ssh->write($command . "\n");}
+				if($this->_linebreak == 'r'){$ssh->write($command . "\r");}
+			}
+            $output = $ssh->read($this->_prompt);
+            if($this->_linebreak == 'n'){$ssh->write("\n");}
+            if($this->_linebreak == 'r'){$ssh->write("\r");}
+            $ssh->read($this->_prompt);
         }
-        $ssh->disconnect();
+        // reset paging if paging is set
+        if($this->_paging === true){
+            if($this->_linebreak == 'n'){$ssh->write($this->_resetPagingCmd . "\n"); }
+            if($this->_linebreak == 'r'){$ssh->write($this->_resetPagingCmd . "\n"); }
+            sleep(1);
+            $ssh->read($this->_prompt);
+        }
+        $ssh->disconnect(); 
         return $output;
     }
 

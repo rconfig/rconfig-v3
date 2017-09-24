@@ -86,8 +86,8 @@ if (!empty($getNodes)) {
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
             $debug->debug($device);
         }
-    // decrypt PWs if key is set
-    // check if encryption already set in DB
+        // decrypt PWs if key is set
+        // check if encryption already set in DB
         $db2->query("SELECT passwordEncryption from settings");
         if($db2->resultsetCols()[0] == 1){
             $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
