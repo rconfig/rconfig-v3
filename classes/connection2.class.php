@@ -441,9 +441,6 @@ class Connection {
         }
     }
 
-
-
-
     /**
      * Clears internal command buffer
      * 
