@@ -1,12 +1,8 @@
 -- Dumping structure for table DATABASE_NAME.nodes
 ALTER TABLE settings
-ADD COLUMN `pageTimeout` int(1) NOT NULL DEFAULT '600' COMMENT 'Page Timeout Value';
 ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption';
 INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VALUES
 	(0, 600, 0);
-
-ALTER TABLE configs
-ADD COLUMN `configTime` time DEFAULT NULL AFTER configDate;
 
 -- Dumping structure for table DATABASE_NAME.menuPages
 DROP TABLE IF EXISTS `menuPages`;
