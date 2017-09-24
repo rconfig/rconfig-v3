@@ -1,16 +1,6 @@
 $(window).load(function () {
     pageLoadFunctions();
     var rid = location.search.split('rid=')[1];
-
-    // get creds from DB based on rid
-//    $.ajaxSetup({cache: false});
-//    $.getJSON("lib/ajaxHandlers/ajaxgetUserPassForDevice.php?rid=" + rid, function (data) {
-//        $.each(data, function (i, data) {
-//            deviceUsername = data.deviceUsername;
-//            devicePassword = data.devicePassword;
-//            deviceEnablePassword = data.deviceUsername;
-//        });
-//    });
 });
 
 function pageLoadFunctions() {
