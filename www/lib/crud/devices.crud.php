@@ -88,6 +88,7 @@ if (!$session->logged_in) {
         
         // check if PW encryption enabled
         $db2->query("SELECT passwordEncryption from settings");
+        $encryptionEnabled = false;
         if($db2->resultsetCols()[0] == 1){
            $encryptionEnabled = true; 
         }
