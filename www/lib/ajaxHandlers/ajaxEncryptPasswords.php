@@ -44,12 +44,12 @@ if (!$session->logged_in) {
         foreach($allNodes as $k=>$v){
             if(!empty($v['devicePassword'])){ 
                 $db2->query("UPDATE nodes SET devicePassword = :devicePassword WHERE id = " . $v['id']);
-                $db2->bind(":devicePassword", encrypt_decrypt('encrypt', $v['devicePassword']));
+                $db2->bind(":devicePassword", first_time_encrypt($v['devicePassword'], $_POST['secret']));
                 $db2->execute();
             }
             if(!empty($v['deviceEnablePassword'])){ 
                 $db2->query("UPDATE nodes SET deviceEnablePassword = :deviceEnablePassword WHERE id = " . $v['id']);
-                $db2->bind(":deviceEnablePassword", encrypt_decrypt('encrypt', $v['deviceEnablePassword']));
+                $db2->bind(":deviceEnablePassword", first_time_encrypt($v['deviceEnablePassword'], $_POST['secret']));
                 $db2->execute();
             }
         }

@@ -484,6 +484,35 @@ function flatten(array $array) {
 }
 
 /**
+ * simple method to encrypt a plain text string for first time in rConfig settings wizard
+ * initialization vector(IV) has to be the same when encrypting and decrypting
+ * PHP 5.4.9 ( check your PHP version for function definition changes )
+ *
+ * this is a beginners template for simple encryption decryption
+ * before using this in production environments, please read about encryption
+ * use at your own risk
+ *
+ * @param string $string: string to encrypt or decrypt
+ * @param string $secret: secret as passed from ajaxEncryptPasswords.php
+ *
+ * @return string
+ */
+function first_time_encrypt($string, $secret) {
+    $output = false;
+    // if key is blank, then store PWs nativley
+	$encrypt_method = "AES-256-CBC";
+	$secret_key = $secret;
+	$secret_iv = $secret;
+	// hash
+	$key = hash('sha256', $secret_key);
+	// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+	$iv = substr(hash('sha256', $secret_iv), 0, 16);
+	$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+	$output = base64_encode($output);
+    return $output;
+}
+
+/**
  * simple method to encrypt or decrypt a plain text string
  * initialization vector(IV) has to be the same when encrypting and decrypting
  * PHP 5.4.9 ( check your PHP version for function definition changes )
