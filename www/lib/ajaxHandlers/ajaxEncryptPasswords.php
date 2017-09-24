@@ -18,7 +18,7 @@ if (!$session->logged_in) {
     
 // check if encryption already set in DB and alert if it is
     $db2->query("SELECT passwordEncryption from settings");
-    if(!$db2->resultsetCols()[0] == 1){
+    if($db2->resultsetCols()[0] == 1){
         // double verification as button for encryption is not shown if encryption set to one in DB
          echo json_encode(array('status' => 'error','message'=> 'Password encryption already set on this database. Process failed!'));
          die();
