@@ -32,7 +32,7 @@ auth:
   hpAnyKeyPrmpt: "Press any key to continue"  
 config:
     # Experimental: Some vendors use different linebreak settings. Choose 'n' (default) or 'r'
-    linebreak: 'n'
+    linebreak: "n"
     # Disable config scrolling/ paging command. on/off
     paging: off
     # Disable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations

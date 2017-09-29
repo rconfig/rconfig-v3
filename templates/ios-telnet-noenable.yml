@@ -28,7 +28,7 @@ auth:
   enablePassPrmpt: "Password:"
 config:
     # Experimental: Some vendors use different linebreak settings. Choose 'n' (default) or 'r'
-    linebreak: 'n'
+    linebreak: "n"
     # Disable config scrolling/ paging command. on/off
     paging: on
     # Disable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
