@@ -281,7 +281,16 @@ function getTime() {
 }
 
 // from here http://stackoverflow.com/questions/10895343/php-count-total-files-in-directory-and-subdirectory-function
+function is_dir_empty($dir) {
+  if (!is_readable($dir)) return NULL; 
+  return (count(scandir($dir)) == 2);
+}
+
 function scan_dir($path) {
+	if (is_dir_empty($path) || is_dir_empty($path.'/data')) {
+	  return array('total_files' => '0', 'total_size' => '0', 'files' => '0');
+	  return;
+	}
     $ite = new RecursiveDirectoryIterator($path);
     $bytestotal = 0;
     $nbfiles = 0;
