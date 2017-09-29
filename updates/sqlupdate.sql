@@ -1,8 +1,15 @@
 -- Dumping structure for table DATABASE_NAME.nodes
 ALTER TABLE settings
-ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption';
+ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption Setting';
 INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VALUES
 	(0, 600, 0);
+-- Dumping structure for table DATABASE_NAME.nodes
+ALTER TABLE nodes
+ADD COLUMN `deviceEnablePrompt` varchar(255) NOT NULL;
+ALTER TABLE nodes
+ADD COLUMN `templateId` INT(11) NULL DEFAULT NULL;
+
+
 
 -- Dumping structure for table DATABASE_NAME.menuPages
 DROP TABLE IF EXISTS `menuPages`;

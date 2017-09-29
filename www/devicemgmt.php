@@ -36,7 +36,8 @@
                     $items = $row;
                 }
                 // get connPort from template
-                $db2->query("SELECT fileName FROM templates WHERE id = " . $items['templateId'] . " AND status = 1");
+                $db2->query("SELECT fileName FROM templates WHERE id = :templateId AND status = 1");
+				$db2->bind(':templateId', $items['templateId']);
                 $getTemplate = $db2->resultsetCols();
                 if(count($getTemplate) === 0){ // check if template ID is valid and active
                     $connPort = "";
@@ -137,4 +138,3 @@
     </div> <!-- End Mainwrap -->
 </body>
 </html>
-
