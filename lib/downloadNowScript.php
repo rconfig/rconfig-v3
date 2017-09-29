@@ -13,9 +13,10 @@ require("/home/rconfig/classes/backendScripts.class.php");
 //require("/home/rconfig/classes/ADLog.class.php");
 require("/home/rconfig/classes/compareClass.php");
 require('/home/rconfig/classes/sshlib/Net/SSH2.php'); // this will be used in connection.class.php 
-require("/home/rconfig/classes/connection.class.php");
+require("/home/rconfig/classes/connection2.class.php");
 require("/home/rconfig/classes/debugging.class.php");
 require("/home/rconfig/classes/textFile.class.php");
+require('/home/rconfig/classes/spyc.class.php');
 require_once("/home/rconfig/config/config.inc.php");
 require_once("/home/rconfig/config/functions.inc.php");
 // declare DB Class
@@ -52,7 +53,7 @@ $timeout = $result[0];
 
 // Get active nodes for a given task ID
 // Query to retrieve row for given ID (tidxxxxxx is stored in nodes and is generated when task is created)
-$db2->query("SELECT id, deviceName,  deviceIpAddr, devicePrompt, deviceUsername, devicePassword, deviceEnableMode, deviceEnablePassword, nodeCatId, deviceAccessMethodId, connPort
+$db2->query("SELECT id, deviceName,  deviceIpAddr, deviceEnablePrompt, devicePrompt, deviceUsername, devicePassword, deviceEnablePassword, templateId, nodeCatId
                 FROM nodes WHERE id = " . $rid . " AND status = 1");
 $getNodes = $db2->resultset();
 
@@ -63,10 +64,27 @@ if (!empty($getNodes)) {
     foreach ($getNodes as $row) {
         array_push($devices, $row);
     }
+    
 
     foreach ($devices as $device) { // iterate over each device - in this scripts case, there will only be a single device
+           // decrypt PWs if key is set
+        // check if encryption already set in DB
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 1){
+            $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+            $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+        } else {
+            $devicePassword = $device['devicePassword'];
+            $deviceEnablePassword = $device['deviceEnablePassword'];
+        }
+        
+        // get template
+        $db2->query("SELECT fileName FROM templates WHERE id = " . $device['templateId']);
+        $getTemplate = $db2->resultsetCols();
+        $templateparams = Spyc::YAMLLoad($getTemplate[0]);
+
         // ok, verification of host reachability based on socket connection to port i.e. 22 or 23. If fails, continue to next foreach iteration
-        $status = getHostStatus($device['deviceIpAddr'], $device['connPort']); // getHostStatus() from functions.php 
+        $status = getHostStatus($device['deviceIpAddr'], $templateparams['connect']['port']); // getHostStatus() from functions.php 
 
         if (preg_match("/Unavailable/", $status) === 1) {
             $text = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " when running Router ID " . $rid;
@@ -75,7 +93,17 @@ if (!empty($getNodes)) {
             echo json_encode($jsonArray);
             continue;
         }
-
+        // decrypt PWs if key is set
+        // check if encryption already set in DB
+        $db2->query("SELECT passwordEncryption from settings");
+        if($db2->resultsetCols()[0] == 1){
+                $devicePassword = encrypt_decrypt('decrypt', $device['devicePassword']);
+                $deviceEnablePassword = encrypt_decrypt('decrypt', $device['deviceEnablePassword']);
+            } else {
+                $devicePassword = $device['devicePassword'];
+                $deviceEnablePassword = $device['deviceEnablePassword'];
+            }
+        
         // get command list for device. This is based on the catId. i.e. catId->cmdId->CmdName->Node
         $db2->query("SELECT cmd.command 
                         FROM cmdCatTbl AS cct
@@ -101,12 +129,35 @@ if (!empty($getNodes)) {
         // declare file Class based on catName and DeviceName
         $file = new file($catName, $device['deviceName'], $config_data_basedir);
         // Connect for each row returned - might want to do error checking here based on if an IP is returned or not
-        $conn = new Connection($device['deviceIpAddr'], $device['deviceUsername'], $device['devicePassword'], $device['deviceEnableMode'], $device['deviceEnablePassword'], $device['connPort'], $timeout);
+        $conn = new Connection($device['deviceIpAddr'], 
+                $device['deviceUsername'], 
+                $devicePassword, 
+                $deviceEnablePassword, 
+                $templateparams['connect']['port'], 
+                $templateparams['connect']['timeout'],
+                $templateparams['auth']['username'], 
+                $templateparams['auth']['password'],
+                $templateparams['auth']['enable'],
+                $templateparams['auth']['enableCmd'],
+                $device['deviceEnablePrompt'],
+                $templateparams['auth']['enablePassPrmpt'],
+                $device['devicePrompt'],
+                $templateparams['config']['linebreak'],
+                $templateparams['config']['paging'],
+                $templateparams['config']['pagingCmd'],
+                $templateparams['config']['pagerPrompt'],
+                $templateparams['config']['pagerPromptCmd'],
+                $templateparams['config']['resetPagingCmd'],
+                $templateparams['auth']['hpAnyKeyStatus'],
+                $templateparams['auth']['hpAnyKeyPrmpt']
+                );
         $connFailureText = "Failure: Unable to connect to " . $device['deviceName'] . " - " . $device['deviceIpAddr'] . " for Router ID " . $rid . ". See Connection logs for details";
         $connSuccessText = "Success: Connected to " . $device['deviceName'] . " (" . $device['deviceIpAddr'] . ") for Router ID " . $rid;
         // if connection is telnet, connect to device function
-        if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
+        if ($templateparams['connect']['protocol'] == 'telnet') {
+            
             if ($conn->connectTelnet() === false) {
+
                 $log->Conn($connFailureText . " - in  Error:(File: " . $_SERVER['PHP_SELF'] . ")"); // logg to file
                 $jsonArray['failTelnetConnMsg'] = $connFailureText;
                 echo json_encode($jsonArray);
@@ -120,9 +171,8 @@ if (!empty($getNodes)) {
         $i = -1; // set i to prevent php notices & becuase the $commands array will always have a start key at 0	
         // loop over commands for given device
         foreach ($commands as $cmd) {
+            
             $i++;
-            // Set VARs
-//echo $i. " - "  . $cmd ."; "; //for testing
             $command = $cmd;
             $prompt = $device['devicePrompt'];
 
@@ -138,9 +188,9 @@ if (!empty($getNodes)) {
             $fullpath = $file->createFile($command);
 
             // check for connection type i.e. telnet SSHv1 SSHv2 & run the command on the device
-            if ($device['deviceAccessMethodId'] == '1') { // telnet
-                $showCmd = $conn->showCmdTelnet($command, $prompt, false);
-            } elseif ($device['deviceAccessMethodId'] == '3') { //SSHv2 
+            if ($templateparams['connect']['protocol'] == 'telnet') {
+                $showCmd = $conn->showCmdTelnet($command, false);
+            } elseif ($templateparams['connect']['protocol'] == 'ssh') { //SSHv2 
                 $showCmd = $conn->connectSSH($command, $prompt);
 
                 // if false returned, log failure
@@ -188,8 +238,8 @@ if (!empty($getNodes)) {
             // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
             // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
             if ($i == $cmdNumRows-1) { 
-                if ($device['deviceAccessMethodId'] == '1') { // 1 = telnet
-                    $conn->close('40'); // close telnet connection - ssh already closed at this point
+                if ($templateparams['connect']['protocol'] == 'telnet') {
+                    $conn->closeTelnet($templateparams['config']['resetPagingCmd'], $templateparams['config']['saveConfig'], $templateparams['config']['exitCmd']); // close telnet connection - ssh already closed at this point
                     break;
                 }
             }

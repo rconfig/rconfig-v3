@@ -101,8 +101,6 @@ $query = "SELECT
 		n.deviceIpAddr,
 		n.deviceUsername,
 		n.devicePassword,
-		n.deviceEnableMode,
-		n.deviceAccessMethodId,
 		" . $dynQueryStr . "
 		n.vendorId
 		FROM nodes n
@@ -149,8 +147,6 @@ if (isset($_GET['search'])) {
 		n.deviceIpAddr,
 		n.deviceUsername,
 		n.devicePassword,
-		n.deviceEnableMode,
-		n.deviceAccessMethodId,
 		" . $dynQueryStr . "
 		n.vendorId
 		FROM nodes n
@@ -174,8 +170,6 @@ if (isset($_GET['search'])) {
 			n.deviceIpAddr,
 			n.deviceUsername,
 			n.devicePassword,
-			n.deviceEnableMode,
-			n.deviceAccessMethodId,
 			" . $dynQueryStr . "
 			n.vendorId
 			FROM nodes n

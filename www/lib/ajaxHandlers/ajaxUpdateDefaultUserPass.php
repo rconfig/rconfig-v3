@@ -13,11 +13,21 @@ if (!$session->logged_in) {
 } else {
 // used by settings.js to update the default username and password for NEW devices added to the database
     require_once("../../../classes/db2.class.php");
-    $defaultNodeUsername = $_REQUEST['defaultNodeUsername'];
-    $defaultNodePassword = $_REQUEST['defaultNodePassword'];
-    $defaultNodeEnable = $_REQUEST['defaultNodeEnable'];
-
     $db2 = new db2();
+    $defaultNodeUsername = $_REQUEST['defaultNodeUsername'];
+
+    // decrypt PWs if key is set
+    // check if encryption already set in DB
+    $db2->query("SELECT passwordEncryption from settings");
+    if($db2->resultsetCols()[0] == 1){
+            $defaultNodePassword = encrypt_decrypt('encrypt', $_REQUEST['defaultNodePassword']);
+            $defaultNodeEnable   = encrypt_decrypt('encrypt', $_REQUEST['defaultNodeEnable']);
+        } else {
+            $defaultNodePassword = $_REQUEST['defaultNodePassword'];
+            $defaultNodeEnable = $_REQUEST['defaultNodeEnable'];
+        }        
+
+    
     $db2->query("UPDATE settings SET
             defaultNodeUsername = :defaultNodeUsername, 
             defaultNodePassword = :defaultNodePassword,

@@ -120,6 +120,12 @@
                             <button class="smlButton" id="pageTimeoutGo" onclick="pageTimeoutGo()">Update Timeout</button>
                             <span id="pageTimeOutUpdated" style="display:none; color:green;">Updated!</span>
                         </label>
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
+                        <hr/>
+                        <label title="Enable/ disable device password encryption">Password Encryption:
+                            <span class="small"><?php echo passwordEncryptionCheck(); ?></span>
+                        </label>
                     </div>
                 </fieldset>
                 <fieldset id="settings">
@@ -197,7 +203,7 @@
                             <option value="1">On</option>
                         </select>
                         <div class="spacer"></div>
-
+                        <div id="debugNoticeDiv"></div>
                         <div id="debugInfoDiv">
                             <div class="tableSummary">		
                                 <div id="debugLogFiles">

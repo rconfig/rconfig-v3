@@ -22,7 +22,6 @@ if (!$session->logged_in) {
     $notConnect = "<font color=\"red\">Could Not Connect to Remote Server</font>";
 
     if (!$sock = @fsockopen('www.rconfig.com', 80, $num, $error, 5)) {
-        // test can we connect to website
         $response = json_encode($notConnect);
         file_put_contents("publicIp.txt", $notConnect);
     } else {

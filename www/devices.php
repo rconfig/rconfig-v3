@@ -34,6 +34,10 @@ include("includes/head.inc.php");
                     $devicePrompt = $_SESSION['devicePrompt'];
                     unset($_SESSION['devicePrompt']);
                 }
+                if (isset($_SESSION['deviceEnablePrompt'])) {
+                    $deviceEnablePrompt = $_SESSION['deviceEnablePrompt'];
+                    unset($_SESSION['deviceEnablePrompt']);
+                }
                 if (isset($_SESSION['vendorId'])) {
                     $vendorId = $_SESSION['vendorId'];
                     unset($_SESSION['vendorId']);
@@ -54,14 +58,6 @@ include("includes/head.inc.php");
                     $devicePassword = $_SESSION['devicePassword'];
                     unset($_SESSION['devicePassword']);
                 }
-                if (isset($_SESSION['devicePassConf'])) {
-                    $devicePassConf = $_SESSION['devicePassConf'];
-                    unset($_SESSION['devicePassConf']);
-                }
-                if (isset($_SESSION['deviceEnableMode'])) {
-                    $deviceEnableMode = $_SESSION['deviceEnableMode'];
-                    unset($_SESSION['deviceEnableMode']);
-                }
                 if (isset($_SESSION['deviceEnablePassword'])) {
                     $deviceEnablePassword = $_SESSION['deviceEnablePassword'];
                     unset($_SESSION['deviceEnablePassword']);
@@ -69,14 +65,6 @@ include("includes/head.inc.php");
                 if (isset($_SESSION['catId'])) {
                     $catId = $_SESSION['catId'];
                     unset($_SESSION['catId']);
-                }
-                if (isset($_SESSION['deviceAccessMethodId'])) {
-                    $deviceAccessMethodId = $_SESSION['deviceAccessMethodId'];
-                    unset($_SESSION['deviceAccessMethodId']);
-                }
-                if (isset($_SESSION['connPort'])) {
-                    $connPort = $_SESSION['connPort'];
-                    unset($_SESSION['connPort']);
                 }
 				
                 /* "Do NOT unset the whole $_SESSION with unset($_SESSION) as this will disable the registering of session variables through the $_SESSION superglobal." */
@@ -129,17 +117,25 @@ include("includes/head.inc.php");
                                     echo "<span class=\"error\">" . $errors['deviceIpAddr'] . "</span>";
                                 }
                                 ?> <br/>
-
-                                <label><font color="red">*</font> Prompt:</label>
-                                <input name="devicePrompt" id="devicePrompt" placeholder="router#" tabindex='2' style="width:150px;" value="<?php if (isset($devicePrompt)) echo $devicePrompt; ?>">
+ <label> Enable Prompt:</label>
+                                <input name="deviceEnablePrompt" id="deviceEnablePrompt" placeholder="router>" tabindex='2' style="width:150px;" value="<?php if (isset($deviceEnablePrompt)) echo $deviceEnablePrompt; ?>">
+                                <div class="spacer"></div>
+<?php
+if (isset($errors['deviceEnablePrompt'])) {
+    echo "<span class=\"error\">" . $errors['deviceEnablePrompt'] . "</span>";
+}
+?> <br/>
+                                <label><font color="red">*</font> Main Prompt:</label>
+                                <input name="devicePrompt" id="devicePrompt" placeholder="router#" tabindex='3' style="width:150px;" value="<?php if (isset($devicePrompt)) echo $devicePrompt; ?>">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['devicePrompt'])) {
     echo "<span class=\"error\">" . $errors['devicePrompt'] . "</span>";
 }
 ?> <br/>
+                               
                                 <label><font color="red">*</font> Vendor:</label>
-                                <select name="vendorId" id="vendorId" tabindex='3' style="width:155px;">
+                                <select name="vendorId" id="vendorId" tabindex='4' style="width:155px;">
                                     <?php
                                     if (isset($vendorId)) {
                                         vendorId($vendorId);
@@ -156,7 +152,7 @@ if (isset($errors['devicePrompt'])) {
                                 }
                                 ?> 
                                 <label><font color="red">*</font>Model:</label>
-                                <input name="deviceModel" id="deviceModel" placeholder="Model" tabindex='4' style="width:150px;" value="<?php if (isset($deviceModel)) echo $deviceModel; ?>">
+                                <input name="deviceModel" id="deviceModel" placeholder="Model" tabindex='5' style="width:150px;" value="<?php if (isset($deviceModel)) echo $deviceModel; ?>">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['deviceModel'])) {
@@ -167,8 +163,8 @@ if (isset($errors['deviceModel'])) {
                             </div>
                             <div id="right">
                                 <legend>Other Details</legend>
-                                <label>Category:</label>
-                                <select name="catId" id="catId" style="width:155px;" tabindex='5' value="<?php if (isset($catId)) echo $catId; ?>" onchange="changeCatAlert(document.getElementById('editModeOn').value)">
+                                <label><font color="red">*</font> Category:</label>
+                                <select name="catId" id="catId" style="width:155px;" tabindex='6' value="<?php if (isset($catId)) echo $catId; ?>" onchange="changeCatAlert(document.getElementById('editModeOn').value)">
                                 <?php
                                 if (isset($catId)) {
                                     categories($catId);
@@ -199,8 +195,8 @@ if (isset($errors['catId'])) {
                                 <input type="checkbox" name="defaultCreds" id="defaultCreds" onclick="getDefaultUserPass(this);" style="width:15px;" <?php if (isset($defaultCreds)) echo 'checked'; ?>>
                                 <br />
 
-                                <label><font color="red">*</font> Username:</label>
-                                <input name="deviceUsername" id="deviceUsername" placeholder="username" tabindex='6' style="width:150px;" value="<?php if (isset($deviceUsername)) echo $deviceUsername; ?>" autocomplete="off">
+                                <label>Username:</label>
+                                <input name="deviceUsername" id="deviceUsername" placeholder="username" tabindex='7' style="width:150px;" value="<?php if (isset($deviceUsername)) echo $deviceUsername; ?>" autocomplete="off">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['deviceUsername'])) {
@@ -209,27 +205,14 @@ if (isset($errors['deviceUsername'])) {
 ?>
                                 <br/>
 
-                                <label><font color="red">*</font> Password:</label>
-                                <input type="password" name="devicePassword" id="devicePassword" placeholder="password" tabindex='6'  style="width:150px;" value="<?php if (isset($devicePassword)) echo $devicePassword; ?>" autocomplete="off">
+                                <label>Password:</label>
+                                <input type="password" name="devicePassword" id="devicePassword" placeholder="password" tabindex='8'  style="width:150px;" value="<?php if (isset($devicePassword)) echo $devicePassword; ?>" autocomplete="off">
                                 <div class="spacer"></div>
 <?php
 if (isset($errors['devicePassword'])) {
     echo "<span class=\"error\">" . $errors['devicePassword'] . "</span>";
 }
 ?> <br/>
-
-                                <label><font color="red">*</font> Confirm Password:</label>
-                                <input type="password" name="devicePassConf"  id="devicePassConf" placeholder="password" tabindex='7'  style="width:150px;" value="<?php if (isset($devicePassConf)) echo $devicePassConf; ?>" autocomplete="off">
-                                <div class="spacer"></div>
-<?php
-if (isset($errors['devicePassConf'])) {
-    echo "<span class=\"error\">" . $errors['devicePassConf'] . "</span>";
-}
-?> <br/>
-
-                                <label>Enable Mode:</label> 
-                                <input type="checkbox" name="deviceEnableMode" id="deviceEnableMode" tabindex='8' style="width:15px;" <?php if (isset($deviceEnableMode) && $deviceEnableMode !== 'off') echo 'checked'; ?>>
-                                <br/>
 
                                 <label>Enable Password:</label>
                                 <input type="password" name="deviceEnablePassword" id="deviceEnablePassword" placeholder="Enable Password" tabindex='9' style="width:150px;" value="<?php if (isset($deviceEnablePassword)) echo $deviceEnablePassword; ?>" autocomplete="off">
@@ -240,30 +223,25 @@ if (isset($errors['devicePassConf'])) {
                                     }
                                     ?> <br/>
 
-                                <label><font color="red">*</font> Access Method:</label>
-
-                                <select name="deviceAccessMethodId" id="accessMeth" tabindex="10"  style="width:155px;"  onchange="updatePort(this.value);">
-
-                                <?php
-                                /* func is from devices.frm.func.php */
-                                    if (isset($deviceAccessMethodId)) {
-                                        accessMethod($deviceAccessMethodId);
+                                    
+                                <label><font color="red">*</font> Template:</label>
+                                <select name="templateId" id="templateId" tabindex='10' style="width:155px;">
+                                    <?php
+                                    if (isset($templateId)) {
+                                        templateId($templateId);
                                     } else {
-                                        accessMethod();
+                                        templateId();
                                     }
-                                ?>
+                                    /* taken from devices.frm.func.php */
+                                    ?>
                                 </select>
                                 <div class="spacer"></div>
-<?php
-if (isset($errors['deviceAccessMethodId'])) {
-    echo "<span class=\"error\">" . $errors['deviceAccessMethodId'] . "</span>";
-}
-?> <br/>    
-                                <label for="connPort">Connection Port:</label>
-                                <input name="connPort" id="connPort" title="TCP Port Number for connection" size="10" maxlength="5" tabindex='11' style="width:40px;" value="<?php if (isset($connPort)) {echo $connPort;} else {echo '23';}?>">
-                                <div style="float:left;">
-                                    <img id="helpIcon" src="images/helpIcon16.png" style="margin-top:5px;margin-left:5px;" alt="Please select your TCP port number for the access method i.e. telnet = 23" title="Please select your TCP port number for the access method i.e. telnet = 23"/>
-                                </div>
+                                <?php
+                                if (isset($errors['templateId'])) {
+                                    echo "<span class=\"error\">" . $errors['templateId'] . "</span>";
+                                }
+                                ?>         
+
                             </div>
                             <input type="hidden" id="add" name="add" value="add">
                             <input type="hidden" id="username" name="username" value="<?php echo $session->username; ?>">

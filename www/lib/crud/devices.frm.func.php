@@ -40,22 +40,22 @@ function vendorId($id = null) {
     }
 }
 
-function accessMethod($id = null) {
+function templateId($id = null) {
 // $id is set if from is reploaded with errors so that selected item is pre-populated after form reload
 
     $db2 = new db2();
     $log = ADLog::getInstance();
     //Extract Nodes accessMethod for select list below
-    $db2->query("SELECT * FROM devicesaccessmethod");
+    $db2->query("SELECT * FROM templates WHERE status = 1");
     $result = $db2->resultset();
     $num_rows = $db2->rowCount();
     if (!$result || ($num_rows < 0)) {
-        $log->Warn("Failure: Problem Displaying devicesaccessmethod options (File: " . $_SERVER['PHP_SELF'] . ")");
+        $log->Warn("Failure: Problem Displaying template options (File: " . $_SERVER['PHP_SELF'] . ")");
         echo "Error displaying info";
         return;
     }
     if ($num_rows == 0) {
-        $log->Warn("Failure: Problem Displaying devicesaccessmethod - no options returned (File: " . $_SERVER['PHP_SELF'] . ")");
+        $log->Warn("Failure: Problem Displaying templates - no options returned (File: " . $_SERVER['PHP_SELF'] . ")");
         echo "Database table empty";
         return;
     }
@@ -66,12 +66,13 @@ function accessMethod($id = null) {
     }
 
     for ($i = 0; $i < $num_rows; $i++) {
-        $accessId = $result[$i]['id'];
-        $accessName = $result[$i]['devicesAccessMethod'];
-        if ($id == $accessId && $id != null) {
-            echo "<option value=" . $accessId . " selected>" . $accessName . "</option>";
+        $templateId = $result[$i]['id'];
+        $templateName = $result[$i]['name'];
+        $templateFileName = $result[$i]['fileName'];
+        if ($id == $templateId && $id != null) {
+            echo "<option value=" . $templateId . " selected>" . $templateName . " - " . basename($templateFileName) . "</option>";
         } else {
-            echo "<option value=" . $accessId . ">" . $accessName . "</option>";
+            echo "<option value=" . $templateId . ">" . $templateName . " - " . basename($templateFileName) . "</option>";
         }
     }
 }

@@ -5,7 +5,7 @@ $(function () {
         if (data) {
             var noticeJson = JSON.parse(data);
             //http://codeseven.github.io/toastr/demo.html
-            toastr.info(noticeJson.notice, noticeJson.date +  noticeJson.title, {"closeButton": true, "timeOut": "5000"});
+            toastr.info(noticeJson.notice, noticeJson.date +  noticeJson.title, {"closeButton": true, "timeOut": "5000", "positionClass": "toast-bottom-right"});
         }
     });
 
@@ -30,13 +30,13 @@ $(function () {
     $('#noticeNoUpdate').hide();
     $.ajaxSetup({cache: false});
     $.getJSON("lib/ajaxHandlers/ajaxGetLatestVersion.php", function (data) {
-
+console.log(data.success)
         if (data.success === true) {
             $('#noticeGood').show();
             $('#pleaseWait1').hide();
         } else {
             $('#noticeGood').hide();
-            $('#noticeNoUpdate').show().fadeOut(2000);
+            $('#noticeNoUpdate').show().fadeOut(10000);
             $('#pleaseWait1').hide();
         }
     });

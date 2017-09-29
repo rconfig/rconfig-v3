@@ -7,6 +7,8 @@ rConfig is completely open source, meaning, you can customize it, and add featur
 Features
 + Free & open source
 + Customizable device commands
++ Connection Templates for multi-vendor support
++ Database password encryption
 + Configuration Compliance Management
 + Bulk configuration deployment
 + One-Click download of configurations
@@ -18,7 +20,7 @@ Features
 + Telnet and SSHv2 support
 
 Requirements
-Centos 6.3 or higher (RedHat versions working also)
+Centos 7 or higher
 PHP 5.3.3 or higher
 MySQL 5.1.61 or higher
 Apache 2.2.15 or higher

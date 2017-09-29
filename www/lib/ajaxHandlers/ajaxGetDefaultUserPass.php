@@ -15,7 +15,13 @@ if (!$session->logged_in) {
     require_once("../../../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable FROM settings WHERE id = 1");
-//$db2->debugDumpParams();
+    
     $rows = $db2->resultset();
+     //decrypt PWs if key is set
+    $db2->query("SELECT passwordEncryption from settings");
+    if($db2->resultsetCols()[0] == 0){
+            $rows[0]['defaultNodePassword'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodePassword']);
+            $rows[0]['defaultNodeEnable'] = encrypt_decrypt('decrypt', $rows[0]['defaultNodeEnable']);
+        }             
     echo json_encode($rows);
 }

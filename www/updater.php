@@ -22,7 +22,6 @@
                 <fieldset id="dashboardFieldset" style="width:90%; min-height:147px; float:left;">
                     <legend>Update rConfig</legend>
 
-
                     <?php
                     // chk=1 passed form update url. If not passed - Form is not displayed
                     if (isset($_GET['chk']) && $_GET['chk'] == 1) {

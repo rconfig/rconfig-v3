@@ -64,6 +64,7 @@ INSERT INTO `cmdCatTbl` (`configCmdId`, `nodeCatId`) VALUES
 	(161, 4),
 	(161, 5),
 	(161, 8),
+	(162, 2),
 	(163, 1),
 	(163, 2),
 	(164, 1),
@@ -160,35 +161,20 @@ CREATE TABLE `devicemodelview` (
 ) ENGINE=MyISAM;
 
 
--- Dumping structure for table DATABASE_NAME.devicesaccessmethod
-CREATE TABLE IF NOT EXISTS `devicesaccessmethod` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `devicesAccessMethod` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- Dumping data for table DATABASE_NAME.devicesaccessmethod: ~2 rows (approximately)
-/*!40000 ALTER TABLE `devicesaccessmethod` DISABLE KEYS */;
-INSERT INTO `devicesaccessmethod` (`id`, `devicesAccessMethod`) VALUES
-	(1, 'Telnet'),
-	(3, 'SSHv2');
-/*!40000 ALTER TABLE `devicesaccessmethod` ENABLE KEYS */;
-
 -- Dumping structure for table DATABASE_NAME.nodes
 CREATE TABLE IF NOT EXISTS `nodes` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `deviceName` varchar(255) DEFAULT NULL,
   `deviceUsername` varchar(255) DEFAULT NULL,
   `devicePassword` varchar(255) DEFAULT NULL,
-  `deviceEnableMode` varchar(255) DEFAULT NULL,
   `deviceEnablePassword` varchar(255) DEFAULT NULL,
-  `deviceAccessMethodId` varchar(100) DEFAULT NULL,
   `deviceIpAddr` varchar(255) DEFAULT NULL,
   `devicePrompt` varchar(255) DEFAULT NULL,
+  `deviceEnablePrompt` varchar(255) DEFAULT NULL,
   `nodeCatId` int(10) DEFAULT NULL,
+  `templateId` int(10) DEFAULT NULL,
   `vendorId` varchar(255) DEFAULT NULL,
   `model` varchar(255) DEFAULT NULL,
-  `termLength` int(2) DEFAULT NULL,
   `nodeVersion` varchar(255) DEFAULT NULL,
   `nodeAddedBy` varchar(255) DEFAULT '-',
   `defaultCreds` int(1) DEFAULT NULL,
@@ -197,7 +183,6 @@ CREATE TABLE IF NOT EXISTS `nodes` (
   `defaultEnablePassword` varchar(255) DEFAULT NULL,
   `deviceDateAdded` date DEFAULT NULL,
   `deviceLastUpdated` date DEFAULT NULL,
-  `connPort` int(2) DEFAULT NULL,
   `status` int(10) DEFAULT '1',
    `custom_Location` varchar(255) DEFAULT NULL COMMENT 'Custom Property - Location',
   PRIMARY KEY (`id`)
@@ -241,13 +226,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `timeZone` varchar(100) DEFAULT NULL,
   `ldapServer` int(1) NOT NULL DEFAULT '0',
   `pageTimeout` int(1) NOT NULL DEFAULT '600' COMMENT 'Page Timeout Value',
+  `passwordEncryption` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table DATABASE_NAME.settings: ~1 rows (approximately)
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `useDefaultCredsManualSet`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`, `timeZone`, `ldapServer`, `pageTimeout`) VALUES
-	(1, 1, '/home/rconfig/data/', '', '', '', 0, 1, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '1980-01-01 00:00:00', '', '0', 600);
+INSERT INTO `settings` (`id`, `fileSaveChk`, `fileLocation`, `defaultNodeUsername`, `defaultNodePassword`, `defaultNodeEnable`, `useDefaultCredsManualSet`, `commandDebug`, `commandDebugLocation`, `phpErrorLogging`, `phpErrorLoggingLocation`, `deviceConnectionTimout`, `smtpServerAddr`, `smtpFromAddr`, `smtpRecipientAddr`, `smtpAuth`, `smtpAuthUser`, `smtpAuthPass`, `smtpLastTest`, `smtpLastTestTime`, `timeZone`, `ldapServer`, `pageTimeout`, `passwordEncryption`) VALUES
+	(1, 1, '/home/rconfig/data/', '', '', '', 0, 0, '/home/rconfig/logs/debugging/', 0, '/home/rconfig/logs/phpLog/', 15, '', '', '', 0, '', '', '', '1980-01-01 00:00:00', '', '0', 600, 0);
 
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
@@ -350,7 +336,33 @@ AND (`nodes`.`model` <> ''));
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 
--- Dumping structure for table rconfig35.menuPages
+-- Dumping structure for table DATABASE_NAME.templates
+CREATE TABLE IF NOT EXISTS `templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fileName` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `dateAdded` date DEFAULT NULL,
+  `addedby` varchar(255) DEFAULT NULL,
+  `dateLastEdit` date DEFAULT NULL,
+  `status` int(11) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table DATABASE_NAME.templates: ~2 rows (approximately)
+/*!40000 ALTER TABLE `templates` DISABLE KEYS */;
+INSERT INTO `templates` (`id`, `fileName`, `name`, `desc`, `dateAdded`, `addedby`, `dateLastEdit`, `status`) VALUES
+	(1, '/home/rconfig/templates/ios-telnet-noenable.yml', 'Cisco IOS - TELNET - No Enable', 'Cisco IOS TELNET based connection without enable mode', '2017-08-18', 'admin', NULL, 1),
+	(2, '/home/rconfig/templates/ios-telnet-enable.yml', 'Cisco IOS - TELNET - Enable', 'Cisco IOS TELNET based connection with enable mode', '2017-08-18', 'admin', NULL, 1),
+	(3, '/home/rconfig/templates/ios-ssh-noenable.yml', 'Cisco IOS - SSH - No Enable', 'Cisco IOS SSH based connection without enable mode', '2017-08-18', 'admin', NULL, 1),
+	(4, '/home/rconfig/templates/ios-ssh-enable.yml', 'Cisco IOS - SSH - Enable', 'Cisco IOS SSH based connection with enable mode', '2017-08-18', 'admin', NULL, 1);
+/*!40000 ALTER TABLE `templates` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+-- Dumping structure for table DATABASE_NAME.menuPages
 DROP TABLE IF EXISTS `menuPages`;
 CREATE TABLE IF NOT EXISTS `menuPages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -364,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `menuPages` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
--- Dumping data for table rconfig35.menuPages: 24 rows
+-- Dumping data for table DATABASE_NAME.menuPages: 24 rows
 DELETE FROM `menuPages`;
 /*!40000 ALTER TABLE `menuPages` DISABLE KEYS */;
 INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, `menuName`, `topLevel`, `parentId`, `menuSortId`) VALUES
@@ -373,26 +385,28 @@ INSERT INTO `menuPages` (`id`, `pageName`, `breadcrumbText`, `annoucementText`, 
 	(3, 'dashboard.php', 'Dashboard', 'View rConfig Server and Device Status on this page', 'Home', '1', 3, 1),
 	(4, 'devices.php', 'Devices', 'View/Edit Devices on this page', 'Devices', '1', 4, 2),
 	(5, 'devicemgmt.php', 'Devices > Device Management', 'Manage devices on this page', 'Device Management', '0', 5, 0),
-	(6, 'customProperties.php', 'Devices > Custom Properties', 'Update Custom Properties on this page', 'Custom Properties', '0', 4, 0),
-	(7, 'categories.php', 'Devices > Categories', 'Update Categories on this page', 'Categories', '0', 4, 0),
-	(8, 'commands.php', 'Devices > Commands', 'Update Commands on this page', 'Commands', '0', 4, 0),
-	(9, 'vendors.php', 'Devices > Vendors', 'Update Vendor details on this page', 'Vendors', '0', 4, 0),
-	(10, 'configoverview.php', 'Configuration Tools > Overview', 'Configurations Overview', 'Configuration Tools', '1', 10, 4),
-	(11, 'configcompare.php', 'Configuration Tools > Comparison', 'Configurations Comparison', 'Compare', '0', 10, 0),
-	(12, 'search.php', 'Configuration Tools > Search', 'Search Configurations', 'Config Search', '0', 10, 0),
-	(13, 'snippets.php', 'Configuration Tools > Config Snippets', 'Configuration Snippets', 'Config Snippets', '0', 10, 0),
-	(14, 'configreports.php', 'Configuration Tools > Reports', 'Reports', 'Reports', '0', 10, 0),
-	(15, 'configlogging.php', 'Configuration Tools > Logging Information', 'Logging files and archives', 'Logs', '0', 10, 0),
-	(16, 'complianceoverview.php', 'Compliance > Overview', 'Configuration Compliance Management Overview', 'Compliance', '1', 16, 5),
-	(17, 'compliancereports.php', 'Compliance > Reports', 'Configuration Compliance Reports', 'Reports', '0', 16, 0),
-	(18, 'compliancepolicies.php', 'Compliance > Policies', 'Configuration Compliance Policies', 'Policies', '0', 16, 0),
-	(19, 'compliancepolicyelements.php', 'Compliance > Policy Elements', 'Configuration Compliance Policy Elements', 'Policy Elements', '0', 16, 0),
-	(20, 'settings.php', 'Settings > General Settings', 'Change general systems settings on this page', 'Settings', '1', 20, 6),
-	(21, 'scheduler.php', 'Scheduled Tasks', 'Manage Scheduled Tasks on this page', 'Scheduled Tasks', '1', 21, 3),
-	(22, 'useradmin.php', 'Settings > Users Management', 'Manage User details on this page', 'Users (Admin)', '0', 20, 0),
-	(23, 'settingsBackup.php', 'Settings > Backup', 'Backup rConfig on this page', 'System Backup(Admin)', '0', 20, 0),
-	(24, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0);
+	(7, 'customProperties.php', 'Devices > Custom Properties', 'Update Custom Properties on this page', 'Custom Properties', '0', 4, 0),
+	(8, 'categories.php', 'Devices > Categories', 'Update Categories on this page', 'Categories', '0', 4, 0),
+	(9, 'commands.php', 'Devices > Commands', 'Update Commands on this page', 'Commands', '0', 4, 0),
+	(10, 'vendors.php', 'Devices > Vendors', 'Update Vendor details on this page', 'Vendors', '0', 4, 0),
+	(11, 'configoverview.php', 'Configuration Tools > Overview', 'Configurations Overview', 'Configuration Tools', '1', 10, 4),
+	(12, 'configcompare.php', 'Configuration Tools > Comparison', 'Configurations Comparison', 'Compare', '0', 10, 0),
+	(13, 'search.php', 'Configuration Tools > Search', 'Search Configurations', 'Config Search', '0', 10, 0),
+	(14, 'snippets.php', 'Configuration Tools > Config Snippets', 'Configuration Snippets', 'Config Snippets', '0', 10, 0),
+	(15, 'configreports.php', 'Configuration Tools > Reports', 'Reports', 'Reports', '0', 10, 0),
+	(16, 'configlogging.php', 'Configuration Tools > Logging Information', 'Logging files and archives', 'Logs', '0', 10, 0),
+	(17, 'complianceoverview.php', 'Compliance > Overview', 'Configuration Compliance Management Overview', 'Compliance', '1', 16, 5),
+	(18, 'compliancereports.php', 'Compliance > Reports', 'Configuration Compliance Reports', 'Reports', '0', 16, 0),
+	(19, 'compliancepolicies.php', 'Compliance > Policies', 'Configuration Compliance Policies', 'Policies', '0', 16, 0),
+	(20, 'compliancepolicyelements.php', 'Compliance > Policy Elements', 'Configuration Compliance Policy Elements', 'Policy Elements', '0', 16, 0),
+	(21, 'settings.php', 'Settings > General Settings', 'Change general systems settings on this page', 'Settings', '1', 20, 6),
+	(22, 'scheduler.php', 'Scheduled Tasks', 'Manage Scheduled Tasks on this page', 'Scheduled Tasks', '1', 21, 3),
+	(23, 'useradmin.php', 'Settings > Users Management', 'Manage User details on this page', 'Users (Admin)', '0', 20, 0),
+	(24, 'settingsBackup.php', 'Settings > Backup', 'Backup rConfig on this page', 'System Backup(Admin)', '0', 20, 0),
+	(25, 'updater.php', 'Update', 'Update rConfig on this page', 'Updater', '2', 24, 0),
+	(6, 'deviceConnTemplates.php', 'Devices > Device Connection Templates', 'Manage devices connection templates on this page', 'Connection Templates', '0', 4, 0);
 /*!40000 ALTER TABLE `menuPages` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+

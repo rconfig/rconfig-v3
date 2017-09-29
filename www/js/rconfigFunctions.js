@@ -118,7 +118,7 @@ function getParameter(paramName) {
 
 // single row selector function for tables
 function tblRowSelector(tableName) {
-    console.log('click')
+//    console.log('click')
     return $("#" + tableName).on('click', 'tr', function () {
         var checkbox = $(this).find(':checkbox');
         var rowid = checkbox.attr('id');

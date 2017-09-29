@@ -1,4 +1,5 @@
 <?php require("../classes/db2.class.php"); ?>
+<?php require("../classes/spyc.class.php"); ?>
 <?php include("includes/head.inc.php"); ?>
 <body>
     <!-- Headwrap Include -->    
@@ -22,11 +23,10 @@
                 <?php
                 /* Instantiate DB Class */
                 $db2 = new db2();
-                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.deviceAccessMethodId , n.connPort, v.vendorName vendorName, n.model, cat.categoryName categoryName
+                $db2->query("SELECT n.id, n.deviceName, n.deviceIpAddr, n.templateId, v.vendorName, n.model, cat.categoryName categoryName
 			FROM nodes n 
                         LEFT OUTER JOIN vendors v ON n.vendorId = v.id
                         LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
-			LEFT OUTER JOIN devicesaccessmethod a ON n.deviceAccessMethodId = a.id
 			LEFT OUTER JOIN categories cat ON n.nodeCatId = cat.id
 			WHERE n.status = 1 AND n.id = :id ");
                 $db2->bind('id', $_GET['deviceId']);
@@ -35,13 +35,23 @@
                 foreach ($resultSelect as $row) {
                     $items = $row;
                 }
+                // get connPort from template
+                $db2->query("SELECT fileName FROM templates WHERE id = :templateId AND status = 1");
+				$db2->bind(':templateId', $items['templateId']);
+                $getTemplate = $db2->resultsetCols();
+                if(count($getTemplate) === 0){ // check if template ID is valid and active
+                    $connPort = "";
+                    $connectionTypeText = "<font color='red'>Template not configured for this device!</font>";
+                } else {
+                    $templateparams = Spyc::YAMLLoad($getTemplate[0]);    
+                    $connPort = $templateparams['connect']['port'];
+                    $connectionTypeText = $templateparams['connect']['protocol'] . '/' . $templateparams['connect']['port'];
+                }
                 // set VARs
                 $deviceName = $items['deviceName'];
                 $deviceIpAddr = $items['deviceIpAddr'];
-                $connPort = $items['connPort'];
                 $vendorName = $items['vendorName'];
-                $model = $items['model'];
-                $deviceAccessMethodId = $items['deviceAccessMethodId'];
+                $model = $items['model'];                
                 $categoryName = $items['categoryName'];
                 ?>
                 <a name="top"></a> 
@@ -71,8 +81,10 @@
                             </tr>
                             <tr>
                                 <td><b>Connection Type:</b></td>
-                                <td class="infoCell"><?php 
-                                echo ($deviceAccessMethodId == 1 ? 'Telnet' : 'SSH') ?></td>
+                                <td class="infoCell">
+                                <?php 
+                                echo  $connectionTypeText;
+                                ?></td>
                             </tr>
                             <tr>
                                 <td><b>Status:</b></td>
