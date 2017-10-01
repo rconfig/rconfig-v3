@@ -1,8 +1,9 @@
-Version 3.8.1
+Version 3.8.2
 01-Oct-2017
 Author: Stephen Stack
 
 Added - Permenant HTTPS redirect to config template file
+Fixed - Bug: - #64 Encryption check is reversed when selected Default username/password 
 
 ------------------------------------------------------------------------------------
 
