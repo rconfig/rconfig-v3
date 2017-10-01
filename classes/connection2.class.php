@@ -96,20 +96,25 @@ class Connection {
         }
         stream_set_timeout($this->_connection, $this->_timeout);
 
-        $this->_readTo($this->_userPrmpt); // add $cliDebugOutput = true for cli debug
-        if (strpos($this->_data, $this->_userPrmpt) !== false) { 
-            $this->_send($this->_username);
-            $this->_readTo($this->_passPrmpt); // reads to password prompt and script will continue to pass if statements
-        } else {
-            $userPrmpterrorText = 'Something is wrong with the username prompt';
-            $log->Conn("Failure: ".$userPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
-        } 
         
-        if (strpos($this->_data, $this->_passPrmpt) !== false) { // check password prompts
-            $this->_send($this->_password);
-        } else {
-            $passPrmpterrorText =  'Something is wrong with the password prompt';
-            $log->Conn("Failure: ".$passPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
+        if(!empty($this->_send($this->_username))){ // check if username is not empty. Blank usernames & PWs are allow: do not check of username prompt if blank
+            $this->_readTo($this->_userPrmpt); // add $cliDebugOutput = true for cli debug
+            if (strpos($this->_data, $this->_userPrmpt) !== false) { 
+                $this->_send($this->_username);
+                $this->_readTo($this->_passPrmpt); // reads to password prompt and script will continue to pass if statements
+            } else {
+                $userPrmpterrorText = 'Something is wrong with the username prompt';
+                $log->Conn("Failure: ".$userPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
+            } 
+        }
+        
+        if(!empty($this->_send($this->_password))){ // check if _password is not empty. Blank usernames & PWs are allow: do not check of _password prompt if blank
+            if (strpos($this->_data, $this->_passPrmpt) !== false) { // check password prompts
+                $this->_send($this->_password);
+            } else {
+                $passPrmpterrorText =  'Something is wrong with the password prompt';
+                $log->Conn("Failure: ".$passPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
+            }
         }
 
         if ($this->_enable === true) {
@@ -120,8 +125,10 @@ class Connection {
                 return false;
             } else {
                 $this->_send($this->_enableCmd);
-                $this->_readTo($this->_enablePassPrmpt);
-                $this->_send($this->_enableModePassword);
+                if(!empty($this->_send($this->_enableModePassword))){
+                    $this->_readTo($this->_enablePassPrmpt);
+                    $this->_send($this->_enableModePassword);
+                }
                 $this->_readTo($this->_prompt);
                 if (strpos($this->_data, $this->_prompt) == false) {
                     $log->Conn("Error: Authentication Failed for enable mode for  enable mode for or $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
@@ -167,7 +174,7 @@ class Connection {
         while (($c = fgetc($this->_connection)) !== false) {
 
             $this->_data .= $c;
-            // var_dump($this->_data);
+//             var_dump($this->_data);
             if ($cliDebugOutput == true) {
                 echo $c;
             }

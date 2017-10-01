@@ -44,6 +44,7 @@ class file {
      * @return string  $fullpath fullpath after addition of category,device,date,command
      */
     public function createFile($command) {
+        $command = clean($command);
         //create the file
         $filename = $this->_createFileName($command);
         $fullpath = $this->todayfolder . "/" . $filename;

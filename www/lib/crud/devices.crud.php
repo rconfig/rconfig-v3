@@ -22,6 +22,7 @@ if (!$session->logged_in) {
         // validate deviceName field
         if (!empty($_POST['deviceName'])) {
             $deviceName = $_POST['deviceName'];
+            $deviceName = cleanDeviceName($deviceName);
             // check device name for whitespace
             if (!chkWhiteSpaceInStr($deviceName) === false) {
                 $errors['deviceName'] = "Device Name cannot contain spaces";

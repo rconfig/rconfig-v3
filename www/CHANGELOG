@@ -1,10 +1,13 @@
-Version 3.8.3
+Version 3.8.6
 01-Oct-2017
 Author: Stephen Stack
 
 Added - Permenant HTTPS redirect to config template file
 Fixed - Bug: - #64 Encryption check is reversed when selected Default username/password 
 Fixed - Resolved Missing HPAnyKey yml config from out of box 3.8 templates
+Fixed - Issue if dots in host name, config files will not open from web console. dots replaced with dashes
+Fixed - If blank usernames and password password, rConfig will continue with script - i.e. blank usernames/ passwords should be allowed
+Added - Remove Special characters from filenames
 
 ------------------------------------------------------------------------------------
 
