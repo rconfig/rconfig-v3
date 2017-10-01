@@ -1,9 +1,10 @@
-Version 3.8.2
+Version 3.8.3
 01-Oct-2017
 Author: Stephen Stack
 
 Added - Permenant HTTPS redirect to config template file
 Fixed - Bug: - #64 Encryption check is reversed when selected Default username/password 
+Fixed - Resolved Missing HPAnyKey yml config from out of box 3.8 templates
 
 ------------------------------------------------------------------------------------
 

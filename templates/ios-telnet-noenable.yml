@@ -26,6 +26,10 @@ auth:
   enableCmd: "enable"
   # set enable mode password prompt. Must be in quotes
   enablePassPrmpt: "Password:"
+  # set HP 'press any key' status. Is 'on' or 'off'
+  hpAnyKeyStatus: off
+  # set HP 'press any key' prompt. 
+  hpAnyKeyPrmpt: "Press any key to continue"  
 config:
     # Experimental: Some vendors use different linebreak settings. Choose 'n' (default) or 'r'
     linebreak: "n"
