@@ -1,5 +1,12 @@
 <?php
 if (php_sapi_name() != 'cli') {
+    // permenant https redirect
+    if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+        $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        header('HTTP/1.1 301 Moved Permanently');
+        header('Location: ' . $redirect);
+        exit();
+    }
     // only set this when not run from CLI 
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
         $config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
@@ -10,7 +17,7 @@ if (php_sapi_name() != 'cli') {
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";
 $config_author = "Stephen Stack";
-$config_version = "3.8.0";
+$config_version = "3.8.1";
 $config_app_basedir = "/home/rconfig/";
 $config_log_basedir = "/home/rconfig/logs/";
 $config_data_basedir = "/home/rconfig/data/";
