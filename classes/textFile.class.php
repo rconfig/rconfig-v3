@@ -1,13 +1,13 @@
 <?php
 
 /**
- * connectProcess.php
+ * textFile.class.php
  * 
  * The text file class is meant to simplify the task of creating text files and folders 
  * and inserting command output to the correct file
  * 
  * Written by: Stephen Stack, rConfig
- * Last Updated: July 21 2012
+ * Last Updated: Oct 3 2017
  */
 class file {
 
@@ -44,7 +44,7 @@ class file {
      * @return string  $fullpath fullpath after addition of category,device,date,command
      */
     public function createFile($command) {
-        $command = clean($command);
+        $command = cleanDeviceName($command);
         //create the file
         $filename = $this->_createFileName($command);
         $fullpath = $this->todayfolder . "/" . $filename;

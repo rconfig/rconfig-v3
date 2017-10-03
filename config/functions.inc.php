@@ -581,12 +581,7 @@ function passwordEncryptionCheck(){
         
 }
 
-
-function clean($string) {
-//   $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-}
-
+// cleans deviceNames and commands from .'s and other special characters. used in textFile.class and devices.crud
 function cleanDeviceName($string) {
    $string = str_replace('.', '-', $string); // Replaces all spaces with hyphens.
    return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
