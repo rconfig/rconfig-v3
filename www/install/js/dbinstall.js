@@ -26,24 +26,30 @@ function getStatus() {
     var dbUsername = document.getElementById('dbUsername').value;
     var dbPassword = document.getElementById('dbPassword').value;
     $.ajaxSetup({ cache: false });
-    $.getJSON("lib/ajaxHandlers/ajaxDbTests.php?server=" + server + "&port=" + port + "&dbName=" + dbName + "&dbUsername=" + dbUsername + "&dbPassword=" + dbPassword + "", function (data) {
+    $.ajax({
+        type: "POST",
+        url: "lib/ajaxHandlers/ajaxDbTests.php",
+        data: {server : server, port: port, dbName: dbName, dbUsername: dbUsername, dbPassword: dbPassword},
+        cache: false,
+        success: function(data){
+            if ($.isEmptyObject(data) != true) {
+                var result = JSON.parse(data);
+                
+                var connTest = result.connTest
+                var credTest = result.credTest
+                var dbTest = result.dbTest
+                var siteUrl = result.siteUrl
+                var installDir = result.installDir
 
-        if ($.isEmptyObject(data) != true) {
+                $('#dbServerPortTest').html(connTest);
+                $('#dbNameTest').html(credTest);
+                $('#dbCredTest').html(dbTest);
 
-            var connTest = data.connTest
-            var credTest = data.credTest
-            var dbTest = data.dbTest
-            var siteUrl = data.siteUrl
-            var installDir = data.installDir
-
-            $('#dbServerPortTest').html(connTest);
-            $('#dbNameTest').html(credTest);
-            $('#dbCredTest').html(dbTest);
-
-        } else {
-            $('#dbServerPortTest').append('<font class="bad">Unable to test</font>');
+            } else {
+                $('#dbServerPortTest').append('<font class="bad">Unable to test</font>');
+            }
         }
-    })
+      });
 }
 
 function installConfig() {

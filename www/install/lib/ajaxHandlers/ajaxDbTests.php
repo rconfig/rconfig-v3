@@ -3,11 +3,11 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_NOTICE);
 
 // various DB checks during the install process
-if(isset($_GET['server'])){$server = $_GET['server'];}
-if(isset($_GET['port'])){$port = $_GET['port'];}
-if(isset($_GET['dbName'])){$dbName = $_GET['dbName'];}
-if(isset($_GET['dbUsername'])){$dbUsername = $_GET['dbUsername'];}
-if(isset($_GET['dbPassword'])){$dbPassword = $_GET['dbPassword'];}
+if(isset($_POST['server'])){$server = $_POST['server'];}
+if(isset($_POST['port'])){$port = $_POST['port'];}
+if(isset($_POST['dbName'])){$dbName = $_POST['dbName'];}
+if(isset($_POST['dbUsername'])){$dbUsername = $_POST['dbUsername'];}
+if(isset($_POST['dbPassword'])){$dbPassword = $_POST['dbPassword'];}
 
 $sqlHost = $server . ":" . $port;
 $array = array();
@@ -25,6 +25,7 @@ fclose($handle);
 // check Username/Password 
 try {
         $conn = new PDO("mysql:host=$server", $dbUsername, $dbPassword);
+        $conn->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAME'utf8'");
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $link = true; 
