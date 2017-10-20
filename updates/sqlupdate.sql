@@ -7,7 +7,7 @@ INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VAL
 ALTER TABLE nodes
 ADD COLUMN `deviceEnablePrompt` varchar(255) NOT NULL;
 ALTER TABLE nodes
-ADD COLUMN `templateId` INT(11) NULL DEFAULT NULL;
+ADD COLUMN `templateId` INT(11) 1 DEFAULT NULL;
 
 
 

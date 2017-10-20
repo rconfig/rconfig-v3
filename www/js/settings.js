@@ -90,43 +90,6 @@ $(function () {
 // when pressing Enter on text box, auto-click relevant Update button
     $(document).ready(function () {
         $.ajaxSetup({cache: false});
-// LDAP Server text box
-        $('#ldapServer').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#ldapServerGo').click();
-        });
-//Page Timeout text box
-        $('#pageTimeout').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#pageTimeoutGo').click();
-        });
-//Connection Timeout text box
-        $('#deviceTout').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#deviceToutGo').click();
-        });
-//Default Credentials text boxes (all 3)
-//Default Node Username text box
-        $('#defaultNodeUsername').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#updateDefaultPass').click();
-        });
-//Default Node Password text box
-        $('#defaultNodePassword').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#updateDefaultPass').click();
-        });
-//Default Node Enable Mode Password text box
-        $('#defaultNodeEnable').keypress(function (e) {
-            if (e.keyCode === 13)
-                ;
-            $('#updateDefaultPass').click();
-        });
     });
 });
 
@@ -353,12 +316,7 @@ function encryptPasswords(secret){
                  });          
             }   
     });
-    
-    
-    
 }
-
-
 
 // function to open new window based on content passed to the function
 function writeConsole(content, filePath) {

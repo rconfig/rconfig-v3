@@ -3,6 +3,7 @@ Version 3.8.7
 Author: Stephen Stack
 
 Fixed - Bug: - #66 install DB check failing on password with special characters
+Fixed - Bug: - #67 IE 11 not allowing updates to default credentials in settings page
 
 ------------------------------------------------------------------------------------
 
