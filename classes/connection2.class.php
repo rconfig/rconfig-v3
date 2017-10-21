@@ -95,7 +95,6 @@ class Connection {
             return false;
         }
         stream_set_timeout($this->_connection, $this->_timeout);
-
         
         if(!empty($this->_send($this->_username))){ // check if username is not empty. Blank usernames & PWs are allow: do not check of username prompt if blank
             $this->_readTo($this->_userPrmpt); // add $cliDebugOutput = true for cli debug
@@ -139,23 +138,20 @@ class Connection {
                 if($this->_paging === true){
                    $this->_send($this->_pagingCmd); 
                    sleep(1);
-                   $this->_readTo($this->_prompt);
+//                   $this->_readTo($this->_prompt);
                 }
             }
         } else {
-            
-            $this->_readTo($this->_prompt);
-            if (strpos($this->_data, $this->_prompt) === false) {
+            if ($this->_readTo($this->_prompt) === false) { // prompt did not return correctly thus log an error
                 fclose($this->_connection);
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
-            }
-            // enable paging if set
-            $this->_readTo($this->_prompt);
-            if($this->_paging === true){
-               $this->_send($this->_pagingCmd); 
-               sleep(1);
-               $this->_readTo($this->_prompt);
+            } else {
+                if($this->_paging === true){
+                   $this->_send($this->_pagingCmd); 
+                   sleep(1);
+//                   $this->_readTo($this->_prompt);
+                }
             }
         }
     }
@@ -180,7 +176,7 @@ class Connection {
             }
             // we've encountered the prompt. send TELNET_OK
             if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
-                return self::TELNET_OK;
+                return true;
                 // break;
             }
             
@@ -206,6 +202,33 @@ class Connection {
     private function _send($command) {
         fputs($this->_connection, $command . "\r\n");
     }    
+
+    /**
+     * Telnet Show Command Input
+     * @param  string        $cmd The command to execute
+     * @param  string        $prompt The device exec mode prompt
+     * @return array|boolean On success returns an array, false on failure.
+     */
+    public function showCmdTelnet($cmd, $cliDebugOutput = false) {
+        if($this->_readTo($this->_prompt, $cliDebugOutput) == true){
+            if($this->_linebreak == 'n'){$this->_send($cmd . "\n");}
+            if($this->_linebreak == 'r'){$this->_send($cmd . "\r");}
+        
+            $this->_readTo($this->_prompt, $cliDebugOutput);
+            $result = array();
+            $this->_data = explode("\r\n", $this->_data);
+            array_shift($this->_data);
+            array_pop($this->_data);
+            if (count($this->_data) > 0) {
+                foreach ($this->_data as $line) {
+                    $line = explode("\r\n", $line);
+                    array_push($result, $line[0]);
+                } 
+            }
+            $this->_data = $result;
+            return $this->_data;
+        }
+    }
     
     /**
      * 
@@ -214,16 +237,19 @@ class Connection {
     public function closeTelnet($resetPagingCmd, $saveConfig, $exitCmd) {
         if ($this->_connection) {
             if(!empty($resetPagingCmd)){
-                $this->_readTo($this->_prompt);
-                $this->_send($resetPagingCmd); 
-                $this->_readTo($this->_prompt);
+              if($this->_readTo($this->_prompt) == true){
+                if($this->_linebreak == 'n'){$this->_send($resetPagingCmd . "\n");}
+                if($this->_linebreak == 'r'){$this->_send($resetPagingCmd . "\r");}
+              }
             }
             if(!empty($saveConfig)){
-                $this->_readTo($this->_prompt);
-                $this->_send($saveConfig); 
-                $this->_readTo($this->_prompt);
+              if($this->_readTo($this->_prompt) == true){
+                if($this->_linebreak == 'n'){$this->_send($saveConfig . "\n");}
+                if($this->_linebreak == 'r'){$this->_send($saveConfig . "\r");}
+              }                
             }
-            $this->_send($exitCmd);
+            if($this->_linebreak == 'n'){$this->_send($exitCmd . "\n");}
+            if($this->_linebreak == 'r'){$this->_send($exitCmd . "\r");}
             fclose($this->_connection);    
 
         } else {
@@ -388,31 +414,6 @@ class Connection {
         }
         $ssh->disconnect(); 
         return $output;
-    }
-
-    /**
-     * Telnet Show Command Input
-     * @param  string        $cmd The command to execute
-     * @param  string        $prompt The device exec mode prompt
-     * @return array|boolean On success returns an array, false on failure.
-     */
-    public function showCmdTelnet($cmd, $cliDebugOutput = false) {
-        $this->_readTo($this->_prompt, $cliDebugOutput);
-        $this->_send($cmd);
-        $this->_readTo($this->_prompt, $cliDebugOutput);
-
-        $result = array();
-        $this->_data = explode("\r\n", $this->_data);
-        array_shift($this->_data);
-        array_pop($this->_data);
-        if (count($this->_data) > 0) {
-            foreach ($this->_data as $line) {
-                $line = explode("\r\n", $line);
-                array_push($result, $line[0]);
-            } 
-        }
-        $this->_data = $result;
-        return $this->_data;
     }
 
     // next 3 functions are from http://www.geckotribe.com/php-telnet/#download
