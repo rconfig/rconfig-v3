@@ -95,11 +95,24 @@ class Connection {
             return false;
         }
         stream_set_timeout($this->_connection, $this->_timeout);
+
+        
+            if($this->_username){
+                if($this->_readTo($this->_userPrmpt) == true){
+                    if($this->_linebreak == 'n'){$this->_send($this->_username . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($this->_username . "\r");}
+                }
+            }        
+        
+        
+        
+        
         
         if(!empty($this->_send($this->_username))){ // check if username is not empty. Blank usernames & PWs are allow: do not check of username prompt if blank
             $this->_readTo($this->_userPrmpt); // add $cliDebugOutput = true for cli debug
             if (strpos($this->_data, $this->_userPrmpt) !== false) { 
-                $this->_send($this->_username);
+                if($this->_linebreak == 'n'){$this->_send($this->_username . "\n");}
+                if($this->_linebreak == 'r'){$this->_send($this->_username . "\r");}
                 $this->_readTo($this->_passPrmpt); // reads to password prompt and script will continue to pass if statements
             } else {
                 $userPrmpterrorText = 'Something is wrong with the username prompt';
@@ -109,7 +122,8 @@ class Connection {
         
         if(!empty($this->_send($this->_password))){ // check if _password is not empty. Blank usernames & PWs are allow: do not check of _password prompt if blank
             if (strpos($this->_data, $this->_passPrmpt) !== false) { // check password prompts
-                $this->_send($this->_password);
+                if($this->_linebreak == 'n'){$this->_send($this->_password . "\n");}
+                if($this->_linebreak == 'r'){$this->_send($this->_password . "\r");}
             } else {
                 $passPrmpterrorText =  'Something is wrong with the password prompt';
                 $log->Conn("Failure: ".$passPrmpterrorText." (File: " . $_SERVER['PHP_SELF'] . ")");
@@ -126,31 +140,40 @@ class Connection {
                 $this->_send($this->_enableCmd);
                 if(!empty($this->_send($this->_enableModePassword))){
                     $this->_readTo($this->_enablePassPrmpt);
-                    $this->_send($this->_enableModePassword);
+                    if($this->_linebreak == 'n'){$this->_send($this->_enableModePassword . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($this->_enableModePassword . "\r");}
                 }
-                $this->_readTo($this->_prompt);
-                if (strpos($this->_data, $this->_prompt) == false) {
+                if($this->_readTo($this->_prompt) != true){
                     $log->Conn("Error: Authentication Failed for enable mode for  enable mode for or $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                     return false;
                 }
                 // enable paging if set
-                $this->_readTo($this->_prompt);
-                if($this->_paging === true){
-                   $this->_send($this->_pagingCmd); 
-                   sleep(1);
-//                   $this->_readTo($this->_prompt);
+                if (strpos($this->_data, $this->_prompt) !== false) {
+                    if($this->_paging === true){
+                       $this->_send($this->_pagingCmd); 
+                       sleep(1);
+                    }
                 }
             }
-        } else {
-            if ($this->_readTo($this->_prompt) === false) { // prompt did not return correctly thus log an error
+        } else { 
+            // next bock if enablemode is NOT true
+            if (strpos($this->_data, $this->_prompt) !== false) {
+                if (strpos($this->_data, $this->_prompt) === false) {
+                    fclose($this->_connection);
+                    $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
+                    return false;
+                }
+            }
+            // enable paging if set
+            if ($this->_readTo($this->_prompt) === false) {
                 fclose($this->_connection);
                 $log->Conn("Error: Authentication Failed for $this->_hostname (File: " . $_SERVER['PHP_SELF'] . ")");
                 return false;
             } else {
-                if($this->_paging === true){
-                   $this->_send($this->_pagingCmd); 
-                   sleep(1);
-//                   $this->_readTo($this->_prompt);
+                    if($this->_paging === true){
+                    if($this->_linebreak == 'n'){$this->_send($this->_pagingCmd . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($this->_pagingCmd . "\r");}
+                    sleep(1);
                 }
             }
         }
@@ -166,23 +189,16 @@ class Connection {
         }
         // clear the buffer 
         $this->_clearBuffer();
-
         while (($c = fgetc($this->_connection)) !== false) {
-
             $this->_data .= $c;
-//             var_dump($this->_data);
             if ($cliDebugOutput == true) {
                 echo $c;
             }
-            // we've encountered the prompt. send TELNET_OK
+            // muchos advanced debugging - uncomment next line to enable
+                    // var_dump($this->_data);
             if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
+                // return true if we encounter prompt from buffer text
                 return true;
-                // break;
-            }
-            
-            // if device pager prompt, send defined string to continue manually paging
-            if ((substr($this->_data, strlen($this->_data) - strlen($this->_pagerPrompt))) == $this->_pagerPrompt) {
-               $this->_send($this->_pagerPromptCmd); 
             }
 
             // Remove --More-- and backspace and whitespace from output so that it does not copy to text files
@@ -202,6 +218,37 @@ class Connection {
     private function _send($command) {
         fputs($this->_connection, $command . "\r\n");
     }    
+    
+    /**
+     * 
+     * Close an active telnet connection and reset the term len if set
+     */
+    public function closeTelnet($resetPagingCmd, $saveConfig, $exitCmd) {
+        if ($this->_connection) {
+            if(!empty($resetPagingCmd)){
+                if($this->_readTo($this->_prompt) == true){
+                    if($this->_linebreak == 'n'){$this->_send($resetPagingCmd . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($resetPagingCmd . "\r");}
+                }
+            }
+            if(!empty($saveConfig)){
+                if($this->_readTo($this->_prompt) == true){
+                    if($this->_linebreak == 'n'){$this->_send($saveConfig . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($saveConfig . "\r");}
+                }
+            }
+            if(!empty($exitCmd)){
+                if($this->_readTo($this->_prompt) == true){
+                    if($this->_linebreak == 'n'){$this->_send($exitCmd . "\n");}
+                    if($this->_linebreak == 'r'){$this->_send($exitCmd . "\r");}
+                }
+            }
+            fclose($this->_connection);    
+        } else {
+            echo "Telnet connection already closed";
+            throw new Exception("Telnet connection closed");
+        }
+    }
 
     /**
      * Telnet Show Command Input
@@ -211,10 +258,11 @@ class Connection {
      */
     public function showCmdTelnet($cmd, $cliDebugOutput = false) {
         if($this->_readTo($this->_prompt, $cliDebugOutput) == true){
+            echo '\r\n------------------------------------------------------\r\n';  
             if($this->_linebreak == 'n'){$this->_send($cmd . "\n");}
             if($this->_linebreak == 'r'){$this->_send($cmd . "\r");}
-        
-            $this->_readTo($this->_prompt, $cliDebugOutput);
+        }
+        if($this->_readTo($this->_prompt, $cliDebugOutput) == true){
             $result = array();
             $this->_data = explode("\r\n", $this->_data);
             array_shift($this->_data);
@@ -229,37 +277,7 @@ class Connection {
             return $this->_data;
         }
     }
-    
-    /**
-     * 
-     * Close an active telnet connection and reset the term len if set
-     */
-    public function closeTelnet($resetPagingCmd, $saveConfig, $exitCmd) {
-        if ($this->_connection) {
-            if(!empty($resetPagingCmd)){
-              if($this->_readTo($this->_prompt) == true){
-                if($this->_linebreak == 'n'){$this->_send($resetPagingCmd . "\n");}
-                if($this->_linebreak == 'r'){$this->_send($resetPagingCmd . "\r");}
-              }
-            }
-            if(!empty($saveConfig)){
-              if($this->_readTo($this->_prompt) == true){
-                if($this->_linebreak == 'n'){$this->_send($saveConfig . "\n");}
-                if($this->_linebreak == 'r'){$this->_send($saveConfig . "\r");}
-              }                
-            }
-            if($this->_linebreak == 'n'){$this->_send($exitCmd . "\n");}
-            if($this->_linebreak == 'r'){$this->_send($exitCmd . "\r");}
-            fclose($this->_connection);    
 
-        } else {
-            echo "Telnet connection already closed";
-            throw new Exception("Telnet connection closed");
-        }
-    }
-    
-   
-    
     /**
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
@@ -416,39 +434,9 @@ class Connection {
         return $output;
     }
 
-    // next 3 functions are from http://www.geckotribe.com/php-telnet/#download
-    /**
-     * Telnet Do Command Input
-     * @param  string        $cmd The command to execute
-     * @param  string        $result to send back for output
-     * @return read data from connection
-     */
-    public function writeSnippetTelnet($c, &$r) {
-        if ($this->_connection) {
-            fputs($this->_connection, "$c\r");
-            $this->_sleep();
-            $this->_getResponse($r);
-            $r = preg_replace("/^.*?\n(.*)\n[^\n]*$/", "$1", $r);
-        }
-        return $this->_connection ? 1 : 0;
-    }
 
-    private function _getResponse(&$r) {
-        $r = '';
-        do {
-            $r.=fread($this->_connection, 1000);
-            $s = socket_get_status($this->_connection);
-        } while ($s['unread_bytes']);
-    }
-
-    private function _sleep() {
-        if ($this->_use_usleep){
-            usleep($this->_sleeptime);
-        } else {
-            sleep(1);
-        }
-    }
-
+    
+    
     /**
      * Clears internal command buffer
      * 

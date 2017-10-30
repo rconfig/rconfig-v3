@@ -205,7 +205,7 @@ if (!empty($getNodes)) {
             $fullpath = $file->createFile($command);
 
             // check for connection type i.e. telnet SSHv1 SSHv2 & run the command on the device
-            if ($templateparams['connect']['protocol'] == 'telnet') {
+        if ($templateparams['connect']['protocol'] == 'telnet') {
                 $showCmd = $conn->showCmdTelnet($command, $cliDebugOutput);
 
             } elseif ($templateparams['connect']['protocol'] == 'ssh') { //SSHv2 - cause SSHv2 is likely to come before SSHv1
