@@ -2,6 +2,7 @@ Version 3.8.7
 20-Oct-2017
 Author: Stephen Stack
 
+Fixed - Bug: - Modifications to connection class for faster telnet connections/ downloads
 Fixed - Bug: - #66 install DB check failing on password with special characters
 Fixed - Bug: - #67 IE 11 not allowing updates to default credentials in settings page
 
