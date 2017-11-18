@@ -1,3 +1,11 @@
+Version 3.8.8
+18-Nov-2017
+Author: Stephen Stack
+
+Fixed - Bug: - Modification to Centos6 apache config file to prevent SSL errors
+
+------------------------------------------------------------------------------------
+
 Version 3.8.7
 20-Oct-2017
 Author: Stephen Stack
