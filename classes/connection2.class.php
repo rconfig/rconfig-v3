@@ -103,11 +103,7 @@ class Connection {
                     if($this->_linebreak == 'r'){$this->_send($this->_username . "\r");}
                 }
             }        
-        
-        
-        
-        
-        
+
         if(!empty($this->_send($this->_username))){ // check if username is not empty. Blank usernames & PWs are allow: do not check of username prompt if blank
             $this->_readTo($this->_userPrmpt); // add $cliDebugOutput = true for cli debug
             if (strpos($this->_data, $this->_userPrmpt) !== false) { 
