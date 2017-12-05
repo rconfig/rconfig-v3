@@ -316,7 +316,6 @@ if (isset($errors['Fail'])) {
 <?php echo phpversion(); ?>
                                 </div>
                             </div>							
-
                             <div class="row even">
                                 <div class="cell">
                                     OS Version

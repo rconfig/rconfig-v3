@@ -6,6 +6,12 @@ include_once('../classes/paginator.class.php');
 /* Instantiate DB Class */
 $db2 = new db2();
 
+// get timezone for later
+$db2->query("SELECT timeZone FROM settings");
+$result = $db2->resultsetCols();
+$timeZone = $result[0];
+date_default_timezone_set($timeZone);
+
 /* Get Row count from users where NOT deleted */
 $db2->query('SELECT COUNT(*) AS total FROM users WHERE status = 1');
 $row = $db2->resultsetCols();
