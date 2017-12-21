@@ -191,7 +191,7 @@ class Connection {
                 echo $c;
             }
             // muchos advanced debugging - uncomment next line to enable
-                    // var_dump($this->_data);
+//                     var_dump($this->_data);
             if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
                 // return true if we encounter prompt from buffer text
                 return true;
@@ -254,7 +254,6 @@ class Connection {
      */
     public function showCmdTelnet($cmd, $cliDebugOutput = false) {
         if($this->_readTo($this->_prompt, $cliDebugOutput) == true){
-            echo '\r\n------------------------------------------------------\r\n';  
             if($this->_linebreak == 'n'){$this->_send($cmd . "\n");}
             if($this->_linebreak == 'r'){$this->_send($cmd . "\r");}
         }
