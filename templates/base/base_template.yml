@@ -16,6 +16,8 @@ connect:
   # type port number for connection protocol choose from 1 - 65535
   port: 23
 auth:
+  # set SSH interactive prompt if required for your devices (default to no)
+  sshInteractive: no
   # Set username name prompt. Must be in quotes. If left blank, username will not be sent.
   username: "Username:"
   # Set password name prompt. Must be in quotes

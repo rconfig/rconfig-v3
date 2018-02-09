@@ -6,18 +6,20 @@
     ## For new community submitted templates visit: https://github.com/rconfig/rConfig-templates
 
 main:
-  name: "Cisco IOS - TELNET - No Enable"
-  desc: "Cisco IOS TELNET based connection without enable mode"
+  name: "Cisco WLC (8.3 tested)"
+  desc: "Cisco WLC (8.3 tested)"
 connect:
   # connection timeout in seconds
-  timeout: 30
+  timeout: 60
   # type either telnet or ssh - must be in lowercase
-  protocol: telnet
+  protocol: ssh
   # type port number for connection protocol choose from 1 - 65535
-  port: 23
+  port: 22
 auth:
+  # set SSH interactive prompt if required for your devices (default to no)
+  sshInteractive: yes
   # Set username name prompt. Must be in quotes. If left blank, username will not be sent.
-  username: "Username:"
+  username: "User:"
   # Set password name prompt. Must be in quotes
   password: "Password:"
   # Set enable mode on or off
@@ -32,18 +34,18 @@ auth:
   hpAnyKeyPrmpt: "Press any key to continue"  
 config:
     # Experimental: Some vendors use different linebreak settings. Choose 'n' (default) or 'r'
-    linebreak: "n"
+    linebreak: 'n'
     # Disable config scrolling/ paging command. on/off
     paging: on
     # Disable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
-    pagingCmd: "terminal length 0"
+    pagingCmd: "config paging disable"
     # re-enable config scrolling/ paging command. Leave blank, or set as required. Must place command in quotations
-    resetPagingCmd: "terminal length 40"
+    resetPagingCmd: "config paging enable"
     # Set pager prompt. Must place command in quotations
-    pagerPrompt: "--More--"
+    pagerPrompt: "save config"
     # Set pager prompt key-stroke. Must place command in quotations
     pagerPromptCmd: " "
     # Save configuration command. Leave blank, or set as required. Must be in quotes
-    saveConfig: "wr mem"
+    saveConfig: "save config \n\n"
     # Set exit command. Must place command in quotations
-    exitCmd: "quit"
+    exitCmd: "logout"

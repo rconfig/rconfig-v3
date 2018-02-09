@@ -54,7 +54,7 @@ $db2->bind(':tid', $tid);
 $taskRow = $db2->resultset();
 $taskname = $taskRow[0]['taskname'];
 // create connection report file
-$reportFilename = 'deviceConnectionReport' . $date . '.html';
+$reportFilename = 'deviceConnectionReport' . $date . '.html' . date('h_i_s');
 $reportDirectory = 'connectionReports';
 $serverIp = getHostByName(getHostName()); // get server IP address for CLI scripts
 $report = new report($config_reports_basedir, $reportFilename, $reportDirectory, $serverIp);
@@ -144,6 +144,7 @@ if (!empty($getNodes)) {
                 $deviceEnablePassword, 
                 $templateparams['connect']['port'], 
                 $templateparams['connect']['timeout'],
+                $templateparams['auth']['sshInteractive'], 
                 $templateparams['auth']['username'], 
                 $templateparams['auth']['password'],
                 $templateparams['auth']['enable'],

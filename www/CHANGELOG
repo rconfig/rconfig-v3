@@ -1,7 +1,10 @@
 Version 3.8.8
-18-Nov-2017
+
+9-Feb-2018
 Author: Stephen Stack
 
+Fixed - Feature: - Added Ability so specify SSH interactive prompt for devices such as Cisco WLC. Added to code base, code, default templates, and standard template in github repo
+Fixed - Bug: - Reports are malformed due to overlap when written on same day. 
 Fixed - Bug: - Modification to Centos6 apache config file to prevent SSL errors
 
 ------------------------------------------------------------------------------------

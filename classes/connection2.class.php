@@ -40,7 +40,7 @@ class Connection {
      */
     public function __construct($hostname, $username = "", $password, 
             $enableModePassword, $connPort, $timeout = 60, 
-            $userPrmpt, $passPrmpt, $enable, 
+            $sshInteractive = false, $userPrmpt, $passPrmpt, $enable, 
             $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt, 
             $linebreak, $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd,
             $hpAnyKeyStatus, $hpAnyKeyPrmpt) {
@@ -50,6 +50,7 @@ class Connection {
         $this->_timeout = $timeout;
         $this->_enableModePassword = $enableModePassword;
         $this->_port = $connPort;
+        $this->_sshInteractive = $sshInteractive;
         $this->_userPrmpt = $userPrmpt;
         $this->_passPrmpt = $passPrmpt;
         $this->_enable = $enable;
@@ -191,8 +192,9 @@ class Connection {
                 echo $c;
             }
             // muchos advanced debugging - uncomment next line to enable
-//                     var_dump($this->_data);
             if ((substr($this->_data, strlen($this->_data) - strlen($prompt))) == $prompt) {
+                //                     var_dump($this->_data);
+
                 // return true if we encounter prompt from buffer text
                 return true;
             }
@@ -277,7 +279,7 @@ class Connection {
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
     public function connectSSH($command, $prompt, $debugOnOff = 0) {
-
+        
         $log = ADLog::getInstance();
         // debugging check - real time output on CLI
         if ($debugOnOff === '1' || isset($cliDebugOutput)) {
@@ -302,7 +304,12 @@ class Connection {
             $ssh->disconnect();
             return false;
         }
-
+        if ($this->_sshInteractive === true) {
+            $ssh->read($this->_userPrmpt);
+            $ssh->write($this->_username . "\n"); 
+            $ssh->read($this->_passPrmpt);
+            $ssh->write($this->_password . "\n"); 
+        }
         $output = '';
         if ($this->_enable === true) {
 
@@ -321,12 +328,14 @@ class Connection {
             $ssh->read($this->_prompt);
         } else {
             /* for HP devices, may add this to template in future if moe like it */
-            
-            if($this->_hpAnyKeyStatus === true){
+        
+        if($this->_hpAnyKeyStatus === true){
                $ssh->read($this->_hpAnyKeyPrmpt);
                $ssh->write("\n");
             }            
             $ssh->read($this->_prompt);
+
+        
             if($this->_paging === true){
                $ssh->write($this->_pagingCmd . "\n"); 
                sleep(1);
