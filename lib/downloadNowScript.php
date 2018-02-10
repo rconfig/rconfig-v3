@@ -135,6 +135,7 @@ if (!empty($getNodes)) {
                 $deviceEnablePassword, 
                 $templateparams['connect']['port'], 
                 $templateparams['connect']['timeout'],
+                $templateparams['auth']['sshInteractive'], 
                 $templateparams['auth']['username'], 
                 $templateparams['auth']['password'],
                 $templateparams['auth']['enable'],
