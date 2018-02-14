@@ -287,25 +287,14 @@ function is_dir_empty($dir) {
 }
 
 function scan_dir($path) {
-	if (is_dir_empty($path) || is_dir_empty($path.'/data')) {
-	  return array('total_files' => '0', 'total_size' => '0', 'files' => '0');
-	  return;
-	}
-    $ite = new RecursiveDirectoryIterator($path);
-    $bytestotal = 0;
-    $nbfiles = 0;
-    foreach (new RecursiveIteratorIterator($ite) as $filename => $cur) {
-        $filesize = $cur->getSize();
-        $bytestotal+=$filesize;
-        $nbfiles++;
-        $files[] = $filename;
+    if (is_dir_empty($path) || is_dir_empty($path.'/data')) {
+      return array('total_files' => '0', 'total_size' => '0', 'files' => '0');
+      return;
     }
-    // check if dir is empty after dir iteration and if so, create empty var to prevent php notice
-    if (empty($files)) {
-        $files = "";
-    }
-    $bytestotal = number_format($bytestotal);
-    return array('total_files' => $nbfiles, 'total_size' => $bytestotal, 'files' => $files);
+    exec('find /home/rconfig/data -type f -name "*.txt" | wc -l', $nbfiles);
+    exec('find /home/rconfig/data -type f -name "*.txt" -exec du -ch {} + | grep total$', $bytestotal);
+
+    return array('total_files' => $nbfiles[0], 'total_size' => $bytestotal[0]);
 }
 
 /** backup the db OR just a table 

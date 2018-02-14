@@ -41,7 +41,7 @@
                                 $filecnt = $files['total_files'];
                                 $fileByte = $files['total_size'];
                                 $fileByte = str_replace(",", "", $fileByte);
-                                echo "$filecnt files, " . _format_bytes($fileByte) . "\n";
+                                echo "$filecnt files, " . $fileByte . "\n";
                                 ?>
                             </div>
                         </div>
