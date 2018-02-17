@@ -30,11 +30,11 @@ if (!$session->logged_in) {
 
         $log->Info("Info: Start manual " . $purgeDays . " day Config File Purge - GET DB IDs(File: " . $_SERVER['PHP_SELF'] . ")");
     } else {
-        $response['response'] = "ERROR: executing query $getIDs";
-        $log->Fatal("Fatal: Could not Get GET DB IDs (File: " . $_SERVER['PHP_SELF'] . ")");
+        $response['response'] = "ERROR: executing query getIDs, becuase there was a problem, or no configs were returned.";
+        $log->Fatal($response['response'] ."  (File: " . $_SERVER['PHP_SELF'] . ")");
+        echo json_encode($response);
     }
     $iDlist = implode(", ", $getIDs);
-
 // 2. get all dirs using a group by from DB older than X days
     $db2->query("SELECT configLocation FROM configs WHERE DATE_SUB(CURDATE(),INTERVAL " . $purgeDays . " DAY) >= configDate GROUP BY configLocation;");
     $getDirRes = $db2->resultsetCols();
