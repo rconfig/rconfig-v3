@@ -215,8 +215,37 @@ class Connection {
      */
     private function _send($command) {
         fputs($this->_connection, $command . "\r\n");
-    }    
+    }  
     
+    /**
+     * Telnet Do Command Input
+     * @param  string        $cmd The command to execute
+     * @param  string        $result to send back for output
+     * @return read data from connection
+     */
+    public function writeSnippetTelnet($c, &$r) {
+        if ($this->_connection) {
+            fputs($this->_connection, "$c\r");
+            $this->_sleep();
+            $this->_getResponse($r);
+            $r = preg_replace("/^.*?\n(.*)\n[^\n]*$/", "$1", $r);
+        }
+        return $this->_connection ? 1 : 0;
+    }
+    private function _getResponse(&$r) {
+        $r = '';
+        do {
+            $r.=fread($this->_connection, 1000);
+            $s = socket_get_status($this->_connection);
+        } while ($s['unread_bytes']);
+    }
+    private function _sleep() {
+        if ($this->_use_usleep){
+            usleep($this->_sleeptime);
+        } else {
+            sleep(1);
+        }
+    }    
     /**
      * 
      * Close an active telnet connection and reset the term len if set
