@@ -1,4 +1,4 @@
->>> Please review our troubleshooting documentation for assistance with issues [https://www.rconfig.com/help/troubleshooting](https://www.rconfig.com/help/troubleshooting)
+>>>> Please review our troubleshooting documentation for assistance with issues [https://www.rconfig.com/help/troubleshooting](https://www.rconfig.com/help/troubleshooting)
 
 # rConfig 
 
