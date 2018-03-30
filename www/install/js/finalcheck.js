@@ -6,8 +6,9 @@ $(function () {
 function finalCheck() {
     $.ajaxSetup({ cache: false });
     $.getJSON("lib/ajaxHandlers/ajaxFinalCheck.php", function (data) {
-
-        if ($.isEmptyObject(data) != true) {
+        
+        if (data) {
+            console.log(data)
 
             var configFileMsg = data.configFileMsg
             var dbReadMsg = data.dbReadMsg

@@ -1,13 +1,14 @@
 <?php
 if (php_sapi_name() != 'cli') {
-    // permenant https redirect
-    if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
-        $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-        header('HTTP/1.1 301 Moved Permanently');
-        header('Location: ' . $redirect);
-        exit();
+    if(basename($_SERVER['SCRIPT_NAME']) != 'ajaxFinalCheck.php') { // hack to avoid no respones on final check page for wizard
+        if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+            $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            header('HTTP/1.1 301 Moved Permanently');
+            header('Location: ' . $redirect);
+            exit();
+        }
     }
-    // only set this when not run from CLI 
+	// only set this when not run from CLI 
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != '') {
         $config_basedir = "https://".$_SERVER['HTTP_HOST']."/";
     } else {

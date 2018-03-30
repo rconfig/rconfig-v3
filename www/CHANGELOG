@@ -1,8 +1,9 @@
 Version 3.8.8
 
-14-Feb-2018
+30-March-2018
 Author: Stephen Stack
 
+Fixed - Bug: - Fix issue where final check for install was returning no response. Maintenance Workaround added to config file for https redirect.
 Fixed - Bug: - writeSnippetTelnet() commented out in connection2.class.php
 Fixed - Bug: - configoverview.php hangs on purge when no configs in DB to delete. Error notice added. 
 Fixed - Bug: - configoverview.php page crashes when counting over 100k directories or files in the data directory
