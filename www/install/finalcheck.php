@@ -10,7 +10,7 @@ require('includes/head.php');
             <p>
                 Please click the 'Final Check' button to verify all settings before launching rConfig
             </p>	
-            <div id="chkDbSettingsBtn"><a href="#javascript:void(0);" onclick="finalCheck();">Final Check</a></div> 
+            <div id="chkDbSettingsBtn"><a href="#" onclick="finalCheck();">Final Check</a></div> 
         </div>
         <div id="items">
             <div class="cell">
@@ -60,7 +60,7 @@ require('includes/head.php');
                 </ul>
                 <div class="clear"></div>	
                 <br/>
-                Please go to the <a href="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . '/login.php'; ?>">login page</a> to launch rConfig
+                Please go to the <a href="<?php echo 'https://' . $_SERVER['SERVER_NAME'] . '/login.php'; ?>">login page</a> to launch rConfig
             </div>
             <div id="failDiv" class="cell">
                 rConfig installation failed. Please re-try installation, or contact technical support for installation assistance.

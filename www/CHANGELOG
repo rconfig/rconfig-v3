@@ -3,7 +3,7 @@ Version 3.8.8
 14-Feb-2018
 Author: Stephen Stack
 
-Fixed - Feature: - Added Ability so specify SSH interactive prompt for devices such as Cisco WLC. Added to code base, code, default templates, and standard template in github repo
+Fixed - Bug: - writeSnippetTelnet() commented out in connection2.class.php
 Fixed - Bug: - configoverview.php hangs on purge when no configs in DB to delete. Error notice added. 
 Fixed - Bug: - configoverview.php page crashes when counting over 100k directories or files in the data directory
 Fixed - Bug: - Reports are malformed due to overlap when written on same day. 

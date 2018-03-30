@@ -40,7 +40,7 @@ class Connection {
      */
     public function __construct($hostname, $username = "", $password, 
             $enableModePassword, $connPort, $timeout = 60, 
-            $sshInteractive = false, $userPrmpt, $passPrmpt, $enable, 
+            $userPrmpt, $passPrmpt, $enable, 
             $enableCmd, $enablePrompt, $enablePassPrmpt, $prompt, 
             $linebreak, $paging, $pagingCmd, $pagerPrompt, $pagerPromptCmd, $resetPagingCmd,
             $hpAnyKeyStatus, $hpAnyKeyPrmpt) {
@@ -50,7 +50,6 @@ class Connection {
         $this->_timeout = $timeout;
         $this->_enableModePassword = $enableModePassword;
         $this->_port = $connPort;
-        $this->_sshInteractive = $sshInteractive;
         $this->_userPrmpt = $userPrmpt;
         $this->_passPrmpt = $passPrmpt;
         $this->_enable = $enable;
@@ -333,12 +332,7 @@ class Connection {
             $ssh->disconnect();
             return false;
         }
-        if ($this->_sshInteractive === true) {
-            $ssh->read($this->_userPrmpt);
-            $ssh->write($this->_username . "\n"); 
-            $ssh->read($this->_passPrmpt);
-            $ssh->write($this->_password . "\n"); 
-        }
+
         $output = '';
         if ($this->_enable === true) {
 
