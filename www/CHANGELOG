@@ -3,6 +3,7 @@ Version 3.8.8
 30-March-2018
 Author: Stephen Stack
 
+Fixed - Bug: - [Fixed] Compare in Scheduled Tasks not working #83 github rconfig/rconfig
 Fixed - Bug: - Fix issue where final check for install was returning no response. Maintenance Workaround added to config file for https redirect.
 Fixed - Bug: - writeSnippetTelnet() commented out in connection2.class.php
 Fixed - Bug: - configoverview.php hangs on purge when no configs in DB to delete. Error notice added. 
