@@ -13,6 +13,9 @@
  * @version   2.0
  * @link      http://www.rconfig.com/
  */
+// SSH autoload
+require '/home/rconfig/vendor/autoload.php';
+use phpseclib\Net\SSH2;
 
 class Connection {
 
@@ -253,32 +256,32 @@ class Connection {
      * Establish a connection to an IOS based device on SSHv2 check for enable mode also and enter enable cmds if needed
      */
     public function connectSSH($command, $prompt, $debugOnOff = 0) {
-        
+
         $log = ADLog::getInstance();
-        // debugging check - real time output on CLI
-        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
-            define('NET_SSH2_LOGGING', NET_SSH2_LOG_REALTIME);
-        }
-        
+
         // Ensure port is set to a valid number.  If not, use default
         if ($this->_port == null || $this->_port <= 0 || $this->_port > 65535) {
             $this->_port = 22;
         }        
-        if (!$ssh = new Net_SSH2($this->_hostname, $this->_port, $this->_timeout)) {
+        if (!$ssh = new SSH2($this->_hostname, $this->_port, $this->_timeout)) {
             echo "Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . "\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             $ssh->disconnect();
             return false;
         }
+        // debugging check - real time output on CLI
+        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+            define('NET_SSH2_LOGGING', SSH2::LOG_COMPLEX);
+        }
+        
 
         if (!$ssh->login($this->_username, $this->_password)) {
-//          
             echo "Error: Authentication Failed or unable to connect to " . $this->_hostname . "\n";
             $log->Conn("Error: Authentication Failed or unable to connect to " . $this->_hostname . " on port " . $this->_port . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             $ssh->disconnect();
             return false;
         }
-
+        
         $output = '';
         if ($this->_enable === true) {
 
@@ -317,12 +320,17 @@ class Connection {
             if($this->_linebreak == 'r'){$ssh->write("\r");}
             $ssh->read($this->_prompt);
         }
+        
         // reset paging if paging is set
         if($this->_paging === true){
             if($this->_linebreak == 'n'){$ssh->write($this->_resetPagingCmd . "\n"); }
             if($this->_linebreak == 'r'){$ssh->write($this->_resetPagingCmd . "\n"); }
             sleep(1);
             $ssh->read($this->_prompt);
+        }
+        // debugging check - real time output on CLI
+        if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+            echo $ssh->getlog(); 
         }
         $ssh->disconnect(); 
         $result = array();
