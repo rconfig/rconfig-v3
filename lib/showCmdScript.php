@@ -261,6 +261,9 @@ if (!empty($getNodes)) {
             // reason for minus 1 is, $cmdNumRows is number of commands sent back. THe while loop starts a key 0, 
             // there for $i needs to equal $cmdNumRows -minus one for a match on the last commend that was run
             if ($i == $cmdNumRows-1) { 
+                if ($debugOnOff === '1' || isset($cliDebugOutput)) {
+                    echo "###########################   CLOSING TELNET CONNECTION   ######################" . PHP_EOL;
+                }
                 if ($templateparams['connect']['protocol'] == 'telnet') {
                     $conn->closeTelnet($templateparams['config']['resetPagingCmd'], $templateparams['config']['saveConfig'], $templateparams['config']['exitCmd']); // close telnet connection - ssh already closed at this point
                     break;

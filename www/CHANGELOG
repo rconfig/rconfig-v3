@@ -1,4 +1,8 @@
-Version 3.8.8
+Version 3.9.0
+
+25-May-2018
+Fixed - Bug: - Resolved multiple issues on Telnet connections returning blank configurations
+
 
 30-March-2018
 Author: Stephen Stack
