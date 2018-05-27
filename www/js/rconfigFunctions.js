@@ -59,6 +59,7 @@ function errorDialog(text) {
     return dialog;
 }
 
+
 // standard deletion function for majority of rconfig forms
 function removeItem(message, url, errorMsg) {
     var rowid = $("input:checkbox:checked").attr("id");
@@ -136,3 +137,5 @@ function tblRowSelector(tableName) {
         checkbox.prop('checked', true);
     });
 }
+
+

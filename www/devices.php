@@ -96,7 +96,7 @@ include("includes/head.inc.php");
                     </div>
                     <!-- begin devices form -->
                     <div class="mainformDiv">
-                        <form method="post" action="lib/crud/devices.crud.php"  class="myform stylizedForm stylized">
+                        <form method="post" action="lib/crud/devices.crud.php"  class="myform stylizedForm stylized" onsubmit="return checkPwInput(this);">
                             <div id="left">
                                 <legend>Device Details</legend>
                                 <label for="deviceName"><font color="red">*</font> Device Name:</label>

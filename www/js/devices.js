@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     if (getParameter('deviceid')) {
         editDevice('deviceMgmtPage');
     }
@@ -34,6 +35,17 @@ $(document).ready(function () {
         }
     });
 });
+
+function checkPwInput(form) {
+    // alert if password fields and empty, but give the user to proceed anyway if they agree as PWs are not mandatory
+    if($('#devicePassword').val() == "") {
+      return confirm('Device password is missing, and is not mandatory. Do you really want to submit the form?');
+    }
+    if($('#deviceEnablePassword').val() == "") {
+      return confirm('Device Enable password is missing, and is not mandatory. Do you really want to submit the form?');
+        return false;
+    }
+}
 
 function searchValidateForm() {
 // simple input text box check for search form. if nothing in the field throw and alert box
