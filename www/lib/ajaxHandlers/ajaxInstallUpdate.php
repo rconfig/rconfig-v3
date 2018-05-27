@@ -73,9 +73,9 @@ if (!$session->logged_in) {
         $update->updateConfigVersionInfo($latestVer, $destinationConfigFile);
 
         // Copy App folders only	
-        $folderstoCopy = array('classes', 'config', 'lib', 'www');
-        $update->copyAppDirsToProd($latestVer, $folderstoCopy);
-
+        $folderstoCopy = array('classes', 'config', 'lib', 'www', 'vendor');
+        $update->copyAppDirsToProd($latestVer, $folderstoCopy);      
+        
         // check version updated correctly
         if ($config_version == $latestVer) {
             $response['configFileVersionUpdate'] = 'rConfig application files updated';
