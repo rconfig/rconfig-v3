@@ -33,7 +33,7 @@
                     $ds = disk_total_space("/");
                     $fs = disk_free_space("/");
 
-                    $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable, useDefaultCredsManualSet, commandDebug, commandDebugLocation, deviceConnectionTimout, ldapServer, pageTimeout FROM settings WHERE id = 1");
+                    $db2->query("SELECT defaultNodeUsername, defaultNodePassword, defaultNodeEnable, useDefaultCredsManualSet, commandDebug, commandDebugLocation, deviceConnectionTimout, ldapServer, ldap_host, ldap_dn, ldap_user_group, ldap_admin_group, ldap_usr_dom, pageTimeout FROM settings WHERE id = 1");
                     $result = $db2->resultset();
                     $defaultNodeUsername = $result[0]['defaultNodeUsername'];
                     $defaultNodePassword = $result[0]['defaultNodePassword'];
@@ -43,6 +43,11 @@
                     $debugLocation = $result[0]['commandDebugLocation'];
                     $timeout = $result[0]['deviceConnectionTimout'];
                     $ldapServer = $result[0]['ldapServer'];
+                    $ldap_host = $result[0]['ldap_host'];
+                    $ldap_dn = $result[0]['ldap_dn'];
+                    $ldap_user_group = $result[0]['ldap_user_group'];
+                    $ldap_admin_group = $result[0]['ldap_admin_group'];
+                    $ldap_usr_dom = $result[0]['ldap_usr_dom'];
                     $pageTimeout = $result[0]['pageTimeout'];
                     ?>	
                     <div style="width:60%;">
@@ -128,6 +133,52 @@
                         </label>
                     </div>
                 </fieldset>
+                
+                
+                <fieldset id="settings">
+                    <legend>Authentication Details</legend>
+                        <div class="spacer"></div>
+                        <label style="width: 120px;">
+                            Enable LDAP Authentication
+                        </label>
+                        <input type="checkbox" id="enableLDAPAuth" style="width: 80px;" <?php echo ($ldapServer == 1) ? 'checked' : '' ; ?>> 
+                        <div class="spacer"></div>
+                        <div id="deviceSettings" class="myform stylizedForm stylized">
+                        <label>
+                            LDAP Host
+                        </label>
+                        <input type="text" value="<?php echo (isset ($ldap_host)) ? $ldap_host : '' ; ?>" id="ldap_host" name="ldap_host" placeholder="x.x.x.x" />
+                        
+                        <label>
+                            LDAP DN
+                        </label>
+                        <input type="text" value="<?php echo (isset ($ldap_dn)) ? $ldap_dn : '' ;?>" id="ldap_dn" name="ldap_dn" placeholder="LDAP DN" />
+                        
+                        <label>
+                            LDAP User Group
+                        </label>
+                        <input type="text" value="<?php echo (isset ($ldap_user_group)) ? $ldap_user_group : '' ;?>" id="ldap_user_group" name="ldap_user_group" placeholder="LDAP User Group" />
+
+                        <label>
+                            LDAP Admin Group
+                        </label>
+                        <input type="text" value="<?php echo (isset ($ldap_admin_group)) ? $ldap_admin_group : '' ;?>" id="ldap_admin_group" name="ldap_admin_group" placeholder="LDAP Admin Group" />
+
+                        <label>
+                            LDAP Domain
+                        </label>
+                        <input type="text" value="<?php echo (isset ($ldap_usr_dom)) ? $ldap_usr_dom : '' ;?>" id="ldap_usr_dom" name="ldap_usr_dom" placeholder="@domain.local" />
+                        
+                        </div>
+                        <div class="spacer"></div>
+                        <div class="spacer"></div>
+                        <button class="smlButton" id="saveLDAP" onclick="enableLDAPAuth()">Update LDAP</button> 
+                        <div class="spacer"></div>
+                        <span id="ldapUpdated" style="display:none; color:green;">LDAP Updated!</span>
+                </fieldset>
+                
+                
+                
                 <fieldset id="settings">
                     <legend>Device Settings</legend>
                     <div id="deviceSettings" class="myform stylizedForm stylized">

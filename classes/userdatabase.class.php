@@ -293,23 +293,49 @@ class MySQLDB {
     function checkLdapServer() {
         $this->connection->query("SELECT ldapServer FROM settings WHERE id = 1");
         $result = $this->connection->resultset();
+//        var_dump($result);die();
         $num_rows = $this->connection->rowCount();
-        if (!$result || $num_rows < 1) {
-            return 1; //Indicates LDAP server lookup failure
-        }
-        $dbarray = $result[0];
-        if (!empty($dbarray['ldapServer'])) {
-            return 0; //LDAP server is set
-        } else {
-            return 2; //LDAP server has not been set
-        }
+        return (int)$result[0]['ldapServer'];
+//        if (!$result || $num_rows < 1) {
+//            return 1; //Indicates LDAP server lookup failure
+//        }
+//        $dbarray = $result[0];
+//        if (!empty($dbarray['ldapServer'])) {
+//            return 0; //LDAP server is set
+//        } else {
+//            return 2; //LDAP server has not been set
+//        }
     }
 
     function getLdapServer() {
-        $this->connection->query("SELECT ldapServer FROM settings WHERE id = 1");
+        $this->connection->query("SELECT ldap_host FROM settings WHERE id = 1");
         $result = $this->connection->resultset();
         $dbarray = $result[0];
-        return $dbarray['ldapServer'];
+        return $dbarray['ldap_host'];
+    }
+    function getLdapDomain() {
+        $this->connection->query("SELECT ldap_usr_dom FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
+        $dbarray = $result[0];
+        return $dbarray['ldap_usr_dom'];
+    }
+    function getLdapDn() {
+        $this->connection->query("SELECT ldap_dn FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
+        $dbarray = $result[0];
+        return $dbarray['ldap_dn'];
+    }
+    function getldap_admin_group() {
+        $this->connection->query("SELECT ldap_admin_group FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
+        $dbarray = $result[0];
+        return $dbarray['ldap_admin_group'];
+    }
+    function getldap_user_group() {
+        $this->connection->query("SELECT ldap_user_group FROM settings WHERE id = 1");
+        $result = $this->connection->resultset();
+        $dbarray = $result[0];
+        return $dbarray['ldap_user_group'];
     }
 
     function querySelect($qry){

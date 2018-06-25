@@ -225,6 +225,11 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `smtpLastTestTime` datetime DEFAULT NULL,
   `timeZone` varchar(100) DEFAULT NULL,
   `ldapServer` int(1) NOT NULL DEFAULT '0',
+  `ldap_host` varchar(255) NOT NULL,
+  `ldap_dn` varchar(255) NOT NULL,
+  `ldap_user_group` varchar(255) NOT NULL,
+  `ldap_admin_group` varchar(255) NOT NULL,
+  `ldap_usr_dom` varchar(255) NOT NULL,
   `pageTimeout` int(1) NOT NULL DEFAULT '600' COMMENT 'Page Timeout Value',
   `passwordEncryption` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)

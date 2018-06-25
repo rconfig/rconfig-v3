@@ -163,6 +163,46 @@ if (!$session->logged_in) {
         echo json_encode($response);
     }
 
+    
+    /**
+     * enableLDAPAuth - Enable LDAP Authentication & pass settings
+     */
+    function enableLDAPAuth() {
+
+        require_once("../../../classes/db2.class.php");
+        require_once("../../../classes/ADLog.class.php");
+
+        $db2 = new db2();
+        $log = ADLog::getInstance();
+
+        $enableLDAPAuth = $_POST['enableLDAPAuth'];
+        $ldap_host = $_POST['ldap_host'];
+        $ldap_dn = $_POST['ldap_dn'];
+        $ldap_user_group = $_POST['ldap_user_group'];
+        $ldap_admin_group = $_POST['ldap_admin_group'];
+        $ldap_usr_dom = $_POST['ldap_usr_dom'];
+
+        $db2->query("UPDATE `settings` SET `ldapServer` = :ldapServer, `ldap_host` = :ldap_host, `ldap_dn` = :ldap_dn, `ldap_user_group` = :ldap_user_group, `ldap_admin_group` = :ldap_admin_group, `ldap_usr_dom` = :ldap_usr_dom");
+        $db2->bind(':ldapServer', $enableLDAPAuth);
+        $db2->bind(':ldap_host', $ldap_host);
+        $db2->bind(':ldap_dn', $ldap_dn);
+        $db2->bind(':ldap_user_group', $ldap_user_group);
+        $db2->bind(':ldap_admin_group', $ldap_admin_group);
+        $db2->bind(':ldap_usr_dom', $ldap_usr_dom);
+        $queryResult = $db2->execute();
+        /* Update successful */
+        if ($queryResult) {
+            $response = "<br/><font color='green'>LDAP Settings Updated </font>";
+        }
+        /* Update failed */ else {
+            $response = "failed";
+            $log->Warn("Failure: Could not update LDAP in DB for ajaxSettingsProcess.php:" . $queryResult);
+        }
+
+        echo json_encode($response);
+    }
+
+    
     /**
      * getDebugStatus - Change the device debug status
      */
@@ -307,6 +347,8 @@ if (!$session->logged_in) {
         procTimeZoneChange();
     } else if (isset($_GET['getTimeZone'])) {
         getTimeZone();
+    } else if (isset($_GET['enableLDAPAuth'])) {
+        enableLDAPAuth();
     } else if (isset($_GET['getDebugStatus'])) {
         getDebugStatus();
     } else if (isset($_GET['phpLoggingOnOff'])) {

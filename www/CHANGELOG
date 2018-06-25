@@ -1,8 +1,16 @@
+Version 3.9.1
+
+25-June-2018
+Added - LDAP Authentication Support
+
+------------------------------------------------------------------------------------
 Version 3.9.0
 
 25-May-2018
 Fixed - Bug: - Resolved multiple issues on Telnet connections returning blank configurations
 Added - Confirm dialog if password fields on devices page are blank. User can proceed  to form submit anyway if they click 'ok'
+
+------------------------------------------------------------------------------------
 
 30-March-2018
 Author: Stephen Stack

@@ -97,7 +97,8 @@ class Session {
         }
 
         $ldapServerCheck = $database->checkLdapServer();
-        if ($ldapServerCheck == 0 && isset($_SESSION['username']) && isset($_SESSION['userid']) && $_SESSION['username'] != GUEST_NAME) {
+//        var_dump($ldapServerCheck);die();
+        if ($ldapServerCheck == 1 && isset($_SESSION['username']) && isset($_SESSION['userid']) && $_SESSION['username'] != GUEST_NAME) {
             $this->username = $_SESSION['username'];
             $this->userid = $_SESSION['userid'];
             $this->userlevel = 9;
@@ -162,17 +163,38 @@ class Session {
         $subuser = stripslashes($subuser);
         $ldapServerCheck = $database->checkLdapServer();
 
-        if ($ldapServerCheck == 0) {
+        if ($ldapServerCheck == 1) {
+            // configure ldap params
             $ldapServer = $database->getLdapServer();
+            $ldapDomain = $database->getLdapDomain();
+            $ldapDn = $database->getLdapDn();
+            $ldap_admin_group = $database->getldap_admin_group();
+            $ldap_user_group = $database->getldap_user_group();
             $ldapConn = ldap_connect($ldapServer);
-            $ldapBind = ldap_bind($ldapConn, $subuser, $subpass);
-
+            ldap_set_option($ldapConn,LDAP_OPT_PROTOCOL_VERSION,3);
+            ldap_set_option($ldapConn,LDAP_OPT_REFERRALS,0);
+            $ldapBind = ldap_bind($ldapConn, $subuser.$ldapDomain, $subpass);
+            
             if ($ldapBind) {
+                
+                $filter = "(sAMAccountName=".$subuser.")";
+		$attr = array("memberof");
+		$result = ldap_search($ldapConn, $ldapDn, $filter, $attr) or exit("Unable to search LDAP server");
+		$entries = ldap_get_entries($ldapConn, $result);
+		ldap_unbind($ldap);
+                
                 /* Username and password correct, register session variables */
 //			$this->userinfo  = $database->getUserInfo($subuser);
-                $this->username = $_SESSION['username'] = $subuser;
+                $this->username = $_SESSION['username'] = $subuser.$ldapDomain;
                 $this->userid = $_SESSION['userid'] = $this->generateRandID();
-                $this->userlevel = 9;
+		// check groups for access level
+		$access = 0;
+		foreach($entries[0]['memberof'] as $grps) {
+                    // is manager, break loop
+                    if(strpos($grps, $ldap_manager_group)) { $this->userlevel = 9; break; }
+                    if(strpos($grps, $ldap_user_group)) { $this->userlevel = 1; }
+		}                
+                                
             } else {
                 $field = "user";
                 $form->setError($field, "* Error logging in using LDAP");

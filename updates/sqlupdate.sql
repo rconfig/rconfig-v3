@@ -1,6 +1,11 @@
 -- Dumping structure for table DATABASE_NAME.nodes
 ALTER TABLE settings
-ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption Setting';
+ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption Setting',
+ADD COLUMN `ldap_host` varchar(255) NOT NULL,
+ADD COLUMN `ldap_dn` varchar(255) NOT NULL,
+ADD COLUMN `ldap_user_group` varchar(255) NOT NULL,
+ADD COLUMN `ldap_admin_group` varchar(255) NOT NULL,
+ADD COLUMN `ldap_usr_dom` varchar(255) NOT NULL,;
 INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VALUES
 	(0, 600, 0);
 -- Dumping structure for table DATABASE_NAME.nodes
@@ -8,7 +13,6 @@ ALTER TABLE nodes
 ADD COLUMN `deviceEnablePrompt` varchar(255) NOT NULL;
 ALTER TABLE nodes
 Add COLUMN `templateId` INT NULL DEFAULT '1' AFTER `nodeCatId`;
-
 
 -- Dumping structure for table DATABASE_NAME.menuPages
 DROP TABLE IF EXISTS `menuPages`;

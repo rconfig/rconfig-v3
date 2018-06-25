@@ -151,6 +151,42 @@ function debugOnOff() {
     }
 }
 
+function enableLDAPAuth() {
+    var enableLDAPAuth = $('#enableLDAPAuth').is(':checked');
+    var enableLDAPAuth = enableLDAPAuth ? 1 : 0;
+    var ldap_host = $('#ldap_host').val();
+    var ldap_dn = $('#ldap_dn').val();
+    var ldap_user_group = $('#ldap_user_group').val();
+    var ldap_admin_group = $('#ldap_admin_group').val();
+    var ldap_usr_dom = $('#ldap_usr_dom').val();
+    $.ajaxSetup({cache: false});
+    $.ajax({
+        type: "POST",
+        url: "lib/ajaxHandlers/ajaxSettingsProcess.php?enableLDAPAuth=" + enableLDAPAuth,
+        data: { enableLDAPAuth : enableLDAPAuth, ldap_host : ldap_host, ldap_dn : ldap_dn, ldap_user_group : ldap_user_group, ldap_admin_group : ldap_admin_group, ldap_usr_dom : ldap_usr_dom},
+        dataType: 'json', 
+            success: function(data){
+                bootbox.hideAll();
+//                bootbox.alert({ 
+//                    message: '<div class="text-center"><img src="images/tick_32.png"/> LDAP Settings updated</div>' ,
+//                    backdrop: false,
+//                    size: 'large',
+//                    title: 'Device Password Encryption Wizard',
+//                 });
+                 $('#ldapUpdated').show();
+            },
+            error:function(req, status, err){
+                console.log( 'something went wrong', status, err );
+                bootbox.hideAll();
+                bootbox.alert({ 
+                    message: '<div class="text-center"><img src="images/redCross.png"/> Something went wrong with the LDAP Update process.</div>' ,
+                    backdrop: false,
+                    size: 'large',
+                    title: 'Device LDAP Update process' ,
+                 });          
+            }   
+    });    
+}
 
 function showPasswords() {
     var checkBoxStatus = document.getElementById('passwordChkBox').checked;
