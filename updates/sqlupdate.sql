@@ -1,11 +1,27 @@
 -- Dumping structure for table DATABASE_NAME.nodes
+SET @dbname = DATABASE();
+SET @tablename = "settings";
+SET @columnname = "passwordEncryption";
+SET @preparedStatement = (SELECT IF(
+  (
+    SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE
+      (table_name = @tablename)
+      AND (table_schema = @dbname)
+      AND (column_name = @columnname)
+  ) > 0,
+  "SELECT 1",
+  CONCAT("ALTER TABLE ", @tablename, " ADD ", @columnname, " INT(11) DEFAULT '0';")
+));
+PREPARE alterIfNotExists FROM @preparedStatement;
+EXECUTE alterIfNotExists;
+DEALLOCATE PREPARE alterIfNotExists;
 ALTER TABLE settings
-ADD COLUMN `passwordEncryption` int(11) NOT NULL DEFAULT '0' COMMENT 'Device Encyrption Setting',
 ADD COLUMN `ldap_host` varchar(255) NOT NULL,
 ADD COLUMN `ldap_dn` varchar(255) NOT NULL,
 ADD COLUMN `ldap_user_group` varchar(255) NOT NULL,
 ADD COLUMN `ldap_admin_group` varchar(255) NOT NULL,
-ADD COLUMN `ldap_usr_dom` varchar(255) NOT NULL,;
+ADD COLUMN `ldap_usr_dom` varchar(255) NOT NULL;
 INSERT INTO `settings` (`commandDebug`, `pageTimeout`, `passwordEncryption`) VALUES
 	(0, 600, 0);
 -- Dumping structure for table DATABASE_NAME.nodes

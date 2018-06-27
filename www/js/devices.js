@@ -174,7 +174,6 @@ function getDefaultUserPass(cb) {
                 $('#deviceEnablePassword').val("");
             });
         });
-
     }
 }
 
