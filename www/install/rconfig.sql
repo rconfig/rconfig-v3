@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
   `smtpLastTest` varchar(20) DEFAULT NULL,
   `smtpLastTestTime` datetime DEFAULT NULL,
   `timeZone` varchar(100) DEFAULT NULL,
-  `ldapServer` int(1) DEFAULT NULL '0',
+  `ldapServer` int(1) DEFAULT NULL,
   `ldap_host` varchar(255) DEFAULT NULL,
   `ldap_dn` varchar(255) DEFAULT NULL,
   `ldap_user_group` varchar(255) DEFAULT NULL,
