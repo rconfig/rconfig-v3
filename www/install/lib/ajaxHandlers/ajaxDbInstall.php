@@ -40,8 +40,8 @@ try {
         $dbh = new PDO('mysql:port=' . $port . ';host=' . $server, $dbUsername, $dbPassword, $options);
         $dbh->exec("DROP DATABASE `$dbName`;");
     } catch (PDOException $e) {
-        $error = "DB ERROR: " . $e->getMessage();
-        echo $error;
+        $error = "DB ERROR: " . $e->getMessage() . "(some special characters such as + signs are not allowed in MYSQl passwords)";
+//        echo $error;
         $array['error'] = '<strong><font class="bad">Fail - ' . $error . '</strong></font><br/>';
         echo json_encode($array);
         die();
