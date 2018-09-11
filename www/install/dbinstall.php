@@ -69,8 +69,6 @@ require('includes/head.php');
             <div id="chkDbSettingsBtn"><a href="#javascript:void(0);" onclick="installConfig();">Install Database</a></div> 
         </div>			
         <div id="items">
-
-
             <div class="cellinside">
                 <ul>
                     <li><div id="msg"><br/></div></li>
