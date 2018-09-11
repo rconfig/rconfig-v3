@@ -170,7 +170,12 @@ class Session {
             $ldapDn = $database->getLdapDn();
             $ldap_admin_group = $database->getldap_admin_group();
             $ldap_user_group = $database->getldap_user_group();
-            $ldapConn = ldap_connect($ldapServer);
+            // add two more DC inputs and a tick box for fallback to local auth if all DCs cannot connect
+            // check install process for adding LDAP Suppport
+            if (!function_exists('ldap_connect')) {
+                die ('Missing PHP LDAP support.');
+            }
+            $ldapConn = ldap_connect($ldapServer) or die('Cannot connect to domain controller:');
             ldap_set_option($ldapConn,LDAP_OPT_PROTOCOL_VERSION,3);
             ldap_set_option($ldapConn,LDAP_OPT_REFERRALS,0);
             $ldapBind = ldap_bind($ldapConn, $subuser.$ldapDomain, $subpass);
