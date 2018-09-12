@@ -11,12 +11,12 @@ $(document).ready(function () {
     resetDeviceInputBgroud('seconddevice');
 
     // device input auto complete
-    deviceinputAutoComplete('firstdevice');
-    deviceinputAutoComplete('seconddevice');
+    deviceinputAutoComplete('first');
+    deviceinputAutoComplete('second');
 
     // populate selects for commands
-    cmdSelectPopulate('firstdevice', 'firstCommandSelect');
-    cmdSelectPopulate('seconddevice', 'secondCommandSelect');
+//    cmdSelectPopulate('firstdevice', 'firstCommandSelect');
+//    cmdSelectPopulate('seconddevice', 'secondCommandSelect');
 
     // get dates for selected command
     datepickerSetup('firstdevice', 'firstCommandSelect', 'firstdatepickerDiv', 'firstdatepickerSelect');
@@ -32,7 +32,9 @@ function resetDeviceInputBgroud(inputname) {
 }
 
 // autocomplete for device fields
-function deviceinputAutoComplete(inputname) {
+function deviceinputAutoComplete(number) {
+    var inputname = number + 'device';
+    var selectname = number + 'CommandSelect';
     $("input[name=" + inputname + "]").autocomplete({
         source: "lib/ajaxHandlers/ajaxCompareDeviceSearchAuto.php",
         async: false,
@@ -43,16 +45,15 @@ function deviceinputAutoComplete(inputname) {
         select: function (event, ui) {
             $("input[name=" + inputname + "]").attr('id', ui.item.id);
             $("input[name=" + inputname + "]").val(ui.item.abbrev);
+            $("input[name=" + inputname + "]").css({'background': '#D0E4F4'});
+            cmdSelectPopulate(inputname, selectname);
         }
     });
 }
 
 // populate commands select dropdown based on device selection
 function cmdSelectPopulate(inputname, selectname) {
-    $("input[name=" + inputname + "]").enterKey(function () {
         // color the input field after enter on the keyboard
-        $("input[name=" + inputname + "]").css({'background': '#D0E4F4'});
-
         var id = $("input[name=" + inputname + "]").attr('id');
         //Clear out the old values
         $("#" + selectname + "").empty();
@@ -66,7 +67,6 @@ function cmdSelectPopulate(inputname, selectname) {
             }
             $("#" + selectname + "").append(html);
         });
-    });
 }
 
 // get dates for selected command
