@@ -354,7 +354,7 @@ class Connection {
 
         $log = ADLog::getInstance();
 
-        if (!$ssh = new Net_SSH2($this->_hostname, 22, $this->_timeout)) {
+        if (!$ssh = new SSH2($this->_hostname, 22, $this->_timeout)) {
             $output = "Failure: Unable to connect to $this->_hostname\n";
             $log->Conn("Failure: Unable to connect to " . $this->_hostname . " - (File: " . $_SERVER['PHP_SELF'] . ")");
             return false;

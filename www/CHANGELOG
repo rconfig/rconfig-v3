@@ -1,3 +1,12 @@
+Version 3.9.2
+
+12-Sept-2018
+Fixed - Write Snippet support not working for some SSH connections
+Fixed - fixed ldap_host NOT NULL for sql install file
+Fixed - remove echo from DBinstall script
+Fixed - Config Compare not showing list of commands, Issue resolved
+
+------------------------------------------------------------------------------------
 Version 3.9.1
 
 25-June-2018
