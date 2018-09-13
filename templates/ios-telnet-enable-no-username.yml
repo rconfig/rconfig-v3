@@ -6,8 +6,8 @@
     ## For new community submitted templates visit: https://github.com/rconfig/rConfig-templates
 
 main:
-  name: "Cisco IOS - TELNET - Enable"
-  desc: "Cisco IOS TELNET based connection with enable mode"
+  name: "Cisco IOS - TELNET - Enable - No Username"
+  desc: "Cisco IOS TELNET based connection with enable mode and no username"
 connect:
   # connection timeout in seconds
   timeout: 60
