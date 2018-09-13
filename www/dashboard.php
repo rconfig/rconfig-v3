@@ -62,7 +62,7 @@
                             <div class="cell last">
                                 <div id="pubIp">
                                     <?php
-                                    if ($ip = file_get_contents("lib/ajaxHandlers/publicIp.txt")) {
+                                    if ( file_exists("lib/ajaxHandlers/publicIp.txt") AND $ip = file_get_contents("lib/ajaxHandlers/publicIp.txt") ) {
                                         echo $ip;
                                     } else {
                                         echo "<font color=\"red\">No Public IP Address</font>";
