@@ -200,7 +200,7 @@ function get_memory_free() {
 function get_memory_total() {
     foreach (file('/proc/meminfo') as $ri)
         $m[strtok($ri, ':')] = strtok('');
-    return round(substr($m['MemTotal'], 0, -3) * 1000); // by 1000 to xlate from KB from proc file to B
+    return round(substr($m['MemTotal'], 0, -4) * 1000); // by 1000 to xlate from KB from proc file to B
 }
 
 /*
