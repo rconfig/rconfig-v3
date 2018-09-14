@@ -187,7 +187,7 @@ function get_memory_free() {
     foreach (file('/proc/meminfo') as $ri)
         $m[strtok($ri, ':')] = strtok('');
 	foreach($m as $key => $value){
-		$m[$key = trim(str_replace(" kB","",$value));
+            $m[$key] = trim(str_replace(" kB","",$value));
 	}	
     return 100 - round(($m['MemFree'] + $m['Buffers'] + $m['Cached']) / $m['MemTotal'] * 100);
 }
