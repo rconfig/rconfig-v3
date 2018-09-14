@@ -62,10 +62,14 @@
                             <div class="cell last">
                                 <div id="pubIp">
                                     <?php
+                                    $msg = "<font color=\"red\">No Public IP Address</font>";
+                                    if(!file_exists("lib/ajaxHandlers/publicIp.txt")){
+                                       echo $msg; 
+                                    }
                                     if ($ip = file_get_contents("lib/ajaxHandlers/publicIp.txt")) {
                                         echo $ip;
                                     } else {
-                                        echo "<font color=\"red\">No Public IP Address</font>";
+                                        echo $msg;
                                     }
                                     ?>
                                 </div>
