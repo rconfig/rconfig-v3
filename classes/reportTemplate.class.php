@@ -111,7 +111,7 @@ class report {
         $handle = $this->openFile();
         $reportCss = file_get_contents('/home/rconfig/www/css/reportstyle.css');
         $compareTableCss = file_get_contents('/home/rconfig/www/css/compareTable.css');
-        $logo = 'http://www.rconfig.com/images/images/rconfig96.png';
+        $logo = 'https://www.rconfig.com/images/new_logos/red_logos/artwork_red_horizontalArtboard 1_48px.png';
 
         $data = <<<EOF
 <!DOCTYPE html>
