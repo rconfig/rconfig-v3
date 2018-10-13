@@ -8,7 +8,7 @@ process. Check for the latest install guides in the support section
 
 BUGS
 ---
-I am no longer fixing bugs on rConfig version 3.x
+I am no longer fixing bugs on rConfig version 3.x. I will manage PRs.
 
 # rConfig 
 
