@@ -1,6 +1,14 @@
 ## Support & Troubleshooting rConfig
-Support & bug fixes for rConfig is available to paid subscribers only at this time. 
-Please review our troubleshooting documentation for assistance with issues [https://www.rconfig.com/help/troubleshooting](https://www.rconfig.com/help/troubleshooting)
+Please review our troubleshooting documentation for assistance with issues [https://help.rconfig.com](https://www.rconfig.com/help/troubleshooting)
+
+INSTALL
+---
+Guides can be found online at http://help.rconfig.com/gettingstarted/installation to help you through the installation
+process. Check for the latest install guides in the support section
+
+BUGS
+---
+I am no longer fixing bugs on rConfig version 3.x
 
 # rConfig 
 
@@ -47,12 +55,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with rConfig.  If not, see <http://www.rConfig.com/license.txt/>.
 
-INSTALL
----
-Guides can be found online at www.rConfig.com to help you through the installation
-process. Check for the latest install guides in the support section
-
-BUGS
----
-Any bugs can be emailed directly. Send as much detail as possible to 
-bugs@rconfig.com
