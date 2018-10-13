@@ -1,5 +1,5 @@
 ## Support & Troubleshooting rConfig
-Please review our troubleshooting documentation for assistance with issues https://help.rconfig.com
+Please review our troubleshooting documentation for assistance with issues http://help.rconfig.com
 
 INSTALL
 ---
