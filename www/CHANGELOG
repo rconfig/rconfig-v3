@@ -1,3 +1,13 @@
+Version 3.9.3 
+
+9-Nov-2019
+Resolved - CVE-2019-16662 - RCE Vulnerability in www/install/lib/ajaxHandlers/ajaxServerSettingsChk.php - Removed unused script ajaxServerSettingsChk.php. 	
+	Low risk, as install dir must be removed after installation.
+Resolved - CVE-2019-16663 - RCE Vulnerability in www/lib/crud/search.crud.php - Resolved by escaping catCommand string. 
+	Low risk, as must be authenticated to execute RCE vulnerability. 
+Removed - Readme notice stating I am no longer fixing bugs. 
+
+------------------------------------------------------------------------------------
 Version 3.9.2
 
 12-Sept-2018
