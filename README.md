@@ -6,10 +6,6 @@ INSTALL
 Guides can be found online at http://help.rconfig.com/gettingstarted/installation to help you through the installation
 process. Check for the latest install guides in the support section
 
-BUGS
----
-I am no longer fixing bugs on rConfig version 3.x. I will manage PRs.
-
 # rConfig 
 
 rConfig is a free open source network device configuration management utility for network engineers to take frequent configuration snapshots of their network devices. rConfig is unique, because you choose what commands you want to run against your devices. Simply configure rConfig with the list of commands you wish to apply to a category of devices, and add devices to the category. Create a scheduled task, and rConfig will do the rest. rConfig Version 3 now has a Configuration Compliance Management utility to enable you to monitor device configurations for policy compliance.
