@@ -13,7 +13,7 @@ function writeConsole(content, filePath) {
 
 function openHelp() {
 
-    window.open('https://www.rconfig.com/help',
+    window.open('http://help.rconfig.com/',
             'rConfig - Documentation',
             'width=, \
             height=800, \
