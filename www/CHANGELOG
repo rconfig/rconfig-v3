@@ -1,3 +1,9 @@
+Version 3.9.4
+
+25-Nov-2020
+Resolved - Code continues to run on head.inc.php without exit() function. Added
+
+------------------------------------------------------------------------------------
 Version 3.9.3 
 
 9-Nov-2019
