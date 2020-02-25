@@ -13,6 +13,7 @@ $log = ADLog::getInstance();
  */
 if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
+    exit();
 }
 $host = gethostname();
 $ip = $_SERVER['SERVER_ADDR'];
