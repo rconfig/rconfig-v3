@@ -58,7 +58,7 @@ if (!$session->logged_in) {
         $returnArr['fileCount'] = $fileCountArr['0'];
 
         //next find all instances of the search term under the specific cat/dir
-        $command = 'find /home/rconfig/data' . $subDir . $nodeId . ' -name ' . escapeshellarg($catCommand) . ' | xargs grep -il ' . $grepNumLineStr . ' ' . $searchTerm . ' | while read file ; do echo File:"$file"; grep ' . $grepNumLineStr . ' ' . $searchTerm . ' "$file" ; done';
+        $command = 'find /home/rconfig/data' . $subDir . escapeshellarg($nodeId) . ' -name ' . escapeshellarg($catCommand) . ' | xargs grep -il ' . $grepNumLineStr . ' ' . $searchTerm . ' | while read file ; do echo File:"$file"; grep ' . $grepNumLineStr . ' ' . $searchTerm . ' "$file" ; done';
         // echo $command;die();
         exec(escapeshellarg($command), $searchArr);
 

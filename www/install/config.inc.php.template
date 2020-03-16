@@ -18,7 +18,11 @@ if (php_sapi_name() != 'cli') {
 $config_web_basedir = $_SERVER['DOCUMENT_ROOT'] . "/";
 $config_sitename = "rConfig";
 $config_author = "Stephen Stack";
+<<<<<<< HEAD
 $config_version = "Version 3.9.4";
+=======
+$config_version = "3.9.4";
+>>>>>>> b7e035f17d2ac12a3767e41753e2e112ea7b4b84
 $config_app_basedir = "/home/rconfig/";
 $config_log_basedir = "/home/rconfig/logs/";
 $config_data_basedir = "/home/rconfig/data/";
