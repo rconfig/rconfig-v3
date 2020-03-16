@@ -64,7 +64,7 @@
                                     <?php
                                     $msg = "<font color=\"red\">No Public IP Address</font>";
                                     if(!file_exists("lib/ajaxHandlers/publicIp.txt")){
-                                       echo $msg; 
+                                       echo $msg;
                                     }
                                     if ($ip = file_get_contents("lib/ajaxHandlers/publicIp.txt")) {
                                         echo $ip;

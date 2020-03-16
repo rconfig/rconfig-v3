@@ -7,12 +7,12 @@ include("../classes/usersession.class.php");
 /* Turn on event logging */
 include("../classes/ADLog.class.php");
 $log = ADLog::getInstance();
-
 /**
  * User has NOT logged in, so redirect to main login page
  */
 if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
+    exit();
 }
 $host = gethostname();
 $ip = $_SERVER['SERVER_ADDR'];
@@ -27,7 +27,7 @@ $ip = $_SERVER['SERVER_ADDR'];
         <meta name="copyright" content="Copyright (c) <?php echo date("Y"); ?> - rConfig">
         <meta name="author" content="Stephen Stack">
         <!-- Add ICO -->
-        <link rel="Shortcut Icon" href="<?php echo $config_basedir; ?>favicon.ico"> 
+        <link rel="Shortcut Icon" href="<?php echo $config_basedir; ?>favicon.ico">
         <!-- CSS -->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/content.css" />
@@ -55,7 +55,7 @@ $ip = $_SERVER['SERVER_ADDR'];
         <script type="text/javascript" src="js/jqueryNotification/jquery_notification_v.1.js" ></script>
         <script type="text/javascript" src="js/pagination/pagination.min.js" ></script>
         <script type="text/javascript" src="js/pageTimeout.js" ></script>
-        <script type="text/javascript" src="js/toastr/toastr.min.js" ></script>       
+        <script type="text/javascript" src="js/toastr/toastr.min.js" ></script>
         <!-- Custom JS -->
         <script type="text/javascript" src="js/rconfigFunctions.js"></script>
     </head>

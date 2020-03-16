@@ -18,7 +18,7 @@ $pages->paginate();
 ?>
 <!-- begin Search form -->
 <div id="deviceActionDiv">
-    <div id="searchForm"> 
+    <div id="searchForm">
         <legend>Search</legend>
         <form name ="searchForm" method="GET" action="devices.php" onsubmit="return searchValidateForm()">
             <select name="searchColumn" id="searchColumn" class="paginate">
@@ -42,7 +42,7 @@ $pages->paginate();
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
         </form>
-    </div> <!-- end searchForm -->	
+    </div> <!-- end searchForm -->
 
     <div id="sortForm">
         <legend>Sort</legend>
@@ -61,7 +61,7 @@ $pages->paginate();
                 <option name="desc" value="DESC">Descending</option>
             </select>
             <button type="submit">Go!</button>
-        </form> 
+        </form>
     </div>
 </div>
 <?php
@@ -92,7 +92,7 @@ if (!empty($custColumns)) {
   2. check all inputs and return errors if needed - to be done
   3. if search fields are complete, build the query with the search string, esle default query inc pagnation for use later
  */
-$query = "SELECT 
+$query = "SELECT
 		n.id,
 		v.vendorName,
 		v.vendorLogo,
@@ -113,7 +113,11 @@ $query = "SELECT
 if (isset($_GET['search'])) {
 
     if (isset($_GET['searchColumn'])) {
-        $searchColumn = $_GET['searchColumn'];
+        if(in_array($_GET['searchColumn'], ['deviceName', 'deviceIpAddr'])){
+            $searchColumn = $_GET['searchColumn'];
+        } else {
+            $searchColumn = 'deviceName';
+        }
     }
 
     if (isset($_GET['searchOption'])) {
@@ -138,7 +142,7 @@ if (isset($_GET['search'])) {
         }
     }
 
-    $query = "SELECT 
+    $query = "SELECT
 		n.id,
 		v.vendorName,
 		v.vendorLogo,
@@ -153,15 +157,15 @@ if (isset($_GET['search'])) {
 	LEFT OUTER JOIN vendors v ON n.vendorId = v.id
 	LEFT OUTER JOIN categories c ON n.nodeCatId = c.id
 	WHERE n.status = 1
-	AND " . $searchColumn . " " . $searchOption . " '" . $searchField . "'
+	AND " . $searchColumn . " " . $searchOption . " :searchField
 	$pages->limit";
-} else { // end hidden search check 
+} else { // end hidden search check
     if (isset($_POST['sortBy'])) { // sort by query
         $column = $_POST['sortBy'];
         $ascDesc = $_POST['ascDesc'];
 
         $sortbyQuery = "ORDER BY " . $column . " " . $ascDesc . " ";
-        $query = "SELECT 
+        $query = "SELECT
 			n.id,
 			v.vendorName,
 			v.vendorLogo,
@@ -182,6 +186,8 @@ if (isset($_GET['search'])) {
 } // end search
 /* GET all nodes records from DB */
 $db2->query($query);
+// $db2->bind(':searchColumn', $searchColumn);
+$db2->bind(':searchField', $searchField);
 $qRes = $db2->resultset();
 
 /* Create Multidimensional array for use later */
@@ -230,7 +236,7 @@ foreach ($result['rows'] as $rows):
     <td align="left"><?php echo $rows['categoryName'] ?></td>
     <td align="left"><img src="<?php echo $rows['vendorLogo'] ?>" /> <?php echo $rows['vendorName'] ?></td>
     <?php
-    /*  Block extracts key from array that partial matchs 'custom_' 
+    /*  Block extracts key from array that partial matchs 'custom_'
       When a match happens - output the html with the actual value $v.
       This ensures, that no matter how many custom properties, the values get printed
       for the corrcet column names.

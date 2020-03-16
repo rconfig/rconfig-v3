@@ -10,9 +10,9 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-// loaded from www\js\configoverview.js. 
-// php errors supressed on this page because they should not interrupt the JSON response. 
-//i.e. if errors were made due to SQL errors etc.. JSON would not be processed by JS on the SettingsDB.php page    
+// loaded from www\js\configoverview.js.
+// php errors supressed on this page because they should not interrupt the JSON response.
+//i.e. if errors were made due to SQL errors etc.. JSON would not be processed by JS on the SettingsDB.php page
     require_once("../../../classes/db2.class.php");
 
     $log = ADLog::getInstance();
@@ -45,12 +45,12 @@ if (!$session->logged_in) {
 // physically remove directories
         foreach ($getDirRes as $row) {
                 echo $row;
-                exec('rm -fr ' . $row);
+                exec('rm -fr ' . escapeshellarg($row));
         }
 // delete all empty Dirs under /home/rconfig/data/ for completeness
         exec('find /home/rconfig/data/. -type d -empty -delete');
-        
-// 3. Delete all ids from DB older than X days - if these are delete first - step 2 cannot 
+
+// 3. Delete all ids from DB older than X days - if these are delete first - step 2 cannot
 //    work as will not be able to get unique dirs older than X days
 
         if (!empty($iDlist)) {

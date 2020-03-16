@@ -17,7 +17,7 @@ if (!$session->logged_in) {
     $db2 = new db2();
     $log = ADLog::getInstance();
 
-// simple script runtime check 
+// simple script runtime check
     $Start = getTime();
 
     $errors = array();
@@ -41,7 +41,7 @@ if (!$session->logged_in) {
 
         $returnArr = array();
 
-        // Get the category Name from the Category selected    
+        // Get the category Name from the Category selected
         $db2->query("SELECT categoryName from `categories` WHERE id = :catId");
         $db2->bind(':catId', $catId);
         $resultCat = $db2->resultset();
@@ -57,10 +57,10 @@ if (!$session->logged_in) {
         exec("find /home/rconfig/data" . $subDir . $nodeId . " -maxdepth 10 -type f | wc -l", $fileCountArr);
         $returnArr['fileCount'] = $fileCountArr['0'];
 
-        //next find all instances of the search term under the specific cat/dir	
+        //next find all instances of the search term under the specific cat/dir
         $command = 'find /home/rconfig/data' . $subDir . $nodeId . ' -name ' . escapeshellarg($catCommand) . ' | xargs grep -il ' . $grepNumLineStr . ' ' . $searchTerm . ' | while read file ; do echo File:"$file"; grep ' . $grepNumLineStr . ' ' . $searchTerm . ' "$file" ; done';
         // echo $command;die();
-        exec($command, $searchArr);
+        exec(escapeshellarg($command), $searchArr);
 
         if (!empty($searchArr)) {
             // iterate array for all lines begining with 'File:' and add to $lines array

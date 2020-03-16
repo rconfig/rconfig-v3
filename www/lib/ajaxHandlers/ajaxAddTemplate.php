@@ -26,7 +26,7 @@ if (!$session->logged_in) {
     require_once("../../../classes/ADLog.class.php");
     $db2 = new db2();
     $log = ADLog::getInstance();
-    
+
     $db2->query("SELECT fileName FROM templates  WHERE fileName = :fileName");
     $db2->bind(':fileName', $fullpath);
     $rows = $db2->resultset();
@@ -34,7 +34,7 @@ if (!$session->logged_in) {
     if (count($rows) > 0 ) {
         $response = "duplicateFile";
         $log->Warn("Success: The filename ".$fullpath." already exists. Select edit file instead.");
-            echo json_encode($response); 
+            echo json_encode($response);
             die();
     }
 
@@ -45,7 +45,7 @@ if (!$session->logged_in) {
 
     // if'' to create the filename based on the command if not created & chmod to 666
     if (!file_exists($fullpath)) {
-        exec("touch " . $fullpath);
+        exec("touch " . escapeshellarg($fullpath));
         chmod($fullpath, 0666);
     }
     // if the file is alread in place chmod it to 666 before writing info
@@ -56,7 +56,6 @@ if (!$session->logged_in) {
     file_put_contents($fullpath, $_POST['code']);
     fclose($filehandle);
     chmod($fullpath, 0444);
- 
 
     $db2->query("INSERT INTO `templates` (`fileName`, `name`, `desc`, `dateAdded`, `addedby`) VALUES (:fileName, :name, :desc, NOW(), :username);");
     $db2->bind(':fileName', $fullpath);
@@ -74,5 +73,5 @@ if (!$session->logged_in) {
         $response = "failed";
         $log->Warn("Success: Could not add new Template ".$fullpath." to templates folder");
     }
-    echo json_encode($response);    
+    echo json_encode($response);
 }  // end session check

@@ -1,11 +1,23 @@
-Version 3.9.3 
+Version 3.9.5
+
+9-March-2020
+Resolved - Mysql & LFI Injection risks
+
+------------------------------------------------------------------------------------
+Version 3.9.4
+
+25-Feb-2020
+Resolved - Code continues to run on head.inc.php without exit() function. Added
+
+------------------------------------------------------------------------------------
+Version 3.9.3
 
 9-Nov-2019
-Resolved - CVE-2019-16662 - RCE Vulnerability in www/install/lib/ajaxHandlers/ajaxServerSettingsChk.php - Removed unused script ajaxServerSettingsChk.php. 	
+Resolved - CVE-2019-16662 - RCE Vulnerability in www/install/lib/ajaxHandlers/ajaxServerSettingsChk.php - Removed unused script ajaxServerSettingsChk.php.
 	Low risk, as install dir must be removed after installation.
-Resolved - CVE-2019-16663 - RCE Vulnerability in www/lib/crud/search.crud.php - Resolved by escaping catCommand string. 
-	Low risk, as must be authenticated to execute RCE vulnerability. 
-Removed - Readme notice stating I am no longer fixing bugs. 
+Resolved - CVE-2019-16663 - RCE Vulnerability in www/lib/crud/search.crud.php - Resolved by escaping catCommand string.
+	Low risk, as must be authenticated to execute RCE vulnerability.
+Removed - Readme notice stating I am no longer fixing bugs.
 
 ------------------------------------------------------------------------------------
 Version 3.9.2
@@ -37,9 +49,9 @@ Author: Stephen Stack
 Fixed - Bug: - [Fixed] Compare in Scheduled Tasks not working #83 github rconfig/rconfig
 Fixed - Bug: - Fix issue where final check for install was returning no response. Maintenance Workaround added to config file for https redirect.
 Fixed - Bug: - writeSnippetTelnet() commented out in connection2.class.php
-Fixed - Bug: - configoverview.php hangs on purge when no configs in DB to delete. Error notice added. 
+Fixed - Bug: - configoverview.php hangs on purge when no configs in DB to delete. Error notice added.
 Fixed - Bug: - configoverview.php page crashes when counting over 100k directories or files in the data directory
-Fixed - Bug: - Reports are malformed due to overlap when written on same day. 
+Fixed - Bug: - Reports are malformed due to overlap when written on same day.
 Fixed - Bug: - Modification to Centos6 apache config file to prevent SSL errors
 
 ------------------------------------------------------------------------------------
@@ -59,7 +71,7 @@ Version 3.8.6
 Author: Stephen Stack
 
 Added - Permenant HTTPS redirect to config template file
-Fixed - Bug: - #64 Encryption check is reversed when selected Default username/password 
+Fixed - Bug: - #64 Encryption check is reversed when selected Default username/password
 Fixed - Resolved Missing HPAnyKey yml config from out of box 3.8 templates
 Fixed - Issue if dots in host name, config files will not open from web console. dots replaced with dashes
 Fixed - If blank usernames and password password, rConfig will continue with script - i.e. blank usernames/ passwords should be allowed
@@ -119,7 +131,7 @@ Author: Jose Diaz
         Fixed - Check getHostStatus results ($status) in lib/downloadNowScript.php
         Fixed - Check getHostStatus results ($status) in lib/configCategoryScript.php
         Fixed - Check getHostStatus results ($status) in lib/configDeviceScript.php
-        Fixed - Reimplement getHostStatus() function using sockets API instead of fsockopen() to reduce Connection Refused errors 
+        Fixed - Reimplement getHostStatus() function using sockets API instead of fsockopen() to reduce Connection Refused errors
 
 ------------------------------------------------------------------------------------
 
@@ -139,7 +151,7 @@ Author: Stephen Stack
 Version 3.6.0
 30-Jun-2016
 Author: Stephen Stack
-        
+
         Fixed - fixed install/rconfig.sql for customprop view, if multiple rconfig DBs exists, custom props display php errors
         Fixed - Undefined Offset error when downloading configs via scheduled task or manually
         Fixed - Errors displayed if incorrect credentials passed for device on manual download
@@ -165,7 +177,7 @@ Author: Stephen Stack
         Fixed - scheduled tasks footer fix
         Fixed - Removed default install commands that were not working from SQL
         Changed - configcompare re-factored for new config file search functionality
-        Changed - Updated to jquery 2.2.4 & jqueryui 1.11.3 
+        Changed - Updated to jquery 2.2.4 & jqueryui 1.11.3
         Changed - All alert, confirmation and modals changed to modern design for better look and feel
         Added - Move phpLogging() function to global functions so that it is called for all scripts - makes logging more available
 
@@ -193,7 +205,7 @@ Author: Stephen Stack
         Fixed - Vendors Edit - does not keep logo on Edit
         Fixed - Download Now/ Snippets script bugs
         Fixed - Reports Bugs
-        Major Update - DB connections Layer migrated to PDO 
+        Major Update - DB connections Layer migrated to PDO
 	Updated - Help files updates
         Updated - Help files updates
         Security - Removed LFI & Path Traversal Bugs
@@ -254,9 +266,9 @@ Version 3.0.1
 ------------------------------------------------------------------------------------
 Version 3.0.0
 08-March-2014
-	
+
 	Added - Manual 'Download Now' Button to devicemgmt page
-	Added - Feature to upload configuration snippets to devices on both SSH and TELNET 
+	Added - Feature to upload configuration snippets to devices on both SSH and TELNET
 	Added - Feature to upload configuration snippets to multiple devices as a scheduled task
 	Added - Timestamp to downloaded configuration files so that configs can be downloaded multiple times in a single day
 	Added - Config snippets reports section to reports under configuration tools
@@ -265,26 +277,26 @@ Version 3.0.0
 ------------------------------------------------------------------------------------
 Version 2.0.3
 17-Jan-2014
-	
+
 	Fixed - Typo problem where 'emtpy' was replaced with correct spelling of empty (Credit: Matt Vitale)
 
 ------------------------------------------------------------------------------------
 Version 2.0.1
 30-Nov-2013
-	
+
 	Fixed - If '#' character was found in config where SSH was the connection type. Config download would fail at '#' (Credit: Matt Vitale)
 
 ------------------------------------------------------------------------------------
 Version 2.0.0
 07-Sept-2013
-	
+
 	Added - Compliance Manager Feature
 	Fixed - Minor Code fixes
 
 ------------------------------------------------------------------------------------
 Version 1.2.9
 06-Sept-2013
-	
+
 	Fixed - Fixed scheduler where all nodes where being add to a task
 	Fixed - Updated code to allow for HTTP or HTTPs rConfig UI
 	Fixed - Backup archives not deleting
@@ -294,49 +306,49 @@ Version 1.2.9
 ------------------------------------------------------------------------------------
 Version 1.2.8
 21-Jun-2012
-	
+
 	Fixed - Whitespace not allowed in hostname for devices for - will cause file system level folder name problems
 	Added - No html form autocomplete allowed for username and password - you should use the 'default username/password function'
 
 ------------------------------------------------------------------------------------
 Version 1.2.7
 05-Jun-2012
-	
+
 	Added - Purge configs older than X days feature on configoverview.php page
 
 ------------------------------------------------------------------------------------
 Version 1.2.6
 01-Jun-2012
-	
+
 	Update - Allowed passconf, enableMode Checkbox and Enable password to be returned to devices form on submission error
 
 ------------------------------------------------------------------------------------
 Version 1.2.5
 31-Jan-2012
-	
+
 	Fixed - Enable mode checkbox not working on device add form
-	
+
 ------------------------------------------------------------------------------------
 Version 1.2.4
 6-Jan-2012
-	
+
 	Added - Feature to retain devices form fill-in information when submitted and errors returned
 	Fixed - Easy update to remove install dir after update is completed
 	Fixed - 'Undefined variable: i in /home/rconfig/lib/showCmdScript.php' notice when running from CLI
 	Fixed - HTTP_HOST not set error when running showCmdScript.php from CLI
-	
+
 ------------------------------------------------------------------------------------
 Version 1.2.0
 6-Jan-2012
-	
+
 	Added - Easy rConfig Update installation feature
 	Fixed - Broken Footer Links
 	Fixed - Installation final page and checklist
-	
+
 ------------------------------------------------------------------------------------
 Version 1.1.2
 31-Dec-2012
-	
+
 	Added - Version information to footer
 	Added - Hyperlink to remove install directory from 'install dir' banner warning
 
@@ -350,7 +362,7 @@ Version 1.0.11
 	Added - Request to reduce username length to 4
 	Fixed - Issue where if 'data' dir was empty, PHP Notice:  Undefined variable: files in /home/rconfig/config/functions.inc.php on line 221 (scan_dir()) function
 	Fixed - Issue where could not delete compareReports because wrong path was referenced in reports.php
-	Fixed - issue if showCmdScript.php was run on shell by another user, it would reset perms for data directory. 
+	Fixed - issue if showCmdScript.php was run on shell by another user, it would reset perms for data directory.
 				Added some checking to showCmdScript.php see how script was run and change back owner to apache if script was run from shell
 	Fixed - duplicate '<?php' from devices.crud.php
 	Fixed - PHP Notice:  Undefined variable: categories in ...scheduler.crud.php when adding task for devices only

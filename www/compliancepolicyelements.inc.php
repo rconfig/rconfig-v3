@@ -18,7 +18,7 @@ $pages->paginate();
 ?>
 <!-- begin Search form -->
 <div id="deviceActionDiv">
-    <div id="searchForm"> 
+    <div id="searchForm">
         <legend>Search</legend>
         <form name ="searchForm" method="GET" action="compliancepolicyelements.php" onsubmit="return searchValidateForm()">
             <select name="searchColumn" id="searchColumn" class="paginate">
@@ -43,7 +43,7 @@ $pages->paginate();
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
         </form>
-    </div> <!-- end searchForm -->	
+    </div> <!-- end searchForm -->
 </div>
 <div class="spacer"></div>
 <?php
@@ -60,9 +60,12 @@ echo "<div class=\"spacer\" style=\"padding-bottom:3px;\"></div>";
 if (isset($_GET['search'])) {
 
     if (isset($_GET['searchColumn'])) {
-        $searchColumn = $_GET['searchColumn'];
+        if(in_array($_GET['searchColumn'], ['elementName', 'singleLine1'])){
+            $searchColumn = $_GET['searchColumn'];
+        } else {
+            $searchColumn = 'elementName';
+        }
     }
-
     if (isset($_GET['searchOption'])) {
         switch ($_GET['searchOption']) {
             case "contains":
@@ -84,7 +87,8 @@ if (isset($_GET['search'])) {
             $searchField = '%' . $searchField . '%';
         }
     }
-    $db2->query("SELECT id, elementName,  elementDesc, singleParam1, singleLine1 FROM compliancePolElem WHERE status = 1 AND " . $searchColumn . " " . $searchOption . " '" . $searchField . "' ORDER BY id ASC $pages->limit");
+    $db2->query("SELECT id, elementName,  elementDesc, singleParam1, singleLine1 FROM compliancePolElem WHERE status = 1 AND " . $searchColumn . " " . $searchOption . " :searchField ORDER BY id ASC $pages->limit");
+    $db2->bind(':searchField', $searchField);
     $queryResult = $db2->resultset();
 } else {
     /* GET all records from DB */

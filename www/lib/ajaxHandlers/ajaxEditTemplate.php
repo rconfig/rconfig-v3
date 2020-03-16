@@ -34,7 +34,7 @@ if (!$session->logged_in) {
 
     // if'' to create the filename based on the command if not created & chmod to 666
     if (!file_exists($fullpath)) {
-        exec("touch " . $fullpath);
+        exec("touch " . escapeshellarg($fullpath));
         chmod($fullpath, 0666);
     }
     // if the file is alread in place chmod it to 666 before writing info
@@ -45,7 +45,7 @@ if (!$session->logged_in) {
     file_put_contents($fullpath, $_POST['code']);
     fclose($filehandle);
     chmod($fullpath, 0444);
- 
+
     $db2->query("UPDATE `templates` SET `fileName` = :fileName, `name` = :name, `desc` = :desc, `dateLastEdit` = NOW(), `addedby` = :username WHERE `id` = :id");
     $db2->bind(':id', $_POST['id']);
     $db2->bind(':fileName', $fullpath);
@@ -63,5 +63,5 @@ if (!$session->logged_in) {
         $response = "failed";
         $log->Warn("Success: Could not edit Template ".$fullpath." in templates folder");
     }
-    echo json_encode($response);    
+    echo json_encode($response);
 }  // end session check

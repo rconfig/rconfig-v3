@@ -107,7 +107,7 @@ class db2 {
     public function debugDumpParams() {
         return $this->stmt->debugDumpParams();
     }
-    
+
     /**
      * pdo_get_server_info - get server version
      */
@@ -123,7 +123,7 @@ class db2 {
     }
 
     /**
-     * @function 			__destruct   
+     * @function 			__destruct
      * @description 		closes db  connection.
      */
     public function __destruct() {

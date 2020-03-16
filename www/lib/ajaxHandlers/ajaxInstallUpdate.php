@@ -13,25 +13,25 @@ if (!$session->logged_in) {
 } else {
     require_once("../../../classes/updater.class.php");
 
-    /* Updater Steps 
+    /* Updater Steps
      * 1. get latest version from rconfig.com
      * 2. set or correct owner permissions to all /home/rconfig/ to apache account
      * 3. Assume correct version file uploaded and extract zip file completely to /home/rconfig/tmp/update-x.x.x/
      * 4. backup /home/rconfig/config/config.inc.php to updater files directory
      * 5. change version in config.inc.php to $latestVer
      * 6. Copy all from tmp update folder to prod rconfig folder
-     * 7. Check installed version on config.inc.php 
+     * 7. Check installed version on config.inc.php
      * 8. check for sql file in update tmp folder
      * 9. execute sql changes if file is present
-     * 10. delete all tmp update files/folders using Linux rm command * 
-     * 
+     * 10. delete all tmp update files/folders using Linux rm command *
+     *
      * */
 
     // initiate classes
     $log = ADLog::getInstance();
     $update = new updater();
 
-//Setting the timeout properly without messing with ini values: 
+//Setting the timeout properly without messing with ini values:
     $ctx = stream_context_create(array('http' => array('timeout' => 5)));
 // here we assume we can already connect to net as ../www/updater.php will not allow us to proceed to this point i.e. no error check
     $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
@@ -72,10 +72,10 @@ if (!$session->logged_in) {
         //update copied config file with new version info
         $update->updateConfigVersionInfo($latestVer, $destinationConfigFile);
 
-        // Copy App folders only	
+        // Copy App folders only
         $folderstoCopy = array('classes', 'config', 'lib', 'www', 'vendor');
-        $update->copyAppDirsToProd($latestVer, $folderstoCopy);      
-        
+        $update->copyAppDirsToProd($latestVer, $folderstoCopy);
+
         // check version updated correctly
         if ($config_version == $latestVer) {
             $response['configFileVersionUpdate'] = 'rConfig application files updated';
