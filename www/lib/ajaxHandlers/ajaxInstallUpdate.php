@@ -104,7 +104,6 @@ if (!$session->logged_in) {
         } else {
             $response['tmpFolderEmpty'] = 'Could not remove rConfig update files';
             $log->Info("Could not remove rConfig update files - (File: " . $_SERVER['PHP_SELF'] . ")");
-            ;
         }
 
         // remove rconfig/www/install directory as should already be removed for upgrade
