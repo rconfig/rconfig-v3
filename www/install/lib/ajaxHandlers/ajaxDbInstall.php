@@ -56,7 +56,7 @@ if ($dbCreated == 1) {
     // rewrite the 'DATABASE_NAME' tag from the SQL file into memory
     $templateFile = file_get_contents($dbFile);
     $templateFile = str_replace('DATABASE_NAME', $dbName, $templateFile);
-    $sql = file_get_contents($dbFile); //file name should be name of SQL file with .sql extension. 
+    $sql = file_get_contents($dbFile); //file name should be name of SQL file with .sql extension.
     try {
         $dsn = 'mysql:host=' . $server . ';dbname=' . $dbName . ';port=' . $port;
         $dbh = new PDO($dsn, $dbUsername, $dbPassword, $options);
@@ -93,7 +93,7 @@ if ($dbCreated == 1) {
     $configFile = str_replace('_DATABASEUSERNAME', $dbUsername, $configFile);
     $configFile = str_replace('_DATABASEPASSWORD', $dbPassword, $configFile);
 
-    chmod($configFilePathInstalled, 0777);
+    // chmod($configFilePathInstalled, 0777);
     file_put_contents($configFilePathInstalled, $configFile);
     chmod($configFilePathInstalled, 0644);
     shell_exec('chown -R apache /home/rconfig'); // set all dir permissions correctly
