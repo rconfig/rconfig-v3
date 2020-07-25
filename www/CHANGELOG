@@ -1,4 +1,10 @@
-<<<<<<< HEAD
+Version 3.9.6
+
+25-July-2020
+Resolved - Fix database install not apparantly working on install wizard
+Resolved - apache_get_version fix for install when apache_get_version is missing
+
+------------------------------------------------------------------------------------
 Version 3.9.5
 
 9-March-2020
@@ -12,15 +18,6 @@ Resolved - Code continues to run on head.inc.php without exit() function. Added
 
 ------------------------------------------------------------------------------------
 Version 3.9.3
-=======
-Version 3.9.4
-
-25-Nov-2020
-Resolved - Code continues to run on head.inc.php without exit() function. Added
-
-------------------------------------------------------------------------------------
-Version 3.9.3 
->>>>>>> b7e035f17d2ac12a3767e41753e2e112ea7b4b84
 
 9-Nov-2019
 Resolved - CVE-2019-16662 - RCE Vulnerability in www/install/lib/ajaxHandlers/ajaxServerSettingsChk.php - Removed unused script ajaxServerSettingsChk.php.
