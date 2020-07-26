@@ -8,6 +8,7 @@ Added - MD5 checksum checks for update zip files
 Resolved - Increased Security of partials includes
 Resolved - Sanitized $_POST['sortBy'] on devices.php
 Resolved - Sanitized custom_location on devices.crud.php
+Resolved - Sanitized multiple inputs in search.crud.php
 
 ------------------------------------------------------------------------------------
 Version 3.9.5

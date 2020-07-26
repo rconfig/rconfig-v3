@@ -24,12 +24,13 @@ if (!$session->logged_in) {
 
     if (isset($_GET['searchTerm']) && is_string($_GET['searchTerm']) && !empty($_GET['searchTerm'])) {
         /* validation */
-        $searchTerm = '"' . $_GET['searchTerm'] . '"';
-        $catId = $_GET['catId'];
-        $catCommand = $_GET['catCommand'];
-        $nodeId = $_GET['nodeId'];
-        $grepNumLineStr = $_GET['numLinesStr'];
-        $grepNumLine = $_GET['noLines'];
+        var_dump($_GET); die();
+        $searchTerm = '"' . escapeshellarg($_GET['searchTerm'] . '"');
+        $catId = escapeshellarg($_GET['catId']);
+        $catCommand = escapeshellarg($_GET['catCommand']);
+        $nodeId = escapeshellarg($_GET['nodeId']);
+        $grepNumLineStr = escapeshellarg($_GET['numLinesStr']);
+        $grepNumLine = escapeshellarg($_GET['noLines']);
         $username = $_SESSION['username'];
 
         // if nodeId was empty set it to blank
