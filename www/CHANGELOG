@@ -6,6 +6,7 @@ Resolved - apache_get_version fix for install when apache_get_version is missing
 Resolved - Filename and code vulnerability in Template add/edits
 Added - MD5 checksum checks for update zip files
 Resolved - Increased Security of partials includes
+Resolved - Sanitized $_POST['sortBy'] on devices.php
 
 ------------------------------------------------------------------------------------
 Version 3.9.5

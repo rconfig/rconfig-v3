@@ -164,6 +164,10 @@ if (isset($_GET['search'])) {
 	AND " . $searchColumn . " " . $searchOption . " :searchField
 	$pages->limit";
 } else { // end hidden search check
+    $sortByArr = ['vendorId', 'deviceName', 'deviceIpAddr'];
+    if(!in_array($_POST['sortBy'], $sortByArr)){
+        unset($_POST['sortBy']);
+    }
     if (isset($_POST['sortBy'])) { // sort by query
         $column = $_POST['sortBy'];
         $ascDesc = $_POST['ascDesc'];
