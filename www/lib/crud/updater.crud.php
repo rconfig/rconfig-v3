@@ -17,8 +17,8 @@ if (!$session->logged_in) {
     if (isset($_POST['upload'])) {
         $errors = array();
 
-        // validations	
-        //Setting the timeout properly without messing with ini values: 
+        // validations
+        //Setting the timeout properly without messing with ini values:
         $ctx = stream_context_create(array('http' => array('timeout' => 5)));
         $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
         $expectedFileName = 'rconfig-' . $latestVer . '.zip';
@@ -35,6 +35,19 @@ if (!$session->logged_in) {
                 $updateTmpLocation = $config_temp_dir . $_FILES["updateFile"]["name"];
                 move_uploaded_file($_FILES['updateFile']['tmp_name'], $updateTmpLocation);
                 if (is_file($updateTmpLocation)) {
+
+                    //MD5 Check
+                    $v3OnlineChecksum =  file_get_contents('http://www.rconfig.com/downloads/v3checksum?filename='.$expectedFileName);
+                    $md5file = md5_file($updateTmpLocation);
+                    if($v3OnlineChecksum != $md5file){
+                        $errors['fileError'] = "You have uploaded an invalid file. Do not run the installation.";
+                        $log->Warn( $errors['fileError']  . " - (File: " . $_SERVER['PHP_SELF'] . ")");
+                        $_SESSION['errors'] = $errors;
+                        session_write_close();
+                        header("Location: " . $config_basedir . "updater.php?error&chk=1");
+                        exit();
+                    }
+
                     $errors['success'] = "Update File <strong>" . $_FILES["updateFile"]["name"] . "</strong> - Uploaded and verified";
                     $log->Info("Failure: Update File " . $_FILES["updateFile"]["name"] . " -  Uploaded and verified - (File: " . $_SERVER['PHP_SELF'] . ")");
                     $_SESSION['errors'] = $errors;

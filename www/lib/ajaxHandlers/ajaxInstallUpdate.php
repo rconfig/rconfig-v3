@@ -38,6 +38,7 @@ if (!$session->logged_in) {
     $updateFileName = 'rconfig-' . $latestVer . '.zip';
 
     $updateFile = $config_temp_dir . $updateFileName;
+
 //extracted files path
     $extractDir = '/home/rconfig/tmp/update-' . $latestVer;
 
