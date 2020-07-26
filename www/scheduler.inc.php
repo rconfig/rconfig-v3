@@ -1,5 +1,8 @@
 <?php
-/* Includes */
+if (!$session->logged_in) {
+    header("Location: " . $config_basedir . "login.php");
+    exit();
+}
 require_once("../classes/db2.class.php");
 include_once('../classes/paginator.class.php');
 

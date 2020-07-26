@@ -16,8 +16,8 @@
                     $errors = $_SESSION['errors'];
                 }
                 /*
-                 * clear the $_SESSSIONS var - 
-                 * Do NOT unset the whole $_SESSION with unset($_SESSION) as this will 
+                 * clear the $_SESSSIONS var -
+                 * Do NOT unset the whole $_SESSION with unset($_SESSION) as this will
                  * disable the registering of session variables through the $_SESSION superglobal
                  */
                 $_SESSION['errors'] = array();
@@ -34,7 +34,7 @@
                     if (isset($errors['categoryName'])) {
                         echo "<span class=\"error\">" . $errors['categoryName'] . "</span>";
                     }
-                    ?> 						
+                    ?>
 
                     <div id="toolbar">
                         <button class="show_hide">Add Category</button>

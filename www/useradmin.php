@@ -26,7 +26,7 @@
                     if (isset($errors['Success'])) {
                         echo "<span class=\"error\">" . $errors['Success'] . "</span><br/>";
                     }
-                    ?> 
+                    ?>
                     <?php
                     if (isset($errors['Fail'])) {
                         echo "<span class=\"error\">" . $errors['Fail'] . "</span><br/>";

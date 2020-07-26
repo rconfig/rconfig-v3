@@ -2,7 +2,7 @@
 
 /**
  * Process.php
- * 
+ *
  * The Process class is meant to simplify the task of processing
  * user submitted forms, redirecting the user to the correct
  * pages if errors are found, or if form is successful, either
@@ -162,7 +162,7 @@ class Process {
                 . "alert('Your new password has been generated. The password was emailed to $email');"
                 . "window.close();"
                 . "</script>";
-            }/* Email failure, do not change password */ 
+            }/* Email failure, do not change password */
             else {
                 $_SESSION['forgotpass'] = false;
             }
