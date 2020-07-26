@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once("/home/rconfig/classes/usersession.class.php");
 require_once("/home/rconfig/classes/ADLog.class.php");
 require_once("/home/rconfig/classes/spyc.class.php");
@@ -11,14 +14,18 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    $ymlData = Spyc::YAMLLoad($_POST['code']);
-    $fileName = $_POST['fileName'];
-    $check_yml_extension = explode('.', $fileName);
-    if(@!array_key_exists($check_yml_extension[1])){
-        if(@$check_yml_extension[1] != 'yml'){
-            $fileName = $fileName . '.yml';
-        }
+    $fileName = pathinfo($_POST['fileName'], PATHINFO_FILENAME);
+    $info = pathinfo($fileName);
+    if (!isset($info["extension"]) || $info["extension"] == "yml") {
+        $fileName = $fileName . '.yml';
+     }
+
+    if(!preg_match('(auth:|config:)', $_POST['code']) === 1) {
+        die('Invalid Yaml Code');
     }
+
+    $ymlData = Spyc::YAMLLoad($_POST['code']);
+
     $fullpath = $config_templates_basedir.$fileName;
 
     $username = $_SESSION['username'];

@@ -1,6 +1,11 @@
-H3C-ssh-noenable.yml
-hp-procurve-telnet-noenable.yml
-hp-procurve-ssh-noenable.yml
-centos-7-ssh.yml
-ciscowlc-ssh-noenable.yml
-junos15-telnet-noenable.yml
+# Ignore everything
+*
+!/base
+# But not these files...
+!.gitignore
+!default.yml
+!ios-ssh-enable.yml
+!ios-ssh-noenable.yml
+!ios-telnet-enable.yml
+!ios-telnet-noenable.yml
+
