@@ -11,7 +11,7 @@ if (!$session->logged_in) {
 } else {
 // Check rconfig.com/downloads/version.txt for latest publish release
 
-    if (!$sock = @fsockopen(' ', 80, $num, $error, 5)) {
+    if (!$sock = @fsockopen('www.rconfig.com', 443, $num, $error, 5)) {
         // declare Logging Class
         $log = ADLog::getInstance();
         $log->logDir = $config_app_basedir . "logs/";
