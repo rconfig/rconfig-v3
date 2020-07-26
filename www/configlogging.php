@@ -24,7 +24,7 @@
                     </font> entries - <a href="#" onclick="javascript:openFile('/home/rconfig/logs/All-default.log');">View current log file</a>
                     <div class="spacer"></div><br/>
                     <table id="logDiv">
-                    </table>					
+                    </table>
                     <div id="logDivError" style="display:none;">
                         <div class="spacer"></div><br/>
                         <font color="red">Could not retrieve logging information</font>
@@ -45,7 +45,7 @@
                                 <tbody>
                                 </tbody>
                             </table>
-                            <button class="smlButton" id="" onclick="archiveFiles('/home/rconfig/logs/', 'log')">Archive Logs</button>
+                            <button class="smlButton" id="" onclick="archiveFiles('/home/rconfig/logs/')">Archive Logs</button>
                             <button class="smlButton" id="deleteDebugsBtn" onclick="deleteDebugFiles('/home/rconfig/logs/', 'log')">Delete Logs</button>
                         </div>
                         <br/>

@@ -17,9 +17,9 @@ if (!$session->logged_in) {
     $mainPath = realpath($_GET['path']);
     $archiveMainPath = $mainPath . "archive/";
 
-    $ext = "*." . filter_var ( $_GET['ext'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+    $ext = "*.log";
     $fullpath = $mainPath . $ext;
-// create and archive dir if not already created
+    // create and archive dir if not already created
     if (!is_dir($archiveMainPath)) {
         mkdir("$archiveMainPath");
     }

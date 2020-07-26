@@ -14,9 +14,14 @@ if (!$session->logged_in) {
         die('Valid Paths Only!');
     }
     $path = realpath($_GET['path']);
+
+    if($_GET['ext'] != 'html' || $_GET['ext'] != 'txt' || $_GET['ext'] != 'zip')
+    {
+        die('Valid extensions Only!');
+    }
     $ext = "*." . $_GET['ext'];
     $fullpath = $path . $ext;
-// echo $fullpath;
+    // echo $fullpath;
 
     $output = array();
     $return_arr = array();

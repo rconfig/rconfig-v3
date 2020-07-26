@@ -16,6 +16,11 @@ if (!$session->logged_in) {
         die('Valid Paths Only!');
     }
     $path = realpath($_GET['path']);
+    if($_GET['ext'] != 'log' || $_GET['ext'] != 'txt')
+    {
+        die('Valid extensions Only!');
+    }
+
     $ext = "*." . $_GET['ext'];
     $fullpath = $path . $ext;
 

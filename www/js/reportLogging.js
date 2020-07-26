@@ -1,7 +1,7 @@
 $(function () {
     var ajax_load = "<img src='images/throbber.gif' alt='loading...' />";
 
-    // call getLog function on page load  from rconfigFunctions.js		
+    // call getLog function on page load  from rconfigFunctions.js
     getLog(10);
 
     // this function Gets the log field output and displays in the div - more to be done here
@@ -121,7 +121,7 @@ function deleteDebugFiles(filePath, ext) {
 
 function archiveFiles(filePath, ext) {
     $.ajaxSetup({cache: false});
-    $.getJSON("lib/ajaxHandlers/ajaxArchiveFiles.php?path=" + filePath + "&ext=" + ext, function (data) {
+    $.getJSON("lib/ajaxHandlers/ajaxArchiveFiles.php?path=" + filePath, function (data) {
         if (data.success === true) {
             errorDialog("Log files archived");
         } else {
