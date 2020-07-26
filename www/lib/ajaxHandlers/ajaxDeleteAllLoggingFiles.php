@@ -12,7 +12,10 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 // Delete all log files
-    $path = $_GET['path'];
+    if(realpath($_GET['path']) === false) {
+        die('Valid Paths Only!');
+    }
+    $path = realpath($_GET['path']);
     $ext = "*." . $_GET['ext'];
     $fullpath = $path . $ext;
 

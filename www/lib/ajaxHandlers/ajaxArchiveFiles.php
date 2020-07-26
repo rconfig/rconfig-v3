@@ -10,9 +10,14 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 //archive logs files
-    $mainPath = $_GET['path'];
+
+    if(realpath($_GET['path']) === false) {
+        die('Valid Paths Only!');
+    }
+    $mainPath = realpath($_GET['path']);
     $archiveMainPath = $mainPath . "archive/";
-    $ext = "*." . $_GET['ext'];
+
+    $ext = "*." . filter_var ( $_GET['ext'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
     $fullpath = $mainPath . $ext;
 // create and archive dir if not already created
     if (!is_dir($archiveMainPath)) {

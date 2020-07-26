@@ -12,7 +12,10 @@ if (!$session->logged_in) {
     header("Location: " . $config_basedir . "login.php");
 } else {
 //  used to retrive contents of file specified in JS in devicemgmt.php
-    $filepath = $_GET['path'];
+    if(realpath($_GET['path']) === false) {
+        die('Valid Paths Only!');
+    }
+    $filepath = realpath($_GET['path']);
     if (file_exists($filepath)) {
         $fileArr = file($filepath);
     } else {

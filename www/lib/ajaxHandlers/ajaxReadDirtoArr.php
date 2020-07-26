@@ -10,7 +10,10 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-    $path = $_GET['path'];
+    if(realpath($_GET['path']) === false) {
+        die('Valid Paths Only!');
+    }
+    $path = realpath($_GET['path']);
     $ext = "*." . $_GET['ext'];
     $fullpath = $path . $ext;
 // echo $fullpath;
