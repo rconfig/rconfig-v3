@@ -86,12 +86,12 @@ if (!$session->logged_in) {
         } else {
             $deviceUsername = '';
         }
-        
+
         // check if PW encryption enabled
         $db2->query("SELECT passwordEncryption from settings");
         $encryptionEnabled = false;
         if($db2->resultsetCols()[0] == 1){
-           $encryptionEnabled = true; 
+           $encryptionEnabled = true;
         }
         // validate devicePassword field
         if (!empty($_POST['devicePassword']) && is_string($_POST['devicePassword'])) {
@@ -113,7 +113,7 @@ if (!$session->logged_in) {
             $errors['templateId'] = "Template field cannot be empty";
             $log->Warn("Failure: Template Field cannot be empty (File: " . $_SERVER['PHP_SELF'] . ")");
         }
-        
+
         // validate catId field
         if (ctype_digit($_POST['catId'])) {
             $catId = $_POST['catId'];
@@ -148,7 +148,7 @@ if (!$session->logged_in) {
             }
         }
 
-        // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open 
+        // set the session id if any errors occur and redirect back to devices page with ?error set for JS on that page to keep form open
         if (!empty($errors)) {
             if (isset($deviceName)) {
                 $_SESSION['deviceName'] = $deviceName;
@@ -188,13 +188,13 @@ if (!$session->logged_in) {
             header("Location: " . $config_basedir . "devices.php?error");
             exit();
         } else {
-            // Search POST for any key with partial string 'custom_' to get the names of the 
+            // Search POST for any key with partial string 'custom_' to get the names of the
             // custom fields column names in DB
             $custom_results = array();
             foreach ($_POST as $k => $v) {
                 if (strstr($k, 'custom_')) {
                     // create new 'custom_results' array with key and values from the post matching 'custom'
-                    $custom_results[$k] = $v;
+                    $custom_results[$k] = addslashes($v);
                 }
             }
 
@@ -244,7 +244,7 @@ if (!$session->logged_in) {
             if (empty($_POST['editid'])) {
 
                 $db2->query("INSERT INTO nodes
-                (deviceName, 
+                (deviceName,
                 deviceIpAddr,
                 devicePrompt,
                 deviceEnablePrompt,
@@ -262,7 +262,7 @@ if (!$session->logged_in) {
                 deviceDateAdded,
                 status
                 )
-                VALUES 
+                VALUES
                     (:deviceName,
                     :deviceIpAddr,
                     :devicePrompt,
@@ -313,8 +313,8 @@ if (!$session->logged_in) {
                 $id = $_POST['editid'];
                 // reset all taskID*  columns to 2 before updating them in the UPDATE query for correct taskId assignments
                 $db2->query("SELECT column_name FROM information_schema.COLUMNS c
-                        WHERE c.table_schema = 'rconfig35' 
-                        AND c.table_name='nodes' 
+                        WHERE c.table_schema = 'rconfig35'
+                        AND c.table_name='nodes'
                         AND c.column_name LIKE '%taskId%'");
                 $taskColNames = $db2->resultsetCols();
                 foreach ($taskColNames as $taskColName) {
@@ -343,18 +343,18 @@ if (!$session->logged_in) {
                 }
                 echo '<pre>';
                 echo 'test';
-                $db2->query("UPDATE nodes SET 
+                $db2->query("UPDATE nodes SET
                             deviceName = :deviceName,
                             deviceIpAddr = :deviceIpAddr,
                             devicePrompt = :devicePrompt,
                             deviceEnablePrompt = :deviceEnablePrompt,
-                            deviceUsername = :deviceUsername, 
-                            devicePassword = :devicePassword, 
-                            deviceEnablePassword = :deviceEnablePassword, 
-                            templateId = :templateId, 
-                            model = :deviceModel, 
-                            vendorId = :vendorId, 
-                            nodeCatId = :catId, 
+                            deviceUsername = :deviceUsername,
+                            devicePassword = :devicePassword,
+                            deviceEnablePassword = :deviceEnablePassword,
+                            templateId = :templateId,
+                            model = :deviceModel,
+                            vendorId = :vendorId,
+                            nodeCatId = :catId,
                             defaultCreds = :defaultCreds,
                             $customPropEditQueryStr
                             $taskIdColumnList
@@ -416,7 +416,7 @@ if (!$session->logged_in) {
             ));
         }
         echo $response;
-    } /* end 'delete' if */ 
+    } /* end 'delete' if */
     // retirve device details for edit
     elseif (isset($_GET['getRow']) && isset($_GET['id'])) {
 
@@ -441,7 +441,7 @@ if (!$session->logged_in) {
             $customProp_string = implode(", ", $items) . ', ';
         }
 
-        $db2->query("SELECT 
+        $db2->query("SELECT
                     n.id,
                     n.deviceName,
                     n.deviceIpAddr,
