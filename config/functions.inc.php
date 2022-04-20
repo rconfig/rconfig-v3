@@ -6,7 +6,8 @@
  */
 
 // gets & sets data for Annoucements section and Bredcrumb text on pages from the DB
-function pageTitles($pageName, $pageType = NULL) {
+function pageTitles($pageName, $pageType = NULL)
+{
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT * FROM menuPages WHERE pageName = :pageName");
@@ -26,14 +27,15 @@ function pageTitles($pageName, $pageType = NULL) {
  * get/set timezone
  *
  */
-function getSetTimeZone() {
+function getSetTimeZone()
+{
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     // check and set timeZone to avoid PHP errors
     $q = $db2->query("SELECT timeZone FROM settings");
     $row = $db2->single();
     $timeZone = $row['timeZone'];
-    if($timeZone){
+    if ($timeZone) {
         return date_default_timezone_set($timeZone);
     }
 }
@@ -43,7 +45,8 @@ function getSetTimeZone() {
  * if it is start logging errors to DB file. Function is added to head.inc.php on each and every page
  *
  */
-function phpErrorReporting() {
+function phpErrorReporting()
+{
     require_once("/home/rconfig/classes/db2.class.php");
     $db2 = new db2();
     // check and set timeZone to avoid PHP errors
@@ -83,7 +86,8 @@ phpErrorReporting();
  * to add the selected="true" attr to the menu to keep open the relevant accordion 
  * page
  */
-function urlsearch($string) {
+function urlsearch($string)
+{
     include("includes/config.inc.php");
     if (strstr($config_page, $string)) {
         echo 'selected="true"';
@@ -97,7 +101,8 @@ function urlsearch($string) {
  * regexpMatch function used to compare inputted string against anither string 
  * i.e. from a config file, to ensure a match. used in complianceScript.php
  */
-function regexpMatch($string, $line) {
+function regexpMatch($string, $line)
+{
     if (preg_match($string, $line)) {
         return true;
     } else {
@@ -113,7 +118,8 @@ function regexpMatch($string, $line) {
  * $newString = deleteChar( $oldString,7);
  * 
  */
-function deleteChar($string, $value) {
+function deleteChar($string, $value)
+{
     return substr($string, $value);
 }
 
@@ -121,7 +127,8 @@ function deleteChar($string, $value) {
  * Extract leaf nodes of multi-dimensional array in PHP - as used in cmd_cat_update.php
  */
 
-function getLeafs($element) {
+function getLeafs($element)
+{
     $leafs = array();
     foreach ($element as $e) {
         if (is_array($e)) {
@@ -138,7 +145,8 @@ function getLeafs($element) {
  * @param inout byes in intval
  * @return str 
  */
-function _format_bytes($a_bytes) {
+function _format_bytes($a_bytes)
+{
     if ($a_bytes < 1024) {
         return $a_bytes . 'B';
     } elseif ($a_bytes < 1048576) {
@@ -165,7 +173,8 @@ function _format_bytes($a_bytes) {
  * @param input filename
  * @return array of lines from config file
  */
-function fileRead($filename) {
+function fileRead($filename)
+{
     $lines = file($filename);
     if (!empty($lines)) {
         foreach ($lines as $line_num => $line) {
@@ -183,12 +192,13 @@ function fileRead($filename) {
  *
  */
 
-function get_memory_free() {
+function get_memory_free()
+{
     foreach (file('/proc/meminfo') as $ri)
         $m[strtok($ri, ':')] = strtok('');
-	foreach($m as $key => $value){
-            $m[$key] = trim(str_replace(" kB","",$value));
-	}	
+    foreach ($m as $key => $value) {
+        $m[$key] = trim(str_replace(" kB", "", $value));
+    }
     return 100 - round(($m['MemFree'] + $m['Buffers'] + $m['Cached']) / $m['MemTotal'] * 100);
 }
 
@@ -197,7 +207,8 @@ function get_memory_free() {
  *
  */
 
-function get_memory_total() {
+function get_memory_total()
+{
     foreach (file('/proc/meminfo') as $ri)
         $m[strtok($ri, ':')] = strtok('');
     return round(substr($m['MemTotal'], 0, -4) * 1000); // by 1000 to xlate from KB from proc file to B
@@ -208,7 +219,8 @@ function get_memory_total() {
  *
  */
 
-function get_cpu_type() {
+function get_cpu_type()
+{
     foreach (file('/proc/cpuinfo') as $ri)
         $m[trim(str_replace(" ", "", strtok($ri, ':')))] = strtok('');
     return $m['modelname'];
@@ -221,53 +233,55 @@ function get_cpu_type() {
  * @return output
  */
 
- 
-function getHostStatus($host, $port, $timeout = 3) { 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-        # this works whether $host is a hostname or IP 
-        $ip = ""; 
-        if( !preg_match('/^\d+\.\d+\.\d+\.\d+$/', $host) ) { 
-            $ip = gethostbyname($host); 
-            if ($ip == $host) { 
-				$status = "Error Connecting Socket: Unknown host"; 
-                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
-            } 
-        } else $ip = $host; 
 
-        if (!($socket= @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) { 
-            $status = "Error Creating Socket: ".socket_strerror(socket_last_error()); 
-                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
-        } 
+function getHostStatus($host, $port, $timeout = 3)
+{
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    # this works whether $host is a hostname or IP 
+    $ip = "";
+    if (!preg_match('/^\d+\.\d+\.\d+\.\d+$/', $host)) {
+        $ip = gethostbyname($host);
+        if ($ip == $host) {
+            $status = "Error Connecting Socket: Unknown host";
+            return "<font color=\"red\">Unavailable: " . $status . "</font>";
+        }
+    } else $ip = $host;
 
-        socket_set_nonblock($socket); 
+    if (!($socket = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP))) {
+        $status = "Error Creating Socket: " . socket_strerror(socket_last_error());
+        return "<font color=\"red\">Unavailable: " . $status . "</font>";
+    }
 
-        $error = NULL; 
-        $attempts = 0; 
-        $timeout *= 1000;  // adjust because we sleeping in 1 millisecond increments 
-        $connected; 
-        while (!($connected = @socket_connect($socket, $host, $port+0)) && $attempts++ < $timeout) { 
-            $error = socket_last_error(); 
-            if ($error != SOCKET_EINPROGRESS && $error != SOCKET_EALREADY) { 
-                $status = "Error Connecting Socket: ".socket_strerror($error); 
-                socket_close($socket); 
-                return "<font color=\"red\">Unavailable: " . $status . "</font>";  
-            } 
-            usleep(1000); 
-        } 
+    socket_set_nonblock($socket);
 
-        if (!$connected) { 
-            $status = "Error Connecting Socket: Connect Timed Out After $timeout seconds. ".socket_strerror(socket_last_error()); 
-            socket_close($socket); 
-            return "<font color=\"red\">Unavailable: " . $status . "</font>";  
-        } 
-        socket_set_block($socket); 
-        return "<font color=\"green\"> Online </font>";      
-}  
+    $error = NULL;
+    $attempts = 0;
+    $timeout *= 1000;  // adjust because we sleeping in 1 millisecond increments 
+    $connected;
+    while (!($connected = @socket_connect($socket, $host, $port + 0)) && $attempts++ < $timeout) {
+        $error = socket_last_error();
+        if ($error != SOCKET_EINPROGRESS && $error != SOCKET_EALREADY) {
+            $status = "Error Connecting Socket: " . socket_strerror($error);
+            socket_close($socket);
+            return "<font color=\"red\">Unavailable: " . $status . "</font>";
+        }
+        usleep(1000);
+    }
+
+    if (!$connected) {
+        $status = "Error Connecting Socket: Connect Timed Out After $timeout seconds. " . socket_strerror(socket_last_error());
+        socket_close($socket);
+        return "<font color=\"red\">Unavailable: " . $status . "</font>";
+    }
+    socket_set_block($socket);
+    return "<font color=\"green\"> Online </font>";
+}
 
 
 // array_search with partial matches and optional search by key
-function array_find($needle, $haystack, $search_keys = false) {
+function array_find($needle, $haystack, $search_keys = false)
+{
     if (!is_array($haystack))
         return false;
     foreach ($haystack as $key => $value) {
@@ -278,31 +292,35 @@ function array_find($needle, $haystack, $search_keys = false) {
     return false;
 }
 
-function getTime() {
+function getTime()
+{
     $a = explode(' ', microtime());
-    return(double) $a[0] + $a[1];
+    return (float) $a[0] + $a[1];
 }
 
 // from here http://stackoverflow.com/questions/10895343/php-count-total-files-in-directory-and-subdirectory-function
-function is_dir_empty($dir) {
-  if (!is_readable($dir)) return NULL; 
-  return (count(scandir($dir)) == 2);
+function is_dir_empty($dir)
+{
+    if (!is_readable($dir)) return NULL;
+    return (count(scandir($dir)) == 2);
 }
 
-function scan_dir($path) {
-    if (is_dir_empty($path) || is_dir_empty($path.'/data')) {
-      return array('total_files' => '0', 'total_size' => '0', 'files' => '0');
-      return;
+function scan_dir($path)
+{
+    if (is_dir_empty($path) || is_dir_empty($path . '/data')) {
+        return array('total_files' => '0', 'total_size' => '0', 'files' => '0');
+        return;
     }
     exec('find /home/rconfig/data -type f -name "*.txt" | wc -l', $nbfiles);
     exec('find /home/rconfig/data -type f -name "*.txt" -exec du -ch {} + | grep total$', $bytestotal);
 
-    return array('total_files' => $nbfiles[0], 'total_size' => $bytestotal[0]);
+    return array('total_files' => count($nbfiles) > 0 ? $nbfiles[0] : '', 'total_size' => count($bytestotal) > 0 ? $bytestotal[0] : '');
 }
 
 /** backup the db OR just a table 
  */
-function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*') {
+function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*')
+{
     try {
         // tmp dir
         $tmpDir = "/home/rconfig/tmp";
@@ -341,7 +359,8 @@ function sqlBackup($host, $user, $pass, $name, $backupPath, $tables = '*') {
     }
 }
 
-function fileBackup($file, $backupFile) {
+function fileBackup($file, $backupFile)
+{
     $zip = new ZipArchive();
     $zip->open($backupFile, ZipArchive::CREATE);
 
@@ -353,13 +372,14 @@ function fileBackup($file, $backupFile) {
     echo $zip->close();
 }
 
-function folderBackup($dir, $backupFile) {
+function folderBackup($dir, $backupFile)
+{
     $zip = new ZipArchive();
     $zip->open($backupFile, ZipArchive::CREATE);
     $dirName = $dir;
     $dirName = realpath($dirName);
     if (substr($dirName, -1) != '/') {
-        $dirName.= '/';
+        $dirName .= '/';
     }
 
     $dirStack = array($dirName);
@@ -397,7 +417,8 @@ function folderBackup($dir, $backupFile) {
  *  From here http://davidwalsh.name/create-zip-php
  */
 
-function createZip($files = array(), $destination = '', $overwrite = false) {
+function createZip($files = array(), $destination = '', $overwrite = false)
+{
     //if the zip file already exists and overwrite is false, return false
     if (file_exists($destination) && !$overwrite) {
         return false;
@@ -439,7 +460,8 @@ function createZip($files = array(), $destination = '', $overwrite = false) {
 }
 
 // functions for the configoverview.php output
-function cntCategories() {
+function cntCategories()
+{
     require_once("../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT COUNT(*) as total FROM categories WHERE status = 1");
@@ -447,7 +469,8 @@ function cntCategories() {
     return $result[0]['total'];
 }
 
-function cntDevices() {
+function cntDevices()
+{
     require_once("../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT COUNT(*) as total FROM nodes WHERE status = 1");
@@ -456,7 +479,8 @@ function cntDevices() {
 }
 
 // recursivley remove items from a directory
-function rrmdir($dir) {
+function rrmdir($dir)
+{
     foreach (glob($dir . '/*') as $file) {
         if (is_dir($file))
             rrmdir($file);
@@ -471,14 +495,16 @@ function rrmdir($dir) {
  * @param str
  * @return bool 
  */
-function chkWhiteSpaceInStr($string) {
+function chkWhiteSpaceInStr($string)
+{
     return preg_match("/\\s/", $string);
 }
 
 // flatten multidimensional array
-function flatten(array $array) {
+function flatten(array $array)
+{
     $return = array();
-    array_walk_recursive($array, function($a) use (&$return) {
+    array_walk_recursive($array, function ($a) use (&$return) {
         $return[] = $a;
     });
     return $return;
@@ -498,18 +524,19 @@ function flatten(array $array) {
  *
  * @return string
  */
-function first_time_encrypt($string, $secret) {
+function first_time_encrypt($string, $secret)
+{
     $output = false;
     // if key is blank, then store PWs nativley
-	$encrypt_method = "AES-256-CBC";
-	$secret_key = $secret;
-	$secret_iv = $secret;
-	// hash
-	$key = hash('sha256', $secret_key);
-	// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
-	$iv = substr(hash('sha256', $secret_iv), 0, 16);
-	$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
-	$output = base64_encode($output);
+    $encrypt_method = "AES-256-CBC";
+    $secret_key = $secret;
+    $secret_iv = $secret;
+    // hash
+    $key = hash('sha256', $secret_key);
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+    $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+    $output = base64_encode($output);
     return $output;
 }
 
@@ -527,10 +554,11 @@ function first_time_encrypt($string, $secret) {
  *
  * @return string
  */
-function encrypt_decrypt($action, $string) {
+function encrypt_decrypt($action, $string)
+{
     $output = false;
     // if key is blank, then store PWs nativley
-    if(SECRETKEY != ''){
+    if (SECRETKEY != '') {
 
         $encrypt_method = "AES-256-CBC";
         $secret_key = SECRETKEY;
@@ -542,11 +570,10 @@ function encrypt_decrypt($action, $string) {
         // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
         $iv = substr(hash('sha256', $secret_iv), 0, 16);
 
-        if( $action == 'encrypt' ) {
+        if ($action == 'encrypt') {
             $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
             $output = base64_encode($output);
-        }
-        else if( $action == 'decrypt' ){
+        } else if ($action == 'decrypt') {
             $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
         }
     }
@@ -554,27 +581,28 @@ function encrypt_decrypt($action, $string) {
 }
 
 
-function passwordEncryptionCheck(){
+function passwordEncryptionCheck()
+{
     require_once("../classes/db2.class.php");
     $db2 = new db2();
     $db2->query("SELECT passwordEncryption FROM settings");
     $result = $db2->resultset();
     $encrptionStatus = $result[0]['passwordEncryption'];
-    if($encrptionStatus == 0){
+    if ($encrptionStatus == 0) {
         $notice = "<font color='red'>Password encryption disabled</font>"
-                . "<div class='spacer'></div>"
-                . "<button class='smlButton' id='pwencryption' onclick='pwencryption()'>Enable Encryption</button>";
-    } elseif($encrptionStatus == 1){
+            . "<div class='spacer'></div>"
+            . "<button class='smlButton' id='pwencryption' onclick='pwencryption()'>Enable Encryption</button>";
+    } elseif ($encrptionStatus == 1) {
         $notice = "<font color='green'>Password encryption enabled</font>";
     } else {
         $notice = "<font color='orange'>Something wrong with password encryption</font>";
     }
     return $notice;
-        
 }
 
 // cleans deviceNames and commands from .'s and other special characters. used in textFile.class and devices.crud
-function cleanDeviceName($string) {
-   $string = str_replace('.', '-', $string); // Replaces all spaces with hyphens.
-   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+function cleanDeviceName($string)
+{
+    $string = str_replace('.', '-', $string); // Replaces all spaces with hyphens.
+    return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 }

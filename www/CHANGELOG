@@ -1,3 +1,11 @@
+Version 3.9.7
+
+20-April-2022
+Resolved - Security issue in userprocess.php
+Resolved - Minor bugs in www/devices.inc.php && scan_dir function
+
+------------------------------------------------------------------------------------
+
 Version 3.9.6
 
 25-July-2020

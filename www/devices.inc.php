@@ -24,7 +24,7 @@ $pages->paginate();
 <div id="deviceActionDiv">
     <div id="searchForm">
         <legend>Search</legend>
-        <form name ="searchForm" method="GET" action="devices.php" onsubmit="return searchValidateForm()">
+        <form name="searchForm" method="GET" action="devices.php" onsubmit="return searchValidateForm()">
             <select name="searchColumn" id="searchColumn" class="paginate">
                 <option value="deviceName">Device Name</option>
                 <option value="deviceIpAddr">IP Address</option>
@@ -41,7 +41,8 @@ $pages->paginate();
                 echo "<span class=\"error\">" . $errors['searchField'] . "</span>";
             }
             ?>
-            <button type="submit">Go!</button> <?php //search logic below in this script ?>
+            <button type="submit">Go!</button> <?php //search logic below in this script 
+                                                ?>
             <button onClick="clearSearch()" type="button">Clear Search</button>
             <br />
             <font size="0.3em">use '*' as a wildcard</font>
@@ -117,7 +118,7 @@ $query = "SELECT
 if (isset($_GET['search'])) {
 
     if (isset($_GET['searchColumn'])) {
-        if(in_array($_GET['searchColumn'], ['deviceName', 'deviceIpAddr'])){
+        if (in_array($_GET['searchColumn'], ['deviceName', 'deviceIpAddr'])) {
             $searchColumn = $_GET['searchColumn'];
         } else {
             $searchColumn = 'deviceName';
@@ -165,7 +166,7 @@ if (isset($_GET['search'])) {
 	$pages->limit";
 } else { // end hidden search check
     $sortByArr = ['vendorId', 'deviceName', 'deviceIpAddr'];
-    if(!in_array($_POST['sortBy'], $sortByArr)){
+    if (isset($_POST['sortBy']) && !in_array($_POST['sortBy'], $sortByArr)) {
         unset($_POST['sortBy']);
     }
     if (isset($_POST['sortBy'])) { // sort by query
@@ -195,7 +196,7 @@ if (isset($_GET['search'])) {
 /* GET all nodes records from DB */
 $db2->query($query);
 // $db2->bind(':searchColumn', $searchColumn);
-$db2->bind(':searchField', $searchField);
+isset($searchField) ? $db2->bind(':searchField', $searchField) : '';
 $qRes = $db2->resultset();
 
 /* Create Multidimensional array for use later */
@@ -207,57 +208,57 @@ $i = 0; # row counter  to enable alternate row coloring
 ?>
 <table id="devicesTbl" class="tableSimple">
     <thead>
-    <th><input type="checkbox" disabled="disabled"/></th>
-    <th align="left">Device Name</th>
-    <th align="left">IP Address</th>
-    <th align="left">Category</th>
-    <th align="left">Vendor</th>
-<?php
-/* Create and add new Customer Properties Headers to Table */
-if (!empty($customArray)) {
-    foreach ($customArray as $customRows):
-        // remove 'custom_' bit for display purposes
-        $CustomHeader = substr($customRows, 7);
+        <th><input type="checkbox" disabled="disabled" /></th>
+        <th align="left">Device Name</th>
+        <th align="left">IP Address</th>
+        <th align="left">Category</th>
+        <th align="left">Vendor</th>
+        <?php
+        /* Create and add new Customer Properties Headers to Table */
+        if (!empty($customArray)) {
+            foreach ($customArray as $customRows) :
+                // remove 'custom_' bit for display purposes
+                $CustomHeader = substr($customRows, 7);
         ?>
-            <th align="left">
-            <?php echo $CustomHeader; ?>
-            </th>
-                <?php
+                <th align="left">
+                    <?php echo $CustomHeader; ?>
+                </th>
+        <?php
             endforeach;
         } // if !empty
         ?>
-</thead>
-<tbody>
-<?php
-/* do a foreach on the $result['rows'] array to get devices key/value pairs */
-foreach ($result['rows'] as $rows):
-    $id = $rows['id'];
+    </thead>
+    <tbody>
+        <?php
+        /* do a foreach on the $result['rows'] array to get devices key/value pairs */
+        foreach ($result['rows'] as $rows) :
+            $id = $rows['id'];
 
-    /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
-    echo '<tr class="row' . ($i++ % 2) . '">';
-    ?>
-    <td align="center"><input type="checkbox" name="tablecheckbox" id="<?php echo $id; ?>"/></td>
-    <td >
-        <a href="devicemgmt.php?deviceId=<?php echo $rows['id'] ?>&device=<?php echo $rows['deviceName'] ?>" title="View <?php echo $rows['deviceName'] ?> Configurations"><?php echo $rows['deviceName'] ?>
-    </td>
-    <td align="left"><?php echo $rows['deviceIpAddr'] ?></td>
-    <td align="left"><?php echo $rows['categoryName'] ?></td>
-    <td align="left"><img src="<?php echo $rows['vendorLogo'] ?>" /> <?php echo $rows['vendorName'] ?></td>
-    <?php
-    /*  Block extracts key from array that partial matchs 'custom_'
+            /* This bit just updates the class='row' bit with an alternating 1 OR 0 for alternative row coloring */
+            echo '<tr class="row' . ($i++ % 2) . '">';
+        ?>
+            <td align="center"><input type="checkbox" name="tablecheckbox" id="<?php echo $id; ?>" /></td>
+            <td>
+                <a href="devicemgmt.php?deviceId=<?php echo $rows['id'] ?>&device=<?php echo $rows['deviceName'] ?>" title="View <?php echo $rows['deviceName'] ?> Configurations"><?php echo $rows['deviceName'] ?>
+            </td>
+            <td align="left"><?php echo $rows['deviceIpAddr'] ?></td>
+            <td align="left"><?php echo $rows['categoryName'] ?></td>
+            <td align="left"><img src="<?php echo $rows['vendorLogo'] ?>" /> <?php echo $rows['vendorName'] ?></td>
+            <?php
+            /*  Block extracts key from array that partial matchs 'custom_'
       When a match happens - output the html with the actual value $v.
       This ensures, that no matter how many custom properties, the values get printed
       for the corrcet column names.
      */
-    foreach ($rows as $k => $v) {
-        if (strpos($k, 'custom_') !== false) {
-            echo "<td align=\"left\">" . $v . "</td>";
-        } // end if
-    } // end foreach
-    ?>
-    </tr>
-<?php endforeach; ?>
-</tbody>
+            foreach ($rows as $k => $v) {
+                if (strpos($k, 'custom_') !== false) {
+                    echo "<td align=\"left\">" . $v . "</td>";
+                } // end if
+            } // end foreach
+            ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 <?php
 echo $pages->display_pages();
