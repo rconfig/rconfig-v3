@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Process.php
- *
- * The Process class is meant to simplify the task of processing
- * user submitted forms, redirecting the user to the correct
- * pages if errors are found, or if form is successful, either
+                 * Process.php
+                 *
+                 * The Process class is meant to simplify the task of processing
+                 * user submitted forms, redirecting the user to the correct
+         * pages if errors are found, or if form is successful, either
  * way. Also handles the logout procedure.
  *
  * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
@@ -13,11 +13,22 @@
  */
 include("/home/rconfig/classes/usersession.class.php");
 
-class Process {
+class Process
+{
     /* Class constructor */
 
-    function Process() {
+    function Process()
+    {
         global $session;
+        if (!$session->logged_in) {
+            require_once("/home/rconfig/classes/ADLog.class.php");
+            $log = ADLog::getInstance();
+            $msg = "Security Issue: Some tried to access this file directly from IP: " . $_SERVER['REMOTE_ADDR'] . " & Username: " . $session->username . " (File: " . $_SERVER['PHP_SELF'] . ")";
+            echo $msg;
+            $log->Warn($msg);
+            die();
+        } 
+        
         /* User submitted login form */
         if (isset($_POST['sublogin'])) {
             $this->procLogin();
@@ -38,13 +49,15 @@ class Process {
          * The only other reason user should be directed here
          * is if he wants to logout, which means user is
          * logged in currently.
-         */ else if ($session->logged_in) {
+         */
+        else if ($session->logged_in) {
             $this->procLogout();
         }
         /**
          * Should not get here, which means user is viewing this page
          * by mistake and therefore is redirected.
-         */ else {
+         */
+        else {
             header("Location: /login.php");
         }
     }
@@ -54,7 +67,8 @@ class Process {
      * are found, the user is redirected to correct the information,
      * if not, the user is effectively logged in to the system.
      */
-    function procLogin() {
+    function procLogin()
+    {
         global $session, $form;
         /* Login attempt */
         $retval = $session->login($_POST['user'], $_POST['pass'], isset($_POST['remember']));
@@ -73,7 +87,8 @@ class Process {
      * procLogout - Simply attempts to log the user out of the system
      * given that there is no logout form to process.
      */
-    function procLogout() {
+    function procLogout()
+    {
         global $session;
         $retval = $session->logout();
         header("Location: /login.php");
@@ -86,7 +101,8 @@ class Process {
      * the system and an email is (optionally) sent to the newly
      * created user.
      */
-    function procRegister() {
+    function procRegister()
+    {
         global $session, $form;
         /* Convert username to all lowercase (by option) */
         if (ALL_LOWERCASE) {
@@ -122,7 +138,8 @@ class Process {
      * everything is fine, a new password is generated and
      * emailed to the address the user gave on sign up.
      */
-    function procForgotPass() {
+    function procForgotPass()
+    {
         global $database, $session, $mailer, $form;
         /* Username error checking */
         $subuser = $_POST['user'];
@@ -135,9 +152,11 @@ class Process {
         } else {
             /* Make sure username is in database */
             $subuser = stripslashes($subuser);
-            if (strlen($subuser) < 5 || strlen($subuser) > 30 ||
-                    !preg_match("/^([0-9a-z])+$/", $subuser) ||
-                    (!$database->usernameTaken($subuser))) {
+            if (
+                strlen($subuser) < 5 || strlen($subuser) > 30 ||
+                !preg_match("/^([0-9a-z])+$/", $subuser) ||
+                (!$database->usernameTaken($subuser))
+            ) {
                 $form->setError($field, "Unknown Username");
                 $_SESSION['value_array'] = $_POST;
                 $_SESSION['errors'] = $form->getErrorArray();
@@ -159,11 +178,10 @@ class Process {
                 /* Email sent, update database */
                 $database->updateUserField($subuser, "password", md5($newpass));
                 echo "<script>"
-                . "alert('Your new password has been generated. The password was emailed to $email');"
-                . "window.close();"
-                . "</script>";
-            }/* Email failure, do not change password */
-            else {
+                    . "alert('Your new password has been generated. The password was emailed to $email');"
+                    . "window.close();"
+                    . "</script>";
+            }/* Email failure, do not change password */ else {
                 $_SESSION['forgotpass'] = false;
             }
         }
@@ -174,7 +192,8 @@ class Process {
      * information, including the password, which must be verified
      * before a change is made.
      */
-    function procEditAccount() {
+    function procEditAccount()
+    {
         global $session, $form;
         /* Account edit attempt */
         $retval = $session->editAccount($_POST['editid'], $_POST['username'], $_POST['curpass'], $_POST['newpass'], $_POST['passconf'], $_POST['email'], $_POST['ulevelid']);
@@ -206,7 +225,8 @@ class Process {
      * information, including the password, which must be verified
      * before a change is made.
      */
-    function procUpdateAccount() {
+    function procUpdateAccount()
+    {
         // http or https check for url Protocol
         $protocol = 'http';
         if (isset($_SERVER['HTTPS'])) {
@@ -240,7 +260,6 @@ class Process {
             header("Location: " . $protocol . "://" . $_SERVER['HTTP_HOST'] . "/" . "useradmin.php");
         }
     }
-
 }
 
 /* Initialize process */
