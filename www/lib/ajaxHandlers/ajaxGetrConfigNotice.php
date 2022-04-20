@@ -11,12 +11,16 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-// Get actual Public/ Natted IP for rConfig instance
-//Setting the timeout properly without messing with ini values: 
+    // Get actual Public/ Natted IP for rConfig instance
+    //Setting the timeout properly without messing with ini values: 
     $ctx = stream_context_create(array(
         'http' => array(
             'timeout' => 5
-        )
+        ),
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
     ));
 
     if ($sock = @fsockopen('www.rconfig.com', 80, $num, $error, 5)) {

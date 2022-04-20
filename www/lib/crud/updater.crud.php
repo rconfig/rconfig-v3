@@ -19,7 +19,13 @@ if (!$session->logged_in) {
 
         // validations
         //Setting the timeout properly without messing with ini values:
-        $ctx = stream_context_create(array('http' => array('timeout' => 5)));
+        $ctx = stream_context_create(array(
+            'http' => array('timeout' => 5),
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        ));
         $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
         $expectedFileName = 'rconfig-' . $latestVer . '.zip';
 
@@ -37,11 +43,11 @@ if (!$session->logged_in) {
                 if (is_file($updateTmpLocation)) {
 
                     //MD5 Check
-                    $v3OnlineChecksum =  file_get_contents('http://www.rconfig.com/downloads/v3checksum?filename='.$expectedFileName);
+                    $v3OnlineChecksum =  file_get_contents('http://www.rconfig.com/downloads/v3checksum?filename=' . $expectedFileName);
                     $md5file = md5_file($updateTmpLocation);
-                    if($v3OnlineChecksum != $md5file){
+                    if ($v3OnlineChecksum != $md5file) {
                         $errors['fileError'] = "You have uploaded an invalid file. Do not run the installation.";
-                        $log->Warn( $errors['fileError']  . " - (File: " . $_SERVER['PHP_SELF'] . ")");
+                        $log->Warn($errors['fileError']  . " - (File: " . $_SERVER['PHP_SELF'] . ")");
                         $_SESSION['errors'] = $errors;
                         session_write_close();
                         header("Location: " . $config_basedir . "updater.php?error&chk=1");

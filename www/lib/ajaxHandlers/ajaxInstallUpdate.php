@@ -31,24 +31,30 @@ if (!$session->logged_in) {
     $log = ADLog::getInstance();
     $update = new updater();
 
-//Setting the timeout properly without messing with ini values:
-    $ctx = stream_context_create(array('http' => array('timeout' => 5)));
-// here we assume we can already connect to net as ../www/updater.php will not allow us to proceed to this point i.e. no error check
+    //Setting the timeout properly without messing with ini values:
+    $ctx = stream_context_create(array(
+        'http' => array('timeout' => 5),
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    ));
+    // here we assume we can already connect to net as ../www/updater.php will not allow us to proceed to this point i.e. no error check
     $latestVer = file_get_contents("http://www.rconfig.com/downloads/version.txt", 0, $ctx);
     $updateFileName = 'rconfig-' . $latestVer . '.zip';
 
     $updateFile = $config_temp_dir . $updateFileName;
 
-//extracted files path
+    //extracted files path
     $extractDir = '/home/rconfig/tmp/update-' . $latestVer;
 
-// set json array for ultimate response to updater.php
+    // set json array for ultimate response to updater.php
     $response = array();
 
-// set chwon apache on /home/rconfig/ in case any are misconfigured
+    // set chwon apache on /home/rconfig/ in case any are misconfigured
     shell_exec('chown -R apache ' . $config_app_basedir);
 
-// check if update file exists
+    // check if update file exists
     if ($update->checkForUpdateFile($updateFile)) {
         if ($update->extractUpdate($updateFile, $extractDir)) {
             $response['zip'] = 'ZIP file successfully extracted';

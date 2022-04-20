@@ -9,7 +9,7 @@ if (!$session->logged_in) {
     // need to add authentication to this script
     header("Location: " . $config_basedir . "login.php");
 } else {
-// Check rconfig.com/downloads/version.txt for latest publish release
+    // Check rconfig.com/downloads/version.txt for latest publish release
 
     if (!$sock = @fsockopen('www.rconfig.com', 443, $num, $error, 5)) {
         // declare Logging Class
@@ -25,7 +25,11 @@ if (!$session->logged_in) {
         $ctx = stream_context_create(array(
             'http' => array(
                 'timeout' => 5
-            )
+            ),
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
         ));
 
         $currentVer = $config_version;
