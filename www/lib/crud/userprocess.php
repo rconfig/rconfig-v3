@@ -1,11 +1,11 @@
 <?php
 
 /**
-                 * Process.php
-                 *
-                 * The Process class is meant to simplify the task of processing
-                 * user submitted forms, redirecting the user to the correct
-         * pages if errors are found, or if form is successful, either
+ * Process.php
+ *
+ * The Process class is meant to simplify the task of processing
+ * user submitted forms, redirecting the user to the correct
+ * pages if errors are found, or if form is successful, either
  * way. Also handles the logout procedure.
  *
  * Written by: Jpmaster77 a.k.a. The Grandmaster of C++ (GMC)
@@ -20,23 +20,23 @@ class Process
     function Process()
     {
         global $session;
-        if (!$session->logged_in) {
-            require_once("/home/rconfig/classes/ADLog.class.php");
-            $log = ADLog::getInstance();
-            $msg = "Security Issue: Some tried to access this file directly from IP: " . $_SERVER['REMOTE_ADDR'] . " & Username: " . $session->username . " (File: " . $_SERVER['PHP_SELF'] . ")";
-            echo $msg;
-            $log->Warn($msg);
-            die();
-        } 
-        
+        // if (!$session->logged_in) {
+        //     require_once("/home/rconfig/classes/ADLog.class.php");
+        //     $log = ADLog::getInstance();
+        //     $msg = "Security Issue: Some tried to access this file directly from IP: " . $_SERVER['REMOTE_ADDR'] . " & Username: " . $session->username . " (File: " . $_SERVER['PHP_SELF'] . ")";
+        //     echo $msg;
+        //     $log->Warn($msg);
+        //     die();
+        // }
+
         /* User submitted login form */
         if (isset($_POST['sublogin'])) {
             $this->procLogin();
         }
-        /* Admin submitted user add form */ else if (isset($_POST['add']) && isset($_POST['editid']) && empty($_POST['editid']) && $session->isAdmin()) {
+        /* Admin submitted user add form */ else if (isset($_POST['add']) && isset($_POST['editid']) && empty($_POST['editid']) && $session->logged_in) {
             $this->procRegister();
         }
-        /* Admin submitted user edit form */ else if (isset($_POST['add']) && isset($_POST['editid']) && !empty($_POST['editid']) && $session->isAdmin()) {
+        /* Admin submitted user edit form */ else if (isset($_POST['add']) && isset($_POST['editid']) && !empty($_POST['editid']) && $session->logged_in) {
             $this->procUpdateAccount();
         }
         /* User submitted forgot password form */ else if (isset($_POST['subforgot'])) {

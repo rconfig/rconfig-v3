@@ -14,7 +14,8 @@ include("userdatabase.class.php");
 include("usermailer.class.php");
 include("userform.class.php");
 
-class Session {
+class Session
+{
 
     var $username;     //Username given on sign-up
     var $userid;       //Random value generated on current login
@@ -32,7 +33,8 @@ class Session {
      */
     /* Class constructor */
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->time = time();
         $this->startSession();
     }
@@ -44,7 +46,8 @@ class Session {
      * accordingly. Also takes advantage of this page load to
      * update the active visitors tables.
      */
-    function startSession() {
+    function startSession()
+    {
         global $database;  //The database connection
         session_start();   //Tell PHP to start the session
 
@@ -77,7 +80,7 @@ class Session {
 
         /* Set current url if not an ajax call */
         if (preg_match('/ajax/', $_SERVER['PHP_SELF']) == 0) {
-          $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
+            $this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
         }
     }
 
@@ -88,7 +91,8 @@ class Session {
      * If so, the database is queried to make sure of the user's
      * authenticity. Returns true if the user has logged in.
      */
-    function checkLogin() {
+    function checkLogin()
+    {
         global $database;  //The database connection
         /* Check if user has been remembered */
         if (isset($_COOKIE['cookname']) && isset($_COOKIE['cookid'])) {
@@ -97,7 +101,7 @@ class Session {
         }
 
         $ldapServerCheck = $database->checkLdapServer();
-//        var_dump($ldapServerCheck);die();
+        //        var_dump($ldapServerCheck);die();
         if ($ldapServerCheck == 1 && isset($_SESSION['username']) && isset($_SESSION['userid']) && $_SESSION['username'] != GUEST_NAME) {
             $this->username = $_SESSION['username'];
             $this->userid = $_SESSION['userid'];
@@ -105,8 +109,10 @@ class Session {
             return true;
         } else {
             /* Username and userid have been set and not guest */
-            if (isset($_SESSION['username']) && isset($_SESSION['userid']) &&
-                    $_SESSION['username'] != GUEST_NAME) {
+            if (
+                isset($_SESSION['username']) && isset($_SESSION['userid']) &&
+                $_SESSION['username'] != GUEST_NAME
+            ) {
                 /* Confirm that username and userid are valid */
                 if ($database->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0) {
                     /* Variables are incorrect, user not logged in */
@@ -134,7 +140,8 @@ class Session {
      * of that information in the database and creates the session.
      * Effectively logging in the user if all goes well.
      */
-    function login($subuser, $subpass, $subremember) {
+    function login($subuser, $subpass, $subremember)
+    {
         global $database, $form;  //The database and form object
 
         /* Username error checking */
@@ -143,9 +150,9 @@ class Session {
             $form->setError($field, "* Username not entered");
         } else {
             /* Check if username is not alphanumeric */
-//         if(!preg_match("/^([0-9a-z])*$/", $subuser)){
-//            $form->setError($field, "* Username not alphanumeric");
-//         }
+            //         if(!preg_match("/^([0-9a-z])*$/", $subuser)){
+            //            $form->setError($field, "* Username not alphanumeric");
+            //         }
         }
 
         /* Password error checking */
@@ -173,33 +180,37 @@ class Session {
             // add two more DC inputs and a tick box for fallback to local auth if all DCs cannot connect
             // check install process for adding LDAP Suppport
             if (!function_exists('ldap_connect')) {
-                die ('Missing PHP LDAP support.');
+                die('Missing PHP LDAP support.');
             }
             $ldapConn = ldap_connect($ldapServer) or die('Cannot connect to domain controller:');
-            ldap_set_option($ldapConn,LDAP_OPT_PROTOCOL_VERSION,3);
-            ldap_set_option($ldapConn,LDAP_OPT_REFERRALS,0);
-            $ldapBind = ldap_bind($ldapConn, $subuser.$ldapDomain, $subpass);
-            
+            ldap_set_option($ldapConn, LDAP_OPT_PROTOCOL_VERSION, 3);
+            ldap_set_option($ldapConn, LDAP_OPT_REFERRALS, 0);
+            $ldapBind = ldap_bind($ldapConn, $subuser . $ldapDomain, $subpass);
+
             if ($ldapBind) {
-                
-                $filter = "(sAMAccountName=".$subuser.")";
-		$attr = array("memberof");
-		$result = ldap_search($ldapConn, $ldapDn, $filter, $attr) or exit("Unable to search LDAP server");
-		$entries = ldap_get_entries($ldapConn, $result);
-		ldap_unbind($ldap);
-                
+
+                $filter = "(sAMAccountName=" . $subuser . ")";
+                $attr = array("memberof");
+                $result = ldap_search($ldapConn, $ldapDn, $filter, $attr) or exit("Unable to search LDAP server");
+                $entries = ldap_get_entries($ldapConn, $result);
+                ldap_unbind($ldap);
+
                 /* Username and password correct, register session variables */
-//			$this->userinfo  = $database->getUserInfo($subuser);
-                $this->username = $_SESSION['username'] = $subuser.$ldapDomain;
+                //			$this->userinfo  = $database->getUserInfo($subuser);
+                $this->username = $_SESSION['username'] = $subuser . $ldapDomain;
                 $this->userid = $_SESSION['userid'] = $this->generateRandID();
-		// check groups for access level
-		$access = 0;
-		foreach($entries[0]['memberof'] as $grps) {
+                // check groups for access level
+                $access = 0;
+                foreach ($entries[0]['memberof'] as $grps) {
                     // is manager, break loop
-                    if(strpos($grps, $ldap_manager_group)) { $this->userlevel = 9; break; }
-                    if(strpos($grps, $ldap_user_group)) { $this->userlevel = 1; }
-		}                
-                                
+                    if (strpos($grps, $ldap_manager_group)) {
+                        $this->userlevel = 9;
+                        break;
+                    }
+                    if (strpos($grps, $ldap_user_group)) {
+                        $this->userlevel = 1;
+                    }
+                }
             } else {
                 $field = "user";
                 $form->setError($field, "* Error logging in using LDAP");
@@ -260,7 +271,8 @@ class Session {
      * computer as a result of him wanting to be remembered, and also
      * unsets session variables and demotes his user level to guest.
      */
-    function logout() {
+    function logout()
+    {
         global $database;  //The database connection
         /**
          * Delete cookies - the time must be in the past,
@@ -298,7 +310,8 @@ class Session {
      * 1. If no errors were found, it registers the new user and
      * returns 0. Returns 2 if registration failed.
      */
-    function register($subuser, $subpass, $subpassconf, $subemail, $subulevelid) {
+    function register($subuser, $subpass, $subpassconf, $subemail, $subulevelid)
+    {
         global $database, $form, $mailer;  //The database, form and mailer object
 
         /* Username error checking */
@@ -335,13 +348,16 @@ class Session {
             if (strlen($subpass) < 4) {
                 $form->setError($field, "Password too short");
             }
-            /* Check if password is not alphanumeric */ else if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))) {
-                $form->setError($field, "Password not alphanumeric. Must be: <br />"
-                        . "&nbsp;&nbsp;at least one lowercase char <br/>"
-                        . "&nbsp;&nbsp;at least one uppercase char <br/>"
-                        . "&nbsp;&nbsp;at least one digit <br/>"
-                        . "&nbsp;&nbsp;at least one special sign of @#-_$%^&+=§!? <br/> <br/> <br/>");
-            }
+            // // /* Check if password is not alphanumeric */ else if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))) {
+            // /* Check if password is not alphanumeric */ else if (!preg_match('/^[a-z]{4,}+$/', ($subpass = trim($subpass)))) {
+            //     $form->setError($field, "Password not allowed. Must be: <br />"
+            //         . "At least 4 characters");
+            //     // $form->setError($field, "Password not alphanumeric. Must be: <br />"
+            //     //     . "&nbsp;&nbsp;at least one lowercase char <br/>"
+            //     //     . "&nbsp;&nbsp;at least one uppercase char <br/>"
+            //     //     . "&nbsp;&nbsp;at least one digit <br/>"
+            //     //     . "&nbsp;&nbsp;at least one special sign of @#-_$%^&+=§!? <br/> <br/> <br/>");
+            // }
             /* Check if password fields match */ else if ($subpass != $subpassconf) {
                 $form->setError($fieldConf, "Passwords do not match");
             }
@@ -389,7 +405,8 @@ class Session {
      * format, the change is made. All other fields are changed
      * automatically.
      */
-    function editAccount($id, $subuser, $curpass, $subpass, $subpassconf, $subemail, $subulevelid) {
+    function editAccount($id, $subuser, $curpass, $subpass, $subpassconf, $subemail, $subulevelid)
+    {
         global $database, $form;  //The database and form object
 
         /* Username error checking */
@@ -404,9 +421,9 @@ class Session {
             } else if (strlen($subuser) > 30) {
                 $form->setError($field, "Username above 30 characters");
             }
-//            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", $subuser)) {
-//                $form->setError($field, "Username not alphanumeric");
-//            }
+            //            /* Check if username is not alphanumeric */ else if (!preg_match("/^([0-9a-z])+$/", $subuser)) {
+            //                $form->setError($field, "Username not alphanumeric");
+            //            }
             /* Check if username is reserved */ else if (strcasecmp($subuser, GUEST_NAME) == 0) {
                 $form->setError($field, "Username reserved word");
             }
@@ -433,10 +450,10 @@ class Session {
             }
             /* Check if password is not alphanumeric */ else if (!preg_match('/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{4,30}$/', ($subpass = trim($subpass)))) {
                 $form->setError($field, "Passwordsss not alphanumeric<br />"
-                        . "at least one lowercase char <br/>"
-                        . "at least one uppercase char <br/>"
-                        . "at least one digit <br/>"
-                        . "at least one special sign of @#-_$%^&+=§!? <br/>");
+                    . "at least one lowercase char <br/>"
+                    . "at least one uppercase char <br/>"
+                    . "at least one digit <br/>"
+                    . "at least one special sign of @#-_$%^&+=§!? <br/>");
             }
             /* Check if password fields match */ else if ($subpass != $subpassconf) {
                 $form->setError($fieldConf, "Passwords do not match");
@@ -478,7 +495,8 @@ class Session {
      * including the password, as inputted/updated from the useradmin.php from
      * as submitted by any rConfig Admin
      */
-    function updateAccount($id, $subuser, $subpass, $subpassconf, $subemail, $subulevelid) {
+    function updateAccount($id, $subuser, $subpass, $subpassconf, $subemail, $subulevelid)
+    {
 
         global $database, $form;  //The database and form object
 
@@ -547,15 +565,16 @@ class Session {
         }
     }
 
-//end updateAccount
+    //end updateAccount
 
     /**
      * isAdmin - Returns true if currently logged in user is
      * an administrator, false otherwise.
      */
-    function isAdmin() {
+    function isAdmin()
+    {
         return ($this->userlevel == ADMIN_LEVEL ||
-                $this->username == ADMIN_NAME);
+            $this->username == ADMIN_NAME);
     }
 
     /**
@@ -563,7 +582,8 @@ class Session {
      * letters (lower and upper case) and digits and returns
      * the md5 hash of it to be used as a userid.
      */
-    function generateRandID() {
+    function generateRandID()
+    {
         return md5($this->generateRandStr(16));
     }
 
@@ -572,7 +592,8 @@ class Session {
      * letters (lower and upper case) and digits, the length
      * is a specified parameter.
      */
-    function generateRandStr($length) {
+    function generateRandStr($length)
+    {
         $randstr = "";
         for ($i = 0; $i < $length; $i++) {
             $randnum = mt_rand(0, 61);
