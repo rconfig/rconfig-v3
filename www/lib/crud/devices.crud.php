@@ -280,7 +280,7 @@ if (!$session->logged_in) {
                     $taskValue
                     CURDATE(),
                     '1')");
-                var_dump($taskValue);
+  
                 $db2->bind(':deviceName', $deviceName);
                 $db2->bind(':deviceIpAddr', $deviceIpAddr);
                 $db2->bind(':devicePrompt', $devicePrompt);
