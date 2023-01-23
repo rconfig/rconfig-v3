@@ -193,7 +193,7 @@
                         <label>
                             Default Enable Mode Password:
                         </label>
-                        <input type="password" value="<?php echo $defaultNodeEnable; ?>" id="defaultNodeEnable" name="defaultNodePassword" placeholder="password" />
+                        <input type="password" value="<?php echo $defaultNodeEnable; ?>" id="defaultNodeEnable" name="defaultNodeEnable" placeholder="password" />
                         
                         <div class="spacer"></div>
                         <label style="width: 120px;">
